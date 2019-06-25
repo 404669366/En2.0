@@ -1,0 +1,86 @@
+.head {
+    background: #23252a !important;
+}
+
+.list > .data > li > .img {
+    width: 100%;
+    height: 10rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.list > .data > li > .img > img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.list > .data > li > p {
+    margin: 0.6rem 0;
+    width: 100%;
+    height: 1.4rem;
+}
+
+.list > .data > li > p > img {
+    float: left;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 1rem;
+    margin-right: 0.2rem;
+}
+
+.list > .data > li > p > span {
+    float: left;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    font-size: 0.8rem;
+}
+
+.list > .data > li > h3 {
+    width: 100%;
+    height: 5.4rem;
+    line-height: 1.8rem;
+    font-size: 1.5rem;
+    overflow: hidden;
+}
+
+.detail {
+    width: 60rem;
+    margin: 8.6rem auto 3rem auto;
+}
+
+.detail > h1 {
+    text-align: center;
+    line-height: 2.4rem;
+    font-size: 1.9rem;
+}
+
+.detail > p {
+    margin: 1rem auto;
+    height: 1.2rem;
+    text-align: center;
+}
+
+.detail > p > img {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: middle;
+    border-radius: 1rem;
+    margin-right: 0.2rem;
+}
+
+.detail > p > span {
+    height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: 0.8rem;
+}
+
+.detail > .content {
+    width: 100%;
+}

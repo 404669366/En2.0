@@ -1,0 +1,195 @@
+body {
+    height: 100%;
+    position: fixed;
+}
+
+.slider {
+    width: calc(100rem + 13px);
+    height: 100%;
+    position: relative;
+}
+
+.slider-item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    animation: fade 150s linear infinite;
+    -o-animation: fade 150s linear infinite;
+    -moz-animation: fade 150s linear infinite;
+    -webkit-animation: fade 150s linear infinite;
+}
+
+.slider-item:nth-child(1) {
+    animation-delay: -1s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: -1s;
+    -webkit-animation-delay: -1s;
+}
+
+.slider-item:nth-child(2) {
+    animation-delay: 29s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 29s;
+    -webkit-animation-delay: 29s;
+}
+
+.slider-item:nth-child(3) {
+    animation-delay: 59s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 59s;
+    -webkit-animation-delay: 59s;
+}
+
+.slider-item:nth-child(4) {
+    animation-delay: 89s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 89s;
+    -webkit-animation-delay: 89s;
+}
+
+.slider-item:nth-child(5) {
+    animation-delay: 119s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 119s;
+    -webkit-animation-delay: 119s;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    0.5% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 1;
+    }
+    20.5% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.slider > .slider-info {
+    width: 60rem;
+    height: 28rem;
+    text-align: center;
+    color: #FFFFFF;
+    position: absolute;
+    top: 6rem;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.slider > .slider-info > h1 {
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 2.5rem;
+}
+
+.slider > .slider-info > b {
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1rem;
+}
+
+.slider > .slider-info > form {
+    display: block;
+    margin: 0 auto;
+    width: 24rem;
+    height: 14rem;
+    font-size: 1rem;
+    border: 1px solid #FFFFFF;
+}
+
+.slider > .slider-info > form > h2 {
+    font-size: 1.4rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}
+
+.slider > .slider-info > form > input {
+    display: block;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    height: 3rem;
+    line-height: 3rem;
+    background: rgba(0, 0, 0, 0);
+    border: 0;
+    border-bottom: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    width: 14rem;
+}
+
+.slider > .slider-info > form > input:focus {
+    outline: none;
+}
+
+.slider > .slider-info > form :nth-child(3) {
+    display: inline-block;
+    margin: 0;
+    width: 9rem;
+}
+
+.slider > .slider-info > form > span {
+    display: inline-block;
+    width: 5rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.slider > .slider-info > form > button {
+    display: block;
+    margin: 1rem auto 0 auto;
+    font-size: 1rem;
+    height: 3rem;
+    line-height: 3rem;
+    width: 8rem;
+    background: #3072f6;
+    border: 0;
+    color: #FFFFFF;
+    border-radius: 0.2rem;
+    text-align: center;
+}
+
+.slider > .slider-info > .slider-box {
+    width: 50rem;
+    margin: 1rem auto auto auto;
+    height: 9rem;
+}
+
+.slider > .slider-info > .slider-box > div {
+    float: left;
+    width: 12.5rem;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    text-align: left;
+    padding: 2rem;
+    border-left: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.slider > .slider-info > .slider-box > div:last-child {
+    border-right: 1px solid #FFFFFF;
+}
+
+.slider > .slider-info > .slider-box > div > .num {
+    font-size: 2rem;
+}
+
+.slider > .slider-info > .slider-box > div > .unit {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+}

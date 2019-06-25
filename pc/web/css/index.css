@@ -1,0 +1,312 @@
+.slider {
+    width: 100rem;
+    height: 36rem;
+    position: relative;
+}
+
+.slider-item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    animation: fade 150s linear infinite;
+    -o-animation: fade 150s linear infinite;
+    -moz-animation: fade 150s linear infinite;
+    -webkit-animation: fade 150s linear infinite;
+}
+
+.slider-item:nth-child(1) {
+    animation-delay: -1s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: -1s;
+    -webkit-animation-delay: -1s;
+}
+
+.slider-item:nth-child(2) {
+    animation-delay: 29s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 29s;
+    -webkit-animation-delay: 29s;
+}
+
+.slider-item:nth-child(3) {
+    animation-delay: 59s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 59s;
+    -webkit-animation-delay: 59s;
+}
+
+.slider-item:nth-child(4) {
+    animation-delay: 89s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 89s;
+    -webkit-animation-delay: 89s;
+}
+
+.slider-item:nth-child(5) {
+    animation-delay: 119s;
+    -o-animation-delay: 119s;
+    -moz-animation-delay: 119s;
+    -webkit-animation-delay: 119s;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    0.5% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 1;
+    }
+    20.5% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.slider > .slider-info {
+    width: 60rem;
+    height: 28rem;
+    text-align: center;
+    color: #FFFFFF;
+    position: absolute;
+    top: 6rem;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.slider > .slider-info > h1 {
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 2.5rem;
+}
+
+.slider > .slider-info > b {
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1rem;
+}
+
+.slider > .slider-info > .slider-btn {
+    margin: 2rem auto -2rem auto;
+    width: 12rem;
+    height: 4rem;
+    line-height: 4rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 0.2rem;
+    background: #1f00fc;
+}
+
+.slider > .slider-info > .slider-box {
+    width: 50rem;
+    margin: 5rem auto auto auto;
+    height: 9rem;
+}
+
+.slider > .slider-info > .slider-box > div {
+    float: left;
+    width: 12.5rem;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    text-align: left;
+    padding: 2rem;
+    border-left: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.slider > .slider-info > .slider-box > div:last-child {
+    border-right: 1px solid #FFFFFF;
+}
+
+.slider > .slider-info > .slider-box > div > .num {
+    font-size: 2rem;
+}
+
+.slider > .slider-info > .slider-box > div > .unit {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+
+.content {
+    color: #4a4a4a;
+    width: 50rem;
+    margin: 5rem auto 3rem auto;
+}
+
+.content > .model {
+    width: 100%;
+}
+
+.content > .model > ul {
+    margin: 2rem auto;
+    width: 100%;
+}
+
+.content > .model > .title {
+    width: 100%;
+    height: 5rem;
+}
+
+.content > .model > .title > p {
+    text-align: left;
+    float: left;
+    font-size: 1.2rem;
+}
+
+.content > .model > .title > p > b {
+    display: block;
+    font-size: 2.5rem;
+}
+
+.content > .model > .title > div {
+    float: right;
+    height: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+    text-align: right;
+}
+
+.content > .model > .title > div:hover {
+    font-size: 2.6rem;
+}
+
+.content > .model > ul > li {
+    float: left;
+    margin: 0 1.9rem 1.9rem 0;
+    width: 15.4rem;
+}
+
+.content > .model > ul > li:nth-child(3n) {
+    margin-right: 0;
+}
+
+.content > .model > ul > li > .img {
+    width: 100%;
+    height: 10rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.content > .model > ul > li > .img > img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.content > .model > .investment > li > h3 {
+    height: 2.4rem;
+    line-height: 2.4rem;
+    font-size: 1.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.content > .model > .investment > li > p {
+    height: 1.4rem;
+    line-height: 1.4rem;
+    font-size: 0.8rem;
+}
+
+.content > .model > .investment > li > .intro {
+    height: 3.6rem;
+    line-height: 1.2rem;
+    font-size: 0.72rem;
+    color: #9d9d9d;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.content > .model > .investment > li > .progress {
+    margin-top: 0.4rem;
+    width: 100%;
+    height: 1.4rem;
+    color: #9d9d9d;
+    font-size: 0.72rem;
+}
+
+.content > .model > .investment > li > .progress > div:nth-child(1) {
+    float: left;
+    text-align: left;
+    width: 50%;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}
+
+.content > .model > .investment > li > .progress > div:nth-child(2) {
+    float: right;
+    text-align: right;
+    width: 50%;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}
+
+.content > .model > .investment > li > .progress > div:nth-child(2) > span {
+    color: #3072f6;
+}
+
+.content > .model > .investment > li > .progress > div:nth-child(3) {
+    float: left;
+    width: 100%;
+    height: 0.2rem;
+    line-height: 0.2rem;
+    background: url(../img/blue.png) #f3f3f3 repeat-y;
+}
+
+.content > .model > .press > li > p {
+    margin-top: 0.2rem;
+    height: 1.4rem;
+    font-size: 0.8rem;
+}
+
+.content > .model > .press > li > p > img {
+    float: left;
+    height: 1.4rem;
+    width: 1.4rem;
+    border-radius: 1.4rem;
+}
+
+.content > .model > .press > li > p > span {
+    float: left;
+    margin-left: 0.2rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    font-size: 0.8rem;
+}
+
+.content > .model > .press > li > h3 {
+    height: 4.8rem;
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.content > .model > .press > li > .intro {
+    height: 3.6rem;
+    line-height: 1.2rem;
+    font-size: 0.72rem;
+    color: #9d9d9d;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+
+
+

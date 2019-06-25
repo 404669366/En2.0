@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #d3d3d3;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer, *[data-url] {
+    cursor: pointer;
+}
+
+body {
+    font-family: 微软雅黑;
+    overflow-x: hidden;
+}
+
+.clearBoth {
+    clear: both;
+}
+
+.center {
+    width: 100rem;
+}
+
+.list {
+    color: #4a4a4a;
+    margin: 7.6rem auto 2.4rem auto;
+    width: 50rem;
+    min-height: 36rem;
+}
+
+.list > .title {
+    width: 100%;
+    height: 5rem;
+    margin-bottom: 2rem;
+}
+
+.list > .title > h2 {
+    height: 3.4rem;
+    line-height: 3.4rem;
+    font-size: 3.2rem;
+}
+
+.list > .title > p {
+    height: 1.6rem;
+    line-height: 1.6rem;
+    font-size: 1.4rem;
+}
+
+.list > .data {
+    width: 100%;
+}
+
+.list > .data > li {
+    float: left;
+    width: 15rem;
+    margin-right: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.list > .data > li:nth-child(3n) {
+    margin-right: 0;
+}
+
+.head {
+    width: 100rem;
+    height: 4rem;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    left: 0;
+    top: 0;
+    font-size: 0.914rem;
+    z-index: 3;
+}
+
+.head > .headContent {
+    height: 100%;
+    width: 60rem;
+    margin: 0 auto;
+}
+
+.head > .headContent > img {
+    float: left;
+    height: 3.2rem;
+    width: 7rem;
+    margin-top: 0.4rem;
+}
+
+.head > .headContent > ul {
+    float: left;
+    height: 100%;
+    width: 41rem;
+    text-align: right;
+    color: #d3d3d3;
+}
+
+.head > .headContent > ul > li {
+    display: inline-block;
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+}
+
+.head > .headContent > ul > li:hover {
+    color: #FFFFFF;
+}
+
+.head > .headContent > ul > .active {
+    color: #FFFFFF;
+    position: relative;
+}
+
+.head > .headContent > ul > .active span {
+    display: block;
+    width: 0.7rem;
+    height: 0.2rem;
+    background: #FFFFFF;
+    position: absolute;
+    top: 74%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.head > .headContent a{
+    color: #d3d3d3;
+}
+
+.head > .headContent > a {
+    float: right;
+    display: block;
+    width: 7rem;
+    text-align: center;
+    margin-top: 0.9rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    border: 1.6px solid #d3d3d3;
+    border-radius: 1.6rem;
+    transition: color 0.4s;
+    -webkit-transition: color 0.4s;
+    -moz-transition: color 0.4s;
+    -o-transition: color 0.4s;
+}
+
+.head > .headContent a:hover {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.head > .headContent > p {
+    height: 4rem;
+    line-height: 4rem;
+    color: #d3d3d3;
+}
+
+.head > .headContent > p > span {
+    margin-left: 1.6rem;
+}
+
+.head > .headContent > p > span:hover {
+    color: #FFFFFF;
+}
+
+.footer {
+    color: #d3d3d3;
+    background: #23252a;
+    width: 100rem;
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.footer *[data-url]:hover {
+    color: #FFFFFF;
+}
+
+.footer > .info {
+    font-size: 0.8rem;
+    text-align: left;
+    margin: 0 auto 1rem auto;
+    width: 60rem;
+    height: 10rem;
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+}
+
+.footer > .info > div {
+    float: left;
+    height: 10rem;
+    width: 16rem;
+    line-height: 1.2rem;
+    padding-right: 2rem;
+    box-sizing: border-box;
+}
+
+.footer > .info > div:first-child {
+    width: 20rem;
+}
+
+.footer > .info > div:last-child {
+    width: 8rem;
+    text-align: center;
+    padding-right: 0;
+}
+
+.footer > .info > div:last-child > img {
+    width: 8rem;
+    height: 8rem;
+    margin-bottom: 0.1rem;
+}
+
+.footer > .info > div > h4 {
+    font-size: 1.2rem;
+    height: 2rem;
+    line-height: 2rem;
+    margin-bottom: 0.6rem;
+}
+
+.footer > .friend > span {
+    display: inline-block;
+    max-width: 8rem;
+    height: 2.4rem;
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+    padding: 0.2rem;
+    box-sizing: border-box;
+    margin-right: 0.4rem;
+    cursor: pointer;
+}
+
+.footer > .friend > span > img {
+    float: left;
+    height: 1.8rem;
+    width: 1.8rem;
+    margin-right: 0.2rem;
+}
+
+.footer > .friend > span > a {
+    float: right;
+    display: inline-block;
+    height: 1.8rem;
+    line-height: 0.9rem;
+    font-size: 0.4rem;
+    color: #d3d3d3;
+}
+
+.footer > .friend > span > a:hover {
+    color: #FFFFFF;
+}
+
+.footer > .icp {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 0.7rem;
+}

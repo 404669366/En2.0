@@ -62,11 +62,11 @@
 <script>
     $('.list>.data>li').hover(
         function () {
-            $(this).find('.img>img').css({width: '125%', height: '125%'});
+            $(this).find('.img>img').stop().animate({width: '125%', height: '125%'},500);
             $(this).find('h3').css('text-decoration', 'underline');
         },
         function () {
-            $(this).find('.img>img').css({width: '100%', height: '100%'});
+            $(this).find('.img>img').stop().animate({width: '100%', height: '100%'},500);
             $(this).find('h3').css('text-decoration', 'none');
         }
     );

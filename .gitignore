@@ -1,10 +1,9 @@
-/backend/config/params.php
-/pc/config/params.php
-/backend/config/web.php
-/pc/config/web.php
+/backend/config
+/pc/config
 /backend/web/index.php
 /pc/web/index.php
 /backend/runtime/
 /pc/runtime/
 /backend/web/assets/
 /pc/web/assets/
+.idea/

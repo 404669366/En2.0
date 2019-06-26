@@ -20,7 +20,7 @@ class FieldController extends BasisController
      */
     public function actionList()
     {
-        return $this->render('list',['data'=>EnField::indexData()]);
+        return $this->render('list', ['data' => EnField::listData()]);
     }
 
     /**

@@ -13,10 +13,10 @@
     <div class="headContent">
         <img data-url="/<?= Yii::$app->params['defaultRoute'] ?>.html" src="/img/logo.png" alt="四川亿能天成新能源logo">
         <ul>
-            <li data-url="/index/index/index.html">首页<span></span></li>
-            <li class="active" data-url="/field/field/list.html">项目<span></span></li>
-            <li data-url="/news/news/list.html">新闻<span></span></li>
-            <li data-url="/about/about/center.html">关于<span></span></li>
+            <li><a href="/index/index/index.html">首页<span></span></a></li>
+            <li class="active"><a href="/field/field/list.html">项目<span></span></a></li>
+            <li><a href="/news/news/list.html">新闻<span></span></a></li>
+            <li><a href="/about/about/center.html">关于<span></span></a></li>
         </ul>
         <?php if (Yii::$app->user->isGuest): ?>
             <a href="/<?= Yii::$app->params['loginRoute'] ?>.html">登录 / 注册</a>
@@ -37,9 +37,7 @@
         <div class="search">
             <div class="select">
                 项目类型:
-                <span>
-                <span class="now">全部</span><i class="fa fa-caret-down" aria-hidden="true"></i>
-            </span>
+                <span><span class="now">全部</span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 <ul>
                     <li data-key="business_type" data-val="">全部</li>
                     <?php foreach (\vendor\project\helpers\Constant::businessType() as $k => $v): ?>
@@ -49,9 +47,7 @@
             </div>
             <div class="select">
                 投资类型:
-                <span>
-                <span class="now">全部</span><i class="fa fa-caret-down" aria-hidden="true"></i>
-            </span>
+                <span><span class="now">全部</span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 <ul>
                     <li data-key="invest_type" data-val="">全部</li>
                     <?php foreach (\vendor\project\helpers\Constant::investType() as $k => $v): ?>
@@ -62,43 +58,77 @@
             <div class="searchBtn" data-url=""><i class="fa fa-search" aria-hidden="true"></i></div>
         </div>
         <script>
+
+            var business_type = window.getParams('business_type', '');
+            $('.select').find('[data-key="business_type"]').each(function (k, v) {
+                if ($(v).data('val') == business_type) {
+                    $(v).parents('.select').find('.now').text($(v).text());
+                }
+            });
+
+            var invest_type = window.getParams('invest_type', '');
+            $('.select').find('[data-key="invest_type"]').each(function (k, v) {
+                if ($(v).data('val') == invest_type) {
+                    $(v).parents('.select').find('.now').text($(v).text());
+                }
+            });
+
             $('.select>span').click(function () {
                 $(this).next().slideToggle(200);
                 $(this).find('i').toggleClass('fa-caret-down').toggleClass('fa-caret-up');
             });
 
-            $('.select>ul').on('click', 'li', function () {
+            $('.select>ul>li').on('click', function () {
                 $(this).parent().slideToggle(200);
                 $(this).parents('.select').find('i').toggleClass('fa-caret-down').toggleClass('fa-caret-up');
                 $(this).parents('.select').find('.now').text($(this).text());
+                var url = window.location.href;
+                var key = $(this).data('key');
+                var val = $(this).data('val');
+                var last = window.getParams(key);
+                if (last !== null) {
+                    window.location.href = url.replace(key + '=' + last, key + '=' + val);
+                } else {
+                    var mark = '&';
+                    if (url === 'http://pc.en.com/field/field/list.html') {
+                        mark = '?';
+                    }
+                    window.location.href = url + mark + key + '=' + val;
+                }
             })
         </script>
-        <ul class="data">
-            <?php foreach ($data as $v): ?>
-                <li data-url="/field/field/detail.html?no=<?= $v['no'] ?>">
-                    <div class="img">
-                        <img src="<?= explode(',', $v['images'])[0] ?>" alt="<?= $v['title'] ?>">
-                    </div>
-                    <h3><?= $v['title'] ?></h3>
-                    <p>
-                        <?= \vendor\project\helpers\Constant::businessType()[$v['business_type']] ?>
-                        &emsp;|&emsp;
-                        <?= \vendor\project\helpers\Constant::investType()[$v['invest_type']] ?>
-                    </p>
-                    <div class="intro">
-                        <?= $v['address'] ?>
-                    </div>
-                    <div class="progress">
-                        <div>项目总额: <?= $v['budget_amount'] ?></div>
-                        <div>认购进度: <span><?= $v['present_amount'] / $v['budget_amount'] * 100 ?>%</span></div>
-                        <div style="background-size: <?= $v['present_amount'] / $v['budget_amount'] * 100 ?>% auto"></div>
-                    </div>
-                </li>
-            <?php endforeach; ?>
-            <div class="clearBoth"></div>
-        </ul>
-        <ul class="page">
-
+        <?php if ($data): ?>
+            <ul class="data">
+                <?php foreach ($data as $v): ?>
+                    <li data-url="/field/field/detail.html?no=<?= $v['no'] ?>">
+                        <div class="img">
+                            <img src="<?= explode(',', $v['images'])[0] ?>" alt="<?= $v['title'] ?>">
+                        </div>
+                        <h3><?= $v['title'] ?></h3>
+                        <p>
+                            <?= \vendor\project\helpers\Constant::businessType()[$v['business_type']] ?>
+                            &emsp;|&emsp;
+                            <?= \vendor\project\helpers\Constant::investType()[$v['invest_type']] ?>
+                        </p>
+                        <div class="intro">
+                            <?= $v['address'] ?>
+                        </div>
+                        <div class="progress">
+                            <div>项目总额: <?= $v['budget_amount'] ?></div>
+                            <div>认购进度: <span><?= $v['present_amount'] / $v['budget_amount'] * 100 ?>%</span></div>
+                            <div style="background-size: <?= $v['present_amount'] / $v['budget_amount'] * 100 ?>% auto"></div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+                <div class="clearBoth"></div>
+            </ul>
+        <?php else: ?>
+            <div class="no-data">暂时没有该类项目</div>
+        <?php endif; ?>
+        <ul class="page" data-getby="http://pc.en.com/field/field/list.html">
+            <li data-do="first">首&emsp;页</li>
+            <li data-do="prev">上一页</li>
+            <li data-do="next">下一页</li>
         </ul>
     </div>
 </div>
@@ -125,15 +155,15 @@
         </div>
         <div>
             <h4>项目</h4>
-            <p data-url="/user/field/create.html">发起项目</p>
-            <p data-url="/field/field/list.html">投资项目</p>
+            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>
             <h4>关于</h4>
-            <p data-url="/about/about/company.html">公司介绍</p>
-            <p data-url="/about/about/partner.html">合作伙伴</p>
-            <p data-url="/about/about/contact.html">联系我们</p>
-            <p data-url="/about/about/guide.html">用户指南</p>
+            <a href="/about/about/company.html">公司介绍</a><br/>
+            <a href="/about/about/partner.html">合作伙伴</a><br/>
+            <a href="/about/about/contact.html">联系我们</a><br/>
+            <a href="/about/about/guide.html">用户指南</a><br/>
         </div>
         <div>
             <img src="/img/qrCode.jpg" alt="四川亿能天成微信公众号"><br/>

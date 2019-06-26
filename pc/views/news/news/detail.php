@@ -13,10 +13,10 @@
     <div class="headContent">
         <img data-url="/<?= Yii::$app->params['defaultRoute'] ?>.html" src="/img/logo.png" alt="四川亿能天成新能源logo">
         <ul>
-            <li data-url="/index/index/index.html">首页<span></span></li>
-            <li data-url="/field/field/list.html">项目<span></span></li>
-            <li class="active" data-url="/news/news/list.html">新闻<span></span></li>
-            <li data-url="/about/about/center.html">关于<span></span></li>
+            <li><a href="/index/index/index.html">首页<span></span></a></li>
+            <li><a href="/field/field/list.html">项目<span></span></a></li>
+            <li class="active"><a href="/news/news/list.html">新闻<span></span></a></li>
+            <li><a href="/about/about/center.html">关于<span></span></a></li>
         </ul>
         <?php if (Yii::$app->user->isGuest): ?>
             <a href="/<?= Yii::$app->params['loginRoute'] ?>.html">登录 / 注册</a>
@@ -58,15 +58,15 @@
         </div>
         <div>
             <h4>项目</h4>
-            <p data-url="/user/field/create.html">发起项目</p>
-            <p data-url="/field/field/list.html">投资项目</p>
+            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>
             <h4>关于</h4>
-            <p data-url="/about/about/company.html">公司介绍</p>
-            <p data-url="/about/about/partner.html">合作伙伴</p>
-            <p data-url="/about/about/contact.html">联系我们</p>
-            <p data-url="/about/about/guide.html">用户指南</p>
+            <a href="/about/about/company.html">公司介绍</a><br/>
+            <a href="/about/about/partner.html">合作伙伴</a><br/>
+            <a href="/about/about/contact.html">联系我们</a><br/>
+            <a href="/about/about/guide.html">用户指南</a><br/>
         </div>
         <div>
             <img src="/img/qrCode.jpg" alt="四川亿能天成微信公众号"><br/>

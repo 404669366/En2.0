@@ -66,7 +66,7 @@ class EnField extends \yii\db\ActiveRecord
             [['commissioner_id', 'business_type', 'invest_type', 'terminal', 'attention', 'click', 'status', 'created_at', 'source', 'local_id', 'cobber_id'], 'integer'],
             [['no', 'invest_ratio', 'field_ratio', 'lng', 'lat', 'capacity', 'area'], 'string', 'max' => 20],
             [['name', 'title'], 'string', 'max' => 30],
-            [['images'], 'string', 'max' => 480],
+            [['images'], 'string', 'max' => 400],
             [['address'], 'string', 'max' => 60],
             [['field_configure'], 'string', 'max' => 500],
             [['budget_amount', 'lowest_amount', 'present_amount'], 'string', 'max' => 10],
@@ -303,6 +303,27 @@ class EnField extends \yii\db\ActiveRecord
             ->limit($length)
             ->asArray()->all();
 
+        return $data;
+    }
+
+    /**
+     * 列表页数据
+     * @return array|\yii\db\ActiveQuery|\yii\db\ActiveRecord[]
+     */
+    public static function listData()
+    {
+        $pageNum = Yii::$app->request->get('pageNum', 1);
+        $invest_type = Yii::$app->request->get('invest_type', '');
+        $business_type = Yii::$app->request->get('business_type', '');
+        $data = self::find();
+        if ($invest_type) {
+            $data->where(['invest_type' => $invest_type]);
+        }
+        if ($business_type) {
+            $data->andWhere(['business_type' => $business_type]);
+        }
+        $data = $data->offset(($pageNum - 1) * 6)->limit(6)
+            ->asArray()->all();
         return $data;
     }
 }

@@ -94,7 +94,13 @@
     font-size: 1rem;
 }
 
-.slider > .slider-info > .slider-btn {
+.slider > .slider-info > .slider-btn-box {
+    width: 100%;
+    text-align: center;
+}
+
+.slider > .slider-info > .slider-btn-box > .slider-btn {
+    display: inline-block;
     margin: 2rem auto -2rem auto;
     width: 12rem;
     height: 4rem;

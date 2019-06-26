@@ -51,11 +51,19 @@
     <div class="slider-info">
         <h1>全球首家专业的新能源充电站投资平台</h1>
         <b>投资 | 建设 | 运营 | 维护</b>
-        <?php if (Yii::$app->user->isGuest): ?>
-            <div class="slider-btn" data-url="/<?= Yii::$app->params['loginRoute'] ?>.html">成为投资人</div>
-        <?php else: ?>
-            <div class="slider-btn" data-url="/field/field/list.html">寻找项目</div>
-        <?php endif; ?>
+        <div class="slider-btn-box">
+            <?php if (Yii::$app->user->isGuest): ?>
+                <div class="slider-btn" data-url="/<?= Yii::$app->params['loginRoute'] ?>.html">成为投资人</div>
+            <?php else: ?>
+                <div class="slider-btn" data-url="/user/field/create.html">
+                    发起项目<a class="hide" href="/user/field/create.html">发起项目</a>
+                </div>
+                &nbsp;
+                <div class="slider-btn" data-url="/field/field/list.html">
+                    寻找项目<a class="hide" href="/user/field/list.html">寻找项目</a>
+                </div>
+            <?php endif; ?>
+        </div>
         <div class="slider-box">
             <div>
                 <b class="num"><?= \vendor\project\helpers\Constant::goDay() ?></b>
@@ -107,6 +115,7 @@
                             <div>认购进度: <span><?= $v['present_amount'] / $v['budget_amount'] * 100 ?>%</span></div>
                             <div style="background-size: <?= $v['present_amount'] / $v['budget_amount'] * 100 ?>% auto"></div>
                         </div>
+                        <a class="hide" href="/field/field/detail.html?no=<?= $v['no'] ?>"><?= $v['title'] ?></a>
                     </li>
                 <?php endforeach; ?>
                 <div class="clearBoth"></div>
@@ -129,6 +138,7 @@
                         </p>
                         <h3><?= $v['title'] ?></h3>
                         <div class="intro"><?= $v['intro'] ?></div>
+                        <a class="hide" href="/news/news/detail.html?id=<?= $v['id'] ?>"><?= $v['title'] ?></a>
                     </li>
                 <?php endforeach; ?>
                 <div class="clearBoth"></div>
@@ -159,15 +169,15 @@
         </div>
         <div>
             <h4>项目</h4>
-            <p data-url="/user/field/create.html">发起项目</p>
-            <p data-url="/field/field/list.html">投资项目</p>
+            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>
             <h4>关于</h4>
-            <p data-url="/about/about/company.html">公司介绍</p>
-            <p data-url="/about/about/partner.html">合作伙伴</p>
-            <p data-url="/about/about/contact.html">联系我们</p>
-            <p data-url="/about/about/guide.html">用户指南</p>
+            <a href="/about/about/company.html">公司介绍</a><br/>
+            <a href="/about/about/partner.html">合作伙伴</a><br/>
+            <a href="/about/about/contact.html">联系我们</a><br/>
+            <a href="/about/about/guide.html">用户指南</a><br/>
         </div>
         <div>
             <img src="/img/qrCode.jpg" alt="四川亿能天成微信公众号"><br/>

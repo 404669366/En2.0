@@ -39,20 +39,23 @@ class FieldController extends CommonController
      */
     public function actionAdd()
     {
+        $model = new EnField();
+        $intro = '';
         if (\Yii::$app->request->isPost) {
-            $model = new EnField();
             $post = \Yii::$app->request->post();
+            $model->load(['EnField' => $post]);
+            $intro = $post['intro'];
             Msg::set('场地介绍不能为空');
-            if ($post['intro']) {
-                if ($model->load(['EnField' => $post]) && $model->validate() && $model->save()) {
-                    \Yii::$app->cache->set('FieldIntro-' . $model->id, $post['intro']);
+            if ($intro) {
+                if ($model->validate() && $model->save()) {
+                    \Yii::$app->cache->set('FieldIntro-' . $model->id, $intro);
                     Msg::set('操作成功');
                     return $this->redirect(['list']);
                 }
                 Msg::set($model->errors());
             }
         }
-        return $this->render('add');
+        return $this->render('add', ['model' => $model, 'intro' => $intro]);
     }
 
     /**
@@ -63,19 +66,21 @@ class FieldController extends CommonController
     public function actionEdit($id)
     {
         $model = EnField::findOne($id);
+        $intro = \Yii::$app->cache->get('FieldIntro-' . $model->id);
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
-            Msg::set('场地介绍不能为空');
-            if ($post['intro']) {
-                if ($model->load(['EnField' => $post]) && $model->validate() && $model->save()) {
-                    \Yii::$app->cache->set('FieldIntro-' . $model->id, $post['intro']);
+            $model->load(['EnField' => $post]);
+            $intro = $post['intro'];
+            if ($intro) {
+                if ($model->validate() && $model->save()) {
+                    \Yii::$app->cache->set('FieldIntro-' . $model->id, $intro);
                     Msg::set('操作成功');
                     return $this->redirect(['list']);
                 }
                 Msg::set($model->errors());
             }
         }
-        return $this->render('edit', ['model' => $model]);
+        return $this->render('edit', ['model' => $model, 'intro' => $intro]);
     }
 
     /**

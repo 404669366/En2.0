@@ -11,6 +11,27 @@ namespace vendor\project\helpers;
 
 class Helper
 {
+
+    /**
+     * 补全图片
+     * @param string $img
+     * @param int $length
+     * @return array|string
+     */
+    public static function completionImg($img = '', $length = 5)
+    {
+        $img = explode(',', $img);
+        $count = count($img);
+        if ($count < $length) {
+            $completion = [];
+            while (count($completion) < ($length - $count)) {
+                array_push($completion, $img[array_rand($img)]);
+            }
+            return array_merge($img, $completion);
+        }
+        return $img;
+    }
+
     /**
      * 生成编号
      * @param string $prefix

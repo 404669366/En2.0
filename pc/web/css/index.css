@@ -4,63 +4,63 @@
     position: relative;
 }
 
-.slider-item {
+.slider > img {
     width: 100%;
     height: 100%;
     position: absolute;
     opacity: 0;
-    animation: fade 150s linear infinite;
-    -o-animation: fade 150s linear infinite;
-    -moz-animation: fade 150s linear infinite;
-    -webkit-animation: fade 150s linear infinite;
+    animation: fade 75s linear infinite;
+    -o-animation: fade 75s linear infinite;
+    -moz-animation: fade 75s linear infinite;
+    -webkit-animation: fade 75s linear infinite;
 }
 
-.slider-item:nth-child(1) {
+.slider > img:nth-child(1) {
     animation-delay: -1s;
-    -o-animation-delay: 119s;
+    -o-animation-delay: -1s;
     -moz-animation-delay: -1s;
     -webkit-animation-delay: -1s;
 }
 
-.slider-item:nth-child(2) {
+.slider > img:nth-child(2) {
+    animation-delay: 14s;
+    -o-animation-delay: 14s;
+    -moz-animation-delay: 14s;
+    -webkit-animation-delay: 14s;
+}
+
+.slider > img:nth-child(3) {
     animation-delay: 29s;
-    -o-animation-delay: 119s;
+    -o-animation-delay: 29s;
     -moz-animation-delay: 29s;
     -webkit-animation-delay: 29s;
 }
 
-.slider-item:nth-child(3) {
+.slider > img:nth-child(4) {
+    animation-delay: 44s;
+    -o-animation-delay: 44s;
+    -moz-animation-delay: 44s;
+    -webkit-animation-delay: 44s;
+}
+
+.slider > img:nth-child(5) {
     animation-delay: 59s;
-    -o-animation-delay: 119s;
+    -o-animation-delay: 59s;
     -moz-animation-delay: 59s;
     -webkit-animation-delay: 59s;
-}
-
-.slider-item:nth-child(4) {
-    animation-delay: 89s;
-    -o-animation-delay: 119s;
-    -moz-animation-delay: 89s;
-    -webkit-animation-delay: 89s;
-}
-
-.slider-item:nth-child(5) {
-    animation-delay: 119s;
-    -o-animation-delay: 119s;
-    -moz-animation-delay: 119s;
-    -webkit-animation-delay: 119s;
 }
 
 @keyframes fade {
     0% {
         opacity: 0;
     }
-    0.5% {
+    1% {
         opacity: 1;
     }
     20% {
         opacity: 1;
     }
-    20.5% {
+    21% {
         opacity: 0;
     }
     100% {
@@ -240,7 +240,7 @@
 }
 
 .content > .model > .investment > li > .progress {
-    margin-top: 0.4rem;
+    margin-top: 0.2rem;
     width: 100%;
     height: 1.4rem;
     color: #9d9d9d;

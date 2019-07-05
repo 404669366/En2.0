@@ -16,31 +16,68 @@
             <li class="active"><a href="/index/index/index.html">首页<span></span></a></li>
             <li><a href="/field/field/list.html">项目<span></span></a></li>
             <li><a href="/news/news/list.html">新闻<span></span></a></li>
-            <li><a href="/about/about/center.html">关于<span></span></a></li>
+            <li class="nav" onselectstart="return false">
+                关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
+                <span></span>
+                <ul>
+                    <li><a href="/about/about/company.html">公司介绍</a></li>
+                    <li><a href="/about/about/partner.html">合作伙伴</a></li>
+                    <li><a href="/about/about/contact.html">联系我们</a></li>
+                    <li><a href="/about/about/guide.html">用户指南</a></li>
+                </ul>
+            </li>
+            <?php if (Yii::$app->user->isGuest): ?>
+                <li>
+                    <p data-url="/<?= Yii::$app->params['loginRoute'] ?>.html">登录 / 注册</p>
+                    <a href="/<?= Yii::$app->params['loginRoute'] ?>.html" class="hide">登录 / 注册</a>
+                </li>
+            <?php else: ?>
+                <li title="个人中心">
+                    <a href="/user/user/center.html">
+                        <?= Yii::$app->user->getIdentity()->tel ?><span></span>
+                    </a>
+                </li>
+                <li><a href="/<?= Yii::$app->params['logoutRoute'] ?>.html">退出<span></span></a></li>
+            <?php endif; ?>
         </ul>
-        <?php if (Yii::$app->user->isGuest): ?>
-            <a href="/<?= Yii::$app->params['loginRoute'] ?>.html">登录 / 注册</a>
-        <?php else: ?>
-            <p>
-                <span data-url="/user/user/center.html"><?= Yii::$app->user->getIdentity()->tel ?></span>
-                <span data-url="/<?= Yii::$app->params['logoutRoute'] ?>.html">退出</span>
-            </p>
-        <?php endif; ?>
     </div>
 </div>
 <script>
-    $(function () {
-        $(document).scroll(function () {
-            if ($(this).scrollTop() >= $('.head').height()) {
-                $('.head').css('background', '#23252a');
-            }
-            if ($(this).scrollTop() < $('.head').height()) {
-                $('.head').css('background', 'rgba(0, 0, 0, 0.3)');
-            }
-        });
-
-        $(document).scroll();
+    $(document).scroll(function () {
+        if ($(this).scrollTop() >= $('.head').height()) {
+            $('.head').css('background', '#23252a');
+        }
+        if ($(this).scrollTop() < $('.head').height()) {
+            $('.head').css('background', 'rgba(0, 0, 0, 0.3)');
+        }
     });
+
+    $(document).scroll();
+
+    $('.nav').hover(
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        },
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        }
+    );
 </script>
 <div class="slider">
     <img class="slider-item" src="/img/1.jpg"/>
@@ -99,7 +136,10 @@
                 <?php foreach ($field as $v): ?>
                     <li data-url="/field/field/detail.html?no=<?= $v['no'] ?>">
                         <div class="img">
-                            <img src="<?= explode(',', $v['images'])[0] ?>" alt="<?= $v['title'] ?>">
+                            <?php
+                            $images = explode(',', $v['images']);
+                            ?>
+                            <img src="<?= $images[array_rand($images)] ?>" alt="<?= $v['title'] ?>">
                         </div>
                         <h3><?= $v['title'] ?></h3>
                         <p>
@@ -108,12 +148,17 @@
                             <?= \vendor\project\helpers\Constant::investType()[$v['invest_type']] ?>
                         </p>
                         <div class="intro">
-                            <?= $v['address'] ?>
+                            <?= $v['trait'] ?>
                         </div>
                         <div class="progress">
                             <div>项目总额: <?= $v['budget_amount'] ?></div>
-                            <div>认购进度: <span><?= $v['present_amount'] / $v['budget_amount'] * 100 ?>%</span></div>
-                            <div style="background-size: <?= $v['present_amount'] / $v['budget_amount'] * 100 ?>% auto"></div>
+                            <?php if (in_array($v['status'], [1, 2, 3])): ?>
+                                <div>认购进度: <span>100%</span></div>
+                                <div style="background-size: 100% auto"></div>
+                            <?php else: ?>
+                                <div>认购进度: <span><?= $v['present_amount'] / $v['budget_amount'] * 100 ?>%</span></div>
+                                <div style="background-size: <?= $v['present_amount'] / $v['budget_amount'] * 100 ?>% auto"></div>
+                            <?php endif; ?>
                         </div>
                         <a class="hide" href="/field/field/detail.html?no=<?= $v['no'] ?>"><?= $v['title'] ?></a>
                     </li>
@@ -149,11 +194,11 @@
 <script>
     $('.investment>li,.press>li').hover(
         function () {
-            $(this).find('.img>img').stop().animate({width: '125%', height: '125%'},500);
+            $(this).find('.img>img').stop().animate({width: '125%', height: '125%'}, 200);
             $(this).find('h3').css('text-decoration', 'underline');
         },
         function () {
-            $(this).find('.img>img').stop().animate({width: '100%', height: '100%'},500);
+            $(this).find('.img>img').stop().animate({width: '100%', height: '100%'}, 200);
             $(this).find('h3').css('text-decoration', 'none');
         }
     );

@@ -79,7 +79,9 @@ class EnNews extends \yii\db\ActiveRecord
     public static function getData()
     {
         $pageNum = Yii::$app->request->get('pageNum', 1);
-        $data = self::find()->offset(($pageNum - 1) * 6)->limit(6)->asArray()->all();
+        $data = self::find()->orderBy('created_at desc')
+            ->offset(($pageNum - 1) * 6)->limit(6)
+            ->asArray()->all();
         foreach ($data as &$v) {
             $source = Constant::newsSource()[$v['source']];
             $v['source'] = $source['name'];

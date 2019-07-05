@@ -13,7 +13,6 @@ use Yii;
  * @property string $cobber_id 推荐用户ID
  * @property string $user_id 用户ID
  * @property string $field_id 转化场地ID
- * @property string $images 场地图片
  * @property string $address 地址
  * @property string $lng 经度
  * @property string $lat 纬度
@@ -37,9 +36,8 @@ class EnFieldBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['images', 'address', 'lng', 'lat', 'user_id'], 'required'],
+            [['address', 'lng', 'lat', 'user_id'], 'required'],
             [['commissioner_id', 'cobber_id', 'user_id', 'status', 'created_at', 'field_id'], 'integer'],
-            [['images'], 'string', 'max' => 480],
             [['address'], 'string', 'max' => 60],
             [['lng', 'lat'], 'string', 'max' => 20],
             [['remark'], 'string', 'max' => 255],
@@ -57,7 +55,6 @@ class EnFieldBase extends \yii\db\ActiveRecord
             'cobber_id' => '推荐用户ID',
             'user_id' => '用户ID',
             'field_id' => '转化场地ID',
-            'images' => '场地图片',
             'address' => '地址',
             'lng' => '经度',
             'lat' => '纬度',

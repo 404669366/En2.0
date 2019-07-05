@@ -28,7 +28,7 @@ window.sms = function (config) {
             window.showMsg('请填写手机号');
             return false;
         }
-        if (!(/^1(3|4|5|7|8)\d{9}$/.test(tel))) {
+        if (!window.checkTel(tel)) {
             window.showMsg('手机号有误');
             return false;
         }

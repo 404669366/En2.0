@@ -1,0 +1,48 @@
+body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: center;
+}
+
+.not_find {
+    display: table-cell;
+    vertical-align: middle;
+    color: #23252a;
+}
+
+.not_find > .tit > .title {
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 5rem;
+    margin-bottom: 1.6rem;
+}
+
+.not_find > .tit > .cont {
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 2.4rem;
+    margin-bottom: 1.2rem;
+}
+
+.not_find > .notMain {
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.not_find > .notBtn {
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1.4rem;
+}
+
+.not_find > .notBtn > a {
+    color: #888888;
+}
+
+.not_find > .notBtn > a:hover {
+    color: #23252a;
+}

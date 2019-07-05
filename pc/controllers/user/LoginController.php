@@ -23,14 +23,18 @@ class LoginController extends BasisController
      */
     public function actionLogin()
     {
+        $tel = '';
+        $code = '';
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
+            $tel = $post['tel'];
+            $code = $post['code'];
             Msg::set('验证码错误');
             if (Sms::validateCode($post['tel'], $post['code'])) {
                 if ($model = EnUser::findOne(['tel' => $post['tel']])) {
                     \Yii::$app->user->login($model);
                     Msg::set('登录成功');
-                    return $this->redirect([Url::getUrl()]);
+                    return $this->redirect(Url::getUrl());
                 } else {
                     $model = new EnUser();
                     $model->tel = $post['tel'];
@@ -38,13 +42,13 @@ class LoginController extends BasisController
                     $model->created_at = time();
                     if ($model->save()) {
                         Msg::set('注册成功');
-                        return $this->redirect([Url::getUrl()]);
+                        return $this->redirect(Url::getUrl());
                     }
                     Msg::set($model->errors());
                 }
             }
         }
-        return $this->render('login');
+        return $this->render('login', ['tel' => $tel, 'code' => $code]);
     }
 
     /**

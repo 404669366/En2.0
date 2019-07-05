@@ -1,4 +1,5 @@
-document.documentElement.style.fontSize = (document.documentElement.getBoundingClientRect().width * 0.01) + 'px';
+window.remSize = document.documentElement.getBoundingClientRect().width * 0.01;
+document.documentElement.style.fontSize = window.remSize + 'px';
 
 document.write("<link href='/css/common.css' rel='stylesheet'>");
 document.write("<link href='/css/font-awesome.min.css' rel='stylesheet'>");
@@ -49,9 +50,16 @@ window.postCall = function (url, params, target) {
     document.body.removeChild(form);
 };
 
-window.showMsg = function (data) {
+window.checkTel = function (tel) {
+    if (tel) {
+        return /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/.test(tel);
+    }
+    return false;
+};
+
+window.showMsg = function (data, size) {
     if (data) {
-        var messageSize = $.cookie('message-size');
+        var messageSize = size || ($.cookie('message-size') || '1rem');
         if (messageSize) {
             layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>');
         } else {

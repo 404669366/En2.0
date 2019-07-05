@@ -52,16 +52,6 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">场站图片</label>
-                <div class="col-sm-8">
-                    <div class="images"></div>
-                </div>
-                <script>
-                    uploadImg('.images', 'images', '<?=$model->images?>', true, 6);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-8">
                     <textarea class="form-control" readonly rows="10"><?= $model->remark ?></textarea>

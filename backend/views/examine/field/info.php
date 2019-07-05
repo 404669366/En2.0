@@ -85,23 +85,9 @@
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">占地面积</label>
+                        <label class="col-sm-3 control-label">场站特色</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->area ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">投建功率</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->capacity ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">终端数量</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->terminal ?>" readonly>
+                            <textarea class="form-control" readonly rows="8"><?= $model->trait ?></textarea>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>

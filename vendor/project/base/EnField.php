@@ -21,13 +21,11 @@ use Yii;
  * @property string $field_ratio 场地方分成占比
  * @property string $name 场站名称
  * @property string $title 场站标题
+ * @property string $trait 场站特色
  * @property string $images 场站图片
  * @property string $lng 经度
  * @property string $lat 纬度
  * @property string $address 场站位置
- * @property string $area 占地面积
- * @property string $capacity 投建功率
- * @property string $terminal 终端数量
  * @property string $field_configure 场站配置
  * @property string $budget_amount 预算金额
  * @property string $lowest_amount 起投金额
@@ -38,8 +36,6 @@ use Yii;
  * @property string $field_drawing 施工图纸
  * @property string $transformer_drawing 变压器图纸
  * @property string $power_contract 电力合同
- * @property string $attention 关注量
- * @property string $click 点击量
  * @property string $remark 备注
  * @property int $status 场站状态 1挂起2审核中3审核不通过4正在融资5融资完成
  * @property string $created_at 创建时间
@@ -60,11 +56,11 @@ class EnField extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no'], 'unique'],
+            [['no', 'name'], 'unique'],
             [['status'], 'validateStatus'],
-            [['no', 'commissioner_id', 'budget_amount', 'lowest_amount', 'business_type', 'invest_type', 'invest_ratio', 'lng', 'lat', 'area', 'terminal', 'capacity', 'name', 'title', 'address', 'images', 'field_configure', 'status'], 'required'],
-            [['commissioner_id', 'business_type', 'invest_type', 'terminal', 'attention', 'click', 'status', 'created_at', 'source', 'local_id', 'cobber_id'], 'integer'],
-            [['no', 'invest_ratio', 'field_ratio', 'lng', 'lat', 'capacity', 'area'], 'string', 'max' => 20],
+            [['no', 'commissioner_id', 'budget_amount', 'lowest_amount', 'business_type', 'invest_type', 'invest_ratio', 'lng', 'lat', 'name', 'title', 'address', 'images', 'field_configure', 'status', 'trait'], 'required'],
+            [['commissioner_id', 'business_type', 'invest_type', 'status', 'created_at', 'source', 'local_id', 'cobber_id'], 'integer'],
+            [['no', 'invest_ratio', 'field_ratio', 'lng', 'lat'], 'string', 'max' => 20],
             [['name', 'title'], 'string', 'max' => 30],
             [['images'], 'string', 'max' => 400],
             [['address'], 'string', 'max' => 60],
@@ -72,7 +68,7 @@ class EnField extends \yii\db\ActiveRecord
             [['budget_amount', 'lowest_amount', 'present_amount'], 'string', 'max' => 10],
             [['field_prove', 'field_drawing', 'transformer_drawing', 'power_contract', 'field_contract'], 'string', 'max' => 240],
             [['record_file'], 'string', 'max' => 80],
-            [['remark'], 'string', 'max' => 255],
+            [['remark', 'trait'], 'string', 'max' => 255],
         ];
     }
 
@@ -94,13 +90,11 @@ class EnField extends \yii\db\ActiveRecord
             'field_ratio' => '场地方分成占比',
             'name' => '场站名称',
             'title' => '场站标题',
+            'trait' => '场站特色',
             'images' => '场站图片',
             'lng' => '经度',
             'lat' => '纬度',
             'address' => '场站位置',
-            'area' => '占地面积',
-            'capacity' => '投建功率',
-            'terminal' => '终端数量',
             'field_configure' => '场站配置',
             'budget_amount' => '预算金额',
             'lowest_amount' => '起投金额',
@@ -111,8 +105,6 @@ class EnField extends \yii\db\ActiveRecord
             'field_drawing' => '施工图纸',
             'transformer_drawing' => '变压器图纸',
             'power_contract' => '电力合同',
-            'attention' => '关注量',
-            'click' => '点击量',
             'remark' => '备注',
             'status' => '场站状态 1挂起2审核中3审核不通过4正在融资5融资完成',
             'created_at' => '创建时间',
@@ -184,7 +176,8 @@ class EnField extends \yii\db\ActiveRecord
             ->select([
                 'f.id', 'f.no', 'f.business_type', 'f.invest_type', 'f.status',
                 'f.name', 'f.title', 'f.address', 'f.created_at', 'u1.tel as uTel',
-                'u2.tel as cTel', 'f.source', 'f.budget_amount', 'f.present_amount'
+                'u2.tel as cTel', 'f.source', 'f.budget_amount', 'f.present_amount',
+                'f.lowest_amount'
             ])
             ->page([
                 'content' => ['like', 'f.name', 'f.title', 'f.address', 'f.no', 'u1.tel', 'u2.tel'],
@@ -198,7 +191,7 @@ class EnField extends \yii\db\ActiveRecord
             $v['invest_type'] = Constant::investType()[$v['invest_type']];
             $v['status'] = Constant::fieldStatus()[$v['status']];
             $v['source'] = Constant::fieldSource()[$v['source']];
-            $v['info'] = '预算金额 : ' . $v['budget_amount'] . '<br/>现投金额 : ' . $v['present_amount'];
+            $v['info'] = '预算金额 : ' . $v['budget_amount'] . '<br/>起投金额 : ' . $v['lowest_amount'] . '<br/>现投金额 : ' . $v['present_amount'];
         }
         return $data;
     }
@@ -322,7 +315,8 @@ class EnField extends \yii\db\ActiveRecord
         if ($business_type) {
             $data->andWhere(['business_type' => $business_type]);
         }
-        $data = $data->offset(($pageNum - 1) * 6)->limit(6)
+        $data = $data->orderBy('created_at desc')
+            ->offset(($pageNum - 1) * 6)->limit(6)
             ->asArray()->all();
         return $data;
     }

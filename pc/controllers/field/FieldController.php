@@ -25,10 +25,19 @@ class FieldController extends BasisController
 
     /**
      * 项目详情
+     * @param string $no
      * @return string
      */
-    public function actionDetail()
+    public function actionDetail($no = '')
     {
-        return $this->render('detail');
+        if ($no) {
+            if ($detail = EnField::findOne(['no' => $no])) {
+                return $this->render('detail', [
+                    'detail' => $detail,
+                    'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail->id),
+                ]);
+            }
+        }
+        return $this->redirect(['basis/basis/error']);
     }
 }

@@ -43,4 +43,13 @@ class BasisController extends Controller
         Msg::set($msg);
         return parent::goBack(\Yii::$app->request->getReferrer());
     }
+
+    /**
+     * 自定义错误页
+     * @return string
+     */
+    public function actionError()
+    {
+        return $this->render('error');
+    }
 }

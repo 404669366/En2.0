@@ -24,7 +24,7 @@ class Url
      * @param string $defUrl
      * @return mixed
      */
-    public static function getUrl($defUrl = 'index/index/index')
+    public static function getUrl($defUrl = '/index/index/index.html')
     {
         $url = \Yii::$app->session->get('LastUrl', $defUrl);
         \Yii::$app->session->remove('LastUrl');

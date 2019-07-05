@@ -16,33 +16,72 @@
             <li><a href="/index/index/index.html">首页<span></span></a></li>
             <li><a href="/field/field/list.html">项目<span></span></a></li>
             <li class="active"><a href="/news/news/list.html">新闻<span></span></a></li>
-            <li><a href="/about/about/center.html">关于<span></span></a></li>
+            <li class="nav" onselectstart="return false">
+                关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
+                <span></span>
+                <ul>
+                    <li><a href="/about/about/company.html">公司介绍</a></li>
+                    <li><a href="/about/about/partner.html">合作伙伴</a></li>
+                    <li><a href="/about/about/contact.html">联系我们</a></li>
+                    <li><a href="/about/about/guide.html">用户指南</a></li>
+                </ul>
+            </li>
+            <?php if (Yii::$app->user->isGuest): ?>
+                <li>
+                    <p data-url="/<?= Yii::$app->params['loginRoute'] ?>.html">登录 / 注册</p>
+                    <a href="/<?= Yii::$app->params['loginRoute'] ?>.html" class="hide">登录 / 注册</a>
+                </li>
+            <?php else: ?>
+                <li title="个人中心">
+                    <a href="/user/user/center.html">
+                        <?= Yii::$app->user->getIdentity()->tel ?><span></span>
+                    </a>
+                </li>
+                <li><a href="/<?= Yii::$app->params['logoutRoute'] ?>.html">退出<span></span></a></li>
+            <?php endif; ?>
         </ul>
-        <?php if (Yii::$app->user->isGuest): ?>
-            <a href="/<?= Yii::$app->params['loginRoute'] ?>.html">登录 / 注册</a>
-        <?php else: ?>
-            <p>
-                <span data-url="/user/user/center.html"><?= Yii::$app->user->getIdentity()->tel ?></span>
-                <span data-url="/<?= Yii::$app->params['logoutRoute'] ?>.html">退出</span>
-            </p>
-        <?php endif; ?>
     </div>
 </div>
+<script>
+    $('.nav').hover(
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        },
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        }
+    );
+</script>
 <div class="center">
     <div class="detail">
         <h1><?= $model->title ?></h1>
-        <?php
-        $source = \vendor\project\helpers\Constant::newsSource()[$model->source];
-        ?>
         <p>
+            <?php
+            $source = \vendor\project\helpers\Constant::newsSource()[$model->source];
+            ?>
             <img src="<?= $source['logo'] ?>" alt="<?= $source['name'] ?>">
             <span>
-            <?= $source['name'] ?>
-                <?php if ($model->source): ?>
-                    :
-                    <a href="<?= $model->url ?>">阅读原文</a>
+                <?= $source['name'] ?>
+                <?php if ($model->url): ?>
+                    : <a target="_blank" href="<?= $model->url ?>">阅读原文</a>
                 <?php endif; ?>
-        </span>
+            </span>
         </p>
         <div class="content"><?= $content ?></div>
     </div>

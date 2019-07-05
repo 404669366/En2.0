@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/news.css" rel="stylesheet">
+    <link href="/css/about.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
 </head>
 <body>
@@ -15,13 +15,13 @@
         <ul>
             <li><a href="/index/index/index.html">首页<span></span></a></li>
             <li><a href="/field/field/list.html">项目<span></span></a></li>
-            <li class="active"><a href="/news/news/list.html">新闻<span></span></a></li>
-            <li class="nav" onselectstart="return false">
+            <li><a href="/news/news/list.html">新闻<span></span></a></li>
+            <li class="nav active" onselectstart="return false">
                 关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <span></span>
                 <ul>
                     <li><a href="/about/about/company.html">公司介绍</a></li>
-                    <li><a href="/about/about/partner.html">合作伙伴</a></li>
+                    <li class="active"><a href="/about/about/partner.html">合作伙伴</a></li>
                     <li><a href="/about/about/contact.html">联系我们</a></li>
                     <li><a href="/about/about/guide.html">用户指南</a></li>
                 </ul>
@@ -68,49 +68,32 @@
         }
     );
 </script>
-<div class="center">
-    <div class="list">
-        <div class="title">
-            <h2>Press</h2>
-            <p>新闻</p>
+<div class="center partner">
+    <div class="intro">
+        <p>
+            自成立以来，亿能科技已获得了上万名投资者的信任和良好的用户口碑，并且在资本市场上连续受到多家知名机构的青睐<br>
+            2015年获得由雷军和许达来联合创立的顺为资本的风险投资<br>
+            2016年完成数千万Pre-A轮融资，由英诺天使。分享投资和顺为资本联合投资<br>
+            2017年完成1000万美元A轮融资，由国际顶级VC机构DCM领投，顺为资本跟投
+        </p>
+    </div>
+    <div class="modelBox">
+        <div class="model">
+            <h1>Investor</h1>
+            <h3>股东</h3>
+            <div class="detail investor">
+                <img src="/img/about_investor.jpg" alt="">
+            </div>
         </div>
-        <?php if ($data): ?>
-            <ul class="data">
-                <?php foreach ($data as $v): ?>
-                    <li data-url="/news/news/detail.html?id=<?= $v['id'] ?>">
-                        <div class="img"><img src="<?= $v['image'] ?>" alt="<?= $v['title'] ?>"></div>
-                        <p>
-                            <img src="<?= $v['sourceLogo'] ?>" alt="<?= $v['source'] ?>">
-                            <span><?= $v['source'] ?></span>
-                        </p>
-                        <h3><?= $v['title'] ?></h3>
-                        <a class="hide" href="/news/news/detail.html?id=<?= $v['id'] ?>"><?= $v['title'] ?></a>
-                    </li>
-                <?php endforeach; ?>
-                <div class="clearBoth"></div>
-            </ul>
-        <?php else: ?>
-            <div class="no-data">暂时没有该类新闻</div>
-        <?php endif; ?>
-        <ul class="page" data-getby="http://pc.en.com/news/news/list.html">
-            <li data-do="first">首&emsp;页</li>
-            <li data-do="prev">上一页</li>
-            <li data-do="next">下一页</li>
-        </ul>
+        <div class="model">
+            <h1>Partner</h1>
+            <h3>合作伙伴</h3>
+            <div class="detail partners">
+                <img src="/img/about_partners.jpg" alt="">
+            </div>
+        </div>
     </div>
 </div>
-<script>
-    $('.list>.data>li').hover(
-        function () {
-            $(this).find('.img>img').stop().animate({width: '125%', height: '125%'}, 200);
-            $(this).find('h3').css('text-decoration', 'underline');
-        },
-        function () {
-            $(this).find('.img>img').stop().animate({width: '100%', height: '100%'}, 200);
-            $(this).find('h3').css('text-decoration', 'none');
-        }
-    );
-</script>
 <div class="footer">
     <div class="info">
         <div>

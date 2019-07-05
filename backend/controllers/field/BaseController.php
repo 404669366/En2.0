@@ -52,23 +52,26 @@ class BaseController extends CommonController
     public function actionChange($id)
     {
         $model = EnFieldBase::findOne(['status' => 1, 'id' => $id]);
+        $field = new EnField();
+        $intro = '';
         if (\Yii::$app->request->isPost) {
-            $field = new EnField();
             $post = \Yii::$app->request->post();
+            $field->load(['EnField' => $post]);
+            $intro = $post['intro'];
             Msg::set('场地介绍不能为空');
-            if ($post['intro']) {
-                if ($field->load(['EnField' => $post]) && $field->validate() && $field->save()) {
+            if ($intro) {
+                if ($field->validate() && $field->save()) {
+                    \Yii::$app->cache->set('FieldIntro-' . $field->id, $intro);
                     $model->status = 2;
-                    $model->field_id = $model->id;
+                    $model->field_id = $field->id;
                     $model->save();
-                    \Yii::$app->cache->set('FieldIntro-' . $field->id, $post['intro']);
                     Msg::set('操作成功');
                     return $this->redirect(['list']);
                 }
                 Msg::set($field->errors());
             }
         }
-        return $this->render('change', ['model' => $model]);
+        return $this->render('change', ['model' => $model, 'field' => $field, 'intro' => $intro]);
     }
 
     /**

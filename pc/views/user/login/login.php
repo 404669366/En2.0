@@ -17,40 +17,38 @@
     <img class="slider-item" src="/img/4.jpg"/>
     <img class="slider-item" src="/img/5.jpg"/>
     <div class="slider-info">
-        <h1>全球首家专业的新能源充电站投资平台</h1>
-        <b>投资 | 建设 | 运营 | 维护</b>
-        <form action="" method="post">
-            <h2>登录 / 注册</h2>
-            <input type="text" name="tel">
-            <input type="text" name="code"><span class="smsClick">获取验证码</span>
-            <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-            <button type="submit">登录 / 注册</button>
-        </form>
-        <div class="slider-box">
-            <div>
-                <b class="num">321</b>
-                <b class="unit">天</b>
-                <br/>成立至今<br/>不忘初心，方得始终
-            </div>
-            <div>
-                <b class="num">66666</b>
-                <b class="unit">位</b>
-                <br/>参与人<br/>信任是我们最大的财富
-            </div>
-            <div>
-                <b class="num">88888</b>
-                <b class="unit">个</b>
-                <br/>投资项目<br/>遍布全球各地
-            </div>
-            <div>
-                <b class="num">99999</b>
-                <b class="unit">亿</b>
-                <br/>成交金额<br/>大量资金助力项目
-            </div>
+        <div>
+            <h1>全球首家专业的新能源充电站投资平台</h1>
+            <p>投资 | 建设 | 运营 | 维护</p>
+        </div>
+        <div>
+            <form class="loginForm" method="post">
+                <h2>Sign in</h2>
+                <span>登录</span>
+                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
+                <input type="text" name="tel" placeholder="请输入手机号" value="<?= $tel ?>">
+                <div class="codeBox">
+                    <input type="text" name="code" placeholder="请输入验证码" value="<?= $code ?>">
+                    <div class="code">获取验证码</div>
+                </div>
+                <button type="submit">登录 / 注册</button>
+                <p>点击即表示同意<a href="">《注册协议》</a></p>
+            </form>
         </div>
     </div>
     <script>
-        window.sms({telModel: '[name="tel"]', click: '.smsClick'});
+        window.sms({telModel: '[name="tel"]', click: '.code'});
+        $('[type="submit"]').click(function () {
+            if (!window.checkTel($('[name="tel"]').val())) {
+                window.showMsg('请填写正确的手机号');
+                return false;
+            }
+            if ($('[name="code"]').val().length !== 4) {
+                window.showMsg('请填写正确的验证码');
+                return false;
+            }
+            return true;
+        });
     </script>
 </div>
 </body>

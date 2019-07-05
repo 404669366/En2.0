@@ -14,15 +14,6 @@ use app\controllers\basis\BasisController;
 class AboutController extends BasisController
 {
     /**
-     * 关于
-     * @return string
-     */
-    public function actionCenter()
-    {
-        return $this->render('center');
-    }
-
-    /**
      * 公司介绍
      * @return string
      */

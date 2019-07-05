@@ -30,7 +30,7 @@
                                     <button type="button" class="btn btn-primary searchField">搜索</button>
                                 </span>
                                 </div>
-                                <small>如为租用场地,不用绑定此项</small>
+                                <small>如为租用场地,不绑定此项</small>
                                 <input type="hidden" name="local_id" value="<?= $model->local_id ?>">
                             </div>
                             <script>
@@ -114,34 +114,20 @@
                             <input type="text" class="form-control" name="name" value="<?= $model->name ?>">
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">场站标题</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="title" value="<?= $model->title ?>">
-                        </div>
-                    </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">占地面积</label>
+                        <label class="col-sm-3 control-label">场站标题</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="area" value="<?= $model->area ?>">
+                            <input type="text" class="form-control" name="title" value="<?= $model->title ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">投建功率</label>
+                        <label class="col-sm-3 control-label">场站特色</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="capacity" value="<?= $model->capacity ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">终端数量</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="terminal" value="<?= $model->terminal ?>">
+                            <textarea class="form-control" name="trait" rows="8"><?= $model->trait ?></textarea>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -201,7 +187,7 @@
                 </div>
                 <script>
                     $('.summernote').summernote({lang: "zh-CN", height: 500});
-                    $('.summernote').summernote('code', `<?=Yii::$app->cache->get('FieldIntro-' . $model->id)?>`);
+                    $('.summernote').summernote('code', `<?=$intro?>`);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>

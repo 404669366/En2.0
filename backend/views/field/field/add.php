@@ -27,13 +27,14 @@
                         <label class="col-sm-4 control-label">绑定用户</label>
                         <div class="col-sm-5">
                             <div class="input-group">
-                                <input type="text" class="form-control tel" placeholder="填写用户手机号完成场地方绑定">
+                                <input type="text" class="form-control tel" placeholder="填写用户手机号完成场地方绑定"
+                                       value="<?= $model->local ? $model->local->tel : '' ?>">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary searchField">搜索</button>
                                 </span>
                             </div>
-                            <small>如为租用场地,不用绑定此项</small>
-                            <input type="hidden" name="local_id" value="0">
+                            <small>如为租用场地,不绑定此项</small>
+                            <input type="hidden" name="local_id" value="<?= $model->local_id ?>">
                         </div>
                         <script>
                             $('.searchField').click(function () {
@@ -55,7 +56,8 @@
                         <div class="col-sm-5">
                             <select class="form-control" name="business_type">
                                 <?php foreach (\vendor\project\helpers\Constant::businessType() as $k => $v): ?>
-                                    <option value="<?= $k ?>"><?= $v ?></option>
+                                    <option <?= $model->business_type == $k ? 'selected' : '' ?>
+                                            value="<?= $k ?>"><?= $v ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -66,7 +68,8 @@
                         <div class="col-sm-5">
                             <select class="form-control" name="invest_type">
                                 <?php foreach (\vendor\project\helpers\Constant::investType() as $k => $v): ?>
-                                    <option value="<?= $k ?>"><?= $v ?></option>
+                                    <option <?= $model->invest_type == $k ? 'selected' : '' ?>
+                                            value="<?= $k ?>"><?= $v ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -75,14 +78,15 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">投资方分成占比</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="invest_ratio">
+                            <input type="text" class="form-control" name="invest_ratio"
+                                   value="<?= $model->invest_ratio ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">场地方分成占比</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="field_ratio">
+                            <input type="text" class="form-control" name="field_ratio" value="<?= $model->field_ratio ?>">
                             <small>如为租用场地,此项填写0</small>
                         </div>
                     </div>
@@ -90,58 +94,44 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">场站名称</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" name="name" value="<?= $model->name ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">场站标题</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="title">
+                            <input type="text" class="form-control" name="title" value="<?= $model->title ?>">
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">占地面积</label>
+                        <label class="col-sm-3 control-label">场站特色</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="area">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">投建功率</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="capacity">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">终端数量</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="terminal">
+                            <textarea class="form-control" name="trait" rows="8"><?= $model->trait ?></textarea>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">场站配置</label>
                         <div class="col-sm-5">
-                            <textarea class="form-control" name="field_configure" rows="8"></textarea>
+                            <textarea class="form-control" name="field_configure" rows="8"><?= $model->field_configure ?></textarea>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">预算金额</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="budget_amount">
+                            <input type="text" class="form-control" name="budget_amount" value="<?= $model->budget_amount ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">起投金额</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" name="lowest_amount">
+                            <input type="text" class="form-control" name="lowest_amount" value="<?= $model->lowest_amount ?>">
                         </div>
                     </div>
                 </div>
@@ -153,7 +143,10 @@
                     <div class="myMap"></div>
                 </div>
                 <script>
-                    map({element: 'myMap'});
+                    map({
+                        element: 'myMap',
+                        default: {address: '<?=$model->address?>', lng: '<?=$model->lng?>', lat: '<?=$model->lat?>'}
+                    });
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -163,7 +156,7 @@
                     <div class="images"></div>
                 </div>
                 <script>
-                    uploadImg('.images', 'images', '', false, 6);
+                    uploadImg('.images', 'images', '<?= $model->images ?>', false, 6);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -174,6 +167,7 @@
                 </div>
                 <script>
                     $('.summernote').summernote({lang: "zh-CN", height: 500});
+                    $('.summernote').summernote('code', `<?=$intro?>`);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -183,7 +177,7 @@
                     <div class="record_file"></div>
                 </div>
                 <script>
-                    uploadFile('.record_file', 'record_file');
+                    uploadFile('.record_file', 'record_file','<?= $model->record_file ?>');
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -193,7 +187,7 @@
                     <div class="field_contract"></div>
                 </div>
                 <script>
-                    uploadImg('.field_contract', 'field_contract', '', false, 3);
+                    uploadImg('.field_contract', 'field_contract', '<?= $model->field_contract ?>', false, 3);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -203,7 +197,7 @@
                     <div class="field_prove"></div>
                 </div>
                 <script>
-                    uploadImg('.field_prove', 'field_prove', '', false, 3);
+                    uploadImg('.field_prove', 'field_prove', '<?= $model->field_prove ?>', false, 3);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -213,7 +207,7 @@
                     <div class="field_drawing"></div>
                 </div>
                 <script>
-                    uploadImg('.field_drawing', 'field_drawing', '', false, 3);
+                    uploadImg('.field_drawing', 'field_drawing', '<?= $model->field_drawing ?>', false, 3);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -223,7 +217,7 @@
                     <div class="transformer_drawing"></div>
                 </div>
                 <script>
-                    uploadImg('.transformer_drawing', 'transformer_drawing', '', false, 3);
+                    uploadImg('.transformer_drawing', 'transformer_drawing', '<?= $model->transformer_drawing ?>', false, 3);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -233,14 +227,14 @@
                     <div class="power_contract"></div>
                 </div>
                 <script>
-                    uploadImg('.power_contract', 'power_contract', '', false, 3);
+                    uploadImg('.power_contract', 'power_contract', '<?= $model->power_contract ?>', false, 3);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" name="remark" rows="10"></textarea>
+                    <textarea class="form-control" name="remark" rows="10"><?= $model->remark ?></textarea>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>

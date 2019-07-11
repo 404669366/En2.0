@@ -1,0 +1,70 @@
+.head {
+    background: #23252a !important;
+}
+
+.center {
+    margin-top: 4rem;
+    padding: 3rem 0;
+}
+
+.center > .box {
+    zoom: 1;
+    width: 54rem;
+    height: 30rem;
+    margin: 0 auto;
+    -webkit-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
+}
+
+.center > .box:after {
+    clear: both;
+    display: block;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+.center > .box > .menu {
+    width: 14rem;
+    height: 30rem;
+    box-sizing: border-box;
+    border-right: 1px solid #f4f3fd;
+    float: left;
+}
+
+.menu > li {
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #4a4a4a;
+    cursor: pointer;
+}
+
+.menu > li:not(.active):hover {
+    background: #EEEEEE;
+}
+
+.menu > .active {
+    background: #DDDDDD;
+}
+
+.center > .box > .details {
+    float: right;
+    width: 40rem;
+    height: 30rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.details > .detail {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.details > .detail:first-child {
+    display: block;
+}

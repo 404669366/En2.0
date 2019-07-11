@@ -8,6 +8,7 @@
     <link href="/css/field.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
     <script src="/js/map.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
 </head>
 <body>
 <div class="head">
@@ -78,9 +79,11 @@
                     <img src="<?= $v ?>" alt="亿能天成新能源场站<?= $detail->no ?>图片"/>
                 <?php endforeach; ?>
             </div>
+            <p>项目信息</p>
             <div class="prove">
-                <span>发改备案 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
-                <span>电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                <span class="w100">场站编号 : <?= $detail->no ?></span>
+                <span class="w50">发改备案 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                <span class="w50">电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
             </div>
             <p>项目介绍</p>
             <div class="intro"><?= $intro ?></div>
@@ -112,23 +115,84 @@
                 <?= \vendor\project\helpers\Constant::investType()[$detail->invest_type] ?>
             </div>
             <div class="trait"><?= $detail->trait ?></div>
-            <div class="progress">
-                <div>项目总额: <?= $detail->budget_amount ?></div>
-                <?php if (in_array($detail->status, [1, 2, 3])): ?>
+            <?php if (in_array($detail->status, [1, 2, 3, 5])): ?>
+                <div class="progress">
+                    <div>项目总额: <?= $detail->budget_amount ?></div>
                     <div>认购进度: <span>100%</span></div>
                     <div style="background-size: 100% auto"></div>
-                <?php else: ?>
+                </div>
+                <div class="info">
+                    <div><?= $detail->budget_amount ?><p>项目总额</p></div>
+                    <div><?= $detail->budget_amount ?><p>已认购</p></div>
+                    <div><?= $detail->lowest_amount ?><p>起投金额</p></div>
+                </div>
+                <div class="notBtn">立即认购</div>
+            <?php else: ?>
+                <div class="progress">
+                    <div>项目总额: <?= $detail->budget_amount ?></div>
                     <div>认购进度: <span><?= $detail->present_amount / $detail->budget_amount * 100 ?>%</span></div>
                     <div style="background-size: <?= $detail->present_amount / $detail->budget_amount * 100 ?>% auto"></div>
-                <?php endif; ?>
-            </div>
-            <div class="info">
-                <div><?= $detail->budget_amount ?><p>项目总额</p></div>
-                <div><?= in_array($detail->status, [1, 2, 3]) ? $detail->budget_amount : $detail->present_amount ?><p>
-                        已认购</p></div>
-                <div><?= $detail->lowest_amount ?><p>起投金额</p></div>
-            </div>
-            <div class="btn" data-url="/user/field/buy.html?no=<?= $detail->no ?>">立即认购</div>
+                </div>
+                <div class="info">
+                    <div><?= $detail->budget_amount ?><p>项目总额</p></div>
+                    <div><?= $detail->present_amount ?><p>已认购</p></div>
+                    <div><?= $detail->lowest_amount ?><p>起投金额</p></div>
+                </div>
+                <div class="btn">立即认购</div>
+                <div class="model model1">
+                    <div class="modelBox">
+                        <div class="modelHead">
+                            <h3 class="title">风险提示书</h3>
+                            <div class="close close1"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="modelContent">
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                        </div>
+                        <div class="modelFoot">
+                            <button class="modelBtn modelBtn1" type="button">下一步</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="model model2">
+                    <div class="modelBox">
+                        <div class="modelHead">
+                            <h3 class="title">冷静期说明</h3>
+                            <div class="close close2"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="modelContent">
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                        </div>
+                        <div class="modelFoot">
+                            <button class="modelBtn modelBtn2" type="button">上一步</button>
+                            &nbsp;
+                            <a class="modelBtn" href="/field/intention/add.html?no=<?= $detail->no ?>">我已知晓</a>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $('.btn').click(function () {
+                        window.modal.open('.model1');
+                    });
+                    $('.close1').click(function () {
+                        window.modal.close('.model1');
+                    });
+                    $('.modelBtn1').click(function () {
+                        window.modal.close('.model1');
+                        window.modal.open('.model2');
+                    });
+                    $('.modelBtn2').click(function () {
+                        window.modal.close('.model2');
+                        window.modal.open('.model1');
+                    });
+                    $('.close2').click(function () {
+                        window.modal.close('.model2');
+                    });
+                </script>
+            <?php endif; ?>
         </div>
         <div class="clearBoth"></div>
     </div>
@@ -167,7 +231,6 @@
                 });
             }
         });
-
         $(window).scroll();
     });
 </script>
@@ -182,7 +245,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/base/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

@@ -32,7 +32,7 @@
                     <div class="code">获取验证码</div>
                 </div>
                 <button type="submit">登录 / 注册</button>
-                <p>点击即表示同意<a href="">《注册协议》</a></p>
+                <p>点击即表示同意<a href="/agreement/agreement/logon.html">《注册协议》</a></p>
             </form>
         </div>
     </div>

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/center.css" rel="stylesheet">
+    <link href="/css/form.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/map.js" type="text/javascript" charset='utf-8'></script>
 </head>
 <body>
 <div class="head">
@@ -14,13 +15,13 @@
         <img data-url="/<?= Yii::$app->params['defaultRoute'] ?>.html" src="/img/logo.png" alt="四川亿能天成新能源logo">
         <ul>
             <li><a href="/index/index/index.html">首页<span></span></a></li>
-            <li><a href="/field/field/list.html">项目<span></span></a></li>
+            <li class="active"><a href="/field/field/list.html">项目<span></span></a></li>
             <li><a href="/news/news/list.html">新闻<span></span></a></li>
             <li class="nav" onselectstart="return false">
                 关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <span></span>
                 <ul>
-                    <li><a href="/about/about/company.html">公司介绍</a></li>
+                    <li class="active"><a href="/about/about/company.html">公司介绍</a></li>
                     <li><a href="/about/about/partner.html">合作伙伴</a></li>
                     <li><a href="/about/about/contact.html">联系我们</a></li>
                     <li><a href="/about/about/guide.html">用户指南</a></li>
@@ -32,7 +33,7 @@
                     <a href="/<?= Yii::$app->params['loginRoute'] ?>.html" class="hide">登录 / 注册</a>
                 </li>
             <?php else: ?>
-                <li class="active" title="个人中心">
+                <li title="个人中心">
                     <a href="/user/user/center.html">
                         <?= Yii::$app->user->getIdentity()->tel ?><span></span>
                     </a>
@@ -69,27 +70,49 @@
     );
 </script>
 <div class="center">
-    <div class="box">
-        <ul class="menu">
-            <li data-href="1" class="active" onselectstart="return false">阿没懂我的</li>
-            <li data-href="2" onselectstart="return false">阿没懂我的</li>
-            <li data-href="3" onselectstart="return false">阿没懂我的</li>
-        </ul>
-        <div class="details">
-            <div class="detail">1111</div>
-            <div class="detail">2222</div>
-            <div class="detail">3333</div>
+    <form method="post">
+        <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
+        <h1>Launch</h1>
+        <h3>发起项目</h3>
+        <div class="line">
+            <div class="line1 myMap">
+                <label>位置(必填)</label>
+            </div>
+            <div class="line1">
+                <label>备注(选填)</label>
+                <textarea name="remark" placeholder="您是否还有其他补充说明，或对我们的期望"><?= $post['remark'] ?></textarea>
+            </div>
+            <div class="line1">
+                <label>推荐(选填)</label>
+                <input type="text" name="tel" placeholder="请填写推荐人注册手机号" value="<?= $post['tel'] ?>">
+            </div>
         </div>
-    </div>
+        <button type="submit">确认提交</button>
+    </form>
+    <script>
+        map({
+            element: 'myMap',
+            placeholder: '请填写场地位置(地图标点获取地址信息,不准确可自行修改)',
+            default: {address: '<?=$post['address']?>', lng: '<?=$post['lng']?>', lat: '<?=$post['lat']?>'}
+        });
+        $('[type="submit"]').click(function () {
+            if (!$('[name="address"]').val()) {
+                window.showMsg('请填写场站位置');
+                return false;
+            }
+            if (!$('[name="lng"]').val() || !$('[name="lat"]').val()) {
+                window.showMsg('请标出场站位置');
+                return false;
+            }
+            var tel = $('[name="tel"]').val();
+            if (tel && !window.checkTel(tel)) {
+                window.showMsg('请填写正确的手机号');
+                return false;
+            }
+            return true;
+        });
+    </script>
 </div>
-<script>
-    $('.menu>li').click(function () {
-        $('.menu>li').removeClass('active');
-        $(this).addClass('active');
-        $('.details>.detail').hide();
-        $('.details>.detail:nth-child(' + $(this).data('href') + ')').show();
-    });
-</script>
 <div class="footer">
     <div class="info">
         <div>

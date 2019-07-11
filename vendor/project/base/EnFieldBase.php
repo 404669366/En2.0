@@ -22,6 +22,8 @@ use Yii;
  */
 class EnFieldBase extends \yii\db\ActiveRecord
 {
+    public $tel;
+
     /**
      * {@inheritdoc}
      */
@@ -37,11 +39,40 @@ class EnFieldBase extends \yii\db\ActiveRecord
     {
         return [
             [['address', 'lng', 'lat', 'user_id'], 'required'],
+            [['lng', 'lat'], 'validateAddress'],
+            [['tel'], 'validateCobber'],
             [['commissioner_id', 'cobber_id', 'user_id', 'status', 'created_at', 'field_id'], 'integer'],
             [['address'], 'string', 'max' => 60],
             [['lng', 'lat'], 'string', 'max' => 20],
             [['remark'], 'string', 'max' => 255],
         ];
+    }
+
+    public function validateAddress()
+    {
+        if ($this->isNewRecord) {
+            if (self::find()->where(['lng' => $this->lng, 'lat' => $this->lat])->one()) {
+                $this->addError('address', '该位置已被发布');
+            }
+        }
+    }
+
+    public function validateCobber()
+    {
+        if ($this->isNewRecord && $this->tel) {
+            $cobber = EnUser::findOne(['tel' => $this->tel]);
+            if (!$cobber) {
+                $this->addError('cobber_id', '该手机号非平台注册用户');
+                return false;
+            }
+            if ($cobber && ($cobber->id == $this->user_id)) {
+
+                $this->addError('cobber_id', '推荐人不能绑定自己');
+                return false;
+            }
+            $this->cobber_id = $cobber->id;
+        }
+        return true;
     }
 
     /**
@@ -52,10 +83,10 @@ class EnFieldBase extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'commissioner_id' => '专员ID',
-            'cobber_id' => '推荐用户ID',
+            'cobber_id' => '推荐人',
             'user_id' => '用户ID',
             'field_id' => '转化场地ID',
-            'address' => '地址',
+            'address' => '场地位置',
             'lng' => '经度',
             'lat' => '纬度',
             'remark' => '备注',

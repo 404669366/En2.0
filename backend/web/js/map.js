@@ -6973,7 +6973,7 @@ function map(config) {
         .append('<input class="lng" type="hidden" name="' + config.lngName + '"/>')
         .append('<input class="lat" type="hidden" name="' + config.latName + '"/>')
         .append('<div id="' + config.element + '" class="map"></div>')
-        .append('<style>.' + config.element + '{' + (config.style || 'width: 100%;height: 50rem;') + '}.map{width:100%;height:91%;box-sizing: border-box;border-left: 1px solid #a9a9a9;border-right: 1px solid #a9a9a9;border-bottom: 1px solid #a9a9a9}.address{height: 9%;line-height: 9%;width: 100%;display:inline-block;box-sizing: border-box;padding: 0 0.5rem;font-size: ' + (config.fontSize || '1.2rem') + '}</style>');
+        .append('<style>.' + config.element + '{' + (config.style || 'width:calc(100% - 1px);height: 50rem;') + '}.map{width:100%;height:91%;}.address{height: 9%;line-height: 9%;width: 100%;display:inline-block;box-sizing: border-box;padding: 0 0.5rem;font-size: ' + (config.fontSize || '1.2rem') + '}.tangram-suggestion-main{padding-left: 1px;}</style>');
 
 
     var map = new BMap.Map(config.element);

@@ -17,7 +17,7 @@ a[href], input[type='submit'], input[type='image'], label[for], select, button, 
 }
 
 body {
-    font-family: '微软雅黑';
+    font-family: Microsoft YaHei;
     overflow-x: hidden;
 }
 
@@ -343,4 +343,24 @@ body {
     -moz-transition: -moz-transform 0.2s;
     -ms-transition: -ms-transform 0.2s;
     -o-transition: -o-transform 0.2s;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w33 {
+    width: 33.333333%;
+}
+
+.w25 {
+    width: 25%;
+}
+
+.w20 {
+    width: 20%;
 }

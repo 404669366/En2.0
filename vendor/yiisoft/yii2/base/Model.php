@@ -1050,10 +1050,7 @@ class Model extends Component implements StaticInstanceInterface, IteratorAggreg
         $str = '';
         foreach ($errors as $k => $v) {
             $k = isset($attr[$k]) ? $attr[$k] : $k;
-            $str .= $k . ' : ';
-            foreach ($v as $err) {
-                $str .= $err . '<br>';
-            }
+            $str .= $k . ' : ' . end($v) . '<br>';
         }
         return $str;
     }

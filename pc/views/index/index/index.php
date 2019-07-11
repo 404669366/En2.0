@@ -92,12 +92,12 @@
             <?php if (Yii::$app->user->isGuest): ?>
                 <div class="slider-btn" data-url="/<?= Yii::$app->params['loginRoute'] ?>.html">成为投资人</div>
             <?php else: ?>
-                <div class="slider-btn" data-url="/user/field/create.html">
-                    发起项目<a class="hide" href="/user/field/create.html">发起项目</a>
+                <div class="slider-btn" data-url="/field/base/create.html">
+                    发起项目<a class="hide" href="/field/base/create.html">发起项目</a>
                 </div>
                 &nbsp;
                 <div class="slider-btn" data-url="/field/field/list.html">
-                    寻找项目<a class="hide" href="/user/field/list.html">寻找项目</a>
+                    投资项目<a class="hide" href="/user/field/list.html">投资项目</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -152,7 +152,7 @@
                         </div>
                         <div class="progress">
                             <div>项目总额: <?= $v['budget_amount'] ?></div>
-                            <?php if (in_array($v['status'], [1, 2, 3])): ?>
+                            <?php if (in_array($v['status'], [1, 2, 3, 5])): ?>
                                 <div>认购进度: <span>100%</span></div>
                                 <div style="background-size: 100% auto"></div>
                             <?php else: ?>
@@ -214,7 +214,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/base/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

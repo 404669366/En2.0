@@ -29,7 +29,7 @@ class Msg
      * 设置字体大小
      * @param string $size
      */
-    public static function setSize($size = '2.8rem')
+    public static function setSize($size = '1.5rem')
     {
         setcookie('message-size', $size, -1, '/');
     }

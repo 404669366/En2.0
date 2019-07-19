@@ -68,6 +68,13 @@ window.showMsg = function (data, size) {
     }
 };
 
+window.format = function (num, length) {
+    return Math.round(num * Math.pow(10, length)) / Math.pow(10, length);
+};
+
+window.in_string = function (str, val) {
+    return str.indexOf(val) > -1;
+};
 
 window.load(function () {
 
@@ -85,38 +92,5 @@ window.load(function () {
 
     window.showMsg($.cookie('message-data'));
     $.cookie('message-data', '', {path: '/'});
-
-    $('.page>li').click(function () {
-        var url = window.location.href;
-        var key = 'pageNum';
-        var last = window.getParams(key);
-        var val = 1;
-        switch ($(this).data('do')) {
-            case 'first':
-                val = 1;
-                break;
-            case 'prev':
-                if (last > 1) {
-                    val = parseInt(last) - 1;
-                }
-                break;
-            case 'next':
-                if ($('.data').find('li').length < 6) {
-                    val = last || 1;
-                } else {
-                    val = parseInt(last) + 1;
-                }
-                break;
-        }
-        if (last !== null) {
-            window.location.href = url.replace(key + '=' + last, key + '=' + val);
-        } else {
-            var mark = '&';
-            if (url === $(this).parent().data('getby')) {
-                mark = '?';
-            }
-            window.location.href = url + mark + key + '=' + val;
-        }
-    });
 
 });

@@ -1,0 +1,143 @@
+.head {
+    background: #23252a !important;
+}
+
+.center {
+    margin-top: 4rem;
+}
+
+.center > .intention {
+    width: 54rem;
+    margin: 0 auto;
+    padding: 3rem 0;
+    color: #4a4a4a;
+}
+
+.center > .intention > h1 {
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 2.5rem;
+}
+
+.center > .intention > h3 {
+    height: 1.6rem;
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+}
+
+.center > .intention .form {
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem 0;
+    box-sizing: border-box;
+}
+
+.infoBox {
+    width: 100%;
+    zoom: 1;
+    background: #f0f2f5;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.infoBox:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.infoBox > img {
+    float: left;
+    height: 9rem;
+}
+
+.infoBox > .info {
+    float: left;
+    margin-left: 1rem;
+}
+
+.infoBox > .info > h5 {
+    height: 2.4rem;
+    line-height: 2.4rem;
+    font-size: 1.14rem;
+}
+
+.infoBox > .info > p {
+    height: 1.6rem;
+    line-height: 1.6rem;
+    font-size: 0.92rem;
+}
+
+.infoBox > .info > p > span {
+    color: #e3dde3;
+    margin: 0 0.4rem;
+}
+
+.infoBox > .price {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 0.8rem;
+}
+
+.infoBox > .price > span {
+    font-size: 1.2rem;
+    color: #ff5436;
+}
+
+.buyCount {
+    width: 100%;
+    margin-top: 1.2rem;
+}
+
+.buyCount > .one {
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+.buyCount > .one:last-child {
+    margin-bottom: 0;
+}
+
+.buyCount > .one > input, .buyCount > .one > .val {
+    float: right;
+    width: 8rem;
+    height: 2rem;
+    line-height: 2rem;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 0 0.4rem;
+    font-size: 1rem;
+}
+
+.buyCount > .one > .val {
+    color: #ff5436;
+}
+
+.center > .intention .btnBox {
+    width: 100%;
+    height: 5rem;
+    padding: 1rem 1rem;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.center > .intention .btnBox > .btn {
+    width: 9rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    font-size: 1.1rem;
+    color: white;
+    background: #1f00fc;
+    border: 0;
+    border-radius: 0.1rem;
+}
+

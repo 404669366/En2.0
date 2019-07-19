@@ -4,7 +4,7 @@
 <?php $this->registerJsFile('@web/js/summernote-zh-CN.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/imgPreview.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/map.js', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/upload.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<?php $this->registerJsFile('@web/js/upload.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <div class="form-horizontal">
@@ -15,56 +15,6 @@
                         <label class="col-sm-4 control-label">场站编号</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" placeholder="<?= $model->no ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">场地用户</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= $model->local ? $model->local->tel : '' ?>"
-                                   readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">推荐用户</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>"
-                                   readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">业务类型</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= \vendor\project\helpers\Constant::businessType()[$model->business_type] ?>"
-                                   readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">投资类型</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= \vendor\project\helpers\Constant::investType()[$model->invest_type] ?>"
-                                   readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">投资方分成占比</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->invest_ratio ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">场地方分成占比</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->field_ratio ?>" readonly>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -81,20 +31,70 @@
                             <input type="text" class="form-control" placeholder="<?= $model->title ?>" readonly>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">场站特色</label>
+                        <label class="col-sm-4 control-label">场站特色</label>
                         <div class="col-sm-5">
                             <textarea class="form-control" rows="8" readonly><?= $model->trait ?></textarea>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">场站配置</label>
+                        <label class="col-sm-4 control-label">场站配置</label>
                         <div class="col-sm-5">
                             <textarea class="form-control" readonly rows="8"><?= $model->field_configure ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">业务类型</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"
+                                   placeholder="<?= \vendor\project\helpers\Constant::businessType()[$model->business_type] ?>"
+                                   readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投资类型</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"
+                                   placeholder="<?= \vendor\project\helpers\Constant::investType()[$model->invest_type] ?>"
+                                   readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">场地用户</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"
+                                   placeholder="<?= $model->local ? $model->local->tel : '' ?>"
+                                   readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">推荐用户</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"
+                                   placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>"
+                                   readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">投资方分成占比</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="<?= $model->invest_ratio ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">场地方分成占比</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="<?= $model->field_ratio ?>" readonly>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -111,14 +111,9 @@
                             <input type="text" class="form-control" placeholder="<?= $model->lowest_amount ?>" readonly>
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">现投金额</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->present_amount ?>"
-                                   readonly>
-                        </div>
-                    </div>
+                    <script>
+                        <?= $model->invest_type == 4 ? '$(".three").hide();' : ''?>
+                    </script>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>

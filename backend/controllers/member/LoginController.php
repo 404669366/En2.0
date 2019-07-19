@@ -28,7 +28,7 @@ class LoginController extends BasisController
             $data = \Yii::$app->request->post();
             Msg::set('验证码有误');
             if (CaptchaCode::validate($data['code'], 'Login')) {
-                if (EnMember::accountLogin($data['username'], $data['pwd'])) {
+                if (EnMember::login($data['tel'], $data['pwd'])) {
                     Msg::set('登录成功');
                     return $this->redirect([\Yii::$app->params['defaultRoute']]);
                 }

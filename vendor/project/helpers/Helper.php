@@ -11,6 +11,34 @@ namespace vendor\project\helpers;
 
 class Helper
 {
+    /**
+     * 多维数组排序
+     * eg: self::arraySort($arr, 'id', SORT_DESC, 'num', SORT_DESC)
+     * @return array|mixed
+     */
+    public static function arraySort()
+    {
+        $funcArgs = func_get_args();
+        if (empty($funcArgs)) {
+            return [];
+        }
+        $arr = array_shift($funcArgs);
+        if (!is_array($arr)) {
+            return [];
+        }
+        foreach ($funcArgs as $key => $value) {
+            if (is_string($value)) {
+                $tempArr = array();
+                foreach ($arr as $k => $v) {
+                    $tempArr[$k] = $v[$value];
+                }
+                $funcArgs[$key] = $tempArr;
+            }
+        }
+        $funcArgs[] = &$arr;
+        call_user_func_array('array_multisort', $funcArgs);
+        return array_pop($funcArgs);
+    }
 
     /**
      * 补全图片
@@ -564,4 +592,41 @@ class Helper
         return $save_dir . $filename;
     }
 
+    /**
+     * curlPost
+     * @param string $url
+     * @param array $data
+     * @return mixed
+     */
+    public static function curlPost($url = '', $data = [])
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $re = curl_exec($ch);
+        curl_close($ch);
+        return $re;
+    }
+
+    /**
+     * curlGet
+     * @param string $url
+     * @param array $data
+     * @return mixed
+     */
+    public static function curlGet($url = '', $data = [])
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $re = curl_exec($ch);
+        curl_close($ch);
+        return $re;
+    }
 }

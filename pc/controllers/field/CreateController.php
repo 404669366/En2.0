@@ -1,0 +1,43 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: miku
+ * Date: 2019/7/8
+ * Time: 10:43
+ */
+
+namespace app\controllers\field;
+
+
+use app\controllers\basis\AuthController;
+use vendor\project\base\EnField;
+use vendor\project\helpers\Helper;
+use vendor\project\helpers\Msg;
+
+class CreateController extends AuthController
+{
+    /**
+     * 发布项目
+     * @return string|\yii\web\Response
+     */
+    public function actionCreate()
+    {
+        $post = ['address' => '', 'lng' => '', 'lat' => '', 'remark' => '', 'cobberTel' => '', 'images' => ''];
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            $model = new EnField();
+            $model->no = Helper::createNo('F');
+            $model->local_id = \Yii::$app->user->id;
+            $model->status = 0;
+            $model->source = 1;
+            $model->created = \Yii::$app->user->id;
+            $model->created_at = time();
+            if ($model->load(['EnField' => $post]) && $model->validate() && $model->save()) {
+                Msg::set('项目发布成功');
+                return $this->redirect(['create']);
+            }
+            Msg::set($model->errors());
+        }
+        return $this->render('create', ['post' => $post]);
+    }
+}

@@ -32,7 +32,7 @@ $this->beginPage();
                             <span class="clear" style="margin-top: 0.6rem">
                                 <span class="text-muted text-xs block">
                                     <strong class="font-bold">
-                                        <?= $data['username'] ?>
+                                        <?= $data['tel'] ?>
                                     </strong>
                                     <b class="caret"></b>
                                 </span>

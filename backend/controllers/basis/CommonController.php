@@ -16,10 +16,11 @@ class CommonController extends AuthController
 {
     public function beforeAction($action)
     {
+        $re = parent::beforeAction($action);
         if (!EnPower::pass()) {
             Msg::set('您没有该操作权限');
             return $this->redirect([\Yii::$app->params['firstRoute']])->send();
         }
-        return parent::beforeAction($action);
+        return $re;
     }
 }

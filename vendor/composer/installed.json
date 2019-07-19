@@ -115,8 +115,7 @@
         "dist": {
             "type": "zip",
             "url": "https://api.github.com/repos/twbs/bootstrap/zipball/0b9c4a4007c44201dce9a6cc1a38407005c26c86",
-            "reference": "0b9c4a4007c44201dce9a6cc1a38407005c26c86",
-            "shasum": null
+            "reference": "0b9c4a4007c44201dce9a6cc1a38407005c26c86"
         },
         "require": {
             "bower-asset/jquery": ">=1.9.1,<4.0"
@@ -139,8 +138,7 @@
         "dist": {
             "type": "zip",
             "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/5e670ad62f50c738388d4dcec78d2888505ad77b",
-            "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b",
-            "shasum": null
+            "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
         },
         "require": {
             "bower-asset/jquery": ">=1.7"
@@ -163,8 +161,7 @@
         "dist": {
             "type": "zip",
             "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/77d2a51d0520d2ee44173afdf4e40a9201f5964e",
-            "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e",
-            "shasum": null
+            "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e"
         },
         "type": "bower-asset",
         "installation-source": "dist",
@@ -184,8 +181,7 @@
         "dist": {
             "type": "zip",
             "url": "https://api.github.com/repos/bestiejs/punycode.js/zipball/38c8d3131a82567bfef18da09f7f4db68c84f8a3",
-            "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3",
-            "shasum": null
+            "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
         },
         "type": "bower-asset",
         "installation-source": "dist"
@@ -202,8 +198,7 @@
         "dist": {
             "type": "zip",
             "url": "https://api.github.com/repos/twitter/typeahead.js/zipball/588440f66559714280628a4f9799f0c4eb880a4a",
-            "reference": "588440f66559714280628a4f9799f0c4eb880a4a",
-            "shasum": null
+            "reference": "588440f66559714280628a4f9799f0c4eb880a4a"
         },
         "require": {
             "bower-asset/jquery": ">=1.7"
@@ -223,8 +218,7 @@
         "dist": {
             "type": "zip",
             "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/aef7b953107264f00234902a3880eb50dafc48be",
-            "reference": "aef7b953107264f00234902a3880eb50dafc48be",
-            "shasum": null
+            "reference": "aef7b953107264f00234902a3880eb50dafc48be"
         },
         "require": {
             "bower-asset/jquery": ">=1.8"
@@ -1595,7 +1589,8 @@
         "keywords": [
             "mock",
             "xunit"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "psr/http-message",
@@ -3024,6 +3019,122 @@
             "assert",
             "check",
             "validate"
+        ]
+    },
+    {
+        "name": "workerman/channel",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/walkor/Channel.git",
+            "reference": "0836a9a413c6e8425ee36307d95e2e49cc380f50"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/walkor/Channel/zipball/0836a9a413c6e8425ee36307d95e2e49cc380f50",
+            "reference": "0836a9a413c6e8425ee36307d95e2e49cc380f50",
+            "shasum": ""
+        },
+        "require": {
+            "workerman/workerman": ">=3.3.0"
+        },
+        "time": "2018-07-02T02:42:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Channel\\": "./src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "homepage": "http://www.workerman.net"
+    },
+    {
+        "name": "workerman/phpsocket.io",
+        "version": "v1.1.11",
+        "version_normalized": "1.1.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/walkor/phpsocket.io.git",
+            "reference": "a80074f20c2e19b8cb3351ff718ae28e7df6bbea"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/walkor/phpsocket.io/zipball/a80074f20c2e19b8cb3351ff718ae28e7df6bbea",
+            "reference": "a80074f20c2e19b8cb3351ff718ae28e7df6bbea",
+            "shasum": ""
+        },
+        "require": {
+            "workerman/channel": ">=1.0.0",
+            "workerman/workerman": ">=3.5.16"
+        },
+        "time": "2018-11-22T08:30:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PHPSocketIO\\": "./src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "homepage": "http://www.workerman.net",
+        "keywords": [
+            "Socket.io"
+        ]
+    },
+    {
+        "name": "workerman/workerman",
+        "version": "v3.5.20",
+        "version_normalized": "3.5.20.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/walkor/Workerman.git",
+            "reference": "4d590130310a8d7632f807120c3ca1c0f55ed0d7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/walkor/Workerman/zipball/4d590130310a8d7632f807120c3ca1c0f55ed0d7",
+            "reference": "4d590130310a8d7632f807120c3ca1c0f55ed0d7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "suggest": {
+            "ext-event": "For better performance. "
+        },
+        "time": "2019-07-02T10:23:18+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Workerman\\": "./"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "walkor",
+                "email": "walkor@workerman.net",
+                "homepage": "http://www.workerman.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
+        "homepage": "http://www.workerman.net",
+        "keywords": [
+            "asynchronous",
+            "event-loop"
         ]
     },
     {

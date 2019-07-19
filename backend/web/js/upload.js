@@ -1,10 +1,11 @@
 document.write("<script src='/js/lrz/lrz.all.bundle.js' type='text/javascript' charset='utf-8'></script>");
+document.write("<script src='/js/socket.io.js' type='text/javascript' charset='utf-8'></script>");
 $('body')
-    .append('<style>.uploadImgPreBox{position: fixed;width: 100%;height: 100%;top: 0;left: 0;display: table;background: rgba(0,0,0,0.6);z-index: 999999;}.uploadImgPreBox>span{display: table-cell;vertical-align: middle;text-align: center;}.uploadImgPreBox>.btns{position: absolute;right:1rem;top:1rem;}.uploadImgBox {width: 100%;border: 2px dashed silver;padding: 0 15px 15px 0;}.uploadImgBox > .uploadImgOne {height: calc(17rem - 30px);margin: 15px 0 0 15px;width: calc(20% - 15px);}.uploadImgBox > .addImg {padding: 10px;}</style>')
+    .append('<style>.uploadImgPreBox{position: fixed;width: 100%;height: 100%;top: 0;left: 0;display: table;background: rgba(0,0,0,0.6);z-index: 999999;}.uploadImgPreBox>span{display: table-cell;vertical-align: middle;text-align: center;}.uploadImgPreBox>.btns{position: fixed;right:1rem;top:1rem;}.uploadImgBox {width: 100%;border: 2px dashed silver;padding: 0 15px 15px 0;}.uploadImgBox > .uploadImgOne {height: calc(17rem - 30px);margin: 15px 0 0 15px;width: calc(20% - 15px);}.uploadImgBox > .addImg {padding: 10px;}</style>')
     .on('mousewheel', '.uploadImgPreBox', function () {
         var img = $(this).find('img')[0];
         var zoom = parseInt(img.style.zoom, 10) || 100;
-        zoom += event.wheelDelta / 4; //可适合修改
+        zoom += event.wheelDelta / 4; //可适当修改
         if (zoom > 0) img.style.zoom = zoom + '%';
     })
     .on('click', '.uploadImgPreBoxClose', function () {
@@ -36,17 +37,47 @@ $('body')
             }
         })
     });
-var uploadScrollTop;
 
 function showUploadImg() {
-    uploadScrollTop = $(window).scrollTop();
-    $('body').css({position: 'fixed', width: '100%'});
+    $('body').css('overflow', 'hidden');
 }
 
 function hideUploadImg() {
-    $('body').css({position: '', width: ''});
-    $(window).scrollTop(uploadScrollTop);
+    $('body').css('overflow', 'auto');
 }
+
+function progress() {
+    return {
+        'bind': function (key) {
+            $('body')
+                .css('overflow', 'hidden')
+                .append(
+                    '<div class="upload-progress" style="position: fixed;top: 0;left: 0;z-index:99;height: 100%;width: 100%;display: table">' +
+                    '   <span style="display: table-cell;vertical-align: middle;">' +
+                    '       <div style="width: 40rem;height: 1rem;margin:0 auto;border-radius: 0.5rem;background: url(/img/blue.png) #f3f3f3 repeat-y;background-size:0% auto"></div>' +
+                    '   </span>' +
+                    '</div>'
+                );
+            var socket = io('http://127.0.0.1:2120');
+            socket.on('connect', function () {
+                socket.emit('bind', key);
+            });
+            socket.on('msg', function (msg) {
+                var data = JSON.parse(msg);
+                $('.upload-progress>span>div').css('background-size', (data.uploaded / data.uploadSize * 100) + '% auto');
+                if (data.uploaded && data.uploadSize && data.uploaded >= data.uploadSize) {
+                    $('body').css('overflow', 'auto');
+                    $('.upload-progress').remove();
+                    socket.close();
+                }
+            });
+        },
+        'close': function () {
+            $('body').css('overflow', 'auto');
+            $('.upload-progress').remove();
+        }
+    }
+};
 
 function uploadImg(node, name, def, readOnly, max) {
     $(node).addClass('uploadImgBox');
@@ -92,6 +123,9 @@ function uploadImg(node, name, def, readOnly, max) {
                     data: formData,
                     processData: false,
                     contentType: false,
+                    beforeSend: function () {
+                        progress().bind(file.name);
+                    },
                     success: function (re) {
                         re = JSON.parse(re);
                         if (re.type) {
@@ -102,10 +136,14 @@ function uploadImg(node, name, def, readOnly, max) {
                                 }
                                 return re.data;
                             });
+                            $(node).find('.fileInput').val('');
                         } else {
                             showMsg("图片上传失败");
                         }
-                    }, error: function () {
+                    },
+                    error: function () {
+                        $(node).find('.fileInput').val('');
+                        progress().close();
                         showMsg("图片上传失败");
                     }
                 });
@@ -115,7 +153,7 @@ function uploadImg(node, name, def, readOnly, max) {
         })
         .on('click', '.imgOne', function () {
             showUploadImg();
-            $('body').append('<div class="uploadImgPreBox"><div class="btns"><button type="button" class="btn btn-sm btn-waring uploadImgPreBoxClose">关闭</button>&nbsp;<button type="button" class="btn btn-sm btn-danger uploadImgPreBoxDel" data-src="' + $(this).prop('src') + '" data-node="' + node + '" data-name="' + name + '">删除</button></div><span><img src="' + $(this).prop('src') + '"></span></div>');
+            $('body').append('<div class="uploadImgPreBox"><div class="btns"><button type="button" class="btn btn-sm btn-waring uploadImgPreBoxClose">关闭</button>&emsp;<button type="button" class="btn btn-sm btn-danger uploadImgPreBoxDel" data-src="' + $(this).prop('src') + '" data-node="' + node + '" data-name="' + name + '">删除</button></div><span><img src="' + $(this).prop('src') + '"></span></div>');
         });
     return;
 }
@@ -137,7 +175,7 @@ function uploadFile(node, name, def, readOnly) {
             .append('<input type="file" accept=".docx" class="fileInput" style="display: none"/>');
     } else {
         if (readOnly) {
-            $(node).append('<button type="button" class="btn btn-sm btn-info">没有文件上传</button>');
+            $(node).append('<button type="button" class="btn btn-sm btn-info">没有上传文件</button>');
             return;
         }
         $(node)
@@ -150,14 +188,18 @@ function uploadFile(node, name, def, readOnly) {
             $(node).find('.fileInput').click();
         })
         .on('change', '.fileInput', function () {
+            var file = $(this)[0].files[0];
             var formData = new FormData();
-            formData.append('file', $(this)[0].files[0]);
+            formData.append('file', file);
             $.ajax({
                 url: '/basis/file/upload',
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
+                beforeSend: function () {
+                    progress().bind(file.name);
+                },
                 success: function (re) {
                     re = JSON.parse(re);
                     if (re.type) {
@@ -169,11 +211,14 @@ function uploadFile(node, name, def, readOnly) {
                             }
                             return re.data;
                         });
+                        $(node).find('.fileInput').val('');
                         showMsg("文件上传成功");
                     } else {
                         showMsg("文件上传失败");
                     }
                 }, error: function () {
+                    $(node).find('.fileInput').val('');
+                    progress().close();
                     showMsg("文件上传失败");
                 }
             });

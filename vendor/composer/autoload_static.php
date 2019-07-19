@@ -37,6 +37,7 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         ),
         'W' => 
         array (
+            'Workerman\\' => 10,
             'Webmozart\\Assert\\' => 17,
         ),
         'S' => 
@@ -56,6 +57,7 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'PHPSocketIO\\' => 12,
         ),
         'O' => 
         array (
@@ -79,6 +81,7 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
             'Codeception\\PHPUnit\\' => 20,
             'Codeception\\Extension\\' => 22,
             'Codeception\\' => 12,
+            'Channel\\' => 8,
         ),
     );
 
@@ -120,6 +123,10 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'Workerman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/workerman',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -173,6 +180,10 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'PHPSocketIO\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/phpsocket.io/src',
+        ),
         'OSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
@@ -205,6 +216,10 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         array (
             0 => __DIR__ . '/..' . '/codeception/base/src/Codeception',
             1 => __DIR__ . '/..' . '/codeception/stub/src',
+        ),
+        'Channel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/channel/src',
         ),
     );
 

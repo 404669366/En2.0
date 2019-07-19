@@ -37,7 +37,7 @@ $this->beginPage();
             <form method="post" action="">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>"/>
                 <h4 class="no-margins">登录：</h4>
-                <input type="text" class="form-control uname" name="username" placeholder="用户名"/>
+                <input type="text" class="form-control uname" name="tel" placeholder="手机号"/>
                 <input type="password" class="form-control pword" name="pwd" placeholder="密码"/>
                 <div>
                     <input type="text" class="form-control ji m-b" name="code" placeholder="验证码"/>

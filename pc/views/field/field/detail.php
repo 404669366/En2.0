@@ -76,7 +76,7 @@
         <div class="details">
             <div class="slider">
                 <?php foreach (\vendor\project\helpers\Helper::completionImg($detail->images) as $v): ?>
-                    <img src="<?= $v ?>" alt="亿能天成新能源场站<?= $detail->no ?>图片"/>
+                    <img src="<?= $v ?>" alt="亿能天成新能源场站-<?= $detail->no ?>图片"/>
                 <?php endforeach; ?>
             </div>
             <p>项目信息</p>
@@ -87,6 +87,12 @@
             </div>
             <p>项目介绍</p>
             <div class="intro"><?= $intro ?></div>
+            <p>项目收益</p>
+            <?php
+            $invest = \vendor\project\helpers\Constant::investType()[$detail->invest_type];
+            $investInfo = Yii::$app->cache->get('InvestInfo-' . $detail->invest_type);
+            ?>
+            <div class="intro"><?= $investInfo ?></div>
             <p>项目位置</p>
             <div class="address"><?= $detail->address ?></div>
             <div class="map">
@@ -112,7 +118,7 @@
             <div class="type">
                 <?= \vendor\project\helpers\Constant::businessType()[$detail->business_type] ?>
                 <span> | </span>
-                <?= \vendor\project\helpers\Constant::investType()[$detail->invest_type] ?>
+                <?= $invest ?>
             </div>
             <div class="trait"><?= $detail->trait ?></div>
             <?php if (in_array($detail->status, [1, 2, 3, 5])): ?>
@@ -142,7 +148,7 @@
                 <div class="model model1">
                     <div class="modelBox">
                         <div class="modelHead">
-                            <h3 class="title">风险提示书</h3>
+                            <h3 class="title">1、风险提示书</h3>
                             <div class="close close1"><i class="fa fa-times" aria-hidden="true"></i></div>
                         </div>
                         <div class="modelContent">
@@ -151,14 +157,14 @@
                             111<br>111<br>111<br>111<br>111<br>
                         </div>
                         <div class="modelFoot">
-                            <button class="modelBtn modelBtn1" type="button">下一步</button>
+                            <button type="button" class="modelBtn modelBtn1">我已知晓</button>
                         </div>
                     </div>
                 </div>
                 <div class="model model2">
                     <div class="modelBox">
                         <div class="modelHead">
-                            <h3 class="title">冷静期说明</h3>
+                            <h3 class="title">2、冷静期说明</h3>
                             <div class="close close2"><i class="fa fa-times" aria-hidden="true"></i></div>
                         </div>
                         <div class="modelContent">
@@ -167,9 +173,7 @@
                             111<br>111<br>111<br>111<br>111<br>
                         </div>
                         <div class="modelFoot">
-                            <button class="modelBtn modelBtn2" type="button">上一步</button>
-                            &nbsp;
-                            <a class="modelBtn" href="/field/intention/add.html?no=<?= $detail->no ?>">我已知晓</a>
+                            <button type="button" class="modelBtn modelBtn2">我已知晓</button>
                         </div>
                     </div>
                 </div>
@@ -184,12 +188,12 @@
                         window.modal.close('.model1');
                         window.modal.open('.model2');
                     });
-                    $('.modelBtn2').click(function () {
-                        window.modal.close('.model2');
-                        window.modal.open('.model1');
-                    });
                     $('.close2').click(function () {
                         window.modal.close('.model2');
+                    });
+                    $('.modelBtn2').click(function () {
+                        window.modal.close('.model2');
+                        window.open("/field/buy/buy.html?no=<?= $detail->no ?>");
                     });
                 </script>
             <?php endif; ?>
@@ -245,7 +249,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/base/create.html">发起项目</a><br/>
+            <a href="/field/create/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

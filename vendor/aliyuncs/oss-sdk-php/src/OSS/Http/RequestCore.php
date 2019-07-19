@@ -1,5 +1,8 @@
 <?php
+
 namespace OSS\Http;
+
+use vendor\project\helpers\Helper;
 
 
 /**
@@ -23,7 +26,7 @@ class RequestCore
      * The headers being sent in the request.
      */
     public $request_headers;
-   
+
     /**
      * The raw response callback headers
      */
@@ -37,7 +40,7 @@ class RequestCore
     /**
      *The hander of write file
      */
-    public $write_file_handle; 
+    public $write_file_handle;
 
     /**
      * The body being sent in the request.
@@ -487,20 +490,19 @@ class RequestCore
      * @param resource $header_content (Required) The header callback result.
      * @return headers from a stream.
      */
-   public function streaming_header_callback($curl_handle, $header_content)
-   {
+    public function streaming_header_callback($curl_handle, $header_content)
+    {
         $code = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
 
-        if (isset($this->write_file) && intval($code) / 100 == 2 && !isset($this->write_file_handle))
-        {
+        if (isset($this->write_file) && intval($code) / 100 == 2 && !isset($this->write_file_handle)) {
             $this->write_file_handle = fopen($this->write_file, 'w');
             $this->set_write_stream($this->write_file_handle);
         }
 
         $this->response_raw_headers .= $header_content;
-        return strlen($header_content); 
+        return strlen($header_content);
     }
-        
+
 
     /**
      * Register a callback function to execute whenever a data stream is read from using
@@ -601,9 +603,8 @@ class RequestCore
     public function streaming_write_callback($curl_handle, $data)
     {
         $code = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
-        
-        if (intval($code) / 100 != 2)
-        {
+
+        if (intval($code) / 100 != 2) {
             $this->response_error_body .= $data;
             return strlen($data);
         }
@@ -611,7 +612,7 @@ class RequestCore
         $length = strlen($data);
         $written_total = 0;
         $written_last = 0;
-        
+
         while ($written_total < $length) {
             $written_last = fwrite($this->write_stream, substr($data, $written_total));
 
@@ -795,9 +796,8 @@ class RequestCore
             $this->response_body = substr($this->response, $header_size);
             $this->response_code = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
             $this->response_info = curl_getinfo($curl_handle);
-            
-            if (intval($this->response_code) / 100 != 2 && isset($this->write_file))
-            {
+
+            if (intval($this->response_code) / 100 != 2 && isset($this->write_file)) {
                 $this->response_headers = $this->response_raw_headers;
                 $this->response_body = $this->response_error_body;
             }
@@ -819,7 +819,7 @@ class RequestCore
             $this->response_headers = $header_assoc;
             $this->response_headers['info'] = $this->response_info;
             $this->response_headers['info']['method'] = $this->method;
-            
+
             if ($curl_handle && $response) {
                 return new ResponseCore($this->response_headers, $this->response_body, $this->response_code);
             }
@@ -835,11 +835,31 @@ class RequestCore
      * @param boolean $parse (Optional) Whether to parse the response with ResponseCore or not.
      * @return string The resulting unparsed data from the request.
      */
-    public function send_request($parse = false)
+    public function send_request($parse = false, $progressKey = null)
     {
         set_time_limit(0);
 
         $curl_handle = $this->prep_request();
+        if ($progressKey) {
+            curl_setopt($curl_handle, CURLOPT_NOPROGRESS, false);
+            $last = [];
+            curl_setopt($curl_handle, CURLOPT_PROGRESSFUNCTION, function ($resource, $downloadSize = 0, $downloaded = 0, $uploadSize = 0, $uploaded = 0) use ($progressKey, &$last) {
+                $now = ['uploadSize' => $uploadSize, 'uploaded' => $uploaded];
+                if ($now != $last) {
+                    $last = $now;
+                    Helper::curlPost(
+                        'http://127.0.0.1:2121',
+                        [
+                            'token' => 'BC-9fdad4748325434b84e113ef10ad8b2e',
+                            'do' => 'publish',
+                            'group' => $progressKey,
+                            'content' => json_encode($now)
+                        ]
+
+                    );
+                }
+            });
+        }
         $this->response = curl_exec($curl_handle);
 
         if ($this->response === false) {

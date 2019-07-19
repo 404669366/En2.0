@@ -20,12 +20,12 @@ class Oss
      */
     public static function aliUpload($file)
     {
+
         try {
             $name = Helper::randStr(3, 8, 1) . strrchr($file['name'], '.');
             $ossConfig = \Yii::$app->params['AliOss'];
-            $content = file_get_contents($file['tmp_name']);
             $ossClient = new OssClient($ossConfig['accessKeyId'], $ossConfig['accessKeySecret'], $ossConfig['endPoint']);
-            $ossClient->putObject($ossConfig['bucket'], $name, $content);
+            $ossClient->putObject($ossConfig['bucket'], $name, file_get_contents($file['tmp_name']), null, $file['name']);
             return $ossConfig['url'] . $name;
         } catch (OssException $e) {
             return false;

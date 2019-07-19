@@ -190,11 +190,46 @@
         <?php else: ?>
             <div class="no-data">暂时没有该类项目</div>
         <?php endif; ?>
-        <ul class="page" data-getby="http://pc.en.com/field/field/list.html">
+        <ul class="page">
             <li data-do="first">首&emsp;页</li>
             <li data-do="prev">上一页</li>
             <li data-do="next">下一页</li>
         </ul>
+        <script>
+            $('.page>li').click(function () {
+                var url = window.location.href;
+                var key = 'pageNum';
+                var last = window.getParams(key, 1);
+                var val = 1;
+                switch ($(this).data('do')) {
+                    case 'first':
+                        val = 1;
+                        break;
+                    case 'prev':
+                        if (last > 1) {
+                            val = parseInt(last) - 1;
+                        }
+                        break;
+                    case 'next':
+                        if ($('.data').find('li').length < 6) {
+                            val = last || 1;
+                        } else {
+                            val = parseInt(last) + 1;
+                        }
+                        break;
+                }
+                if (window.in_string(url, key)) {
+                    window.location.href = url.replace(key + '=' + last, key + '=' + val);
+                    return;
+                }
+                if (window.in_string(url, '?')) {
+                    window.location.href = url + '&' + key + '=' + val;
+                    return;
+                }
+                window.location.href = url + '?' + key + '=' + val;
+                return;
+            });
+        </script>
     </div>
 </div>
 <script>
@@ -220,7 +255,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/base/create.html">发起项目</a><br/>
+            <a href="/field/create/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

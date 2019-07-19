@@ -6969,11 +6969,11 @@ function map(config) {
     }
     $('.' + config.element)
         .html('')
-        .append('<input class="address" id="' + config.element + 'Address" type="text" name="' + config.addressName + '"/>')
+        .append('<input class="address form-control" id="' + config.element + 'Address" type="text" name="' + config.addressName + '"/>')
         .append('<input class="lng" type="hidden" name="' + config.lngName + '"/>')
         .append('<input class="lat" type="hidden" name="' + config.latName + '"/>')
         .append('<div id="' + config.element + '" class="map"></div>')
-        .append('<style>.' + config.element + '{' + (config.style || 'width:calc(100% - 1px);height: 50rem;') + '}.map{width:100%;height:91%;}.address{height: 9%;line-height: 9%;width: 100%;display:inline-block;box-sizing: border-box;padding: 0 0.5rem;font-size: ' + (config.fontSize || '1.2rem') + '}.tangram-suggestion-main{padding-left: 1px;}</style>');
+        .append('<style>.' + config.element + '{' + (config.style || 'width:calc(100% - 1px);height: 50rem;') + '}.map{width:100%;height:91%;}.address{height: 3.4rem;line-height: 3.4rem;}.tangram-suggestion-main{padding-left: 1px;}</style>');
 
 
     var map = new BMap.Map(config.element);

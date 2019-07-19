@@ -106,11 +106,18 @@ class EnPower extends \yii\db\ActiveRecord
 
     /**
      * 返回权限树类型数据
+     * @param int $company_id
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getTreeData()
+    public static function getTreeData($company_id = 0)
     {
-        return self::find()->select(['id', 'name as title', 'last_id as pid'])->orderBy('type asc')->asArray()->all();
+        $data = self::find()->select(['id', 'name as title', 'last_id as pid']);
+        if ($company_id) {
+            if ($powers = EnCompany::findOne($company_id)) {
+                $data->where(['id' => explode(',', $powers->powers)]);
+            }
+        }
+        return $data->orderBy('sort asc')->asArray()->all();
     }
 
     /**
@@ -168,5 +175,18 @@ class EnPower extends \yii\db\ActiveRecord
             }
         }
         return $str;
+    }
+
+    /**
+     * 根据id查询权限名称
+     * @param string $ids
+     * @return array
+     */
+    public static function getPowerName($ids = '')
+    {
+        $names = self::find()->where(['id' => explode(',', $ids)])
+            ->select(['name'])->orderBy('url asc')
+            ->asArray()->all();
+        return array_column($names, 'name');
     }
 }

@@ -3,7 +3,7 @@
 <?php $this->registerJsFile('@web/js/summernote.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote-zh-CN.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/map.js', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/upload.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<?php $this->registerJsFile('@web/js/upload.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
@@ -18,57 +18,40 @@
                             <input type="text" class="form-control" placeholder="<?= $model->no ?>" readonly>
                         </div>
                     </div>
-                    <?php if ($model->source == 2): ?>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">绑定用户</label>
-                            <div class="col-sm-5">
-                                <div class="input-group">
-                                    <input type="text" class="form-control tel" placeholder="填写用户手机号完成场地方绑定"
-                                           value="<?= $model->local ? $model->local->tel : '' ?>">
-                                    <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary searchField">搜索</button>
-                                </span>
-                                </div>
-                                <small>如为租用场地,不绑定此项</small>
-                                <input type="hidden" name="local_id" value="<?= $model->local_id ?>">
-                            </div>
-                            <script>
-                                $('.searchField').click(function () {
-                                    $('[name="local_id"]').val(0);
-                                    $.getJSON('/field/field/user-search', {tel: $('.tel').val()}, function (re) {
-                                        if (re.type) {
-                                            $('[name="local_id"]').val(re.data);
-                                            showMsg('场地方绑定成功');
-                                        } else {
-                                            showMsg('用户不存在,请重新输入用户手机号进行绑定');
-                                        }
-                                    })
-                                });
-                            </script>
-                        </div>
-                    <?php else: ?>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">场地用户</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="<?= $model->local->tel ?>"
-                                       readonly>
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">推荐用户</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control"
-                                       placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>"
-                                       readonly>
-                            </div>
-                        </div>
-                    <?php endif; ?>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">业务类型</label>
+                        <label class="col-sm-4 control-label">场站名称</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="name" value="<?= $model->name ?>">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">场站标题</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="title" value="<?= $model->title ?>">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">场站特色</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" name="trait" rows="8"><?= $model->trait ?></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">场站配置</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" name="field_configure"
+                                      rows="8"><?= $model->field_configure ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">业务类型</label>
                         <div class="col-sm-5">
                             <select class="form-control" name="business_type">
                                 <?php foreach (\vendor\project\helpers\Constant::businessType() as $k => $v): ?>
@@ -80,7 +63,7 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">投资类型</label>
+                        <label class="col-sm-3 control-label">投资类型</label>
                         <div class="col-sm-5">
                             <select class="form-control" name="invest_type">
                                 <?php foreach (\vendor\project\helpers\Constant::investType() as $k => $v): ?>
@@ -90,52 +73,77 @@
                             </select>
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">投资方分成占比</label>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">绑定用户</label>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control local_tel" placeholder="填写用户手机号完成场地方绑定"
+                                       value="<?= $model->local ? $model->local->tel : '' ?>">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary searchLocal">搜索</button>
+                                </span>
+                            </div>
+                            <small style="color: red">* 如为租用场地,不绑定此项 (反之必填)</small>
+                            <input type="hidden" name="local_id" value="<?= $model->local_id ?: 0 ?>">
+                        </div>
+                        <script>
+                            $('.searchLocal').click(function () {
+                                $('[name="local_id"]').val(0);
+                                $.getJSON('/field/field/user-search', {tel: $('.local_tel').val()}, function (re) {
+                                    if (re.type) {
+                                        $('[name="local_id"]').val(re.data);
+                                        showMsg('用户绑定成功');
+                                    } else {
+                                        showMsg('用户不存在,请重新输入用户手机号进行绑定');
+                                    }
+                                })
+                            });
+                        </script>
+                    </div>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">绑定推荐用户</label>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control cobber_tel" placeholder="填写用户手机号完成场地方绑定"
+                                       value="<?= $model->cobber ? $model->cobber->tel : '' ?>">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary searchCobber">搜索</button>
+                                </span>
+                            </div>
+                            <small style="color: red">* 如为租用场地或没有推荐用户,不绑定此项</small>
+                            <input type="hidden" name="cobber_id" value="<?= $model->cobber_id ?: 0 ?>">
+                        </div>
+                        <script>
+                            $('.searchCobber').click(function () {
+                                $('[name="cobber_id"]').val(0);
+                                $.getJSON('/field/field/user-search', {tel: $('.cobber_tel').val()}, function (re) {
+                                    if (re.type) {
+                                        $('[name="cobber_id"]').val(re.data);
+                                        showMsg('推荐用户绑定成功');
+                                    } else {
+                                        showMsg('用户不存在,请重新输入用户手机号进行绑定');
+                                    }
+                                })
+                            });
+                        </script>
+                    </div>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">投资方分成占比</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" name="invest_ratio"
-                                   value="<?= $model->invest_ratio ?>">
+                                   value="<?= $model->invest_ratio ?: 0 ?>">
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">场地方分成占比</label>
+                    <div class="hr-line-dashed three"></div>
+                    <div class="form-group three">
+                        <label class="col-sm-3 control-label">场地方分成占比</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" name="field_ratio"
-                                   value="<?= $model->field_ratio ?>">
-                            <small>如为租用场地,此项填写0</small>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">场站名称</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="name" value="<?= $model->name ?>">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">场站标题</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" name="title" value="<?= $model->title ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">场站特色</label>
-                        <div class="col-sm-5">
-                            <textarea class="form-control" name="trait" rows="8"><?= $model->trait ?></textarea>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">场站配置</label>
-                        <div class="col-sm-5">
-                            <textarea class="form-control" name="field_configure"
-                                      rows="8"><?= $model->field_configure ?></textarea>
+                                   value="<?= $model->field_ratio ?: 0 ?>">
+                            <small style="color: red">* 如为租用场地,此项填写0 (反之必填)</small>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -143,7 +151,7 @@
                         <label class="col-sm-3 control-label">预算金额</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" name="budget_amount"
-                                   value="<?= $model->budget_amount ?>">
+                                   value="<?= $model->budget_amount ?: 0 ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -151,9 +159,19 @@
                         <label class="col-sm-3 control-label">起投金额</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" name="lowest_amount"
-                                   value="<?= $model->lowest_amount ?>">
+                                   value="<?= $model->lowest_amount ?: 0 ?>">
                         </div>
                     </div>
+                    <script>
+                        <?= $model->invest_type == 4 ? '$(".three").hide();' : ''?>
+                        $('[name="invest_type"]').on('change', function () {
+                            if ($(this).val() === '4') {
+                                $('.three').hide();
+                            } else {
+                                $('.three').show();
+                            }
+                        });
+                    </script>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -176,7 +194,7 @@
                     <div class="images"></div>
                 </div>
                 <script>
-                    uploadImg('.images', 'images', '<?=$model->images?>', false, 6);
+                    uploadImg('.images', 'images', '<?=$model->images?>', false, 5);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -187,7 +205,7 @@
                 </div>
                 <script>
                     $('.summernote').summernote({lang: "zh-CN", height: 500});
-                    $('.summernote').summernote('code', `<?=$intro?>`);
+                    $('.summernote').summernote('code', `<?=$model->intro?>`);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>

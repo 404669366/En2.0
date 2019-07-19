@@ -10,6 +10,7 @@ namespace app\controllers\job;
 
 
 use app\controllers\basis\CommonController;
+use vendor\project\base\EnCompany;
 use vendor\project\base\EnJob;
 use vendor\project\base\EnPower;
 use vendor\project\helpers\Msg;
@@ -17,77 +18,99 @@ use vendor\project\helpers\Msg;
 class JobController extends CommonController
 {
     /**
-     * 职位管理主页面
+     * 职位列表页渲染
      * @return string
      */
-    public function actionInfo()
+    public function actionList()
     {
-        return $this->render('info', [
-            'relation' => EnJob::getJobRelation(),
-            'powers' => EnPower::getTreeData()
+        return $this->render('list', ['company' => EnCompany::getCompany()]);
+    }
+
+    /**
+     * 职位列表页数据
+     * @return string
+     */
+    public function actionData()
+    {
+        return $this->rTableData(EnJob::getPageData());
+    }
+
+    /**
+     * 职位编辑
+     * @param int $id
+     * @return string|\yii\web\Response
+     */
+    public function actionEdit($id = 0)
+    {
+        $model = EnJob::findOne($id);
+        if (!$model) {
+            $model = new EnJob();
+        }
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            if ($model->load(['EnJob' => $post]) && $model->validate() && $model->save()) {
+                Msg::set('保存成功');
+                return $this->redirect(['list']);
+            }
+            Msg::set($model->errors());
+        }
+        return $this->render('edit', [
+            'model' => $model,
+            'company' => EnCompany::getCompany(),
+            'powers' => json_encode(EnPower::getTreeData($model->company_id ?: 0))
         ]);
     }
 
     /**
-     * 获取职位信息
-     * @param $id
+     * 查询公司权限
+     * @param int $company_id
      * @return string
      */
-    public function actionGetJob($id)
+    public function actionGetPowers($company_id = 0)
     {
-        if ($one = EnJob::getOne($id)) {
-            return $this->rJson($one);
-        }
-        return $this->rJson('', false, '职位不存在');
+        return $this->rJson(EnPower::getTreeData($company_id));
     }
 
     /**
-     * 保存职位关系
-     * @param $data
-     * @param $map
+     * 公司职位管理页
      * @return string
      */
-    public function actionSave($data, $map)
+    public function actionMyList()
     {
-        if (EnJob::saveJobRelation($data, $map)) {
-            return $this->rJson();
-        }
-        return $this->rJson('', false, '职位关系保存错误');
+        return $this->render('my-list');
     }
 
     /**
-     * 数据操作
+     * 公司职位管理页数据
+     * @return string
+     */
+    public function actionMyData()
+    {
+        return $this->rTableData(EnJob::getMyPageData());
+    }
+
+    /**
+     * 公司职位编辑
      * @param int $id
-     * @return \yii\web\Response
+     * @return string|\yii\web\Response
      */
-    public function actionDo($id = 0)
+    public function actionMyEdit($id = 0)
     {
-        if (\Yii::$app->request->isPost) {
+        $model = EnJob::findOne($id);
+        if (!$model) {
             $model = new EnJob();
-            if ($id) {
-                $model = $model::findOne($id);
-            }
+        }
+        if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
             if ($model->load(['EnJob' => $post]) && $model->validate() && $model->save()) {
                 Msg::set('保存成功');
-            } else {
-                Msg::set($model->errors());
+                return $this->redirect(['my-list']);
             }
+            Msg::set($model->errors());
         }
-        return $this->redirect(['info']);
-    }
-
-    /**
-     * 删除职位
-     * @param $id
-     * @return \yii\web\Response
-     */
-    public function actionDel($id)
-    {
-        Msg::set('存在下级不能直接删除');
-        if (EnJob::delJob($id)) {
-            Msg::set('删除成功');
-        }
-        return $this->redirect(['info']);
+        return $this->render('my-edit', [
+            'model' => $model,
+            'powers' => json_encode(EnPower::getTreeData(\Yii::$app->user->identity->company_id))
+        ]);
     }
 }

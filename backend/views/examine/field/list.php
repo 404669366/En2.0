@@ -56,9 +56,9 @@
                     <th>业务类型</th>
                     <th>投资类型</th>
                     <th>场站名称</th>
-                    <th>场站标题</th>
                     <th>场站位置</th>
                     <th>融资情况</th>
+                    <th>分成比例</th>
                     <th>场站状态</th>
                     <th>创建时间</th>
                     <th>操作</th>
@@ -89,20 +89,16 @@
             {"data": "invest_type"},
             {
                 "data": "name", "render": function (data, type, row) {
-                return linFeed(data);
-            }
-            },
-            {
-                "data": "title", "render": function (data, type, row) {
-                return linFeed(data);
+                return linFeed(data,15);
             }
             },
             {
                 "data": "address", "render": function (data, type, row) {
-                return linFeed(data);
+                return linFeed(data,15);
             }
             },
             {"data": "info"},
+            {"data": "ratio"},
             {"data": "status"},
             {
                 "data": "created_at", "render": function (data, type, row) {

@@ -18,7 +18,7 @@ class IndexController extends AuthController
     public function actionIndex()
     {
         $this->layout = false;
-        $data['username'] = \Yii::$app->user->getIdentity()->username;
+        $data['tel'] = \Yii::$app->user->getIdentity()->tel;
         $data['menus'] = EnPower::getUserMenus();
         return $this->render('index', ['data' => $data]);
     }

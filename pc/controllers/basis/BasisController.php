@@ -16,7 +16,7 @@ class BasisController extends Controller
 {
     public function beforeAction($action)
     {
-        Msg::setSize('2rem');
+        Msg::setSize();
         return parent::beforeAction($action);
     }
 

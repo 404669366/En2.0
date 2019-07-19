@@ -1,4 +1,5 @@
 <?php
+
 namespace OSS;
 
 use OSS\Core\MimeTypes;
@@ -189,7 +190,7 @@ class OssClient
         $result = new ExistResult($response);
         return $result->getData();
     }
-    
+
     /**
      * 获取bucket所属的数据中心位置信息
      *
@@ -209,7 +210,7 @@ class OssClient
         $result = new GetLocationResult($response);
         return $result->getData();
     }
-    
+
     /**
      * 获取Bucket的Meta信息
      *
@@ -219,13 +220,13 @@ class OssClient
      */
     public function getBucketMeta($bucket, $options = NULL)
     {
-    	$this->precheckCommon($bucket, NULL, $options, false);
-    	$options[self::OSS_BUCKET] = $bucket;
-    	$options[self::OSS_METHOD] = self::OSS_HTTP_HEAD;
-    	$options[self::OSS_OBJECT] = '/';
-    	$response = $this->auth($options);
-    	$result = new HeaderResult($response);
-    	return $result->getData();
+        $this->precheckCommon($bucket, NULL, $options, false);
+        $options[self::OSS_BUCKET] = $bucket;
+        $options[self::OSS_METHOD] = self::OSS_HTTP_HEAD;
+        $options[self::OSS_OBJECT] = '/';
+        $response = $this->auth($options);
+        $result = new HeaderResult($response);
+        return $result->getData();
     }
 
     /**
@@ -605,7 +606,7 @@ class OssClient
         $info = $result->getData();
         $info->setName($channelName);
         $info->setDescription($channelConfig->getDescription());
-        
+
         return $info;
     }
 
@@ -617,7 +618,7 @@ class OssClient
      * @param string channelStatus $channelStatus 为enabled或disabled
      * @param array $options
      * @throws OssException
-     * @return null 
+     * @return null
      */
     public function putLiveChannelStatus($bucket, $channelName, $channelStatus, $options = NULL)
     {
@@ -672,13 +673,13 @@ class OssClient
         $options[self::OSS_OBJECT] = $channelName;
         $options[self::OSS_SUB_RESOURCE] = 'live';
         $options[self::OSS_COMP] = 'stat';
-      
+
         $response = $this->auth($options);
         $result = new GetLiveChannelStatusResult($response);
         return $result->getData();
     }
 
-     /**
+    /**
      *获取LiveChannel推流记录
      *
      * @param string $bucket bucket名称
@@ -687,7 +688,7 @@ class OssClient
      * @throws OssException
      * @return GetLiveChannelHistory
      */
-   public function getLiveChannelHistory($bucket, $channelName, $options = NULL)
+    public function getLiveChannelHistory($bucket, $channelName, $options = NULL)
     {
         $this->precheckCommon($bucket, NULL, $options, false);
         $options[self::OSS_BUCKET] = $bucket;
@@ -700,7 +701,7 @@ class OssClient
         $result = new GetLiveChannelHistoryResult($response);
         return $result->getData();
     }
-  
+
     /**
      *获取指定Bucket下的live channel列表
      *
@@ -733,9 +734,9 @@ class OssClient
      * 为指定LiveChannel生成播放列表
      *
      * @param string $bucket bucket名称
-     * @param string channelName $channelName 
+     * @param string channelName $channelName
      * @param string $playlistName 指定生成的点播播放列表的名称，必须以“.m3u8”结尾
-     * @param array $setTime  startTime和EndTime以unix时间戳格式给定,跨度不能超过一天
+     * @param array $setTime startTime和EndTime以unix时间戳格式给定,跨度不能超过一天
      * @throws OssException
      * @return null
      */
@@ -748,7 +749,7 @@ class OssClient
         $options[self::OSS_SUB_RESOURCE] = 'vod';
         $options[self::OSS_LIVE_CHANNEL_END_TIME] = $setTime['EndTime'];
         $options[self::OSS_LIVE_CHANNEL_START_TIME] = $setTime['StartTime'];
-       
+
         $response = $this->auth($options);
         $result = new PutSetDeleteResult($response);
         return $result->getData();
@@ -951,7 +952,7 @@ class OssClient
         $result = new GetRefererResult($response);
         return $result->getData();
     }
-    
+
     /**
      * 设置bucket的容量大小，单位GB
      * 当bucket的容量大于设置的容量时，禁止继续写入
@@ -976,7 +977,7 @@ class OssClient
         $result = new PutSetDeleteResult($response);
         return $result->getData();
     }
-    
+
     /**
      * 获取bucket的容量大小，单位GB
      *
@@ -1064,10 +1065,11 @@ class OssClient
      * @param string $bucket bucket名称
      * @param string $object objcet名称
      * @param string $content 上传的内容
+     * @param string $progressKey 进度信息key
      * @param array $options
      * @return null
      */
-    public function putObject($bucket, $object, $content, $options = NULL)
+    public function putObject($bucket, $object, $content, $options = NULL, $progressKey = null)
     {
         $this->precheckCommon($bucket, $object, $options);
 
@@ -1084,21 +1086,21 @@ class OssClient
 
         $is_check_md5 = $this->isCheckMD5($options);
         if ($is_check_md5) {
-        	$content_md5 = base64_encode(md5($content, true));
-        	$options[self::OSS_CONTENT_MD5] = $content_md5;
+            $content_md5 = base64_encode(md5($content, true));
+            $options[self::OSS_CONTENT_MD5] = $content_md5;
         }
-        
+
         if (!isset($options[self::OSS_CONTENT_TYPE])) {
             $options[self::OSS_CONTENT_TYPE] = $this->getMimeType($object);
         }
-        $response = $this->auth($options);
-        
+        $response = $this->auth($options, $progressKey);
+
         if (isset($options[self::OSS_CALLBACK]) && !empty($options[self::OSS_CALLBACK])) {
             $result = new CallbackResult($response);
         } else {
             $result = new PutSetDeleteResult($response);
         }
-            
+
         return $result->getData();
     }
 
@@ -1110,7 +1112,7 @@ class OssClient
      * @param array $options
      * @return null
      */
-    public function putSymlink($bucket, $symlink ,$targetObject, $options = NULL)
+    public function putSymlink($bucket, $symlink, $targetObject, $options = NULL)
     {
         $this->precheckCommon($bucket, $symlink, $options);
 
@@ -1127,7 +1129,7 @@ class OssClient
 
     /**
      * 获取symlink
-     *@param string $bucket bucket名称
+     * @param string $bucket bucket名称
      * @param string $symlink symlink名称
      * @return null
      */
@@ -1208,11 +1210,11 @@ class OssClient
         } else {
             $options[self::OSS_CONTENT_LENGTH] = $options[self::OSS_LENGTH];
         }
-        
+
         $is_check_md5 = $this->isCheckMD5($options);
         if ($is_check_md5) {
-        	$content_md5 = base64_encode(md5($content, true));
-        	$options[self::OSS_CONTENT_MD5] = $content_md5;
+            $content_md5 = base64_encode(md5($content, true));
+            $options[self::OSS_CONTENT_MD5] = $content_md5;
         }
 
         if (!isset($options[self::OSS_CONTENT_TYPE])) {
@@ -1918,14 +1920,14 @@ class OssClient
     {
         if (is_string($storage)) {
             switch ($storage) {
-                    case self::OSS_STORAGE_ARCHIVE:
-                        return;
-                    case self::OSS_STORAGE_IA:
-                        return;
-                    case self::OSS_STORAGE_STANDARD:
-                        return;
-                    default:
-                        break;
+                case self::OSS_STORAGE_ARCHIVE:
+                    return;
+                case self::OSS_STORAGE_IA:
+                    return;
+                case self::OSS_STORAGE_STANDARD:
+                    return;
+                default:
+                    break;
             }
         }
         throw new OssException('storage name is invalid');
@@ -2036,7 +2038,7 @@ class OssClient
      * @throws OssException
      * @throws RequestCore_Exception
      */
-    private function auth($options)
+    private function auth($options, $progressKey = null)
     {
         OssUtil::validateOptions($options);
         //验证bucket，list_bucket时不需要验证
@@ -2182,7 +2184,7 @@ class OssClient
         }
 
         try {
-            $request->send_request();
+            $request->send_request(false, $progressKey);
         } catch (RequestCore_Exception $e) {
             throw(new OssException('RequestCoreException: ' . $e->getMessage()));
         }
@@ -2203,7 +2205,7 @@ class OssClient
                 $data = $this->auth($options);
             }
         }
-        
+
         $this->redirects = 0;
         return $data;
     }
@@ -2471,9 +2473,8 @@ class OssClient
         $queryStringParams = explode('&', $explodeResult[$index - 1]);
         sort($queryStringParams);
 
-        foreach($queryStringParams as $params)
-        {
-             $queryStringSorted .= $params . '&';    
+        foreach ($queryStringParams as $params) {
+            $queryStringSorted .= $params . '&';
         }
 
         $queryStringSorted = substr($queryStringSorted, 0, -1);
@@ -2578,7 +2579,7 @@ class OssClient
     }
 
     /**
-     //* 设置http库的请求超时时间，单位秒
+     * //* 设置http库的请求超时时间，单位秒
      *
      * @param int $timeout
      */

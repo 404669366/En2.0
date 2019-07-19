@@ -16,11 +16,12 @@ class AuthController extends BasisController
 {
     public function beforeAction($action)
     {
+        $re = parent::beforeAction($action);
         if (\Yii::$app->user->isGuest) {
             Msg::set('请先登录');
             Url::remember();
             return $this->redirect([\Yii::$app->params['loginRoute']])->send();
         }
-        return parent::beforeAction($action);
+        return $re;
     }
 }

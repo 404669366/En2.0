@@ -1,5 +1,6 @@
 {
     "require": {
-        "aliyuncs/oss-sdk-php": "^2.3"
+        "aliyuncs/oss-sdk-php": "^2.3",
+        "workerman/phpsocket.io" : "^1.1"
     }
 }

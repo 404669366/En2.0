@@ -53,6 +53,15 @@ class Constant
     }
 
     /**
+     * 定金收取比例
+     * @return float
+     */
+    public static function orderRatio()
+    {
+        return 0.1;
+    }
+
+    /**
      * 权限类型
      * @return array
      */
@@ -87,6 +96,7 @@ class Constant
             1 => '托管运营',
             2 => '保底运营',
             3 => '保底回购',
+            4 => '第三方',
         ];
     }
 
@@ -97,6 +107,7 @@ class Constant
     public static function fieldStatus()
     {
         return [
+            0 => '待处理',
             1 => '挂起',
             2 => '审核中',
             3 => '审核不通过',
@@ -112,8 +123,9 @@ class Constant
     public static function fieldSource()
     {
         return [
-            1 => '平台',
-            2 => '专员',
+            1 => '用户发布',
+            2 => '平台专员',
+            3 => '三方专员',
         ];
     }
 

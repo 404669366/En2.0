@@ -11,6 +11,8 @@ namespace app\controllers\field;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnField;
+use vendor\project\base\EnMember;
+use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 
 class FieldController extends CommonController
@@ -21,7 +23,7 @@ class FieldController extends CommonController
      */
     public function actionList()
     {
-        return $this->render('list');
+        return $this->render('list', ['count' => EnField::getNeedFieldCount()]);
     }
 
     /**
@@ -34,53 +36,33 @@ class FieldController extends CommonController
     }
 
     /**
-     * 添加场地
+     * 编辑场地
+     * @param int $id
      * @return string|\yii\web\Response
      */
-    public function actionAdd()
-    {
-        $model = new EnField();
-        $intro = '';
-        if (\Yii::$app->request->isPost) {
-            $post = \Yii::$app->request->post();
-            $model->load(['EnField' => $post]);
-            $intro = $post['intro'];
-            Msg::set('场地介绍不能为空');
-            if ($intro) {
-                if ($model->validate() && $model->save()) {
-                    \Yii::$app->cache->set('FieldIntro-' . $model->id, $intro);
-                    Msg::set('操作成功');
-                    return $this->redirect(['list']);
-                }
-                Msg::set($model->errors());
-            }
-        }
-        return $this->render('add', ['model' => $model, 'intro' => $intro]);
-    }
-
-    /**
-     * 修改场地
-     * @param $id
-     * @return string|\yii\web\Response
-     */
-    public function actionEdit($id)
+    public function actionEdit($id = 0)
     {
         $model = EnField::findOne($id);
-        $intro = \Yii::$app->cache->get('FieldIntro-' . $model->id);
-        if (\Yii::$app->request->isPost) {
-            $post = \Yii::$app->request->post();
-            $model->load(['EnField' => $post]);
-            $intro = $post['intro'];
-            if ($intro) {
-                if ($model->validate() && $model->save()) {
-                    \Yii::$app->cache->set('FieldIntro-' . $model->id, $intro);
-                    Msg::set('操作成功');
-                    return $this->redirect(['list']);
-                }
-                Msg::set($model->errors());
-            }
+        if (!$model) {
+            $model = new EnField();
+            $model->no = Helper::createNo('F');
+            $model->commissioner_id = \Yii::$app->user->id;
+            $model->source = 2;
+            $model->created = \Yii::$app->user->id;
+            $model->created_at = time();
+        } else {
+            $model->intro = \Yii::$app->cache->get('FieldIntro-' . $model->id);
         }
-        return $this->render('edit', ['model' => $model, 'intro' => $intro]);
+        if (\Yii::$app->request->isPost) {
+            if ($model->load(['EnField' => \Yii::$app->request->post()]) && $model->validate() && $model->save()) {
+                Msg::set('操作成功');
+                return $this->redirect(['list']);
+            }
+            Msg::set($model->errors());
+        }
+        return $this->render('edit', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -104,5 +86,37 @@ class FieldController extends CommonController
             return $this->rJson($data);
         }
         return $this->rJson([], false);
+    }
+
+    /**
+     * 指派专员
+     * @param $id
+     * @param $tel
+     * @return string
+     */
+    public function actionAppoint($id, $tel)
+    {
+        if ($model = EnField::findOne(['id' => $id, 'commissioner_id' => \Yii::$app->user->id])) {
+            if ($commissioner = EnMember::findOne(['tel' => $tel])) {
+                if ($commissioner->id != \Yii::$app->user->id) {
+                    $model->commissioner_id = $commissioner->id;
+                    $model->save(false);
+                    return $this->rJson();
+                }
+                return $this->rJson('', false, '错误操作');
+            }
+            return $this->rJson('', false, '专员不存在,请核对手机号');
+        }
+        return $this->rJson('', false, '错误操作');
+    }
+
+    /**
+     * 场站抢单
+     * @return \yii\web\Response
+     */
+    public function actionGet()
+    {
+        EnField::getNeedField();
+        return $this->redirect(['list']);
     }
 }

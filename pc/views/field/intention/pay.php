@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/center.css" rel="stylesheet">
+    <link href="/css/buy.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/qrCode.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/socket.io.js" type="text/javascript" charset='utf-8'></script>
 </head>
 <body>
 <div class="head">
@@ -14,13 +16,13 @@
         <img data-url="/<?= Yii::$app->params['defaultRoute'] ?>.html" src="/img/logo.png" alt="四川亿能天成新能源logo">
         <ul>
             <li><a href="/index/index/index.html">首页<span></span></a></li>
-            <li><a href="/field/field/list.html">项目<span></span></a></li>
+            <li class="active"><a href="/field/field/list.html">项目<span></span></a></li>
             <li><a href="/news/news/list.html">新闻<span></span></a></li>
             <li class="nav" onselectstart="return false">
                 关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <span></span>
                 <ul>
-                    <li><a href="/about/about/company.html">公司介绍</a></li>
+                    <li class="active"><a href="/about/about/company.html">公司介绍</a></li>
                     <li><a href="/about/about/partner.html">合作伙伴</a></li>
                     <li><a href="/about/about/contact.html">联系我们</a></li>
                     <li><a href="/about/about/guide.html">用户指南</a></li>
@@ -32,7 +34,7 @@
                     <a href="/<?= Yii::$app->params['loginRoute'] ?>.html" class="hide">登录 / 注册</a>
                 </li>
             <?php else: ?>
-                <li class="active" title="个人中心">
+                <li title="个人中心">
                     <a href="/user/user/center.html">
                         <?= Yii::$app->user->getIdentity()->tel ?><span></span>
                     </a>
@@ -69,25 +71,68 @@
     );
 </script>
 <div class="center">
-    <div class="box">
-        <ul class="menu">
-            <li data-href="1" class="active" onselectstart="return false">阿没懂我的</li>
-            <li data-href="2" onselectstart="return false">阿没懂我的</li>
-            <li data-href="3" onselectstart="return false">阿没懂我的</li>
-        </ul>
-        <div class="details">
-            <div class="detail">1111</div>
-            <div class="detail">2222</div>
-            <div class="detail">3333</div>
+    <div class="pay">
+        <h1>Pay Deposit</h1>
+        <h3>支付定金</h3>
+        <div class="payBox">
+            <h3>微信支付<span class="surplus">二维码剩余有效时间为分钟,请尽快支付</span></h3>
+            <div class="scanBox">
+                <div>
+                    <div class="qrCode">
+                        <div class="occlusion">点击刷新</div>
+                    </div>
+                    <div class="maowdal">
+                        <img src="/img/scan.png" alt="">
+                        <span>请使用微信扫一扫<br>扫描二维码支付</span>
+                    </div>
+                </div>
+                <div>
+                    <img src="/img/wxscan.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="btnBox">
+            <a href="/field/intention/no-pay.html?no=<?= $no ?>" class="btn">放弃支付</a>
         </div>
     </div>
 </div>
 <script>
-    $('.menu>li').click(function () {
-        $('.menu>li').removeClass('active');
-        $(this).addClass('active');
-        $('.details>.detail').hide();
-        $('.details>.detail:nth-child(' + $(this).data('href') + ')').show();
+    $('.qrCode').makeCode({
+        text: `<?=$url?>`
+    });
+    var time = 7200;
+    $('.surplus').text('二维码剩余有效时间为' + window.toDate(time) + ',请尽快支付');
+    var i = setInterval(function () {
+        time--;
+        if (time > 0) {
+            $('.surplus').text('二维码剩余有效时间为' + window.toDate(time) + ',请尽快支付');
+        } else {
+            clearInterval(i);
+            $('.qrCode').css('position', 'relative');
+            $('.occlusion').show();
+            $('.surplus').text('二维码已过期,请刷新后再支付');
+        }
+    }, 1000);
+    $('.occlusion').click(function () {
+        window.location.reload();
+    });
+    var socket = io('http://127.0.0.1:2120');
+    socket.on('connect', function () {
+        socket.emit('bind', '<?=$no?>');
+    });
+    socket.on('msg', function (msg) {
+        $.removeCookie('pay-times-<?=$id?>',{ path: '/'});
+        if (msg) {
+            window.showMsg('支付成功');
+            setTimeout(function () {
+                window.location.href = '/user/intention/list.html';
+            }, 2000);
+            return;
+        }
+        window.showMsg('错误操作');
+        setTimeout(function () {
+            window.location.href = '/field/field/detail.html?no=<?=$fieldNo?>';
+        }, 2000);
     });
 </script>
 <div class="footer">
@@ -101,7 +146,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/create/create.html">发起项目</a><br/>
+            <a href="/user/field/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

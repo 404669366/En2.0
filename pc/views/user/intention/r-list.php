@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/news.css" rel="stylesheet">
+    <link href="/css/center.css" rel="stylesheet">
+    <link href="/css/centerIntention.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
         <ul>
             <li><a href="/index/index/index.html">首页<span></span></a></li>
             <li><a href="/field/field/list.html">项目<span></span></a></li>
-            <li class="active"><a href="/news/news/list.html">新闻<span></span></a></li>
+            <li><a href="/news/news/list.html">新闻<span></span></a></li>
             <li class="nav" onselectstart="return false">
                 关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <span></span>
@@ -32,7 +33,7 @@
                     <a href="/<?= Yii::$app->params['loginRoute'] ?>.html" class="hide">登录 / 注册</a>
                 </li>
             <?php else: ?>
-                <li title="个人中心">
+                <li class="active" title="个人中心">
                     <a href="/user/user/center.html">
                         <?= Yii::$app->user->getIdentity()->tel ?><span></span>
                     </a>
@@ -69,48 +70,41 @@
     );
 </script>
 <div class="center">
-    <div class="list">
-        <div class="title">
-            <h2>Press</h2>
-            <p>新闻</p>
-        </div>
-        <?php if ($data): ?>
-            <ul class="data">
-                <?php foreach ($data as $v): ?>
-                    <li data-url="/news/news/detail.html?id=<?= $v['id'] ?>">
-                        <div class="img"><img src="<?= $v['image'] ?>" alt="<?= $v['title'] ?>"></div>
-                        <p>
-                            <img src="<?= $v['sourceLogo'] ?>" alt="<?= $v['source'] ?>">
-                            <span><?= $v['source'] ?></span>
-                        </p>
-                        <h3><?= $v['title'] ?></h3>
-                        <a class="hide" href="/news/news/detail.html?id=<?= $v['id'] ?>"><?= $v['title'] ?></a>
-                    </li>
-                <?php endforeach; ?>
-                <div class="clearBoth"></div>
-            </ul>
-        <?php else: ?>
-            <div class="no-data">暂时没有该类新闻</div>
-        <?php endif; ?>
-        <ul class="page" data-getby="http://pc.en.com/news/news/list.html">
-            <li data-do="first">首&emsp;页</li>
-            <li data-do="prev">上一页</li>
-            <li data-do="next">下一页</li>
+    <div class="box">
+        <ul class="menu">
+            <li onselectstart="return false" data-url="/user/intention/list.html">我的认购</li>
+            <li onselectstart="return false" class="active" data-url="/user/intention/r-list.html">推荐认购</li>
+            <li onselectstart="return false" data-url="/user/field/list.html">我的项目</li>
+            <li onselectstart="return false" data-url="/user/field/r-list.html">推荐项目</li>
+            <li onselectstart="return false" data-url="/user/field/create.html">发起项目</li>
         </ul>
+        <div class="detail">
+            <?php if ($data): ?>
+                <?php foreach ($data as $v): ?>
+                    <div class="one">
+                        <img src="<?= $v['images'] ?>" alt="" data-url="/field/field/detail.html?no=<?= $v['no'] ?>">
+                        <div class="info" style="width: calc(100% - 8rem)">
+                            <h3 data-url="/field/field/detail.html?no=<?= $v['no'] ?>">
+                                场站编号 : <?= $v['no'] ?> (<?= $v['fStatus'] ?>)
+                            </h3>
+                            <span>认购状态 : <?= $v['status'] ?></span>
+                            <span>认购金额 : <?= $v['purchase_amount'] ?> (<?= $v['part_ratio'] * 100 ?>%)</span>
+                            <span>定金金额 : <?= $v['order_amount'] ?></span>
+                            <span>支付时间 : <?= $v['pay_at'] ? date('Y-m-d H:i:s', $v['pay_at']) : '------' ?></span>
+                            <span>创建时间 : <?= date('Y-m-d H:i:s', $v['created_at']) ?></span>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="none">
+                    <span>
+                        暂时没有该数据...
+                    </span>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
-<script>
-    $('.list>.data>li').hover(
-        function () {
-            $(this).find('.img>img').stop().animate({width: '125%', height: '125%'}, 200);
-            $(this).find('h3').css('text-decoration', 'underline');
-        },
-        function () {
-            $(this).find('.img>img').stop().animate({width: '100%', height: '100%'}, 200);
-            $(this).find('h3').css('text-decoration', 'none');
-        }
-    );
-</script>
 <div class="footer">
     <div class="info">
         <div>

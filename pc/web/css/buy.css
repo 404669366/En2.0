@@ -6,26 +6,26 @@
     margin-top: 4rem;
 }
 
-.center > .intention {
+.center > .intention, .center > .pay {
     width: 54rem;
     margin: 0 auto;
     padding: 3rem 0;
     color: #4a4a4a;
 }
 
-.center > .intention > h1 {
+.center > .intention > h1, .center > .pay > h1 {
     height: 3rem;
     line-height: 3rem;
     font-size: 2.5rem;
 }
 
-.center > .intention > h3 {
+.center > .intention > h3, .center > .pay > h3 {
     height: 1.6rem;
     line-height: 1.6rem;
     font-size: 1.2rem;
 }
 
-.center > .intention .form {
+.center > .intention .form, .center > .pay .payBox {
     border-top: 1px solid silver;
     border-bottom: 1px solid silver;
     width: 100%;
@@ -106,22 +106,42 @@
     margin-bottom: 0;
 }
 
-.buyCount > .one > input, .buyCount > .one > .val {
+.buyCount > .one > .val {
     float: right;
-    width: 8rem;
+    width: 10rem;
     height: 2rem;
-    line-height: 2rem;
-    box-sizing: border-box;
     text-align: center;
-    padding: 0 0.4rem;
     font-size: 1rem;
 }
 
-.buyCount > .one > .val {
+.buyCount > .one > .order_amount {
     color: #ff5436;
 }
 
-.center > .intention .btnBox {
+.buyCount > .one > .val > input {
+    width: 6rem;
+    height: 2rem;
+    box-sizing: border-box;
+    float: left;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.buyCount > .one > .val > button {
+    width: 1.8rem;
+    height: 2rem;
+    border: none;
+    box-sizing: border-box;
+    float: left;
+    margin-right: 0.2rem;
+}
+
+.buyCount > .one > .val > button:last-child {
+    margin-left: 0.2rem;
+    margin-right: 0;
+}
+
+.center > .intention .btnBox, .center > .pay .btnBox {
     width: 100%;
     height: 5rem;
     padding: 1rem 1rem;
@@ -129,7 +149,7 @@
     text-align: right;
 }
 
-.center > .intention .btnBox > .btn {
+.center > .intention .btnBox > .btn, .center > .pay .btnBox > .btn {
     width: 9rem;
     height: 3rem;
     line-height: 3rem;
@@ -140,4 +160,99 @@
     border: 0;
     border-radius: 0.1rem;
 }
+
+.center > .pay .btnBox > .btn {
+    display: inline-block;
+    background: firebrick;
+}
+
+.payBox > h3 {
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 1.2rem;
+}
+
+.payBox > h3 > span {
+    margin-left: 0.9rem;
+    font-size: 0.9rem;
+    color: #999999;
+}
+
+.payBox > .scanBox {
+    zoom: 1;
+}
+
+.payBox > .scanBox:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.payBox > .scanBox > div {
+    float: left;
+    width: calc(50% - 0.075rem);
+    border-right: 0.15rem silver dashed;
+    margin: 1rem 0;
+    padding: 1rem 0;
+    box-sizing: border-box;
+}
+
+.scanBox > div > .qrCode {
+    width: 60%;
+    height: 15rem;
+    margin: 0 auto;
+    padding: 0.6rem;
+    box-sizing: border-box;
+    border: 0.12rem solid #E3E3E3;
+}
+
+.scanBox > div > .qrCode > canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.scanBox > div > .maowdal {
+    margin-top: 1rem;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.scanBox > div > .maowdal > img {
+    width: 4rem;
+    height: 4rem;
+}
+
+.scanBox > div > .maowdal > span {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding: 1rem 0.5rem;
+    line-height: 1rem;
+    font-size: 0.84rem;
+}
+
+.payBox > .scanBox > div:last-child {
+    border-right: 0;
+    height: 22rem;
+    text-align: center;
+}
+
+.payBox > .scanBox > div:last-child > img {
+    height: 100%;
+}
+
+.occlusion {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: calc(15rem - 0.24rem);
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.96);
+    line-height: calc(15rem - 0.24rem);
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 

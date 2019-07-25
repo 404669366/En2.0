@@ -193,7 +193,7 @@
                     });
                     $('.modelBtn2').click(function () {
                         window.modal.close('.model2');
-                        window.open("/field/buy/buy.html?no=<?= $detail->no ?>");
+                        window.location.href = "/field/intention/buy.html?no=<?= $detail->no ?>";
                     });
                 </script>
             <?php endif; ?>
@@ -249,7 +249,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/create/create.html">发起项目</a><br/>
+            <a href="/user/field/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

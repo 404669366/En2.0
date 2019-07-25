@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: miku
- * Date: 2019/7/8
- * Time: 10:43
+ * Date: 2019/7/23
+ * Time: 11:52
  */
 
-namespace app\controllers\field;
+namespace app\controllers\user;
 
 
 use app\controllers\basis\AuthController;
@@ -14,7 +14,7 @@ use vendor\project\base\EnField;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 
-class CreateController extends AuthController
+class FieldController extends AuthController
 {
     /**
      * 发布项目
@@ -39,5 +39,44 @@ class CreateController extends AuthController
             Msg::set($model->errors());
         }
         return $this->render('create', ['post' => $post]);
+    }
+
+    /**
+     * 我的场站
+     * @return string
+     */
+    public function actionList()
+    {
+        $this->rUCenterUrl();
+        return $this->render('list', ['data' => EnField::getUserField()]);
+    }
+
+    /**
+     * 场站删除
+     * @param $id
+     * @return string
+     */
+    public function actionDel($id)
+    {
+        Msg::set('错误操作');
+        if ($model = EnField::findOne(['id' => $id, 'status' => 0])) {
+            $model->status = 6;
+            if ($model->save()) {
+                Msg::set('删除成功');
+            } else {
+                Msg::set($model->errors());
+            }
+        }
+        return $this->redirect(['list']);
+    }
+
+    /**
+     * 推荐场站
+     * @return string
+     */
+    public function actionRList()
+    {
+        $this->rUCenterUrl();
+        return $this->render('r-list', ['data' => EnField::getUserRField()]);
     }
 }

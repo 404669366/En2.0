@@ -12,6 +12,7 @@ namespace app\controllers\field;
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnField;
 use vendor\project\base\EnFieldIntention;
+use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 
 class IntentionController extends CommonController
@@ -35,31 +36,22 @@ class IntentionController extends CommonController
     }
 
     /**
-     * 添加意向
-     * @return string|\yii\web\Response
-     */
-    public function actionAdd()
-    {
-        if (\Yii::$app->request->isPost) {
-            $post = \Yii::$app->request->post();
-            $model = new EnFieldIntention();
-            if ($model->load(['EnFieldIntention' => $post]) && $model->validate() && $model->save()) {
-                Msg::set('操作成功');
-                return $this->redirect(['list']);
-            }
-            Msg::set($model->errors());
-        }
-        return $this->render('add');
-    }
-
-    /**
      * 修改意向
-     * @param $id
+     * @param int $id
      * @return string|\yii\web\Response
      */
-    public function actionEdit($id)
+    public function actionEdit($id = 0)
     {
         $model = EnFieldIntention::findOne($id);
+        if (!$model) {
+            $model = new EnFieldIntention();
+            $model->status = 3;
+            $model->source = 2;
+            $model->cobber_id = 0;
+            $model->created_at = time();
+            $model->commissioner_id = \Yii::$app->user->id;
+            $model->no = Helper::createNo('I');
+        }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
             if ($model->load(['EnFieldIntention' => $post]) && $model->validate() && $model->save()) {
@@ -91,10 +83,8 @@ class IntentionController extends CommonController
         Msg::set('错误操作');
         if ($model = EnFieldIntention::findOne(['status' => [2, 5], 'source' => 1, 'id' => $id])) {
             $model->status = 6;
-            if (EnField::updatePresentAmount($model->field_id, 'cut', $model->purchase_amount)) {
-                Msg::set('操作成功');
-                $model->save();
-            }
+            $model->save(false);
+            Msg::set('操作成功');
         }
         return $this->redirect(['list']);
     }

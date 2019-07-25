@@ -90,16 +90,16 @@
         <b>投资 | 建设 | 运营 | 维护</b>
         <div class="slider-btn-box">
             <?php if (Yii::$app->user->isGuest): ?>
-                <div class="slider-btn" data-url="/field/create/create.html">
-                    发起项目<a class="hide" href="/field/create/create.html">发起项目</a>
+                <div class="slider-btn" data-url="/user/field/create.html">
+                    发起项目<a class="hide" href="/user/field/create.html">发起项目</a>
                 </div>
                 &nbsp;
                 <div class="slider-btn" data-url="/<?= Yii::$app->params['loginRoute'] ?>.html">
                     成为投资人<a class="hide" href="/<?= Yii::$app->params['loginRoute'] ?>.html">成为投资人</a>
                 </div>
             <?php else: ?>
-                <div class="slider-btn" data-url="/field/create/create.html">
-                    发起项目<a class="hide" href="/field/create/create.html">发起项目</a>
+                <div class="slider-btn" data-url="/user/field/create.html">
+                    发起项目<a class="hide" href="/user/field/create.html">发起项目</a>
                 </div>
                 &nbsp;
                 <div class="slider-btn" data-url="/field/field/list.html">
@@ -220,7 +220,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/create/create.html">发起项目</a><br/>
+            <a href="/user/field/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

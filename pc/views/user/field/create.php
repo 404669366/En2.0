@@ -82,7 +82,7 @@
             </div>
             <div class="line1">
                 <label>图片(必填)</label>
-                <div class="images"></div>
+                <div class="images" data-max="5" data-name="images" deta-read="0"></div>
             </div>
             <div class="line1">
                 <label>备注(选填)</label>
@@ -101,7 +101,7 @@
             placeholder: '请填写场地位置(地图标点获取地址信息,不准确可自行修改)',
             default: {address: '<?=$post['address']?>', lng: '<?=$post['lng']?>', lat: '<?=$post['lat']?>'}
         });
-        uploadImg('.images', 'images', '<?=$post['images']?>', false, 5);
+        uploadImg('.images', '<?=$post['images']?>');
         $('[type="submit"]').click(function () {
             if (!$('[name="address"]').val()) {
                 window.showMsg('请填写场站位置');
@@ -131,7 +131,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/create/create.html">发起项目</a><br/>
+            <a href="/user/field/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

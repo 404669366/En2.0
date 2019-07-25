@@ -99,26 +99,25 @@ window.progress = function () {
     }
 };
 
-window.uploadImg = function (node, name, def, readonly, max) {
+window.uploadImg = function (node, def) {
     node = node || '';
-    name = name || '';
     def = def || '';
-    max = max || 10;
     var body = $('body');
     if (!body.find('.fileInput').length) {
         body
             .append('<input type="file" accept=".jpg,.png,.gif" class="fileInput" style="display: none"/>')
             .on('click', '.addImg', function () {
-                var thisNode = $(this).data('node');
-                if ($(thisNode).find('.uploadImgOne:not(.addImg)').length + 1 > max) {
+                var node = $(this).parents('.uploadImgBox');
+                var max = node.data('max') || 10;
+                if (node.find('.uploadImgOne:not(.addImg)').length + 1 > max) {
                     showMsg('最多上传' + max + '张图片');
                     return;
                 }
-                body.find('.fileInput').data('node', thisNode).data('name', $(this).data('name')).click();
+                body.find('.fileInput').data('name', node.data('name')).click();
             })
             .on('change', '.fileInput', function () {
-                var thisNode = $(this).data('node');
-                var thisName = $(this).data('name');
+                var node = $('[data-name="' + $(this).data('name') + '"]');
+                var input = $('[name="' + $(this).data('name') + '"]');
                 var file = $(this)[0].files[0];
                 lrz(file, {quality: 0.5}).then(function (re) {
                     file = new File([re.file], file.name, {type: file.type});
@@ -136,8 +135,8 @@ window.uploadImg = function (node, name, def, readonly, max) {
                         success: function (re) {
                             re = JSON.parse(re);
                             if (re.type) {
-                                $(thisNode).find('.addImg').before('<img class="uploadImgOne" data-readonly="" data-name="' + thisName + '" src="' + re.data + '"/>');
-                                $('[name="' + thisName + '"]').val(function (i, val) {
+                                node.find('.addImg').before('<img class="uploadImgOne" src="' + re.data + '"/>');
+                                input.val(function (i, val) {
                                     if (val) {
                                         return val + ',' + re.data;
                                     }
@@ -159,19 +158,20 @@ window.uploadImg = function (node, name, def, readonly, max) {
                 });
             })
             .on('click', '.uploadImgOne:not(.addImg)', function () {
-                window.showUploadImg().show($(this).prop('src'), $(this).data('name'), $(this).data('readonly'));
+                var node = $(this).parents('.uploadImgBox');
+                window.showUploadImg().show($(this).prop('src'), node.data('name'), node.data('readonly'));
             });
     }
 
     $(node)
         .addClass('uploadImgBox')
-        .after('<input type="hidden" name="' + name + '" value="' + def + '"/>');
-    if (!readonly) {
-        $(node).append('<img class="uploadImgOne addImg" data-node="' + node + '" data-name="' + name + '" src="/img/addImg.jpg"/>');
+        .after('<input type="hidden" name="' + $(node).data('name') + '" value="' + def + '"/>');
+    if (!$(node).data('read')) {
+        $(node).append('<img class="uploadImgOne addImg" src="/img/addImg.jpg"/>');
     }
     if (def) {
         $.each(def.split(','), function (k, v) {
-            $(node).find('.addImg').before('<img class="uploadImgOne" data-readonly="' + readonly + '" data-name="' + name + '" src="' + v + '"/>');
+            $(node).find('.addImg').before('<img class="uploadImgOne" src="' + v + '"/>');
         });
     }
 };

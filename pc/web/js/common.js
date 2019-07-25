@@ -76,6 +76,27 @@ window.in_string = function (str, val) {
     return str.indexOf(val) > -1;
 };
 
+window.toDate = function (second) {
+    second = second || 0;
+    var date = {hour: 3600, minute: 60, second: 1};
+    var dateName = {hour: '时', minute: '分', second: '秒'};
+    var str = '';
+    $.each(date, function (k, v) {
+        if (second >= v) {
+            var now = Math.floor(second / v);
+            second = second - (now * v);
+            now = k === 'day' ? now : window.prefixZero(now, 2);
+            str += now + dateName[k];
+        } else {
+            str += '00' + dateName[k];
+        }
+    });
+    return str;
+};
+window.prefixZero = function (num, length) {
+    return (Array(length).join('0') + num).slice(-length);
+};
+
 window.load(function () {
 
     $('*[data-url]').click(function () {

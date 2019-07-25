@@ -39,7 +39,7 @@ use Yii;
  * @property string $transformer_drawing 变压器图纸
  * @property string $power_contract 电力合同
  * @property string $remark 备注
- * @property int $status 场站状态 0待处理1挂起2审核中3审核不通过4正在融资5融资完成
+ * @property int $status 场站状态 0待处理1挂起2审核中3审核不通过4正在融资5融资完成6用户删除
  * @property int $source 来源 1用户发布2平台专员3三方专员
  * @property string $created 创建用户
  * @property string $created_at 创建时间
@@ -74,7 +74,7 @@ class EnField extends \yii\db\ActiveRecord
             [['images'], 'string', 'max' => 400],
             [['address'], 'string', 'max' => 60],
             [['field_configure'], 'string', 'max' => 500],
-            [['budget_amount', 'lowest_amount', 'present_amount'], 'string', 'max' => 10],
+            [['budget_amount', 'lowest_amount', 'present_amount'], 'number'],
             [['field_contract', 'field_prove', 'field_drawing', 'transformer_drawing', 'power_contract'], 'string', 'max' => 240],
             [['record_file'], 'string', 'max' => 80],
             [['intro', 'cobberTel'], 'string'],
@@ -150,6 +150,9 @@ class EnField extends \yii\db\ActiveRecord
             if (!$this->lowest_amount) {
                 $this->addError('lowest_amount', '请填写起投金额');
             }
+            if (($this->budget_amount % $this->lowest_amount) != 0) {
+                $this->addError('lowest_amount', '起投金额必须能被预算金额整除');
+            }
             if ($this->source != 3) {
                 if (!$this->invest_type) {
                     $this->addError('invest_type', '请选择投资类型');
@@ -221,7 +224,7 @@ class EnField extends \yii\db\ActiveRecord
             'transformer_drawing' => '变压器图纸',
             'power_contract' => '电力合同',
             'remark' => '备注',
-            'status' => '场站状态 0待处理1挂起2审核中3审核不通过4正在融资5融资完成',
+            'status' => '场站状态 0待处理1挂起2审核中3审核不通过4正在融资5融资完成6用户删除',
             'source' => '来源 1用户发布2平台专员3三方专员',
             'created' => '创建用户',
             'created_at' => '创建时间',
@@ -322,7 +325,7 @@ class EnField extends \yii\db\ActiveRecord
         $data = self::find()->alias('f')
             ->leftJoin(EnUser::tableName() . ' u1', 'u1.id=f.local_id')
             ->leftJoin(EnUser::tableName() . ' u2', 'u2.id=f.cobber_id')
-            ->where(['f.status' => [2, 3, 4, 5]])
+            ->where(['f.status' => [2, 3]])
             ->select([
                 'f.id', 'f.no', 'f.business_type', 'f.invest_type', 'f.status',
                 'f.name', 'f.address', 'f.created_at', 'u1.tel as uTel', 'f.source',
@@ -398,41 +401,28 @@ class EnField extends \yii\db\ActiveRecord
     /**
      * 场站融资金额操作
      * @param int $id
-     * @param string $do add/cut
      * @param int $amount
+     * @param string $do add加/cut减
      * @return bool
      */
-    public static function updatePresentAmount($id = 0, $do = 'add', $amount = 0)
+    public static function updatePresentAmount($id = 0, $amount = 0, $do = 'add')
     {
-        Msg::set('错误操作');
         if ($id && $do && $amount) {
+            $model = self::findOne($id);
             if ($do == 'add') {
-                Msg::set('融资已结束');
-                if ($model = self::findOne(['status' => 4, 'id' => $id])) {
-                    Msg::set('起投资金最少为' . $model->lowest_amount);
-                    if ($amount >= $model->lowest_amount) {
-                        $present_amount = $amount + (int)$model->present_amount;
-                        Msg::set('本次项目最高融资' . $model->budget_amount);
-                        if ($present_amount <= $model->budget_amount) {
-                            $model->present_amount = (string)$present_amount;
-                            if ($present_amount == $model->budget_amount) {
-                                $model->status = 5;
-                            }
-                            return $model->save();
-                        }
-                    }
+                $model->present_amount = $amount + (int)$model->present_amount;
+                if ($model->present_amount >= $model->budget_amount) {
+                    $model->present_amount = $model->budget_amount;
+                    $model->status = 5;
                 }
+                return $model->save();
             }
             if ($do == 'cut') {
-                if ($model = self::findOne(['status' => [4, 5], 'id' => $id])) {
-                    if ($amount <= $model->present_amount) {
-                        $model->present_amount = (string)($model->present_amount - $amount);
-                        if ($model->status == 5) {
-                            $model->status = 4;
-                        }
-                        return $model->save();
-                    }
+                $model->present_amount = ($model->present_amount - $amount) ?: 0;
+                if ($model->status == 5) {
+                    $model->status = 4;
                 }
+                return $model->save();
             }
         }
         return false;
@@ -458,6 +448,46 @@ class EnField extends \yii\db\ActiveRecord
         }
         Msg::set('已经没有待处理信息了!!!');
         return false;
+    }
+
+    /**
+     * 返回用户场站
+     * @return array|mixed
+     */
+    public static function getUserField()
+    {
+        $data = self::find()->where([
+            'local_id' => Yii::$app->user->id,
+            'status' => [0, 1, 2, 3, 4, 5]
+        ])->asArray()->all();
+        foreach ($data as &$v) {
+            $v['images'] = explode(',', $v['images'])[0];
+            $v['business_type'] = $v['status'] ? Constant::businessType()[$v['business_type']] : '----';
+            $v['invest_type'] = $v['status'] ? Constant::investType()[$v['invest_type']] : '----';
+            $v['status_val'] = $v['status'];
+            $v['status'] = in_array($v['status'], [1, 2, 3, 4, 5]) ? '已处理' : Constant::fieldStatus()[$v['status']];
+        }
+        return Helper::arraySort($data, 'status_val', SORT_ASC, 'created_at', SORT_DESC);
+    }
+
+    /**
+     * 返回用户推荐场站
+     * @return array|mixed
+     */
+    public static function getUserRField()
+    {
+        $data = self::find()->where([
+            'cobber_id' => Yii::$app->user->id,
+            'status' => [0, 1, 2, 3, 4, 5]
+        ])->asArray()->all();
+        foreach ($data as &$v) {
+            $v['images'] = explode(',', $v['images'])[0];
+            $v['business_type'] = $v['status'] ? Constant::businessType()[$v['business_type']] : '----';
+            $v['invest_type'] = $v['status'] ? Constant::investType()[$v['invest_type']] : '----';
+            $v['status_val'] = $v['status'];
+            $v['status'] = in_array($v['status'], [1, 2, 3, 4, 5]) ? '已处理' : Constant::fieldStatus()[$v['status']];
+        }
+        return Helper::arraySort($data, 'status_val', SORT_ASC, 'created_at', SORT_DESC);
     }
 
     /**

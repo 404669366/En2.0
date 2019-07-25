@@ -22,7 +22,7 @@
                             <div class="col-sm-5">
                                 <div class="input-group">
                                     <input type="text" class="form-control no" placeholder="填写场站编号完成场站绑定"
-                                           value="<?= $model->field->no ?>">
+                                           value="<?= $model->field ? $model->field->no : '' ?>">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-primary searchField1">搜索</button>
                                     </span>
@@ -48,8 +48,8 @@
                             <label class="col-sm-4 control-label">绑定用户</label>
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <input type="text" class="form-control tel" placeholder="填写用户手机号完成用户绑定"
-                                           value="<?= $model->user->tel ?>">
+                                    <input type="text" class="form-control tel" placeholder="填写手机号完成用户绑定"
+                                           value="<?= $model->user ? $model->user->tel : '' ?>">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-primary searchField2">搜索</button>
                                     </span>
@@ -70,6 +70,33 @@
                                 });
                             </script>
                         </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">推荐用户</label>
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    <input type="text" class="form-control tel3" placeholder="填写手机号完成推荐用户绑定(选填)"
+                                           value="<?= $model->cobber ? $model->cobber->tel : '' ?>">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary searchField3">搜索</button>
+                                    </span>
+                                </div>
+                                <input type="hidden" name="cobber_id" value="<?= $model->cobber_id ?>">
+                            </div>
+                            <script>
+                                $('.searchField3').click(function () {
+                                    $('[name="cobber_id"]').val(0);
+                                    $.getJSON('/field/field/user-search', {tel: $('.tel3').val()}, function (re) {
+                                        if (re.type) {
+                                            $('[name="cobber_id"]').val(re.data);
+                                            showMsg('推荐用户绑定成功');
+                                        } else {
+                                            showMsg('推荐用户不存在,请重新输入用户手机号进行绑定');
+                                        }
+                                    })
+                                });
+                            </script>
+                        </div>
                     <?php else: ?>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
@@ -85,15 +112,15 @@
                                 <input type="text" class="form-control" placeholder="<?= $model->user->tel ?>" readonly>
                             </div>
                         </div>
-                    <?php endif; ?>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">推荐用户</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>" readonly>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">推荐用户</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"
+                                       placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>" readonly>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
@@ -114,14 +141,6 @@
                                        value="<?= $model->purchase_amount ?>">
                             </div>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">分成比例</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" name="part_ratio"
-                                       value="<?= $model->part_ratio ?>">
-                            </div>
-                        </div>
                     <?php else: ?>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
@@ -131,15 +150,15 @@
                                        readonly>
                             </div>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">分成比例</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="<?= $model->part_ratio ?>"
-                                       readonly>
-                            </div>
-                        </div>
                     <?php endif; ?>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">分成比例</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"
+                                   placeholder="<?= $model->part_ratio ? $model->part_ratio : '系统自动完成计算' ?>" readonly>
+                        </div>
+                    </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">定金金额</label>

@@ -19,6 +19,9 @@ class UserController extends AuthController
      */
     public function actionCenter()
     {
-        return $this->render('center');
+        if (isset($_COOKIE['user-show']) && $_COOKIE['user-show']) {
+            return $this->redirect($_COOKIE['user-show']);
+        }
+        return $this->redirect(['user/intention/list']);
     }
 }

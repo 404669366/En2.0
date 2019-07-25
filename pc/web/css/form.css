@@ -134,7 +134,7 @@ form > button {
 .uploadImgBox > .uploadImgOne {
     float: left;
     height: 9.4rem;
-    width: calc((100% - 1.8rem) / 5);
+    width: calc((100% - 2.4rem) / 5);
     margin-right: 0.6rem;
 }
 

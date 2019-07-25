@@ -46,18 +46,56 @@ class IntentionController extends CommonController
             $post = \Yii::$app->request->post();
             $model->remark = $post['remark'];
             $model->status = $post['status'];
-            $re = true;
-            if ($model->source == 2 && $model->status == 4) {
-                $re = EnField::updatePresentAmount($model->field_id, 'add', $model->purchase_amount);
-            }
-            if ($re) {
-                if ($re && $model->save()) {
-                    Msg::set('操作成功');
-                    return $this->redirect(['list']);
-                }
-                Msg::set($model->errors());
-            }
+            $model->save(false);
+            Msg::set('操作成功');
+            return $this->redirect(['list']);
         }
         return $this->render('info', ['model' => $model]);
+    }
+
+    /**
+     * 退款列表页
+     * @return string
+     */
+    public function actionBackList()
+    {
+        return $this->render('back-list');
+    }
+
+    /**
+     * 退款列表数据
+     * @return string
+     */
+    public function actionBackData()
+    {
+        return $this->rTableData(EnFieldIntention::getExamineBackData());
+    }
+
+    /**
+     * 退款详情页
+     * @param $id
+     * @return string
+     */
+    public function actionBackInfo($id)
+    {
+        return $this->render('back-info', ['model' => EnFieldIntention::findOne($id)]);
+    }
+
+    /**
+     * 退款确认
+     * @param $id
+     * @return string|\yii\web\Response
+     */
+    public function actionSure($id)
+    {
+        Msg::set('错误操作');
+        if ($model = EnFieldIntention::findOne(['status' => 8, 'id' => $id])) {
+            $model->status = 9;
+            if ($model->save()) {
+                Msg::set('操作成功');
+            }
+            Msg::set($model->errors());
+        }
+        return $this->redirect(['back-list']);
     }
 }

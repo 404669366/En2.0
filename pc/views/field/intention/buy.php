@@ -20,7 +20,7 @@
                 关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <span></span>
                 <ul>
-                    <li class="active"><a href="/about/about/company.html">公司介绍</a></li>
+                    <li><a href="/about/about/company.html">公司介绍</a></li>
                     <li><a href="/about/about/partner.html">合作伙伴</a></li>
                     <li><a href="/about/about/contact.html">联系我们</a></li>
                     <li><a href="/about/about/guide.html">用户指南</a></li>
@@ -100,53 +100,52 @@
                 <div class="buyCount">
                     <div class="one">
                         <label>认购金额 :</label>
-                        <input type="text" name="purchase_amount" autocomplete="off">
+                        <div class="val">
+                            <button class="cut doAmount" type="button"><i class="fa fa-minus"></i></button>
+                            <input type="text" name="purchase_amount" readonly autocomplete="off">
+                            <button class="add doAmount" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>
                     </div>
                     <div class="one">
                         <label>定金金额 :</label>
-                        <?php
-                        $now = $detail->lowest_amount * \vendor\project\helpers\Constant::orderRatio();
-                        ?>
-                        <div class="val order_amount"><?= $now ?></div>
+                        <div class="val order_amount"></div>
                     </div>
                 </div>
             </div>
             <div class="btnBox">
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-                <input type="hidden" name="order_amount" value="<?= $now ?>">
-                <input type="hidden" name="part_ratio" value="<?= $detail->lowest_amount / $detail->budget_amount ?>">
-                <input type="hidden" name="field_id" value="<?= $detail->id ?>">
-                <input type="hidden" name="source" value="2">
-                <input type="hidden" name="commissioner_id" value="<?= $detail->commissioner_id ?>">
-                <input type="hidden" name="user_id" value="<?= Yii::$app->user->id ?>">
-                <input type="hidden" name="created_at" value="<?= time() ?>">
                 <button type="submit" class="btn">确认提交</button>
             </div>
             <script>
-                var all = '<?= $detail->budget_amount ?>';
                 var min = '<?= $detail->lowest_amount ?>';
                 var max = '<?= $detail->budget_amount - $detail->present_amount?>';
                 var ratio = '<?=\vendor\project\helpers\Constant::orderRatio()?>';
-                $('[name="purchase_amount"]').focus().val(min).on('input propertychange', function () {
-                    var purchase = parseInt($(this).val() || 0);
-                    $(this).val(purchase);
-                    var now = window.format(purchase * ratio, 1);
-                    $('[name="order_amount"]').val(now);
-                    $('.order_amount').text(now);
-                    $('[name="part_ratio"]').val(purchase / all);
+                $('[name="purchase_amount"]').val(min);
+                $('.order_amount').text(window.format(min * ratio, 1));
+                $('.doAmount').click(function () {
+                    if ($(this).hasClass('add')) {
+                        $('[name="purchase_amount"]').val(function (i, v) {
+                            if (v >= parseInt(max)) {
+                                window.showMsg('最高认购金额' + max);
+                                return v;
+                            }
+                            var purchase_amount = parseInt(v) + parseInt(min);
+                            $('.order_amount').text(window.format(purchase_amount * ratio, 1));
+                            return purchase_amount;
+                        });
+                    }
+                    if ($(this).hasClass('cut')) {
+                        $('[name="purchase_amount"]').val(function (i, v) {
+                            if (v <= parseInt(min)) {
+                                window.showMsg('最低认购金额' + min);
+                                return v;
+                            }
+                            var purchase_amount = parseInt(v) - parseInt(min);
+                            $('.order_amount').text(window.format(purchase_amount * ratio, 1));
+                            return purchase_amount;
+                        });
+                    }
                 });
-                $('.btn').click(function () {
-                    var purchase = parseInt($('[name="purchase_amount"]').val());
-                    if (purchase > parseInt(max)) {
-                        window.showMsg('最高认购金额' + max);
-                        return false;
-                    }
-                    if (purchase < parseInt(min)) {
-                        window.showMsg('最低认购金额' + min);
-                        return false;
-                    }
-                    return true;
-                })
             </script>
         </form>
     </div>
@@ -162,7 +161,7 @@
         </div>
         <div>
             <h4>项目</h4>
-            <a href="/field/create/create.html">发起项目</a><br/>
+            <a href="/user/field/create.html">发起项目</a><br/>
             <a href="/field/field/list.html">投资项目</a><br/>
         </div>
         <div>

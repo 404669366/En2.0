@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-19 19:03:53
+Date: 2019-07-25 16:49:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,6 +38,8 @@ INSERT INTO `en_cache` VALUES ('cecebbde3e74ec4e447501a1d7b1d070', '0', 0x613A32
 INSERT INTO `en_cache` VALUES ('0d5645cd1ba44ed9a2d3cdd31511e757', '0', 0x613A323A7B693A303B733A33363A2231323331323331323331323331323331326F73696A666F6973616F69776A646961776E64223B693A313B4E3B7D);
 INSERT INTO `en_cache` VALUES ('874784edd3b45a8e1eeb984da4fabe47', '0', 0x613A323A7B693A303B733A34333A223132333132333132E593A66869555341E5A5BDE5A4A7E5BFABE98092E982A3E79C8BE69DA5E794B5E88491223B693A313B4E3B7D);
 INSERT INTO `en_cache` VALUES ('e93dfade7afaeb743e69bc39adeeb1e2', '0', 0x613A323A7B693A303B4E3B693A313B4E3B7D);
+INSERT INTO `en_cache` VALUES ('720569317b248c4b01f9c72603ce0f40', '0', 0x613A323A7B693A303B733A35383A226164776461776461E5A4A7E5A4A7E78E8BE5A4A7E697A0E5A49A7A64667361646164E788B1E68891E79A84E5B7A5E697B6E8B4B9E890A8E5B094223B693A313B4E3B7D);
+INSERT INTO `en_cache` VALUES ('301dde3bd24da620851fdff6aa46a2ea', '0', 0x613A323A7B693A303B733A3236383A22E79C8BE5A5BDE4BDA0E79A84E7A9BAE997B4E68C89E68891E79A84E982A3E68891E79A84E7A6BBE5BC80E689BEE5809FE58FA3E4B88DE58F82E58AA0E68C89E697B6E79C8BE587A0E68A8AE595A5E983A8E4BD8D706F61696439616A776F646A31E4BDA0E58DA1E79A84E982A3E4B988E4BA94E782B9E58D8AE68A8AE887AAE8A18CE8BDA6E685A2E4B88DE8AFB4E4BDA0E9BABBE797B9E982A3E58FAFE5B0B1E88AB1E68E89E69687E4BBB6E581B6E5AEB6E7A9BAE997B2E693A6E79BAEE6A087E698AFE4BDA0E4BBACE4BDA0E79C8BE590A7E5A4A7E78E8BE58DA1E4BAACE4B89CE788B1E79A84E982A3E882AFE5AE9AE883BDE793A6E59D8EE8BEBEE68C89E994AEE7BD91E8B083E5BAA6223B693A313B4E3B7D);
 INSERT INTO `en_cache` VALUES ('71362e0f6104e577bd64ed45e3feb60b', '0', 0x613A323A7B693A303B733A3532353A223C646976207374796C653D22746578742D616C69676E3A2063656E7465723B223E6E69647564627769617562646B616EE788B1E79A84E982A3E4BDA0E997AEE5BAA6E5A898E68891E79A843C2F6469763E3C646976207374796C653D22746578742D616C69676E3A206C6566743B206D617267696E2D6C6566743A20353070783B223EE7A791E68A80E5AE89E5BEBDE5BEAEE58D9AE79A84E4B887E8BEBEE5AE89E68993E58DA1E69CBAE983BDE79C8BE5AE8CE4BA86E58DA1E69DA5E5BE97E58F8AE59387E5AD94E4BBA4E8BE89E5AFB9E69687E58C96E5B7B261686469776168643C2F6469763E3C646976207374796C653D22746578742D616C69676E3A206C6566743B206D617267696E2D6C6566743A20353070783B223EE79C8BE68891E79A84E5AEB6E58DA1E8BFAAE982A3E788B1E7A9BAE997B4E79A84E58685E5A496E4BBA3E8A1A8E58D97E5A4A7E8A197E6B8B4E69C9BE4BDA0E79A84E8AFBEE8AEB2E5AE8CE58F82E695B03C2F6469763E3C646976207374796C653D22746578742D616C69676E3A206C6566743B206D617267696E2D6C6566743A20353070783B223EE68993E68891E79A84E9AD94E788B1E4BDA0E79A842C61706BE5B8A6E9A287E4B8BAE6BF80E58AA83C2F6469763E3C646976207374796C653D22746578742D616C69676E3A206C6566743B206D617267696E2D6C6566743A20323570783B223E3C62723E3C2F6469763E223B693A313B4E3B7D);
 INSERT INTO `en_cache` VALUES ('00e2840fd841ccadf247363137bf47ff', '0', 0x613A323A7B693A303B733A31313A226177646177646177646177223B693A313B4E3B7D);
 INSERT INTO `en_cache` VALUES ('d7a935ad27627fdc77ee4324a955983e', '0', 0x613A323A7B693A303B733A31323A22E8819AE9A9ACE9A39EE885BE223B693A313B4E3B7D);
@@ -102,44 +104,15 @@ CREATE TABLE `en_field` (
 -- ----------------------------
 -- Records of en_field
 -- ----------------------------
-INSERT INTO `en_field` VALUES ('1', '1', '1', '3', '0.7', '0.1', '1', '0', 'F20190617164468', '123123', '123123阿达瓦大', 'uagkbdukawgdjabd基调我回答我的 出那么上传uagkbdukawgdjabd基调我回答我的', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190614103958t8gulf7gf.jpg', '104.06792346', '30.67994285', '成都市青羊区蜀龙路保利198公园对面驿站路二台子驿站F6-F7栋 成都华氏陶瓷艺术博物馆', '123123', '1000', '100', '500', '', '', '', '', '', '', '', '4', '1', '1', '1560760381');
+INSERT INTO `en_field` VALUES ('1', '1', '1', '3', '0.7', '0.1', '1', '0', 'F20190617164468', '123123', '123123阿达瓦大', 'uagkbdukawgdjabd基调我回答我的 出那么上传uagkbdukawgdjabd基调我回答我的', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190614103958t8gulf7gf.jpg', '104.06792346', '30.67994285', '成都市青羊区蜀龙路保利198公园对面驿站路二台子驿站F6-F7栋 成都华氏陶瓷艺术博物馆', '123123', '1000', '100', '0', '', '', '', '', '', '', '', '4', '1', '1', '1560760381');
 INSERT INTO `en_field` VALUES ('2', '1', '1', '3', '0.7', '0', '0', '0', 'F20190617177022', '123123123', '12312312', 'uagkbdukawgdjabd基调我回答我的,uagkbdukawgdjabd基调我回答我的', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/201906171706458ttdvf5xk.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190628104541qbrygnr9Q.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190628104549mr576qmvx.jpg', '104.06792346', '30.67994285', '成都市青羊区蜀龙路保利198公园对面驿站路二台子驿站F6-F7栋 成都华氏陶瓷艺术博物馆', '123123', '5000', '500', '0', '', '', '', '', '', '', '123', '1', '2', '1', '1560762340');
 INSERT INTO `en_field` VALUES ('3', '1', '1', '1', '0.7', '0.1', '1', '0', 'F20190628129132', '12312311', '123123叙述大V', 'uagkbdukawgdjabd基调我回答我的uagkbdukawgdjabd基调我回答我的', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190628120336yh1dfrsum.jpg,https://ascasc.oss-cn-hangzhou.aliyuncs.com/201906281203429mz7bnl6v.jpg,https://ascasc.oss-cn-hangzhou.aliyuncs.com/201906281203504onm4w3j8.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/2019062812115415nfl1d3q.png', '104.06792346', '30.67994285', '成都市青羊区蜀龙路保利198公园对面驿站路二台子驿站F6-F7栋', '123123', '2000', '500', '0', '', '', '', '', '', '', '', '5', '1', '1', '1561694643');
 INSERT INTO `en_field` VALUES ('4', '1', '1', '3', '0.7', '0.1', '1', '0', 'F20190628129691', '12312322', '12312367u7bfgb', 'uagkbdukawgdjabd基调我回答我的uagkbdukawgdjabd基调我回答我的', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190628123532nd7r9a2vp.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190628123538eqnejiQq5.png', '104.036644', '30.546951', '成都市双流区朗基御今缘', '123123123', '20000', '10000', '0', '', '', '', '', '', '', '', '5', '2', '1', '1561696478');
 INSERT INTO `en_field` VALUES ('5', '4', '1', '2', '0.7', '0', '0', '0', 'F20190703092456', '2313123', '345345345', '45623423', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190703095155Q25blegjd.jpg,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190703095243Qmzylwmk2.jpg', '104.06106', '30.543452', '四川省成都市武侯区益州大道中段1858号 天府软件园-G7楼', 'xcvxdfsdfs', '5000', '500', '0', '', '', '', '', '', '', '', '1', '2', '1', '1562118596');
-INSERT INTO `en_field` VALUES ('6', '1', '1', '4', '0.7', '0.2', '1', '0', 'F20190711114160', 'awwad', 'adawd', 'adawd', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190716185710moww52psa.png', '104.06792355', '30.67994285', '四川省成都市青羊区王家塘街101号 王家塘街101号院', 'adawd', '5000', '500', '0', '', '', '', '', '', '', '', '2', '1', '1', '1562815566');
+INSERT INTO `en_field` VALUES ('6', '1', '1', '4', '0.7', '0.2', '1', '0', 'F20190711114160', 'awwad', 'adawd', 'adawd', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190716185710moww52psa.png', '104.06792355', '30.67994285', '四川省成都市青羊区王家塘街101号 王家塘街101号院', 'adawd', '5000', '500', '0', '', '', '', '', '', '', '达瓦大', '1', '1', '1', '1562815566');
 INSERT INTO `en_field` VALUES ('7', '1', '1', '4', '0', '0', '0', '0', 'F20190719093333', 'gfsefsadadawdd', '123123', '123123', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/201907190927011Qu1pab4z.jpg', '104.069702', '30.54692', '四川省成都市武侯区天府四街199 长虹科技大厦-B座', '123123', '11111', '11', '0', '', '', '', '', '', '', '', '1', '3', '1', '1562815566');
 INSERT INTO `en_field` VALUES ('9', '1', '1', '3', '0', '0', '1', '0', 'F20190719176830', '', '', '', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190719174103pjb9jy33g.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190719174109719nrfaw5.png', '104.067492', '30.596498', '成都武侯区府城大道中段188号时代晶科名苑 成都嘉华居公寓时代晶科店', '', '0', '0', '0', '', '', '', '', '', '', '', '0', '1', '1', '1563529337');
-INSERT INTO `en_field` VALUES ('10', '1', '1', '3', '0', '0', '1', '0', 'F20190719177996', '', '', '', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190719174421sj9vefw2c.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190719174426ppc6ce8vv.jpg', '104.137452', '30.633359', '成都市成华区九寨沟路与岷江路交叉口东北100米 东城一品', '', '0', '0', '0', '', '', '', '', '', '', '', '0', '1', '1', '1563529590');
-
--- ----------------------------
--- Table structure for en_field_base
--- ----------------------------
-DROP TABLE IF EXISTS `en_field_base`;
-CREATE TABLE `en_field_base` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `commissioner_id` int(10) unsigned DEFAULT '0' COMMENT '专员ID',
-  `cobber_id` int(10) unsigned DEFAULT '0' COMMENT '推荐用户ID',
-  `user_id` int(10) unsigned DEFAULT '0' COMMENT '用户ID',
-  `field_id` int(10) unsigned DEFAULT '0' COMMENT '转化场地ID',
-  `address` varchar(60) DEFAULT '' COMMENT '地址',
-  `lng` varchar(20) DEFAULT '' COMMENT '经度',
-  `lat` varchar(20) DEFAULT '' COMMENT '纬度',
-  `remark` varchar(255) DEFAULT '' COMMENT '备注',
-  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态 1待转化2已转化',
-  `created_at` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='基础场站表';
-
--- ----------------------------
--- Records of en_field_base
--- ----------------------------
-INSERT INTO `en_field_base` VALUES ('1', '1', '0', '1', '1', '成都市青羊区蜀龙路保利198公园对面驿站路二台子驿站F6-F7栋 成都华氏陶瓷艺术博物馆', '104.06792346', '30.67994222', '123123', '2', '1560474603');
-INSERT INTO `en_field_base` VALUES ('2', '1', '0', '1', '3', '成都市青羊区蜀龙路保利198公园对面驿站路二台子驿站F6-F7栋', '104.06792347', '30.67994282', '123123123123123', '2', '1560474603');
-INSERT INTO `en_field_base` VALUES ('3', '1', '0', '1', '6', '四川省成都市青羊区王家塘街101号 王家塘街101号院', '104.06792355', '30.67994285', '', '2', '1562574177');
-INSERT INTO `en_field_base` VALUES ('6', '1', '0', '1', '0', '四川省成都市青羊区王家塘街101号 王家塘街101号院', '104.06792346', '30.67994285', '', '1', '1562575253');
-INSERT INTO `en_field_base` VALUES ('7', '1', '0', '1', '0', '舟山市定海区我爱我家', '122.221229', '29.989692', '', '1', '1562575910');
-INSERT INTO `en_field_base` VALUES ('10', '1', '0', '1', '0', '四川省成都市青羊区大安西路48', '104.083159', '30.682163', '', '1', '1562576341');
+INSERT INTO `en_field` VALUES ('10', '1', '1', '3', '0', '0', '1', '0', 'F20190719177996', '', '', '', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190719174421sj9vefw2c.png,https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190719174426ppc6ce8vv.jpg', '104.137452', '30.633359', '成都市成华区九寨沟路与岷江路交叉口东北100米 东城一品', '', '0', '0', '0', '', '', '', '', '', '', '', '6', '1', '1', '1563529590');
 
 -- ----------------------------
 -- Table structure for en_field_intention
@@ -147,8 +120,9 @@ INSERT INTO `en_field_base` VALUES ('10', '1', '0', '1', '0', '四川省成都�
 DROP TABLE IF EXISTS `en_field_intention`;
 CREATE TABLE `en_field_intention` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `no` varchar(20) DEFAULT '' COMMENT '意向编号',
   `commissioner_id` int(10) unsigned DEFAULT '0' COMMENT '专员ID',
-  `source` tinyint(1) unsigned DEFAULT '1' COMMENT '来源 1用户2平台',
+  `source` tinyint(1) unsigned DEFAULT '1' COMMENT '来源 1用户2专员',
   `field_id` int(10) unsigned DEFAULT '0' COMMENT '场站ID',
   `user_id` int(10) unsigned DEFAULT '0' COMMENT '用户ID',
   `cobber_id` int(10) unsigned DEFAULT '0' COMMENT '推荐用户ID',
@@ -158,7 +132,8 @@ CREATE TABLE `en_field_intention` (
   `voucher` varchar(80) DEFAULT '' COMMENT '打款凭条',
   `contract` varchar(320) DEFAULT '' COMMENT '合同',
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
-  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态 1待付定金2已付定金3审核中4审核通过5审核不通过6用户违约',
+  `status` tinyint(2) unsigned DEFAULT '1' COMMENT '状态 1待付定金2已付定金3审核凭证4审核通过5审核不通过6用户违约7放弃支付8申请退款9退款通过10已退款11用户删除',
+  `pay_at` int(11) unsigned DEFAULT '0' COMMENT '支付定金时间',
   `created_at` int(11) unsigned DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='场站意向表';
@@ -166,7 +141,6 @@ CREATE TABLE `en_field_intention` (
 -- ----------------------------
 -- Records of en_field_intention
 -- ----------------------------
-INSERT INTO `en_field_intention` VALUES ('1', '1', '2', '1', '1', '0', '500', '0', '123', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190618095638biyqpocac.png', 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190618095645f3f3q68ww.jpg', '123123', '2', '1560822975');
 
 -- ----------------------------
 -- Table structure for en_job
@@ -262,7 +236,7 @@ CREATE TABLE `en_power` (
   `url` varchar(100) DEFAULT '' COMMENT '权限路由',
   `sort` int(10) unsigned DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='后台权限表';
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='后台权限表';
 
 -- ----------------------------
 -- Records of en_power
@@ -275,6 +249,7 @@ INSERT INTO `en_power` VALUES ('5', '0', '1', '会员管理', '/user', '998');
 INSERT INTO `en_power` VALUES ('6', '5', '1', '会员列表', '/user/user/list', '999');
 INSERT INTO `en_power` VALUES ('7', '0', '1', '场站管理', '/field', '997');
 INSERT INTO `en_power` VALUES ('8', '7', '1', '场站列表', '/field/field/list', '998');
+INSERT INTO `en_power` VALUES ('22', '11', '1', '意向退款', '/examine/intention/back-list', '997');
 INSERT INTO `en_power` VALUES ('10', '7', '1', '场站意向', '/field/intention/list', '997');
 INSERT INTO `en_power` VALUES ('11', '0', '1', '审核管理', '/examine', '996');
 INSERT INTO `en_power` VALUES ('12', '11', '1', '场站审核', '/examine/field/list', '999');
@@ -287,6 +262,7 @@ INSERT INTO `en_power` VALUES ('18', '1', '1', '公司信息', '/job/company/my'
 INSERT INTO `en_power` VALUES ('19', '1', '1', '公司职位', '/job/job/my-list', '995');
 INSERT INTO `en_power` VALUES ('20', '1', '1', '公司员工', '/job/member/my-list', '993');
 INSERT INTO `en_power` VALUES ('21', '7', '1', '场站列表(第三方)', '/field/third/list', '999');
+INSERT INTO `en_power` VALUES ('23', '14', '1', '投资类型', '/web/invest/list', '997');
 
 -- ----------------------------
 -- Table structure for en_user
@@ -302,9 +278,10 @@ CREATE TABLE `en_user` (
   `address` varchar(50) DEFAULT '' COMMENT '地址',
   `created_at` int(11) unsigned DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='前台用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='前台用户表';
 
 -- ----------------------------
 -- Records of en_user
 -- ----------------------------
 INSERT INTO `en_user` VALUES ('1', '$2y$13$2dMwB5cPp03ZNVGQzTY.9OKRh6Zn82iw4aAbRg.0gRDeLXmMyjdpG', '', '18683509267', '', '', '', '1561110899');
+INSERT INTO `en_user` VALUES ('2', '$2y$13$2dMwB5cPp03ZNVGQzTY.9OKRh6Zn82iw4aAbRg.0gRDeLXmMyjdgr', '', '18308412675', '', '', '', '1561110899');

@@ -34,6 +34,31 @@ class BasisController extends Controller
     }
 
     /**
+     * 返回xml数据
+     * @param array $data
+     * @return string
+     */
+    public function rXml($data = [])
+    {
+        $xml = '<xml>';
+        foreach ($data as $k => $v) {
+            $xml .= "<$k>$v</$k>";
+        }
+        $xml .= '</xml>';
+        echo $xml;
+        exit();
+    }
+
+    /**
+     * 获取xml
+     * @return array
+     */
+    public function getXml()
+    {
+        return (array)simplexml_load_string(file_get_contents("php://input"), 'SimpleXMLElement', LIBXML_NOCDATA);
+    }
+
+    /**
      * 重写goBack，返回上一页
      * @param string $msg
      * @return \yii\web\Response
@@ -51,5 +76,13 @@ class BasisController extends Controller
     public function actionError()
     {
         return $this->render('error');
+    }
+
+    /**
+     * 记录用户中心访问路由
+     */
+    public function rUCenterUrl()
+    {
+        setcookie('user-show', \Yii::$app->request->url, time() + 3600, '/');
     }
 }

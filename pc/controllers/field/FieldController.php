@@ -26,17 +26,19 @@ class FieldController extends BasisController
     /**
      * 项目详情
      * @param string $no
-     * @return string
+     * @param string $r
+     * @return string|\yii\web\Response
      */
-    public function actionDetail($no = '')
+    public function actionDetail($no = '', $r = '')
     {
-        if ($no) {
-            if ($detail = EnField::findOne(['no' => $no])) {
-                return $this->render('detail', [
-                    'detail' => $detail,
-                    'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail->id),
-                ]);
+        if ($detail = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5]])) {
+            if ($r) {
+                setcookie('field-r-' . $detail->id, $r, time() + 3600 * 24 * 30, '/');
             }
+            return $this->render('detail', [
+                'detail' => $detail,
+                'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail->id),
+            ]);
         }
         return $this->redirect(['basis/basis/error']);
     }

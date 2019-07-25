@@ -10,7 +10,6 @@
 .center > .box {
     zoom: 1;
     width: 54rem;
-    height: 30rem;
     margin: 0 auto;
     -webkit-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
@@ -27,10 +26,7 @@
 }
 
 .center > .box > .menu {
-    width: 14rem;
-    height: 30rem;
-    box-sizing: border-box;
-    border-right: 1px solid #f4f3fd;
+    width: calc(14rem - 1px);
     float: left;
 }
 
@@ -51,20 +47,26 @@
     background: #DDDDDD;
 }
 
-.center > .box > .details {
+.center > .box > .detail {
     float: right;
-    width: 40rem;
-    height: 30rem;
+    width: calc(40rem + 1px);
     padding: 1rem;
+    border-left: 1px solid #f4f3fd;
     box-sizing: border-box;
+    min-height: 24rem;
 }
 
-.details > .detail {
+.none {
     width: 100%;
-    height: 100%;
-    display: none;
+    height: 24rem;
+    display: table;
 }
 
-.details > .detail:first-child {
-    display: block;
+.none > span {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 24rem;
+    font-size: 1.2rem;
+    color: #4a4a4a;
 }

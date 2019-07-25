@@ -42,6 +42,7 @@
                     <th>定金金额</th>
                     <th>分成比例</th>
                     <th>意向状态</th>
+                    <th>支付时间</th>
                     <th>创建时间</th>
                     <th>操作</th>
                 </tr>
@@ -73,6 +74,11 @@
             {"data": "order_amount"},
             {"data": "part_ratio"},
             {"data": "status"},
+            {
+                "data": "pay_at", "render": function (data, type, row) {
+                return data != 0 ? timeToDate(data) : '----';
+            }
+            },
             {
                 "data": "created_at", "render": function (data, type, row) {
                 return timeToDate(data);

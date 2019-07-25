@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/news.css" rel="stylesheet">
+    <link href="/css/form.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/upload.min.js" type="text/javascript" charset='utf-8'></script>
 </head>
 <body>
 <div class="head">
@@ -15,7 +16,7 @@
         <ul>
             <li><a href="/index/index/index.html">首页<span></span></a></li>
             <li><a href="/field/field/list.html">项目<span></span></a></li>
-            <li class="active"><a href="/news/news/list.html">新闻<span></span></a></li>
+            <li><a href="/news/news/list.html">新闻<span></span></a></li>
             <li class="nav" onselectstart="return false">
                 关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <span></span>
@@ -32,7 +33,7 @@
                     <a href="/<?= Yii::$app->params['loginRoute'] ?>.html" class="hide">登录 / 注册</a>
                 </li>
             <?php else: ?>
-                <li title="个人中心">
+                <li class="active" title="个人中心">
                     <a href="/user/user/center.html">
                         <?= Yii::$app->user->getIdentity()->tel ?><span></span>
                     </a>
@@ -69,48 +70,42 @@
     );
 </script>
 <div class="center">
-    <div class="list">
-        <div class="title">
-            <h2>Press</h2>
-            <p>新闻</p>
+    <form method="post">
+        <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
+        <h1>Upload Prove</h1>
+        <h3>上传凭证</h3>
+        <div class="line">
+            <div class="line1">
+                <label>打款凭条(必填)</label>
+                <div class="voucher" data-max="1" data-name="voucher" deta-read="0"></div>
+            </div>
+            <div class="line1">
+                <label>合同照片(必填)</label>
+                <div class="contract" data-max="4" data-name="contract" deta-read="0"></div>
+            </div>
+            <div class="line1">
+                <label>备注(选填)</label>
+                <textarea name="remark" placeholder="您是否还有其他补充说明，或对我们的期望"><?= $model->remark ?></textarea>
+            </div>
         </div>
-        <?php if ($data): ?>
-            <ul class="data">
-                <?php foreach ($data as $v): ?>
-                    <li data-url="/news/news/detail.html?id=<?= $v['id'] ?>">
-                        <div class="img"><img src="<?= $v['image'] ?>" alt="<?= $v['title'] ?>"></div>
-                        <p>
-                            <img src="<?= $v['sourceLogo'] ?>" alt="<?= $v['source'] ?>">
-                            <span><?= $v['source'] ?></span>
-                        </p>
-                        <h3><?= $v['title'] ?></h3>
-                        <a class="hide" href="/news/news/detail.html?id=<?= $v['id'] ?>"><?= $v['title'] ?></a>
-                    </li>
-                <?php endforeach; ?>
-                <div class="clearBoth"></div>
-            </ul>
-        <?php else: ?>
-            <div class="no-data">暂时没有该类新闻</div>
-        <?php endif; ?>
-        <ul class="page" data-getby="http://pc.en.com/news/news/list.html">
-            <li data-do="first">首&emsp;页</li>
-            <li data-do="prev">上一页</li>
-            <li data-do="next">下一页</li>
-        </ul>
-    </div>
+        <button type="submit">确认提交</button>
+    </form>
+    <script>
+        uploadImg('.voucher', '<?=$model->voucher?>');
+        uploadImg('.contract', '<?=$model->contract?>');
+        $('[type="submit"]').click(function () {
+            if (!$('[name="voucher"]').val()) {
+                window.showMsg('请上传打款凭条照片');
+                return false;
+            }
+            if (!$('[name="contract"]').val()) {
+                window.showMsg('请上传合同照片');
+                return false;
+            }
+            return true;
+        });
+    </script>
 </div>
-<script>
-    $('.list>.data>li').hover(
-        function () {
-            $(this).find('.img>img').stop().animate({width: '125%', height: '125%'}, 200);
-            $(this).find('h3').css('text-decoration', 'underline');
-        },
-        function () {
-            $(this).find('.img>img').stop().animate({width: '100%', height: '100%'}, 200);
-            $(this).find('h3').css('text-decoration', 'none');
-        }
-    );
-</script>
 <div class="footer">
     <div class="info">
         <div>

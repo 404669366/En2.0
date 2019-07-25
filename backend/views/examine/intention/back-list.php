@@ -29,9 +29,6 @@
                         <button class="tableReload">重置</button>
                     </span>
                 </div>
-                <div class="col-sm-1">
-                    <a class="btn btn-sm btn-primary" href="/field/intention/edit">添加</a>
-                </div>
             </div>
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
                 <thead>
@@ -57,7 +54,7 @@
 <script>
     myTable.load({
         table: '#table',
-        url: '/field/intention/data',
+        url: '/examine/intention/back-data',
         length: 10,
         columns: [
             {"data": "id"},
@@ -79,7 +76,7 @@
             {"data": "status"},
             {
                 "data": "pay_at", "render": function (data, type, row) {
-                return data != 0 ? timeToDate(data) : '----';
+                return timeToDate(data);
             }
             },
             {
@@ -89,13 +86,9 @@
             },
             {
                 "data": "id", "orderable": false, "render": function (data, type, row) {
-                if (row.status === '已付定金' || row.status === '审核不通过') {
-                    var str = '<a class="btn btn-sm btn-warning" href="/field/intention/edit?id=' + data + '">编辑</a>';
-                    if ((row.source === '用户') && row.outTime) {
-                        str += '&emsp;<a class="btn btn-sm btn-danger" href="/field/intention/break?id=' + data + '">违约</a>';
-                    }
-                } else {
-                    var str = '<a class="btn btn-sm btn-info" href="/field/intention/info?id=' + data + '">详情</a>';
+                var str = '<a class="btn btn-sm btn-info" href="/examine/intention/back-info?id=' + data + '">详情</a>&emsp;';
+                if (row.status === '申请退款') {
+                    str += '<a class="btn btn-sm btn-success" href="/examine/intention/sure?id=' + data + '">确认退款</a>';
                 }
                 return str;
             }

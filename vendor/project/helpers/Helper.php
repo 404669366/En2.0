@@ -272,7 +272,7 @@ class Helper
      * 生成唯一字符串
      * @param int $type 字符串的类型
      *   0-存数字字符串；1-小写字母字符串；2-大写字母字符串；3-大小写数字字符串；4-字符；
-     *   5-数字，小写，大写，字符混合
+     *   5-数字，小写，大写，字符混合；6-小写数字字符串；7-大写数字字符串
      * @param int $length 字符串的长度
      * @param int $time [是否带时间1-带，0-不带
      * @return false|string
@@ -315,7 +315,7 @@ class Helper
                     if (mb_strlen($str) == $length) {
                         $str = $str;
                     } else {
-                        $rand = "123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM";
+                        $rand = "1234567890qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM";
                         $str .= $rand{mt_rand(0, 35)};
                     }
                 }
@@ -335,8 +335,28 @@ class Helper
                     if (mb_strlen($str) == $length) {
                         $str = $str;
                     } else {
-                        $rand = "123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM!@#$%^&*()_+=-~`";
+                        $rand = "1234567890qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM!@#$%^&*()_+=-~`";
                         $str .= $rand{mt_rand(0, 52)};
+                    }
+                }
+                break;
+            case 6:
+                for ((int)$i = 0; $i <= $length; $i++) {
+                    if (mb_strlen($str) == $length) {
+                        $str = $str;
+                    } else {
+                        $rand = "1234567890qwertyuioplkjhgfdsazxcvbnm";
+                        $str .= $rand{mt_rand(0, 35)};
+                    }
+                }
+                break;
+            case 7:
+                for ((int)$i = 0; $i <= $length; $i++) {
+                    if (mb_strlen($str) == $length) {
+                        $str = $str;
+                    } else {
+                        $rand = "1234567890QWERTYUIOPLKJHGFDSAZXCVBNM";
+                        $str .= $rand{mt_rand(0, 35)};
                     }
                 }
                 break;
@@ -628,5 +648,29 @@ class Helper
         $re = curl_exec($ch);
         curl_close($ch);
         return $re;
+    }
+
+    /**
+     * 发送xml
+     * @param string $url
+     * @param string $xmlData
+     * @return mixed
+     */
+    public static function curlXml($url = '', $xmlData = '')
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type:text/xml; charset=utf-8"]);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return false;
+        }
+        curl_close($ch);
+        $xml = (array)simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+        return $xml;
     }
 }

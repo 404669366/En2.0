@@ -53,15 +53,6 @@ class Constant
     }
 
     /**
-     * 定金收取比例
-     * @return float
-     */
-    public static function orderRatio()
-    {
-        return 0.1;
-    }
-
-    /**
      * 权限类型
      * @return array
      */
@@ -113,6 +104,7 @@ class Constant
             3 => '审核不通过',
             4 => '正在融资',
             5 => '融资完成',
+            6 => '用户删除',
         ];
     }
 
@@ -142,6 +134,24 @@ class Constant
     }
 
     /**
+     * 定金收取比例
+     * @return float
+     */
+    public static function orderRatio()
+    {
+        return 0.1;
+    }
+
+    /**
+     * 冷静期
+     * @return int
+     */
+    public static function orderBackTime()
+    {
+        return 3 * 24 * 60 * 60;
+    }
+
+    /**
      * 场站意向状态
      * @return array
      */
@@ -150,10 +160,14 @@ class Constant
         return [
             1 => '待付定金',
             2 => '已付定金',
-            3 => '审核中',
+            3 => '审核凭证',
             4 => '审核通过',
             5 => '审核不通过',
             6 => '用户违约',
+            7 => '放弃支付',
+            8 => '申请退款',
+            9 => '已退款',
+            10 => '用户删除',
         ];
     }
 

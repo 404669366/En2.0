@@ -26,9 +26,9 @@
                 <h2>Sign in</h2>
                 <span>登录</span>
                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-                <input type="text" name="tel" placeholder="请输入手机号" value="<?= $tel ?>">
+                <input type="text" name="tel" placeholder="请输入手机号" value="<?= $tel ?>" autocomplete="off">
                 <div class="codeBox">
-                    <input type="text" name="code" placeholder="请输入验证码" value="<?= $code ?>">
+                    <input type="text" name="code" placeholder="请输入验证码" value="<?= $code ?>" autocomplete="off">
                     <div class="code">获取验证码</div>
                 </div>
                 <button type="submit">登录 / 注册</button>

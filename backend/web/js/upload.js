@@ -58,7 +58,7 @@ function progress() {
                     '   </span>' +
                     '</div>'
                 );
-            var socket = io('http://127.0.0.1:2120');
+            var socket = io('http://47.99.36.149:2120');
             socket.on('connect', function () {
                 socket.emit('bind', key);
             });

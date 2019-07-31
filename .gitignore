@@ -1,5 +1,5 @@
-/backend/config
-/pc/config
+/backend/config/params.php
+/pc/config/params.php
 /backend/runtime/
 /pc/runtime/
 /backend/web/assets/

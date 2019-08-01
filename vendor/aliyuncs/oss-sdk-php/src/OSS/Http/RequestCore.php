@@ -848,7 +848,7 @@ class RequestCore
                 if ($now != $last) {
                     $last = $now;
                     Helper::curlPost(
-                        'http://127.0.0.1:2121',
+                        'http://47.99.36.149:2121',
                         [
                             'token' => 'BC-9fdad4748325434b84e113ef10ad8b2e',
                             'do' => 'publish',

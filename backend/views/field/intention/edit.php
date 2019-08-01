@@ -24,7 +24,7 @@
                                     <input type="text" class="form-control no" placeholder="填写场站编号完成场站绑定"
                                            value="<?= $model->field ? $model->field->no : '' ?>">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary searchField1">搜索</button>
+                                        <button type="button" class="btn btn-primary searchField1">绑定</button>
                                     </span>
                                 </div>
                                 <input type="hidden" name="field_id" value="<?= $model->field_id ?>">
@@ -51,7 +51,7 @@
                                     <input type="text" class="form-control tel" placeholder="填写手机号完成用户绑定"
                                            value="<?= $model->user ? $model->user->tel : '' ?>">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary searchField2">搜索</button>
+                                        <button type="button" class="btn btn-primary searchField2">绑定</button>
                                     </span>
                                 </div>
                                 <input type="hidden" name="user_id" value="<?= $model->user_id ?>">
@@ -78,7 +78,7 @@
                                     <input type="text" class="form-control tel3" placeholder="填写手机号完成推荐用户绑定(选填)"
                                            value="<?= $model->cobber ? $model->cobber->tel : '' ?>">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary searchField3">搜索</button>
+                                        <button type="button" class="btn btn-primary searchField3">绑定</button>
                                     </span>
                                 </div>
                                 <input type="hidden" name="cobber_id" value="<?= $model->cobber_id ?>">

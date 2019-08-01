@@ -81,7 +81,7 @@
                                 <input type="text" class="form-control local_tel" placeholder="填写用户手机号完成场地方绑定"
                                        value="<?= $model->local ? $model->local->tel : '' ?>">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary searchLocal">搜索</button>
+                                    <button type="button" class="btn btn-primary searchLocal">绑定</button>
                                 </span>
                             </div>
                             <small style="color: red">* 如为租用场地,不绑定此项 (反之必填)</small>
@@ -109,7 +109,7 @@
                                 <input type="text" class="form-control cobber_tel" placeholder="填写用户手机号完成场地方绑定"
                                        value="<?= $model->cobber ? $model->cobber->tel : '' ?>">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary searchCobber">搜索</button>
+                                    <button type="button" class="btn btn-primary searchCobber">绑定</button>
                                 </span>
                             </div>
                             <small style="color: red">* 如为租用场地或没有推荐用户,不绑定此项</small>

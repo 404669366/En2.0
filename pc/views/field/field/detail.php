@@ -85,6 +85,8 @@
                 <span class="w50">发改备案 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
                 <span class="w50">电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
             </div>
+            <p>项目配置</p>
+            <div class="intro"><?= $detail->field_configure ?></div>
             <p>项目介绍</p>
             <div class="intro"><?= $intro ?></div>
             <p>项目收益</p>

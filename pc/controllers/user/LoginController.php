@@ -42,6 +42,7 @@ class LoginController extends BasisController
                     $model->created_at = time();
                     if ($model->save()) {
                         Msg::set('注册成功');
+                        \Yii::$app->user->login($model);
                         return $this->redirect(Url::getUrl());
                     }
                     Msg::set($model->errors());

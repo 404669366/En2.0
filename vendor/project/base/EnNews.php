@@ -14,10 +14,13 @@ use Yii;
  * @property string $image 封面图片
  * @property string $source 新闻来源 0原创...
  * @property string $url 来源路由
+ * @property string $content 新闻详情
  * @property string $created_at
  */
 class EnNews extends \yii\db\ActiveRecord
 {
+    public $content;
+
     /**
      * {@inheritdoc}
      */
@@ -32,7 +35,7 @@ class EnNews extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['image', 'title', 'intro'], 'required'],
+            [['image', 'title', 'intro', 'content'], 'required'],
             [['source', 'created_at'], 'integer'],
             [['title'], 'string', 'max' => 50],
             [['intro'], 'string', 'max' => 100],
@@ -52,8 +55,14 @@ class EnNews extends \yii\db\ActiveRecord
             'image' => '封面图片',
             'source' => '新闻来源 0原创...',
             'url' => '来源路由',
+            'content' => '新闻详情',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function afterSave($a, $v)
+    {
+        \Yii::$app->cache->set('EnNewsContent_' . $this->id, $this->content);
     }
 
     /**

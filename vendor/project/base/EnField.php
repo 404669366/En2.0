@@ -360,7 +360,12 @@ class EnField extends \yii\db\ActiveRecord
         $data = self::find()->where(['status' => [1, 2, 3, 4]])
             ->limit($length)
             ->asArray()->all();
-
+        foreach ($data as &$v) {
+            $images = explode(',', $v['images']);
+            $v['images'] = $images[array_rand($images)];
+            $v['business_type'] = Constant::businessType()[$v['business_type']];
+            $v['invest_type'] = Constant::investType()[$v['invest_type']];
+        }
         return Helper::arraySort($data, 'status', SORT_DESC, 'present_amount', SORT_ASC, 'created_at', SORT_DESC);
     }
 

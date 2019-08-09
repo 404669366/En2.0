@@ -6,6 +6,7 @@ document.write("<link href='/css/font-awesome.min.css' rel='stylesheet'>");
 document.write("<script src='/js/jquery-3.3.1.min.js' type='text/javascript' charset='utf-8'></script>");
 document.write("<script src='/js/jquery.cookie.js' type='text/javascript' charset='utf-8'></script>");
 document.write("<script src='/js/layer/layer.min.js' type='text/javascript' charset='utf-8'></script>");
+document.write("<script src='/js/dot.min.js' type='text/javascript' charset='utf-8'></script>");
 
 window.load = function (func) {
     var oldLoad = window.onload;
@@ -93,8 +94,13 @@ window.toDate = function (second) {
     });
     return str;
 };
+
 window.prefixZero = function (num, length) {
     return (Array(length).join('0') + num).slice(-length);
+};
+
+window.html = function (inner_id, template_id, data) {
+    $('#' + inner_id).html(doT.template($('#' + template_id).text())(data));
 };
 
 window.load(function () {

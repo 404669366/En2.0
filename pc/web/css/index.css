@@ -9,10 +9,10 @@
     height: 100%;
     position: absolute;
     opacity: 0;
-    animation: fade 75s linear infinite;
-    -o-animation: fade 75s linear infinite;
-    -moz-animation: fade 75s linear infinite;
-    -webkit-animation: fade 75s linear infinite;
+    animation: fade 50s linear infinite;
+    -o-animation: fade 50s linear infinite;
+    -moz-animation: fade 50s linear infinite;
+    -webkit-animation: fade 50s linear infinite;
 }
 
 .slider > img:nth-child(1) {
@@ -23,44 +23,44 @@
 }
 
 .slider > img:nth-child(2) {
-    animation-delay: 14s;
-    -o-animation-delay: 14s;
-    -moz-animation-delay: 14s;
-    -webkit-animation-delay: 14s;
+    animation-delay: 9s;
+    -o-animation-delay: 9s;
+    -moz-animation-delay: 9s;
+    -webkit-animation-delay: 9s;
 }
 
 .slider > img:nth-child(3) {
+    animation-delay: 19s;
+    -o-animation-delay: 19s;
+    -moz-animation-delay: 19s;
+    -webkit-animation-delay: 19s;
+}
+
+.slider > img:nth-child(4) {
     animation-delay: 29s;
     -o-animation-delay: 29s;
     -moz-animation-delay: 29s;
     -webkit-animation-delay: 29s;
 }
 
-.slider > img:nth-child(4) {
-    animation-delay: 44s;
-    -o-animation-delay: 44s;
-    -moz-animation-delay: 44s;
-    -webkit-animation-delay: 44s;
-}
-
 .slider > img:nth-child(5) {
-    animation-delay: 59s;
-    -o-animation-delay: 59s;
-    -moz-animation-delay: 59s;
-    -webkit-animation-delay: 59s;
+    animation-delay: 39s;
+    -o-animation-delay: 39s;
+    -moz-animation-delay: 39s;
+    -webkit-animation-delay: 39s;
 }
 
 @keyframes fade {
     0% {
         opacity: 0;
     }
-    1% {
+    1.6% {
         opacity: 1;
     }
     20% {
         opacity: 1;
     }
-    21% {
+    21.6% {
         opacity: 0;
     }
     100% {
@@ -156,6 +156,15 @@
 .content > .model > ul {
     margin: 2rem auto;
     width: 100%;
+    zoom: 1;
+}
+
+.content > .model > ul:after {
+    clear: both;
+    display: block;
+    content: "";
+    visibility: hidden;
+    height: 0;
 }
 
 .content > .model > .title {

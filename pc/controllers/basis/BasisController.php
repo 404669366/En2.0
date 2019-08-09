@@ -9,6 +9,7 @@
 namespace app\controllers\basis;
 
 
+use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
 use yii\web\Controller;
 
@@ -18,6 +19,21 @@ class BasisController extends Controller
     {
         Msg::setSize();
         return parent::beforeAction($action);
+    }
+
+    public function render($view, $params = [])
+    {
+        if ($params['user'] = \Yii::$app->user->identity) {
+            $params['user'] = [
+                'id' => $params['user']->id,
+                'tel' => $params['user']->tel,
+                'money' => $params['user']->money ?: 0,
+                'points' => $params['user']->points ?: 0
+            ];
+        }
+        $params['friends'] = Constant::friends();
+        echo '<script>var global = JSON.parse(`' . json_encode($params) . '`)</script>';
+        return parent::render($view, $params);
     }
 
     /**

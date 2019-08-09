@@ -281,6 +281,9 @@
 
 .center > .detail > .details > .intro {
     width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .center > .detail > .details > .address {

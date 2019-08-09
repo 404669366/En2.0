@@ -12,6 +12,7 @@ namespace app\controllers\index;
 use app\controllers\basis\BasisController;
 use vendor\project\base\EnField;
 use vendor\project\base\EnNews;
+use vendor\project\helpers\Constant;
 
 class IndexController extends BasisController
 {
@@ -21,9 +22,13 @@ class IndexController extends BasisController
      */
     public function actionIndex()
     {
-        return $this->render('index', [
+        return $this->render('index.html', [
             'field' => EnField::indexData(),
-            'news' => EnNews::indexData()
+            'news' => EnNews::indexData(),
+            'goDay' => Constant::goDay(),
+            'userCount' => Constant::userCount(),
+            'fieldCount' => Constant::fieldCount(),
+            'amountCount' => Constant::amountCount(),
         ]);
     }
 }

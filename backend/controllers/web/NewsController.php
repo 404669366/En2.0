@@ -41,28 +41,23 @@ class NewsController extends CommonController
      */
     public function actionDo($id = 0)
     {
-        if ($id) {
-            $model = EnNews::findOne($id);
-            $content = \Yii::$app->cache->get('EnNewsContent_' . $id);
-        } else {
+        $model = EnNews::findOne($id);
+        if (!$model) {
             $model = new EnNews();
             $model->created_at = time();
-            $content = '';
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
-            Msg::set('新闻详情不能为空');
-            if (isset($post['content']) && $post['content']) {
-                $content = $post['content'];
-                if ($model->load(['EnNews' => $post]) && $model->validate() && $model->save()) {
-                    \Yii::$app->cache->set('EnNewsContent_' . $id, $content);
-                    Msg::set('操作成功');
-                    return $this->redirect(['list']);
-                }
-                Msg::set($model->errors());
+            if ($model->load(['EnNews' => $post]) && $model->validate() && $model->save()) {
+                Msg::set('操作成功');
+                return $this->redirect(['list']);
             }
+            Msg::set($model->errors());
         }
-        return $this->render('do', ['model' => $model, 'content' => $content]);
+        return $this->render('do', [
+            'model' => $model,
+            'content' => \Yii::$app->cache->get('EnNewsContent_' . $id) ?: ''
+        ]);
     }
 
     /**

@@ -75,8 +75,8 @@
             <h1>Contact us</h1>
             <h3>联系我们</h3>
             <div class="detail contact_us">
-                <p>客服电话：400-039-9918</p>
-                <p>商务沟通：pr@en.ink</p>
+                <p>客服电话：028-67874259</p>
+                <p>商务沟通：xl@en.ink</p>
                 <p>服务时间：09:00-18:00</p>
                 <p>公司地址：四川省成都市高新区天府软件园G5 3楼</p>
                 <div class="map">

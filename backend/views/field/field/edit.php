@@ -44,7 +44,7 @@
                         <label class="col-sm-4 control-label">场站配置</label>
                         <div class="col-sm-5">
                             <textarea class="form-control" name="field_configure"
-                                      rows="8"><?= $model->field_configure ?></textarea>
+                                      rows="8"><?= str_replace('<br>', "\r\n", $model->field_configure) ?></textarea>
                         </div>
                     </div>
                 </div>

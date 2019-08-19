@@ -67,7 +67,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">场站配置</label>
                         <div class="col-sm-5">
-                            <textarea class="form-control" readonly rows="8"><?= $model->field_configure ?></textarea>
+                            <textarea class="form-control" readonly rows="8"><?= str_replace('<br>', "\r\n", $model->field_configure) ?></textarea>
                         </div>
                     </div>
                 </div>

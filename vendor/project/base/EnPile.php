@@ -77,7 +77,6 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public function getRules()
     {
-
         return (new client())->hGetField('PileInfo', $this->no, 'rules');
     }
 

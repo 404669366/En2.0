@@ -42,7 +42,7 @@ class client
      * @param string $servers
      * @throws \Exception
      */
-    public function __construct($servers = '127.0.0.1:30001')
+    public function __construct($servers = '47.99.36.149:30001')
     {
         if (empty($servers)) {
             throw new \Exception('servers empty');

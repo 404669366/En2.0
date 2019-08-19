@@ -23,7 +23,7 @@
     </div>
 </div>
 <script>
-    var socket = new WebSocket('ws://127.0.0.1:20000');
+    var socket = new WebSocket('ws://47.99.36.149:20000');
     socket.onopen = function () {
         socket.send(JSON.stringify({do: 'pileList'}));
         socket.onmessage = function (event) {

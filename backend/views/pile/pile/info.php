@@ -152,7 +152,7 @@
     var code = JSON.parse(`<?=$code?>`);
     var carStatus = JSON.parse(`<?=$carStatus?>`);
     var workStatus = JSON.parse(`<?=$workStatus?>`);
-    var socket = new WebSocket('ws://127.0.0.1:20000');
+    var socket = new WebSocket('ws://47.99.36.149:20000');
     socket.onopen = function () {
         if (rNo !== sNo) {
             socket.send(JSON.stringify({do: 'setNo', pile: rNo, no: sNo}));

@@ -49,7 +49,7 @@ $this->beginPage();
     </div>
     <div class="signup-footer">
         <div class="pull-left">
-            四川亿能天成科技有限公司 蜀ICP备19002778号-1 Copyright © 2019
+            &copy; 2018 - 2099
         </div>
     </div>
 </div>

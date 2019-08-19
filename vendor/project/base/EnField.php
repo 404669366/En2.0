@@ -144,7 +144,7 @@ class EnField extends \yii\db\ActiveRecord
             if (!$this->field_configure) {
                 $this->addError('field_configure', '请填写场站配置');
             } else {
-                $this->field_configure = str_replace("\n", '<br/>', $this->field_configure);
+                $this->field_configure = str_replace("\r\n", '<br/>', $this->field_configure);
             }
             if (!$this->budget_amount) {
                 $this->addError('budget_amount', '请填写预算金额');

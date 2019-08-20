@@ -389,6 +389,12 @@ class EnField extends \yii\db\ActiveRecord
         }
         $data = $data->offset(($pageNum - 1) * 6)->limit(6)
             ->asArray()->all();
+        foreach ($data as &$v) {
+            $images = explode(',', $v['images']);
+            $v['images'] = $images[array_rand($images)];
+            $v['business_type'] = Constant::businessType()[$v['business_type']];
+            $v['invest_type'] = Constant::investType()[$v['invest_type']];
+        }
         return Helper::arraySort($data, 'status', SORT_DESC, 'present_amount', SORT_ASC, 'created_at', SORT_DESC);
     }
 

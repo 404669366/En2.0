@@ -58,13 +58,15 @@ body {
     font-size: 1.4rem;
 }
 
-.list > .no-data {
-    width: 100%;
+.list .no-data {
+    float: none!important;
+    width: 100%!important;
     height: 10rem;
     line-height: 10rem;
     text-align: center;
     font-size: 2rem;
-    color: #23252a;
+    color: #888888;
+    margin: 0!important;
 }
 
 .list > .data {

@@ -11,6 +11,8 @@ namespace app\controllers\field;
 
 use app\controllers\basis\BasisController;
 use vendor\project\base\EnField;
+use vendor\project\helpers\Constant;
+use vendor\project\helpers\Helper;
 
 class FieldController extends BasisController
 {
@@ -20,7 +22,11 @@ class FieldController extends BasisController
      */
     public function actionList()
     {
-        return $this->render('list', ['data' => EnField::listData()]);
+        return $this->render('list.html', [
+            'data' => EnField::listData(),
+            'businessType' => Helper::arrayKeyToV(Constant::businessType()),
+            'investType' => Helper::arrayKeyToV(Constant::investType()),
+        ]);
     }
 
     /**

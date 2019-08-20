@@ -12,6 +12,25 @@ namespace vendor\project\helpers;
 class Helper
 {
     /**
+     * 将数组key合并进value里
+     * @param array $arr
+     * @return array
+     */
+    public static function arrayKeyToV($arr = [])
+    {
+        $new = [];
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $v['k'] = $k;
+                array_push($new, $v);
+            } else {
+                array_push($new, ['k' => $k, 'v' => $v]);
+            }
+        }
+        return $new;
+    }
+
+    /**
      * 多维数组排序
      * eg: self::arraySort($arr, 'id', SORT_DESC, 'num', SORT_DESC)
      * @return array|mixed

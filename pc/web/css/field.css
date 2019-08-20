@@ -15,6 +15,11 @@
     line-height: 3rem;
     width: 3rem;
     font-size: 2rem;
+    text-align: center;
+}
+
+.list > .search > .searchBtn > i {
+    margin-top: 0.3rem;
 }
 
 .list > .search > .searchBtn:hover {
@@ -73,6 +78,18 @@
 
 .list > .search > .select > ul > li:hover {
     background: #EEEEEE;
+}
+
+.list > .data {
+    zoom: 1;
+}
+
+.list > .data:after {
+    clear: both;
+    display: block;
+    content: "";
+    visibility: hidden;
+    height: 0;
 }
 
 .list > .data > li > .img {

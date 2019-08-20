@@ -238,13 +238,10 @@
         if (last !== null) {
             window.location.href = url.replace(key + '=' + last, key + '=' + val);
         } else {
-            var mark = '&';
-            if (url === 'http://pc.en.com/field/field/list.html') {
-                mark = '?';
-            }
+            var mark = window.location.search ? '&' : '?';
             window.location.href = url + mark + key + '=' + val;
         }
-    })
+    });
 
     $('.page>li').click(function () {
         var url = window.location.href;

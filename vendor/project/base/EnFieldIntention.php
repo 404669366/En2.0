@@ -247,6 +247,9 @@ class EnFieldIntention extends \yii\db\ActiveRecord
             $v['status_val'] = $v['status'];
             $v['status'] = Constant::intentionStatus()[$v['status']];
             $v['images'] = explode(',', $v['images'])[0];
+            $v['pay_at'] = $v['pay_at'] ? date('Y-m-d H:i:s', $v['pay_at']) : '------';
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['canBack'] = time() <= ($v['pay_at'] + Constant::orderBackTime());
         }
         return Helper::arraySort($data, 'status_val', SORT_ASC, 'created_at', SORT_DESC);
     }
@@ -270,6 +273,8 @@ class EnFieldIntention extends \yii\db\ActiveRecord
             $v['status_val'] = $v['status'];
             $v['status'] = Constant::intentionStatus()[$v['status']];
             $v['images'] = explode(',', $v['images'])[0];
+            $v['pay_at'] = $v['pay_at'] ? date('Y-m-d H:i:s', $v['pay_at']) : '------';
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return Helper::arraySort($data, 'status_val', SORT_ASC, 'created_at', SORT_DESC);
     }

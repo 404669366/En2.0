@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/center.css" rel="stylesheet">
-    <link href="/css/centerField.css" rel="stylesheet">
+    <link href="/css/buy.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
     <script type="text/x-dot-template" id="headMenuTpl">
         <li><a href="/index/index/index.html">首页<span></span></a></li>
@@ -37,40 +36,51 @@
         </span>
         {{~}}
     </script>
-    <script type="text/x-dot-template" id="detailTpl">
-        {{?it.length}}
-        {{~it:v}}
-        <div class="one">
-            {{?v.status == '待处理'}}
-            <img src="{{=v.images}}">
-            <div class="btns">
-                <span><a class="btn" href="/user/field/del.html?id={{=v.id}}">删除</a></span>
+    <script type="text/x-dot-template" id="formTpl">
+        <div class="form">
+            <div class="infoBox">
+                <img src="{{=it.images}}" alt="亿能天成新能源场站-{{=it.detail.no}}图片">
+                <div class="info">
+                    <h5>场站 : {{=it.detail.no}}</h5>
+                    <p>
+                        场站类型 :
+                        {{=it.business_type}}
+                        <span>|</span>
+                        {{=it.invest_type}}
+                    </p>
+                    <p></p>
+                    <p></p>
+                    <p>
+                        项目总额/已投 :
+                        {{=it.detail.budget_amount}}
+                        <span>|</span>
+                        {{=it.detail.present_amount}}
+                    </p>
+                </div>
+                <div class="price">
+                    起投 : <span>{{=it.detail.lowest_amount}}</span>
+                </div>
             </div>
-            <div class="info">
-                <h3>场站编号 : {{=v.no}} ({{=v.status}})</h3>
-                <span>业务类型 : {{=v.business_type}}</span>
-                <span>投资类型 : {{=v.invest_type}}</span>
-                <span style="height: 2.4rem;text-indent: -3.8rem;margin-left: 3.8rem">场站地址 : {{=v.address}}</span>
-                <span>创建时间 : {{=v.created_at}}</span>
+            <div class="buyCount">
+                <div class="one">
+                    <label>认购金额 :</label>
+                    <div class="val">
+                        <button class="cut doAmount" type="button"><i class="fa fa-minus"></i></button>
+                        <input type="text" name="purchase_amount" readonly autocomplete="off">
+                        <button class="add doAmount" type="button"><i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="one">
+                    <label>定金金额 :</label>
+                    <div class="val order_amount"></div>
+                </div>
             </div>
-            {{??}}
-            <img src="{{=v.images}}" data-url="/field/field/detail.html?no={{=v.no}}">
-            <div class="btns"><span></span></div>
-            <div class="info">
-                <h3 data-url="/field/field/detail.html?no={{=v.no}}">
-                    场站编号 : {{=v.no}} ({{=v.status}})
-                </h3>
-                <span>业务类型 : {{=v.business_type}}</span>
-                <span>投资类型 : {{=v.invest_type}}</span>
-                <span style="height: 2.4rem;text-indent: -3.8rem;margin-left: 3.8rem">场站地址 : {{=v.address}}</span>
-                <span>创建时间 : {{=v.created_at}}</span>
-            </div>
-            {{?}}
         </div>
-        {{~}}
-        {{??}}
-        <div class="none"><span>暂时没有该数据...</span></div>
-        {{?}}
+        <div class="btnBox">
+            <input type="hidden" name="_csrf" value="{{=it._csrf}}">
+            <button type="submit" class="btn">确认提交</button>
+        </div>
     </script>
 </head>
 <body>
@@ -82,14 +92,11 @@
     </div>
 </div>
 <div class="center">
-    <div class="box">
-        <ul class="menu">
-            <li onselectstart="return false" data-url="/user/intention/list.html">我的认购</li>
-            <li onselectstart="return false" class="active" data-url="/user/field/list.html">我的项目</li>
-            <li onselectstart="return false" data-url="/user/field/create.html">发起项目</li>
-        </ul>
-        <div id="detail" class="detail"></div>
-        <script>window.html('detail', 'detailTpl', global.data);</script>
+    <div class="intention">
+        <h1>Subscribe</h1>
+        <h3>认购</h3>
+        <form id="form" method="post"></form>
+        <script>window.html('form', 'formTpl', global);</script>
     </div>
 </div>
 <div class="footer">
@@ -147,6 +154,42 @@
             }
         }
     );
+
+    var min = global.detail.lowest_amount;
+    var max = global.detail.budget_amount - global.detail.present_amount;
+    var old = global.model.purchase_amount;
+    var ratio = global.ratio;
+    if (parseInt(old) > parseInt(max)) {
+        $('[name="purchase_amount"]').val(max);
+        $('.order_amount').text(window.format(max * ratio, 1));
+    } else {
+        $('[name="purchase_amount"]').val(old);
+        $('.order_amount').text(window.format(old * ratio, 1));
+    }
+    $('.doAmount').click(function () {
+        if ($(this).hasClass('add')) {
+            $('[name="purchase_amount"]').val(function (i, v) {
+                if (v >= parseInt(max)) {
+                    window.showMsg('最高认购金额' + max);
+                    return v;
+                }
+                var purchase_amount = parseInt(v) + parseInt(min);
+                $('.order_amount').text(window.format(purchase_amount * ratio, 1));
+                return purchase_amount;
+            });
+        }
+        if ($(this).hasClass('cut')) {
+            $('[name="purchase_amount"]').val(function (i, v) {
+                if (v <= parseInt(min)) {
+                    window.showMsg('最低认购金额' + min);
+                    return v;
+                }
+                var purchase_amount = parseInt(v) - parseInt(min);
+                $('.order_amount').text(window.format(purchase_amount * ratio, 1));
+                return purchase_amount;
+            });
+        }
+    });
 </script>
 </body>
 </html>

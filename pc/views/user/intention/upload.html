@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/center.css" rel="stylesheet">
-    <link href="/css/centerField.css" rel="stylesheet">
+    <link href="/css/form.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/upload.min.js" type="text/javascript" charset='utf-8'></script>
     <script type="text/x-dot-template" id="headMenuTpl">
         <li><a href="/index/index/index.html">首页<span></span></a></li>
         <li><a href="/field/field/list.html">项目<span></span></a></li>
@@ -37,40 +37,25 @@
         </span>
         {{~}}
     </script>
-    <script type="text/x-dot-template" id="detailTpl">
-        {{?it.length}}
-        {{~it:v}}
-        <div class="one">
-            {{?v.status == '待处理'}}
-            <img src="{{=v.images}}">
-            <div class="btns">
-                <span><a class="btn" href="/user/field/del.html?id={{=v.id}}">删除</a></span>
+    <script type="text/x-dot-template" id="formTpl">
+        <input type="hidden" name="_csrf" value="{{=it._csrf}}">
+        <h1>Upload Prove</h1>
+        <h3>上传凭证</h3>
+        <div class="line">
+            <div class="line1">
+                <label>打款凭条(必填)</label>
+                <div class="voucher" data-max="1" data-name="voucher" deta-read="0"></div>
             </div>
-            <div class="info">
-                <h3>场站编号 : {{=v.no}} ({{=v.status}})</h3>
-                <span>业务类型 : {{=v.business_type}}</span>
-                <span>投资类型 : {{=v.invest_type}}</span>
-                <span style="height: 2.4rem;text-indent: -3.8rem;margin-left: 3.8rem">场站地址 : {{=v.address}}</span>
-                <span>创建时间 : {{=v.created_at}}</span>
+            <div class="line1">
+                <label>合同照片(必填)</label>
+                <div class="contract" data-max="4" data-name="contract" deta-read="0"></div>
             </div>
-            {{??}}
-            <img src="{{=v.images}}" data-url="/field/field/detail.html?no={{=v.no}}">
-            <div class="btns"><span></span></div>
-            <div class="info">
-                <h3 data-url="/field/field/detail.html?no={{=v.no}}">
-                    场站编号 : {{=v.no}} ({{=v.status}})
-                </h3>
-                <span>业务类型 : {{=v.business_type}}</span>
-                <span>投资类型 : {{=v.invest_type}}</span>
-                <span style="height: 2.4rem;text-indent: -3.8rem;margin-left: 3.8rem">场站地址 : {{=v.address}}</span>
-                <span>创建时间 : {{=v.created_at}}</span>
+            <div class="line1">
+                <label>备注(选填)</label>
+                <textarea name="remark" placeholder="您是否还有其他补充说明，或对我们的期望">{{=it.model.remark}}</textarea>
             </div>
-            {{?}}
         </div>
-        {{~}}
-        {{??}}
-        <div class="none"><span>暂时没有该数据...</span></div>
-        {{?}}
+        <button type="submit">确认提交</button>
     </script>
 </head>
 <body>
@@ -82,15 +67,8 @@
     </div>
 </div>
 <div class="center">
-    <div class="box">
-        <ul class="menu">
-            <li onselectstart="return false" data-url="/user/intention/list.html">我的认购</li>
-            <li onselectstart="return false" class="active" data-url="/user/field/list.html">我的项目</li>
-            <li onselectstart="return false" data-url="/user/field/create.html">发起项目</li>
-        </ul>
-        <div id="detail" class="detail"></div>
-        <script>window.html('detail', 'detailTpl', global.data);</script>
-    </div>
+    <form id="form" method="post"></form>
+    <script>window.html('form', 'formTpl', global);</script>
 </div>
 <div class="footer">
     <div class="info">
@@ -147,6 +125,20 @@
             }
         }
     );
+
+    uploadImg('.voucher', global.model.voucher);
+    uploadImg('.contract', global.model.contract);
+    $('[type="submit"]').click(function () {
+        if (!$('[name="voucher"]').val()) {
+            window.showMsg('请上传打款凭条照片');
+            return false;
+        }
+        if (!$('[name="contract"]').val()) {
+            window.showMsg('请上传合同照片');
+            return false;
+        }
+        return true;
+    });
 </script>
 </body>
 </html>

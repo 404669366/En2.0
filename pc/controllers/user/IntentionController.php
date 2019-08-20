@@ -44,7 +44,10 @@ class IntentionController extends AuthController
                 }
                 Msg::set($model->errors());
             }
-            return $this->render('upload', ['model' => $model]);
+            return $this->render('upload.html', [
+                'model' => $model->attributes,
+                '_csrf' => \Yii::$app->request->csrfToken,
+            ]);
         }
         Msg::set('错误操作');
         return $this->redirect(['list']);
@@ -120,7 +123,15 @@ class IntentionController extends AuthController
                     }
                     Msg::set($model->errors());
                 }
-                return $this->render('info', ['detail' => $detail, 'model' => $model]);
+                return $this->render('info.html', [
+                    'detail' => $detail->attributes,
+                    'model' => $model->attributes,
+                    'images' => explode(',', $detail->images)[0],
+                    'business_type' => Constant::businessType()[$detail->business_type],
+                    'invest_type' => Constant::investType()[$detail->invest_type],
+                    '_csrf' => \Yii::$app->request->csrfToken,
+                    'ratio'=>Constant::orderRatio()
+                ]);
             }
         }
         Msg::set('错误操作');
@@ -134,6 +145,6 @@ class IntentionController extends AuthController
     public function actionRList()
     {
         $this->rUCenterUrl();
-        return $this->render('r-list', ['data' => EnFieldIntention::getUserRData()]);
+        return $this->render('r-list.html', ['data' => EnFieldIntention::getUserRData()]);
     }
 }

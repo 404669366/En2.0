@@ -32,7 +32,7 @@ class BasisController extends Controller
             ];
         }
         $params['friends'] = Constant::friends();
-        echo '<script>var global = JSON.parse(`' . json_encode($params, JSON_UNESCAPED_UNICODE) . '`)</script>';
+        //echo '<script>var global = JSON.parse(`' . json_encode($params, JSON_UNESCAPED_UNICODE) . '`)</script>';
         return parent::render($view, $params);
     }
 

@@ -55,7 +55,14 @@ class IntentionController extends AuthController
                 Msg::set($model->errors());
                 return $this->redirect(['field/field/detail', 'no' => $detail->no]);
             }
-            return $this->render('buy', ['detail' => $detail]);
+            return $this->render('buy.html', [
+                'detail' => $detail->attributes,
+                'images' => explode(',', $detail->images)[0],
+                'business_type' => Constant::businessType()[$detail->business_type],
+                'invest_type' => Constant::investType()[$detail->invest_type],
+                '_csrf' => \Yii::$app->request->csrfToken,
+                'ratio'=>Constant::orderRatio()
+            ]);
         }
         return $this->goBack('该场站已完成融资');
     }
@@ -76,7 +83,7 @@ class IntentionController extends AuthController
             }
             setcookie('pay-times-' . $id, $times + 1, time() + (60 * 60 * 24), '/');
             if ($data = Wechat::placeOrder($model->no, $model->order_amount * 100)) {
-                return $this->render('pay', [
+                return $this->render('pay.html', [
                     'id' => $model->id,
                     'no' => $model->no,
                     'url' => $data['code_url'],

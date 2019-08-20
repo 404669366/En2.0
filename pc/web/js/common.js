@@ -60,11 +60,15 @@ window.checkTel = function (tel) {
 
 window.showMsg = function (data, size) {
     if (data) {
+        var height = window.screen.availHeight;
         var messageSize = size || ($.cookie('message-size') || '1rem');
         if (messageSize) {
-            layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>');
+            layer.msg(
+                '<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>',
+                {offset: (height - 160) / 2 + 'px'}
+            );
         } else {
-            layer.msg(data);
+            layer.msg(data, {offset: (height - 160) / 2 + 'px'});
         }
     }
 };

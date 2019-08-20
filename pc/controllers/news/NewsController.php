@@ -11,6 +11,7 @@ namespace app\controllers\news;
 
 use app\controllers\basis\BasisController;
 use vendor\project\base\EnNews;
+use vendor\project\helpers\Constant;
 
 class NewsController extends BasisController
 {
@@ -20,7 +21,7 @@ class NewsController extends BasisController
      */
     public function actionList()
     {
-        return $this->render('list', ['data' => EnNews::getData()]);
+        return $this->render('list.html', ['data' => EnNews::getData()]);
     }
 
     /**
@@ -30,9 +31,11 @@ class NewsController extends BasisController
      */
     public function actionDetail($id)
     {
-        return $this->render('detail', [
-            'model' => EnNews::findOne($id),
-            'content' => \Yii::$app->cache->get('EnNewsContent_' . $id)
+        $news = EnNews::find()->where(['id' => $id])->asArray()->one();
+        return $this->render('detail.html', [
+            'news' => $news,
+            'content' => \Yii::$app->cache->get('EnNewsContent_' . $id),
+            'source' => Constant::newsSource()[$news['source']],
         ]);
     }
 }

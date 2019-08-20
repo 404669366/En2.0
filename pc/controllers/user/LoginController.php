@@ -49,7 +49,11 @@ class LoginController extends BasisController
                 }
             }
         }
-        return $this->render('login', ['tel' => $tel, 'code' => $code]);
+        return $this->render('login.html', [
+            'tel' => $tel,
+            'code' => $code,
+            '_csrf' => \Yii::$app->request->csrfToken,
+        ]);
     }
 
     /**

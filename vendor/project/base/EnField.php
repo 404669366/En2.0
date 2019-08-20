@@ -479,6 +479,7 @@ class EnField extends \yii\db\ActiveRecord
             $v['invest_type'] = $v['status'] ? Constant::investType()[$v['invest_type']] : '----';
             $v['status_val'] = $v['status'];
             $v['status'] = in_array($v['status'], [1, 2, 3, 4, 5]) ? '已处理' : Constant::fieldStatus()[$v['status']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return Helper::arraySort($data, 'status_val', SORT_ASC, 'created_at', SORT_DESC);
     }
@@ -499,6 +500,7 @@ class EnField extends \yii\db\ActiveRecord
             $v['invest_type'] = $v['status'] ? Constant::investType()[$v['invest_type']] : '----';
             $v['status_val'] = $v['status'];
             $v['status'] = in_array($v['status'], [1, 2, 3, 4, 5]) ? '已处理' : Constant::fieldStatus()[$v['status']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return Helper::arraySort($data, 'status_val', SORT_ASC, 'created_at', SORT_DESC);
     }

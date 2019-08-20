@@ -19,6 +19,6 @@ class AgreementController extends BasisController
      */
     public function actionLogon()
     {
-        return $this->render('logon');
+        return $this->render('logon.html');
     }
 }

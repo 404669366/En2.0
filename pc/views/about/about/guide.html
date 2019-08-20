@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能科技</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/about.css" rel="stylesheet">
+    <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script type="text/x-dot-template" id="headMenuTpl">
+        <li><a href="/index/index/index.html">首页<span></span></a></li>
+        <li><a href="/field/field/list.html">项目<span></span></a></li>
+        <li><a href="/news/news/list.html">新闻<span></span></a></li>
+        <li class="nav active" onselectstart="return false">
+            关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
+            <span></span>
+            <ul>
+                <li><a href="/about/about/company.html">公司介绍</a></li>
+                <li><a href="/about/about/partner.html">合作伙伴</a></li>
+                <li><a href="/about/about/contact.html">联系我们</a></li>
+                <li class="active"><a href="/about/about/guide.html">用户指南</a></li>
+            </ul>
+        </li>
+        {{?it.user}}
+        <li title="个人中心">
+            <a href="/user/user/center.html">
+                {{=it.user.tel}}<span></span>
+            </a>
+        </li>
+        <li><a href="/user/login/logout.html">退出<span></span></a></li>
+        {{??}}
+        <li>
+            <p data-url="/user/login/login.html">登录 / 注册</p>
+            <a href="/user/login/login.html" class="hide">登录 / 注册</a>
+        </li>
+        {{?}}
+    </script>
+    <script type="text/x-dot-template" id="friendTpl">
+        {{~it:v:k}}
+        <span>
+            <img src="{{=v.logo}}" alt="{{=v.name}}logo">
+            <a href="{{=v.url}}" target="_blank">{{=v.name}}</a>
+        </span>
+        {{~}}
+    </script>
+</head>
+<body>
+<div class="head">
+    <div class="headContent">
+        <img data-url="/index/index/index.html" src="/img/logo.png" alt="四川亿能天成新能源logo">
+        <ul id="headMenu"></ul>
+        <script>window.html('headMenu', 'headMenuTpl', global);</script>
+    </div>
+</div>
+<div class="center" style="background: #f2f4f6">
+    <div class="guide">
+        <ul class="fixed">
+            <li class="title">用户指南</li>
+            <li class="active" data-to="1">关于投资</li>
+            <li data-to="2">关于收益</li>
+            <li data-to="3">投资项目</li>
+            <li data-to="4">法律协议</li>
+        </ul>
+        <div class="detail">
+            <div>1111</div>
+            <div>2222</div>
+            <div>3333</div>
+            <div>4444</div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="info">
+        <div>
+            <h4>联系我们</h4>
+            <p>客服电话：028-67874259</p>
+            <p>商务沟通：xl@en.ink</p>
+            <p>服务时间：09:00-18:00</p>
+            <p>公司地址：四川省成都市高新区天府软件园G5 3楼</p>
+        </div>
+        <div>
+            <h4>项目</h4>
+            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/field/list.html">投资项目</a><br/>
+        </div>
+        <div>
+            <h4>关于</h4>
+            <a href="/about/about/company.html">公司介绍</a><br/>
+            <a href="/about/about/partner.html">合作伙伴</a><br/>
+            <a href="/about/about/contact.html">联系我们</a><br/>
+            <a href="/about/about/guide.html">用户指南</a><br/>
+        </div>
+        <div>
+            <img src="/img/qrCode.jpg" alt="四川亿能天成微信公众号"><br/>
+            扫码关注微信公众号
+        </div>
+    </div>
+    <div class="friend" id="friend"></div>
+    <script>window.html('friend', 'friendTpl', global.friends);</script>
+    <div class="icp">四川亿能天成科技有限公司 蜀ICP备19002778号-1 Copyright © 2019 en.ink 市场有风险 投资需谨慎</div>
+</div>
+<script>
+    $('.nav').hover(
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        },
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        }
+    );
+
+    $('.fixed>:not(.title)').click(function () {
+        $('.fixed>:not(.title)').removeClass('active');
+        $(this).addClass('active');
+        $('.detail>div').hide();
+        var now = $(this).data('to');
+        $('.detail>div:nth-child(' + now + ')').show();
+    });
+</script>
+</body>
+</html>

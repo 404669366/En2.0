@@ -38,7 +38,7 @@ class FieldController extends AuthController
             }
             Msg::set($model->errors());
         }
-        return $this->render('create', ['post' => $post]);
+        return $this->render('create.html', ['post' => $post, '_csrf' => \Yii::$app->request->csrfToken]);
     }
 
     /**
@@ -48,7 +48,7 @@ class FieldController extends AuthController
     public function actionList()
     {
         $this->rUCenterUrl();
-        return $this->render('list', ['data' => EnField::getUserField()]);
+        return $this->render('list.html', ['data' => EnField::getUserField()]);
     }
 
     /**
@@ -77,6 +77,6 @@ class FieldController extends AuthController
     public function actionRList()
     {
         $this->rUCenterUrl();
-        return $this->render('r-list', ['data' => EnField::getUserRField()]);
+        return $this->render('r-list.html', ['data' => EnField::getUserRField()]);
     }
 }

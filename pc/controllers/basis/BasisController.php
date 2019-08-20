@@ -91,7 +91,7 @@ class BasisController extends Controller
      */
     public function actionError()
     {
-        return $this->render('error');
+        return $this->render('error.html');
     }
 
     /**

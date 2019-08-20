@@ -19,7 +19,7 @@ class AboutController extends BasisController
      */
     public function actionCompany()
     {
-        return $this->render('company');
+        return $this->render('company.html');
     }
 
     /**
@@ -28,7 +28,7 @@ class AboutController extends BasisController
      */
     public function actionPartner()
     {
-        return $this->render('partner');
+        return $this->render('partner.html');
     }
 
     /**
@@ -37,7 +37,7 @@ class AboutController extends BasisController
      */
     public function actionContact()
     {
-        return $this->render('contact');
+        return $this->render('contact.html');
     }
 
     /**
@@ -46,6 +46,6 @@ class AboutController extends BasisController
      */
     public function actionGuide()
     {
-        return $this->render('guide');
+        return $this->render('guide.html');
     }
 }

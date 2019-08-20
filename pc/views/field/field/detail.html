@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能科技</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/field.css" rel="stylesheet">
+    <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/map.js" type="text/javascript" charset='utf-8'></script>
+    <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
+    <script type="text/x-dot-template" id="headMenuTpl">
+        <li><a href="/index/index/index.html">首页<span></span></a></li>
+        <li class="active"><a href="/field/field/list.html">项目<span></span></a></li>
+        <li><a href="/news/news/list.html">新闻<span></span></a></li>
+        <li class="nav" onselectstart="return false">
+            关于 <i class="fa fa-caret-down" aria-hidden="true"></i>
+            <span></span>
+            <ul>
+                <li><a href="/about/about/company.html">公司介绍</a></li>
+                <li><a href="/about/about/partner.html">合作伙伴</a></li>
+                <li><a href="/about/about/contact.html">联系我们</a></li>
+                <li><a href="/about/about/guide.html">用户指南</a></li>
+            </ul>
+        </li>
+        {{?it.user}}
+        <li title="个人中心">
+            <a href="/user/user/center.html">
+                {{=it.user.tel}}<span></span>
+            </a>
+        </li>
+        <li><a href="/user/login/logout.html">退出<span></span></a></li>
+        {{??}}
+        <li>
+            <p data-url="/user/login/login.html">登录 / 注册</p>
+            <a href="/user/login/login.html" class="hide">登录 / 注册</a>
+        </li>
+        {{?}}
+    </script>
+    <script type="text/x-dot-template" id="friendTpl">
+        {{~it:v:k}}
+        <span>
+            <img src="{{=v.logo}}" alt="{{=v.name}}logo">
+            <a href="{{=v.url}}" target="_blank">{{=v.name}}</a>
+        </span>
+        {{~}}
+    </script>
+    <script type="text/x-dot-template" id="centerTpl">
+        <div class="detail">
+            <h1 class="title">{{=it.detail.title}}</h1>
+            <div class="details">
+                <div class="slider">
+                    {{~it.images:v}}
+                    <img src="{{=v}}" alt="亿能天成新能源场站-{{=it.detail.no}}图片"/>
+                    {{~}}
+                </div>
+                <p>项目信息</p>
+                <div class="prove">
+                    <span class="w100">场站编号 : {{=it.detail.no}}</span>
+                    <span class="w50">发改备案 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                    <span class="w50">电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                </div>
+                <p>项目配置</p>
+                <div class="intro">{{=it.detail.field_configure}}</div>
+                <p>项目介绍</p>
+                <div class="intro">{{=it.intro}}</div>
+                <p>项目收益</p>
+                <div class="intro">{{=it.investInfo}}</div>
+                <p>项目位置</p>
+                <div class="address">{{=it.detail.address}}</div>
+                <div class="map">
+                    <div id="map"></div>
+                    <div class="back"><img src="/img/mapBack.png"></div>
+                </div>
+            </div>
+            <div class="fixed">
+                <h2 class="name">{{=it.detail.name}}</h2>
+                <div class="type">
+                    {{=it.business_type}}
+                    <span> | </span>
+                    {{=it.invest_type}}
+                </div>
+                <div class="trait">{{=it.detail.trait}}</div>
+                {{?it.detail.status==1 || it.detail.status==2 || it.detail.status==3 ||it.detail.status==5}}
+                <div class="progress">
+                    <div>项目总额: {{=it.detail.budget_amount}}</div>
+                    <div>认购进度: <span>100%</span></div>
+                    <div style="background-size: 100% auto"></div>
+                </div>
+                <div class="info">
+                    <div>{{=it.detail.budget_amount}}<p>项目总额</p></div>
+                    <div>{{=it.detail.budget_amount}}<p>已认购</p></div>
+                    <div>{{=it.detail.lowest_amount}}<p>起投金额</p></div>
+                </div>
+                <div class="notBtn">立即认购</div>
+                {{??}}
+                <div class="progress">
+                    <div>项目总额: {{=it.detail.budget_amount}}</div>
+                    <div>认购进度: <span>{{=it.detail.present_amount / it.detail.budget_amount * 100}}%</span></div>
+                    <div style="background-size: {{=it.detail.present_amount / it.detail.budget_amount * 100}}% auto"></div>
+                </div>
+                <div class="info">
+                    <div>{{=it.detail.budget_amount}}<p>项目总额</p></div>
+                    <div>{{=it.detail.present_amount}}<p>已认购</p></div>
+                    <div>{{=it.detail.lowest_amount}}<p>起投金额</p></div>
+                </div>
+                <div class="btn">立即认购</div>
+                <div class="model model1">
+                    <div class="modelBox">
+                        <div class="modelHead">
+                            <h3 class="title">1、风险提示书</h3>
+                            <div class="close close1"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="modelContent">
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                        </div>
+                        <div class="modelFoot">
+                            <button type="button" class="modelBtn modelBtn1">我已知晓</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="model model2">
+                    <div class="modelBox">
+                        <div class="modelHead">
+                            <h3 class="title">2、冷静期说明</h3>
+                            <div class="close close2"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="modelContent">
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                            111<br>111<br>111<br>111<br>111<br>
+                        </div>
+                        <div class="modelFoot">
+                            <button type="button" class="modelBtn modelBtn2">我已知晓</button>
+                        </div>
+                    </div>
+                </div>
+                {{?}}
+            </div>
+            <div class="clearBoth"></div>
+        </div>
+    </script>
+</head>
+<body>
+<div class="head">
+    <div class="headContent">
+        <img data-url="/index/index/index.html" src="/img/logo.png" alt="四川亿能天成新能源logo">
+        <ul id="headMenu"></ul>
+        <script>window.html('headMenu', 'headMenuTpl', global);</script>
+    </div>
+</div>
+<div class="center" id="center"></div>
+<script>window.html('center', 'centerTpl', global);</script>
+<div class="footer">
+    <div class="info">
+        <div>
+            <h4>联系我们</h4>
+            <p>客服电话：028-67874259</p>
+            <p>商务沟通：xl@en.ink</p>
+            <p>服务时间：09:00-18:00</p>
+            <p>公司地址：四川省成都市高新区天府软件园G5 3楼</p>
+        </div>
+        <div>
+            <h4>项目</h4>
+            <a href="/user/field/create.html">发起项目</a><br/>
+            <a href="/field/field/list.html">投资项目</a><br/>
+        </div>
+        <div>
+            <h4>关于</h4>
+            <a href="/about/about/company.html">公司介绍</a><br/>
+            <a href="/about/about/partner.html">合作伙伴</a><br/>
+            <a href="/about/about/contact.html">联系我们</a><br/>
+            <a href="/about/about/guide.html">用户指南</a><br/>
+        </div>
+        <div>
+            <img src="/img/qrCode.jpg" alt="四川亿能天成微信公众号"><br/>
+            扫码关注微信公众号
+        </div>
+    </div>
+    <div class="friend" id="friend"></div>
+    <script>window.html('friend', 'friendTpl', global.friends);</script>
+    <div class="icp">四川亿能天成科技有限公司 蜀ICP备19002778号-1 Copyright © 2019 en.ink 市场有风险 投资需谨慎</div>
+</div>
+<script>
+    $('.nav').hover(
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        },
+        function () {
+            $(this).find('ul').slideToggle(200);
+            var i = $(this).find('i');
+            if (i.hasClass("rotate180")) {
+                i.removeClass("rotate180");
+                i.addClass("rotate0");
+            } else {
+                i.removeClass("rotate0");
+                i.addClass("rotate180");
+            }
+        }
+    );
+
+    $(function () {
+        var headHeight = $('.head').height();
+        var fixedHeight = $('.fixed').outerHeight();
+        var fixedRight = $('.fixed').offset().left + 'px';
+        var detailTop = $('.details').offset().top - headHeight - window.remSize;
+        var footerTop = $('.footer').offset().top - headHeight - fixedHeight - 4 * window.remSize;
+        $(window).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop >= detailTop && scrollTop <= footerTop) {
+                $('.fixed').css({
+                    'position': 'fixed',
+                    'left': fixedRight,
+                    'right': 'auto',
+                    'bottom': 'auto',
+                });
+            }
+            if (scrollTop > footerTop) {
+                $('.fixed').css({
+                    'position': 'absolute',
+                    'left': 'auto',
+                    'right': 0,
+                    'bottom': 0,
+                    'top': 'auto',
+                });
+            }
+            if (scrollTop < detailTop) {
+                $('.fixed').css({
+                    'position': 'static',
+                    'right': 'auto',
+                    'bottom': 'auto',
+                });
+            }
+        });
+        $(window).scroll();
+    });
+
+    var map = new BMap.Map('map');
+    var point = new BMap.Point(global.detail.lng || 116.404, global.detail.lat || 39.915);
+    map.centerAndZoom(point, 16);
+    map.addOverlay(new BMap.Marker(point));
+    map.addControl(new BMap.NavigationControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        type: BMAP_NAVIGATION_CONTROL_SMALL
+    }));
+
+    $('.back').click(function () {
+        map.centerAndZoom(point, 16);
+    });
+    $('.btn').click(function () {
+        window.modal.open('.model1');
+    });
+    $('.close1').click(function () {
+        window.modal.close('.model1');
+    });
+    $('.modelBtn1').click(function () {
+        window.modal.close('.model1');
+        window.modal.open('.model2');
+    });
+    $('.close2').click(function () {
+        window.modal.close('.model2');
+    });
+    $('.modelBtn2').click(function () {
+        window.modal.close('.model2');
+        window.location.href = '/field/intention/buy.html?no=' + global.detail.no;
+    });
+</script>
+</body>
+</html>

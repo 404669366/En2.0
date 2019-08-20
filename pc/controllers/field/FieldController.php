@@ -37,13 +37,17 @@ class FieldController extends BasisController
      */
     public function actionDetail($no = '', $r = '')
     {
-        if ($detail = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5]])) {
+        if ($detail = EnField::find()->where(['no' => $no, 'status' => [1, 2, 3, 4, 5]])->asArray()->one()) {
             if ($r) {
-                setcookie('field-r-' . $detail->id, $r, time() + 3600 * 24 * 30, '/');
+                setcookie('field-r-' . $detail['id'], $r, time() + 3600 * 24 * 30, '/');
             }
-            return $this->render('detail', [
+            return $this->render('detail.html', [
                 'detail' => $detail,
-                'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail->id),
+                'images' => Helper::completionImg($detail['images']),
+                'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail['id']),
+                'investInfo' => \Yii::$app->cache->get('InvestInfo-' . $detail['invest_type']),
+                'business_type' => Constant::businessType()[$detail['business_type']],
+                'invest_type' => Constant::investType()[$detail['invest_type']],
             ]);
         }
         return $this->redirect(['basis/basis/error']);

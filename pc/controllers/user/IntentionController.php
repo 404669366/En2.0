@@ -24,7 +24,7 @@ class IntentionController extends AuthController
     public function actionList()
     {
         $this->rUCenterUrl();
-        return $this->render('list', ['data' => EnFieldIntention::getUserData()]);
+        return $this->render('list.html', ['data' => EnFieldIntention::getUserData()]);
     }
 
     /**

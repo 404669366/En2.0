@@ -11,6 +11,7 @@ namespace app\controllers\basis;
 
 use vendor\project\helpers\Msg;
 use vendor\project\helpers\Url;
+use vendor\project\helpers\Wechat;
 
 class AuthController extends BasisController
 {
@@ -20,7 +21,7 @@ class AuthController extends BasisController
         if (\Yii::$app->user->isGuest) {
             Msg::set('请先登录');
             Url::remember();
-            return $this->redirect([\Yii::$app->params['loginRoute']])->send();
+            return $this->redirect(Wechat::getUserAuthorizeCodeUrl('http://c.en.ink/user/login/login-w.html'))->send();
         }
         return $re;
     }

@@ -14,6 +14,7 @@ use vendor\project\base\EnUser;
 use vendor\project\helpers\Msg;
 use vendor\project\helpers\Sms;
 use vendor\project\helpers\Url;
+use vendor\project\helpers\Wechat;
 
 class LoginController extends BasisController
 {
@@ -32,6 +33,8 @@ class LoginController extends BasisController
             Msg::set('验证码错误');
             if (Sms::validateCode($post['tel'], $post['code'])) {
                 if ($model = EnUser::findOne(['tel' => $post['tel']])) {
+                    $model->open_id = \Yii::$app->session->get('open_id', '');
+                    $model->save();
                     \Yii::$app->user->login($model);
                     Msg::set('登录成功');
                     return $this->redirect(Url::getUrl());
@@ -39,6 +42,7 @@ class LoginController extends BasisController
                     $model = new EnUser();
                     $model->tel = $post['tel'];
                     $model->token = \Yii::$app->security->generatePasswordHash($post['tel']);
+                    $model->open_id = \Yii::$app->session->get('open_id', '');
                     $model->created_at = time();
                     if ($model->save()) {
                         Msg::set('注册成功');
@@ -54,6 +58,26 @@ class LoginController extends BasisController
             'code' => $code,
             '_csrf' => \Yii::$app->request->csrfToken,
         ]);
+    }
+
+    /**
+     * 微信登录回调
+     * @param string $code
+     * @return \yii\web\Response
+     */
+    public function actionLoginW($code = '')
+    {
+        if ($code) {
+            if ($info = Wechat::getUserAuthorizeAccessToken($code)) {
+                if ($model = EnUser::findOne(['open_id' => $info['openid']])) {
+                    \Yii::$app->user->login($model);
+                    Msg::set('登录成功');
+                    return $this->redirect(Url::getUrl());
+                }
+                \Yii::$app->session->set('open_id', $info['openid']);
+            }
+        }
+        return $this->redirect(['login']);
     }
 
     /**

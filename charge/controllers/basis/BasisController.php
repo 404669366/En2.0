@@ -18,7 +18,7 @@ class BasisController extends Controller
 {
     public function beforeAction($action)
     {
-        if (!Wechat::isWechat()) {
+        if (Wechat::isWechat()) {
             Msg::setSize('0.4rem');
             return parent::beforeAction($action);
         }

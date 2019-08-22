@@ -38,12 +38,12 @@ class CController extends AuthController
 
     /**
      * 充电页
-     * @param string $no
+     * @param string $n
      * @return string|\yii\web\Response
      */
-    public function actionC($no = '')
+    public function actionC($n = '')
     {
-        if ($info = EnPile::chargeInfo($no)) {
+        if ($info = EnPile::chargeInfo($n)) {
             return $this->render('charge.html', [
                 'info' => $info,
                 'code' => Constant::serverCode()

@@ -23,7 +23,7 @@
         timestamp: global.time,
         nonceStr: global.nonceStr,
         signature: global.signature,
-        jsApiList: global.scanQRCode
+        jsApiList: ['scanQRCode']
     });
     wx.ready(function () {
         wx.scanQRCode({

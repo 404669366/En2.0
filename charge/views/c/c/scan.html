@@ -37,13 +37,13 @@
                 window.location.href = '/user/user/center.html';
             },
             fail: function (res) {
-                $.cookie('message-data', '开启摄像头失败,请手动输入枪口编号', {path: '/'});
+                $.cookie('message-data', '开启摄像头失败<br>请手动输入枪口编号', {path: '/'});
                 window.location.href = '/c/c/hand.html';
             }
         });
     });
     wx.error(function (res) {
-        $.cookie('message-data', '开启摄像头失败,请手动输入枪口编号', {path: '/'});
+        $.cookie('message-data', '开启摄像头失败<br>请手动输入枪口编号', {path: '/'});
         window.location.href = '/c/c/hand.html';
     });
 </script>

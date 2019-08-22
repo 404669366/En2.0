@@ -9,12 +9,16 @@
     margin-top: 0.5rem;
 }
 
+.problem > li:last-child {
+    margin-bottom: 0.5rem;
+}
+
 .problem > li > h3 {
     line-height: 1rem;
     text-align: center;
 }
 
-.problem > li > .q{
+.problem > li > .q {
     margin-bottom: 0.4rem;
 }
 

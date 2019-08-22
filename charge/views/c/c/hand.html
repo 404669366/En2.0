@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>亿能充电-手动充电</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<style>
+    .body {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: table;
+    }
+
+    .body > .form {
+        display: table-cell;
+        vertical-align: middle;
+    }
+</style>
+<body>
+<div class="body">
+    <form class="form" method="get" action="/c/c/c.html">
+        <div class="form-group">
+            <p class="title">手动输入充电</p>
+        </div>
+        <div class="form-group">
+            <label>枪口编号 : </label>
+            <input name="no" type="text" placeholder="请输入枪口对应编号">
+        </div>
+        <div class="form-group">
+            <button type="submit">启动充电</button>
+        </div>
+    </form>
+</div>
+<script>
+    $('button').click(function () {
+        if (!$('[name="no"]').val()) {
+            window.showMsg('请输入枪口编号');
+            return false;
+        }
+    });
+</script>
+</body>
+</html>

@@ -3,6 +3,8 @@
 namespace vendor\project\base;
 
 use vendor\project\helpers\client;
+use vendor\project\helpers\Helper;
+use vendor\project\helpers\Msg;
 use Yii;
 
 /**
@@ -93,5 +95,28 @@ class EnPile extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         (new client())->hSetField('PileInfo', $this->no, 'rules', $this->rules);
+    }
+
+    /**
+     * 创建充电信息
+     * @param string $no
+     * @return array|bool
+     */
+    public static function chargeInfo($no = '')
+    {
+        $pile = substr($no, 0, strlen($no) - 1);
+        if ($pile = self::findOne(['no' => $pile])) {
+            (new client())->hSetField('UserInfo', Yii::$app->user->id, 'money', Yii::$app->user->identity->money);
+            return [
+                'do' => 'beginCharge',
+                'orderNo' => Helper::createNo('O'),
+                'pile' => $pile->no,
+                'gun' => substr($no, -1),
+                'uid' => Yii::$app->user->id,
+                'fieldName' => $pile->local->name,
+            ];
+        }
+        Msg::set('未查询到该电桩信息,请检查电桩编号');
+        return false;
     }
 }

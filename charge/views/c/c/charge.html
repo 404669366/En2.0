@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <title>亿能充电-充电</title>
+    <link rel="stylesheet" href="/css/charge.css">
+    <link rel="stylesheet" href="/css/radialIndicator.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/radialindicator.js"></script>
+    <script type="text/x-dot-template" id="bodyTpl">
+        <h3 class="title">{{=it.fieldName}}</h3>
+        <div class="demo">
+            <div class="name"></div>
+            <div class="bolt"><i class="fa fa-bolt" aria-hidden="true"></i></div>
+        </div>
+        <ul class="charge_process">
+            <li>
+                <p>{{=it.power}}</p>
+                功率(kw)
+            </li>
+            <li>
+                <p>{{=it.electricQuantity}}</p>
+                充电(kwh)
+            </li>
+            <li>
+                <p>{{=it.basisMoney + it.serviceMoney}}</p>
+                费用(元)
+            </li>
+        </ul>
+        <ul class="charge_time">
+            <li>
+                <span><i class="fa fa-jpy" aria-hidden="true"></i>&emsp;当前电价(元)</span>
+                <span data-url="/c/c/rule.html?no={{=it.no}}">
+                    E:{{=it.rule[2]}}/S:{{=it.rule[3]}}
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                </span>
+            </li>
+            <li>
+                <span><i class="fa fa-clock-o" aria-hidden="true"></i>&emsp;充电时长</span>
+                <span>{{=it.duration}}</span>
+            </li>
+        </ul>
+        <div class="charge_end">
+            结束充电
+        </div>
+    </script>
+</head>
+<body id="body">
+<h3 class="title">--------</h3>
+<div class="demo">
+    <div class="name"></div>
+    <div class="bolt"><i class="fa fa-bolt" aria-hidden="true"></i></div>
+</div>
+<ul class="charge_process">
+    <li>
+        <p>0</p>
+        功率(kw)
+    </li>
+    <li>
+        <p>0.00</p>
+        充电(度)
+    </li>
+    <li>
+        <p>0.00</p>
+        费用(元)
+    </li>
+</ul>
+<ul class="charge_time">
+    <li>
+        <span><i class="fa fa-jpy" aria-hidden="true"></i>&emsp;当前电价(元)</span>
+        <span data-url="">
+            E:0.00/S:0.00
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+        </span>
+    </li>
+    <li>
+        <span><i class="fa fa-clock-o" aria-hidden="true"></i>&emsp;充电时长</span>
+        <span>00:00:00</span>
+    </li>
+</ul>
+<div class="charge_end">
+    结束充电
+</div>
+</body>
+<script>
+    var load = layer.load(2, {shade: [0.6, '#eeeeee']});
+    $('.title').text(global.info.fieldName);
+    $('.demo').radialIndicator().data('radialIndicator').value(0);
+    var socket = new WebSocket('ws://47.99.36.149:20000');
+    socket.onopen = function () {
+        socket.send(JSON.stringify(global.info));
+        socket.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+            if (data.code === 205 || data.code === 206 || data.code === 207) {
+                layer.close(load);
+                data.data.fieldName = global.info.fieldName;
+                window.html('body', 'bodyTpl', data.data);
+                $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
+                if (data.code === 206 || data.code === 207) {
+                    window.showMsg(global.code[data.code]);
+                    load = layer.load(2, {shade: [0.6, '#eeeeee']});
+                }
+                return;
+            }
+            window.showMsg(global.code[data.code]);
+            if (data.code === 200 || data.code === 201 || data.code === 202 || data.code === 203) {
+                window.history.go(-1);
+                return;
+            }
+            if (data.code === 208) {
+                window.location.href = '';
+                return;
+            }
+            if (data.code === 301) {
+                layer.close(load);
+                return;
+            }
+        };
+        $('.charge_end').click(function () {
+            load = layer.load(2, {shade: [0.6, '#eeeeee']});
+            socket.send(JSON.stringify({do: 'endCharge', pile: global.info.pile, gun: global.info.gun}));
+        });
+    };
+    socket.onerror = function () {
+        layer.close(load);
+        window.showMsg('链接服务器错误,请稍后再试');
+        window.history.go(-1);
+    }
+</script>
+</html>

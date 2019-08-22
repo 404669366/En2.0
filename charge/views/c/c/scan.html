@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>亿能充电-扫码充电</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/js/layer/layer.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        .layui-layer-content {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<script>
+    layer.load(2, {shade: [0.1, '#fff']});
+    wx.config({
+        debug: false,
+        appId: global.appId,
+        timestamp: global.time,
+        nonceStr: global.nonceStr,
+        signature: global.signature,
+        jsApiList: global.scanQRCode
+    });
+    wx.ready(function () {
+        wx.scanQRCode({
+            needResult: 1,
+            desc: 'scanQRCode desc',
+            success: function (res) {
+                window.location.href = res.resultStr;
+            },
+            cancel: function (res) {
+                $.cookie('message-data', '扫码取消', {path: '/'});
+                window.location.href = '/user/user/center.html';
+            },
+            fail: function (res) {
+                $.cookie('message-data', '开启摄像头失败', {path: '/'});
+                window.location.href = '/c/c/hand.html';
+            }
+        });
+    });
+    wx.error(function (re) {
+        $.cookie('message-data', '开启摄像头失败', {path: '/'});
+        window.location.href = '/c/c/hand.html';
+    });
+</script>
+</body>
+</html>

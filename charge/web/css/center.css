@@ -1,0 +1,213 @@
+#header {
+    width: 9rem;
+    font-size: 0.45rem;
+    font-family: "微软雅黑 Light";
+    padding: 0.5rem 0.5rem 0rem 0.5rem;
+    margin-bottom: 2.5rem;
+}
+
+#header .headCard {
+    width: 8rem;
+    color: #fff;
+    background: #00A8EC;
+    padding: 0.7rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 0.3rem;
+}
+
+.headCard .carList {
+    height: 1.9rem;
+    display: table;
+}
+
+.headCard .carList > * {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.headCard .carList > p {
+    height: 1.9rem;
+}
+
+.headCard .carList .head_port {
+    width: 1.9rem;
+    padding: 0.2rem;
+    box-sizing: border-box;
+}
+
+.headCard .carList .head_port > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5rem;
+    background-size: cover;
+}
+
+.headCard .carList .nick_name {
+    width: 3rem;
+    padding-left: 0.1rem;
+}
+
+.headCard .carList .nick_name > span {
+    font-size: 0.38rem;
+}
+
+.headCard .carList .balance {
+    width: 3rem;
+    font-size: 0.7rem;
+    text-align: right;
+}
+
+.headCard .carList .balance > span {
+    font-size: 0.4rem;
+}
+
+.headCard .account {
+    height: 0.66rem;
+    margin-top: 0.4rem;
+    font-size: 0.4rem;
+    color: #fff;
+}
+
+.headCard .account p {
+    width: 3.98rem;
+    height: 0.66rem;
+    float: left;
+    line-height: 0.66rem;
+    text-align: center;
+}
+
+.headCard .account p:first-child {
+    border-right: 0.015rem solid #fff
+}
+
+.collect_list {
+    width: 9rem;
+    display: table;
+    font-size: 0.4rem;
+    margin: 0.2rem 0;
+}
+
+.collect_list > a {
+
+}
+
+.collect_list li {
+    width: 2rem;
+    height: 1.5rem;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    color: #333;
+}
+
+.collect_list li > p {
+    font-size: 0.6rem;
+}
+
+.collect_list .comment {
+    width: 4.75rem;
+}
+
+.list li {
+    height: 2rem;
+    line-height: 2rem;
+    color: #333;
+
+}
+
+.list li > span {
+    display: table;
+    height: 2rem;
+    line-height: 2rem;
+    float: left;
+}
+
+.list li > span > i {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.list li > span:first-child {
+    margin-right: 0.4rem;
+}
+
+.list li > span:last-child {
+    float: right;
+}
+
+.list li > .other {
+    height: 2rem;
+    display: table;
+}
+
+.list li > .other > span {
+    line-height: 0.6rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.list li > .other > span > p {
+    font-size: 0.35rem;
+    color: #888;
+}
+
+.footer {
+    width: 10rem;
+    height: 1.6rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-top: solid #ccc 0.02rem;
+    font-size: 0.45rem;
+    font-family: "微软雅黑 Light";
+    background: #fff;
+}
+
+.footer li {
+    width: 3.3333rem;
+    height: 1.6rem;
+    text-align: center;
+    display: table;
+}
+
+.footer li > span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.footer li > span > p {
+    font-size: 0.6rem;
+}
+
+.footer li:nth-child(1) {
+    float: left;
+}
+
+.footer li:nth-child(2) {
+    width: 2.5rem;
+    position: absolute;
+    left: 3.75rem;
+    bottom: 0;
+    height: 2.5rem;
+    background: #fff;
+    border-radius: 5rem;
+    box-shadow: 0 -0.05rem 0.1rem rgba(0, 0, 0, 0.4);
+}
+
+.footer li:nth-child(2) > p {
+    width: 2rem;
+    height: 2rem;
+    background: #00A8EC;
+    border-radius: 5rem;
+    margin: 0.25rem auto;
+}
+
+.footer li:nth-child(2) > p img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 5rem;
+    background-size: cover;
+}
+
+.footer li:nth-child(3) {
+    float: right;
+}

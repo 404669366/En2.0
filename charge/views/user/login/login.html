@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>亿能充电-登录</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/login.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/sms.js"></script>
+    <script type="text/x-dot-template" id="formTpl">
+        <input type="hidden" name="_csrf" value="{{=it._csrf}}">
+        <img class="logo" src="/img/logo.png"/>
+        <div class="loginBox">
+            <span><i class="fa fa-tablet" aria-hidden="true"></i></span>
+            <input type="text" class="tel" name="tel" placeholder="请输入手机号" value="{{=it.tel}}">
+        </div>
+        <div class="loginBox">
+            <span><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+            <input type="text" name="code" placeholder="请输入验证码" value="{{=it.code}}">
+            <div class="yzm">获取验证码</div>
+        </div>
+        <button class="btn" type="submit">登 录</button>
+    </script>
+</head>
+<body>
+<form id="form" method="post"></form>
+<script>
+    window.html('form', 'formTpl', global);
+    sms({click: '.yzm', telModel: '.tel'});
+</script>
+</body>
+</html>

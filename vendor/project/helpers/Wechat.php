@@ -30,23 +30,22 @@ class Wechat
 
     /**
      * 获取统一接口调用access_token
-     * @return bool|string
+     * @return mixed|string
      */
     public static function getUnifiedAccessToken()
     {
-        if ($access_token = redis::app()->get('UnifiedAccessToken')) {
+        if ($access_token = \Yii::$app->cache->get('UnifiedAccessToken')) {
             return $access_token;
         }
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential';
         $url .= '&appid=' . self::APP_ID;
         $url .= '&secret=' . self::SECRET;
-        $re = file_get_contents($url);
-        $re = json_decode($re, true);
+        $re = json_decode(file_get_contents($url), true);
         if (isset($re['access_token'])) {
-            redis::app()->set('UnifiedAccessToken', $re['access_token'], $re['expires_in'] - 200);
+            \Yii::$app->cache->set('UnifiedAccessToken', $re['access_token'], $re['expires_in'] - 300);
             return $re['access_token'];
         }
-        return false;
+        return '';
     }
 
     /**
@@ -128,5 +127,43 @@ class Wechat
         $sign = strtoupper(md5($sign));
         $xml .= "<sign>$sign</sign>";
         return $xml . '</xml>';
+    }
+
+    /**
+     * 获取ticket
+     * @return mixed|string
+     */
+    public static function getTicket()
+    {
+        if ($ticket = \Yii::$app->cache->get('WeiXinTicket')) {
+            return $ticket;
+        }
+        $access_token = self::getUnifiedAccessToken();
+        $re = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$access_token"), true);
+        if (isset($re['ticket'])) {
+            \Yii::$app->cache->set('WeiXinTicket', $re['ticket'], 3600);
+            return $re['ticket'];
+        }
+        return '';
+    }
+
+    /**
+     * 获取扫码JsApi参数
+     * @return array
+     */
+    public static function getJsApiParamsByScan()
+    {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $nonceStr = Helper::randStr(6);
+        $time = time();
+        $ticket = self::getTicket();
+        $signature = sha1("jsapi_ticket={$ticket}&noncestr={$nonceStr}&timestamp={$time}&url={$url}");
+        return [
+            'appId' => self::APP_ID,
+            'nonceStr' => $nonceStr,
+            'time' => $time,
+            'signature' => $signature
+        ];
     }
 }

@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft YaHei;
+}
+
+a {
+    text-decoration: none;
+    color: #d3d3d3;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer, *[data-url] {
+    cursor: pointer;
+}
+
+input, textarea, select {
+    border: 0;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+    -webkit-transition-delay: 99999s;
+    -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.hide {
+    display: none;
+}
+
+.clear {
+    zoom: 1;
+}
+
+.clear:after {
+    clear: both;
+    display: block;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w33 {
+    width: 33.333333%;
+}
+
+.w25 {
+    width: 25%;
+}
+
+.w20 {
+    width: 20%;
+}
+
+.form {
+    width: 8rem;
+    font-size: 0.4rem;
+}
+
+.form > .form-group {
+    width: 8rem;
+    margin: 0 auto 0.3rem auto;
+}
+
+.form > .form-group:last-child {
+    margin: 0 auto;
+}
+
+.form > .form-group > .title {
+    width: 8rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    font-size: 0.54rem;
+}
+
+.form > .form-group > label {
+    width: 2rem;
+    text-align: center;
+}
+
+.form > .form-group > input {
+    width: 6rem;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.4rem;
+    text-indent: 0.1rem;
+    border-bottom: 1px solid silver;
+}
+
+.form > .form-group > button {
+    width: 8rem;
+    height: 1rem;
+    line-height: 1rem;
+    border-radius: 0.04rem;
+    text-align: center;
+    font-size: 0.4rem;
+    color: #FFFFFF;
+    background: #00A8EC;
+    border: none;
+}
+

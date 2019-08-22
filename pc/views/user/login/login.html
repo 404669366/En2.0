@@ -9,18 +9,16 @@
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
     <script src="/js/sms.js" type="text/javascript" charset='utf-8'></script>
     <script type="text/x-dot-template" id="formTpl">
-        <form class="loginForm" method="post">
-            <h2>Sign in</h2>
-            <span>登录</span>
-            <input type="hidden" name="_csrf" value="{{=it._csrf}}">
-            <input type="text" name="tel" placeholder="请输入手机号" value="{{=it.tel}}" autocomplete="off">
-            <div class="codeBox">
-                <input type="text" name="code" placeholder="请输入验证码" value="{{=it.code}}" autocomplete="off">
-                <div class="code">获取验证码</div>
-            </div>
-            <button type="submit">登录 / 注册</button>
-            <p>点击即表示同意<a href="/agreement/agreement/logon.html">《注册协议》</a></p>
-        </form>
+        <h2>Sign in</h2>
+        <span>登录</span>
+        <input type="hidden" name="_csrf" value="{{=it._csrf}}">
+        <input type="text" name="tel" placeholder="请输入手机号" value="{{=it.tel}}" autocomplete="off">
+        <div class="codeBox">
+            <input type="text" name="code" placeholder="请输入验证码" value="{{=it.code}}" autocomplete="off">
+            <div class="code">获取验证码</div>
+        </div>
+        <button type="submit">登录 / 注册</button>
+        <p>点击即表示同意<a href="/agreement/agreement/logon.html">《注册协议》</a></p>
     </script>
 </head>
 <body>

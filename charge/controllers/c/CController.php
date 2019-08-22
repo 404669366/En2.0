@@ -13,7 +13,6 @@ use app\controllers\basis\AuthController;
 use vendor\project\base\EnPile;
 use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
-use vendor\project\helpers\Msg;
 use vendor\project\helpers\Wechat;
 
 class CController extends AuthController

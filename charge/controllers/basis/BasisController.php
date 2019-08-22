@@ -19,7 +19,7 @@ class BasisController extends Controller
     public function beforeAction($action)
     {
         if (Wechat::isWechat()) {
-            Msg::setSize('0.4rem');
+            Msg::setSize('0.5rem');
             return parent::beforeAction($action);
         }
         return $this->redirect(['wx/wx/no-wx'])->send();

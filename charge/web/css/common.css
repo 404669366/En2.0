@@ -81,7 +81,7 @@ body {
 
 .form {
     width: 8rem;
-    font-size: 0.4rem;
+    font-size: 0.5rem;
 }
 
 .form > .form-group {
@@ -95,10 +95,10 @@ body {
 
 .form > .form-group > .title {
     width: 8rem;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
     text-align: center;
-    font-size: 0.54rem;
+    font-size: 0.7rem;
 }
 
 .form > .form-group > label {
@@ -108,20 +108,20 @@ body {
 
 .form > .form-group > input {
     width: 6rem;
-    height: 1rem;
-    line-height: 1rem;
-    font-size: 0.4rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 0.5rem;
     text-indent: 0.1rem;
     border-bottom: 1px solid silver;
 }
 
 .form > .form-group > button {
     width: 8rem;
-    height: 1rem;
-    line-height: 1rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
     border-radius: 0.04rem;
     text-align: center;
-    font-size: 0.4rem;
+    font-size: 0.5rem;
     color: #FFFFFF;
     background: #00A8EC;
     border: none;

@@ -87,6 +87,15 @@ body {
 .form > .form-group {
     width: 8rem;
     margin: 0 auto 0.3rem auto;
+    zoom: 1;
+}
+
+.form > .form-group:after {
+    clear: both;
+    display: block;
+    content: "";
+    visibility: hidden;
+    height: 0;
 }
 
 .form > .form-group:last-child {
@@ -102,17 +111,22 @@ body {
 }
 
 .form > .form-group > label {
-    width: 2rem;
+    display: inline-block;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    width: 3rem;
     text-align: center;
+    float: left;
 }
 
 .form > .form-group > input {
-    width: 6rem;
+    width: 5rem;
     height: 1.5rem;
     line-height: 1.5rem;
     font-size: 0.5rem;
     text-indent: 0.1rem;
     border-bottom: 1px solid silver;
+    float: right;
 }
 
 .form > .form-group > button {

@@ -108,11 +108,13 @@ class EnPile extends \yii\db\ActiveRecord
         if ($pile = self::findOne(['no' => $pile])) {
             $userInfo = (new client())->hGet('UserInfo', Yii::$app->user->id);
             if ($userInfo && isset($userInfo['order'])) {
-                return [
-                    'do' => 'seeCharge',
-                    'orderNo' => $userInfo['order'],
-                    'fieldName' => $pile->local->name,
-                ];
+                if ($order = (new client())->hGet('ChargeOrder', $userInfo['order'])) {
+                    return [
+                        'do' => 'seeCharge',
+                        'orderNo' => $userInfo['order'],
+                        'fieldName' => $pile->local->name,
+                    ];
+                }
             }
             $orderNo = Helper::createNo('O');
             (new client())->hSetField('UserInfo', Yii::$app->user->id, 'order', $orderNo);

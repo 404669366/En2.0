@@ -149,3 +149,7 @@ body {
     border: none;
 }
 
+.layui-layer-content {
+    margin: 0 auto;
+}
+

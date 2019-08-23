@@ -60,7 +60,6 @@ window.checkTel = function (tel) {
 
 window.showMsg = function (data, size) {
     if (data) {
-        var height = window.screen.availHeight;
         var messageSize = size || ($.cookie('message-size') || '1rem');
         if (messageSize) {
             layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>');

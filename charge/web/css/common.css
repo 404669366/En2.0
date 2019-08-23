@@ -149,6 +149,14 @@ body {
     border: none;
 }
 
+.layui-layer-loading {
+    width: 100% !important;
+}
+
+.layui-layer-hui {
+    width: 5rem !important;
+}
+
 .layui-layer-content {
     margin: 0 auto;
 }

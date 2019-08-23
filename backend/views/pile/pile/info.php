@@ -222,13 +222,13 @@
             key = rules.length;
             begin = rules[key - 1][1];
             begin = timeToStr(begin);
-            if (begin === '23:59') {
+            if (begin === '24:00') {
                 window.showMsg('规则完成');
                 return;
             }
         }
         var content = '<label>开始时间:</label><input name="begin" type="text" value="' + begin + '" readonly/>';
-        content += '<label>结束时间:</label><input name="end" type="time" min="' + begin + '" value="23:59"/>';
+        content += '<label>结束时间:</label><input name="end" type="text" value="24:00"/>';
         content += '<label>基础电价:</label><input class="basis" type="text" value="0.8"/>';
         content += '<label>服务电价:</label><input class="service" type="text" value="0.6"/>';
         window.modal({
@@ -240,21 +240,26 @@
                 var thisBegin = strToTime(event.find('[name="begin"]').val());
                 var thisEnd = strToTime(event.find('[name="end"]').val());
                 if (thisEnd > thisBegin) {
-                    rules[key] = [thisBegin, thisEnd, event.find('.basis').val(), event.find('.service').val()];
-                    str = '<tr>';
-                    $.each(rules[key], function (k, v) {
-                        if (k === 0 || k === 1) {
-                            str += '<td>' + timeToStr(v) + '</td>';
-                        } else {
-                            str += '<td>' + v + '</td>';
-                        }
-                    });
-                    $('.rulesTable').append(str + '</tr>');
-                    $('.rules').val(JSON.stringify(rules));
-                    event.close();
+                    if (thisEnd <= 86400) {
+                        rules[key] = [thisBegin, thisEnd, event.find('.basis').val(), event.find('.service').val()];
+                        str = '<tr>';
+                        $.each(rules[key], function (k, v) {
+                            if (k === 0 || k === 1) {
+                                str += '<td>' + timeToStr(v) + '</td>';
+                            } else {
+                                str += '<td>' + v + '</td>';
+                            }
+                        });
+                        $('.rulesTable').append(str + '</tr>');
+                        $('.rules').val(JSON.stringify(rules));
+                        event.close();
+                        return;
+                    }
+                    event.find('.end').val('24:00');
+                    window.showMsg('结束时间不大于24:00');
                     return;
                 }
-                event.find('.end').val('23:59');
+                event.find('.end').val('24:00');
                 window.showMsg('结束时间必须大于开始时间');
                 return;
             }
@@ -273,10 +278,10 @@
     $('.save').click(function () {
         var rule = $('.rules').val() ? JSON.parse($('.rules').val()) : [];
         if (rule.length) {
-            if (timeToStr(rule[rule.length - 1][1]) === '23:59') {
+            if (timeToStr(rule[rule.length - 1][1]) === '24:00') {
                 return true;
             }
-            window.showMsg('请添加全时间段计费规则(00:00-23:59)');
+            window.showMsg('请添加全时间段计费规则(00:00-24:00)');
             return false;
         }
         window.showMsg('请添加计费规则');
@@ -289,11 +294,11 @@
     }
 
     function strToTime(time) {
-        if (time === '23:59') {
-            return 86399;
-        }
         var arr = time.split(':');
-        return parseInt(arr[0], 10) * 3600 + parseInt(arr[1], 10) * 60;
+        if (arr.length === 2) {
+            return parseInt(arr[0], 10) * 3600 + parseInt(arr[1], 10) * 60;
+        }
+        return 86400;
     }
 
     function prefixZero(num, length) {

@@ -31,7 +31,7 @@
         <ul class="charge_time">
             <li>
                 <span><i class="fa fa-jpy" aria-hidden="true"></i>&emsp;当前电价(元)</span>
-                <span data-url="/c/c/rule.html?no={{=it.no}}">
+                <span data-url="/field/pile/rule.html?no={{=it.pile}}">
                     E:{{=it.rule[2]}}/S:{{=it.rule[3]}}
                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                 </span>
@@ -70,7 +70,7 @@
     <li>
         <span><i class="fa fa-jpy" aria-hidden="true"></i>&emsp;当前电价(元)</span>
         <span data-url="">
-            E:0.00/S:0.00
+            E:0.8/S:0.6
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
         </span>
     </li>
@@ -87,7 +87,7 @@
     var load = layer.load(2, {shade: [0.6, '#eeeeee']});
     $('.title').text(global.info.fieldName);
     $('.demo').radialIndicator().data('radialIndicator').value(0);
-    var socket = new WebSocket('ws://47.99.36.149:20000');
+    var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
         socket.send(JSON.stringify(global.info));
         socket.onmessage = function (event) {
@@ -95,6 +95,7 @@
             if (data.code === 205 || data.code === 206 || data.code === 207) {
                 layer.close(load);
                 data.data.fieldName = global.info.fieldName;
+                data.data.duration = timeToStr(data.data.duration);
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207) {
@@ -104,7 +105,7 @@
                 return;
             }
             window.showMsg(global.code[data.code]);
-            if (data.code === 200 || data.code === 201 || data.code === 202 || data.code === 203) {
+            if (data.code === 200 || data.code === 201 || data.code === 202 || data.code === 203 || data.code === 209) {
                 window.history.go(-1);
                 return;
             }
@@ -126,6 +127,13 @@
         layer.close(load);
         window.showMsg('链接服务器错误,请稍后再试');
         window.history.go(-1);
+    };
+
+    function timeToStr(time) {
+        var hour = Math.floor(time / 3600);
+        var min = Math.floor((time - hour * 3600) / 60);
+        var second = time - hour * 3600 - min * 60;
+        return prefixZero(hour, 2) + ':' + prefixZero(min, 2) + ':' + prefixZero(second, 2);
     }
 </script>
 </html>

@@ -11,7 +11,6 @@ namespace app\controllers\c;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnPile;
-use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Wechat;
 
@@ -49,16 +48,5 @@ class CController extends AuthController
             ]);
         }
         return $this->goBack();
-    }
-
-    /**
-     * 查询计费规则
-     * @param string $no
-     * @return string
-     */
-    public function actionRule($no = '')
-    {
-        $rule = json_decode((new client())->hGetField('PileInfo', $no, 'rules'), true);
-        return $this->render('rule.html', ['rules' => $rule ?: [[0, 86399, 0.8, 0.6]]]);
     }
 }

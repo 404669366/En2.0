@@ -59,6 +59,6 @@ class CController extends AuthController
     public function actionRule($no = '')
     {
         $rule = json_decode((new client())->hGetField('PileInfo', $no, 'rules'), true);
-        return $this->render('rule.html', ['rule' => $rule ?: [[0, 86399, 0.8, 0.6]]]);
+        return $this->render('rule.html', ['rules' => $rule ?: [[0, 86399, 0.8, 0.6]]]);
     }
 }

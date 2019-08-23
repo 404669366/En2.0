@@ -65,6 +65,16 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->open_id && array_key_exists('open_id', $changedAttributes)) {
+            if ($user = self::find()->where(['open_id' => $this->open_id])->andWhere(['<>', 'id', $this->id])->one()) {
+                $user->open_id = '';
+                $user->save();
+            }
+        }
+    }
+
     /**
      * 返回分页数据
      * @return mixed

@@ -1,0 +1,61 @@
+body {
+    background: #EFEFEF !important;
+}
+
+.order_details, .order_time, .pay {
+    width: 9rem;
+    padding: 0.25rem;
+    background: #fff;
+    font-size: 0.45rem;
+    font-family: "微软雅黑";
+    border-radius: 0.15rem;
+    margin: 0.25rem auto 0.5rem auto;
+}
+
+.order_details > .order_tit {
+    height: 1rem;
+    line-height: 1rem;
+    border-bottom: 0.04rem solid #D7D7D7;
+}
+
+.order_details > .order_tit > .unpaid {
+    width: 1.2rem;
+    height: 0.6rem;
+    font-size: 0.3rem;
+    color: #fff;
+    line-height: 0.6rem;
+    text-align: center;
+    margin-top: 0.2rem;
+    border-radius: 0.1rem;
+}
+
+.order_details > ul > li {
+    height: 1rem;
+    color: #3C3C3C;
+    line-height: 1rem;
+    font-size: 0.45rem;
+    font-family: "微软雅黑";
+
+}
+
+.order_details > ul > li > span, .order_time > span {
+    float: left;
+    width: 3rem;
+}
+
+.order_details > ul > li > p, .order_time > p {
+    float: right;
+    text-align: right;
+    width: 6rem;
+}
+
+.order_time, .pay {
+    height: 1rem;
+    line-height: 1rem;
+}
+
+.pay {
+    color: #fff;
+    text-align: center;
+    background: #00A8EC;
+}

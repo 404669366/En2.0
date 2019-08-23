@@ -59,6 +59,14 @@ body {
     height: 0;
 }
 
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
 .w100 {
     width: 100%;
 }

@@ -44,7 +44,8 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
             [['created_at'], 'integer'],
             [['open_id', 'token'], 'string', 'max' => 80],
             [['tel'], 'string', 'max' => 11],
-            [['money', 'points', 'address'], 'string', 'max' => 50],
+            [['money', 'points'], 'number'],
+            [['address'], 'string', 'max' => 50],
         ];
     }
 
@@ -82,6 +83,15 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
     public static function getPageData()
     {
         return self::find()->page(['tel' => ['like', 'tel']]);
+    }
+
+    /**
+     * 返回用户余额
+     * @return string
+     */
+    public static function getMoney()
+    {
+        return self::findOne(Yii::$app->user->id)->money;
     }
 
     //todo**********************  登录接口实现  ***************************

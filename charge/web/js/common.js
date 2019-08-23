@@ -96,6 +96,18 @@ window.toDate = function (second) {
     return str;
 };
 
+window.timestampToTime = function (timestamp, cover) {
+    //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var date = new Date(cover ? timestamp * 1000 : timestamp);
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+    var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+    var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+    var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+    return Y + M + D + h + m + s;
+};
+
 window.prefixZero = function (num, length) {
     return (Array(length).join('0') + num).slice(-length);
 };

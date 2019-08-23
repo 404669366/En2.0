@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-订单支付</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/pay.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="orderTpl">
+        <div class="order_details">
+            <div class="order_tit">
+                <p class="fl"><span></span>订单详情</p>
+                <p class="fr unpaid" style="background: #FF4C38">未支付</p>
+            </div>
+            <ul>
+                <li>
+                    <span>订单编号:</span>
+                    <p>{{=it.no}}</p>
+                </li>
+                <li>
+                    <span>电桩编号:</span>
+                    <p>{{=it.pile}}</p>
+                </li>
+                <li>
+                    <span>枪口编号:</span>
+                    <p>{{=it.gun}}</p>
+                </li>
+                <li>
+                    <span>基础电费:</span>
+                    <p class="txt_red">&yen; {{=it.basisMoney}}</p>
+                </li>
+                <li>
+                    <span>服务电费:</span>
+                    <p class="txt_red">&yen; {{=it.serviceMoney}}</p>
+                </li>
+                <li>
+                    <span>充电电量:</span>
+                    <p>{{=it.electricQuantity}}kwh</p>
+                </li>
+                <li>
+                    <span>开始时间:</span>
+                    <p>{{=it.created_at}}</p>
+                </li>
+                <li>
+                    <span>充电时长:</span>
+                    <p>{{=it.duration}}</p>
+                </li>
+            </ul>
+        </div>
+        <div class="order_time">
+            <span>订单总额:</span>
+            <p>{{=it.basisMoney + it.serviceMoney}}</p>
+        </div>
+        <div class="pay" data-url="/order/charge/pay.html?orderNo={{=it.no}}&pay=1">立即支付</div>
+    </script>
+</head>
+<body>
+<div class="order" id="order"></div>
+<script>
+    global.order.created_at = window.timestampToTime(global.order.created_at, true);
+    global.order.duration = timeToStr(global.order.duration);
+    window.html('order', 'orderTpl', global.order);
+
+    function timeToStr(time) {
+        var hour = Math.floor(time / 3600);
+        var min = Math.floor((time - hour * 3600) / 60);
+        var second = time - hour * 3600 - min * 60;
+        return prefixZero(hour, 2) + ':' + prefixZero(min, 2) + ':' + prefixZero(second, 2);
+    }
+</script>
+</body>
+</html>

@@ -19,14 +19,12 @@ class AuthController extends BasisController
     {
         $re = parent::beforeAction($action);
         if (\Yii::$app->user->isGuest) {
-            if ($open_id = \Yii::$app->session->get('open_id', '')) {
-                if ($model = EnUser::findOne(['open_id' => $open_id])) {
-                    \Yii::$app->user->login($model);
-                    return $re;
-                }
+            if ($model = EnUser::findOne(['open_id' => \Yii::$app->session->get('open_id')])) {
+                \Yii::$app->user->login($model);
+                return $re;
             }
             Url::remember();
-            return $this->redirect(Wechat::getUserAuthorizeCodeUrl('http://c.en.ink/wx/wx/auth.html'))->send();
+            return $this->redirect(['user/login/login'])->send();
         }
         return $re;
     }

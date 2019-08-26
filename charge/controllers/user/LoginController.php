@@ -37,9 +37,7 @@ class LoginController extends BasisController
                     $model->created_at = time();
                     Msg::set('注册成功');
                 }
-                if ($open_id = \Yii::$app->session->get('open_id', '')) {
-                    $model->open_id = $open_id;
-                }
+                $model->open_id = \Yii::$app->session->get('open_id', '');
                 if ($model->save()) {
                     \Yii::$app->user->login($model);
                     return $this->redirect(Url::getUrl());

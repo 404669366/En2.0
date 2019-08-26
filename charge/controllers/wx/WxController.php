@@ -18,16 +18,6 @@ use yii\web\Controller;
 class WxController extends Controller
 {
     /**
-     * 非微信页
-     * @return string
-     */
-    public function actionNoWx()
-    {
-        Msg::set('请在微信中访问');
-        return $this->render('no-wx.html');
-    }
-
-    /**
      * 微信授权回调
      * @param string $code
      * @return \yii\web\Response
@@ -36,13 +26,10 @@ class WxController extends Controller
     {
         if ($code) {
             if ($info = Wechat::getUserAuthorizeAccessToken($code)) {
-                if ($model = EnUser::findOne(['open_id' => $info['openid']])) {
-                    \Yii::$app->user->login($model);
-                    return $this->redirect(Url::getUrl());
-                }
                 \Yii::$app->session->set('open_id', $info['openid']);
+                return $this->redirect(Url::getUrl());
             }
         }
-        return $this->redirect(['user/login/login']);
+        return $this->redirect(['base/error/error']);
     }
 }

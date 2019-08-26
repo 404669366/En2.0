@@ -41,7 +41,7 @@ $config = [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'basis/basis/error',
+            'errorAction' => 'basis/error/error',
         ],
         'redis' => $params['Redis'],
         'user' => $params['User'],

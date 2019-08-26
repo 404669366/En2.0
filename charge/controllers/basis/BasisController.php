@@ -11,6 +11,7 @@ namespace app\controllers\basis;
 
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
+use vendor\project\helpers\Url;
 use vendor\project\helpers\Wechat;
 use yii\web\Controller;
 
@@ -18,11 +19,15 @@ class BasisController extends Controller
 {
     public function beforeAction($action)
     {
+        Msg::setSize('0.5rem');
         if (Wechat::isWechat()) {
-            Msg::setSize('0.5rem');
-            return parent::beforeAction($action);
+            if ($open_id = \Yii::$app->session->get('open_id', '')) {
+                return parent::beforeAction($action);
+            }
+            Url::remember();
+            return $this->redirect(Wechat::getUserAuthorizeCodeUrl('http://c.en.ink/wx/wx/auth.html'))->send();
         }
-        return $this->redirect(['wx/wx/no-wx'])->send();
+        return $this->redirect(['basis/error/no-wx'])->send();
     }
 
     public function render($view, $params = [])
@@ -87,14 +92,5 @@ class BasisController extends Controller
     {
         Msg::set($msg);
         return parent::goBack(\Yii::$app->request->getReferrer());
-    }
-
-    /**
-     * 自定义错误页
-     * @return string
-     */
-    public function actionError()
-    {
-        return $this->render('error.html');
     }
 }

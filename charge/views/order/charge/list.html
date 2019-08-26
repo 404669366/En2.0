@@ -5,9 +5,50 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能充电-充电订单</title>
     <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/order.css">
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="orderTpl">
+        {{?it.length}}
+        {{~it:v}}
+        {{?v.st==1}}
+        <li class="green">
+            <div class="label">进行中</div>
+            <ul class="orderInfo clear">
+                <li>订单编号:{{=v.no}}</li>
+                <li>枪口编号:{{=v.gun}}</li>
+                <li>电桩编号:{{=v.pile}}</li>
+                <li>充电电量:{{=v.electricQuantity}}kwh</li>
+                <li>充电金额:{{=v.basisMoney + v.serviceMoney}}元</li>
+                <li>下单时间:{{=v.created_at}}</li>
+            </ul>
+            <div class="btnBox">
+                <a class="btn" href="/c/c/c.html?n={{=v.pile}}{{=v.gun}}">前往查看</a>
+            </div>
+        </li>
+        {{??}}
+        <li class="blue">
+            <div class="label">已支付</div>
+            <ul class="orderInfo clear">
+                <li>订单编号:{{=v.no}}</li>
+                <li>枪口编号:{{=v.gun}}</li>
+                <li>电桩编号:{{=v.pile}}</li>
+                <li>充电电量:{{=v.electricQuantity}}kwh</li>
+                <li>充电金额:{{=v.basisMoney + v.serviceMoney}}元</li>
+                <li>下单时间:{{=v.created_at}}</li>
+            </ul>
+            <div class="btnBox">
+                <a class="btn" href="/order/charge/info.html?no={{=v.no}}">查看详情</a>
+            </div>
+        </li>
+        {{?}}
+        {{~}}
+        {{??}}
+        <li class="none">未查询到没有您的订单信息</li>
+        {{?}}
+    </script>
 </head>
 <body>
-
+<ul class="orders" id="order"></ul>
+<script>window.html('order', 'orderTpl', global.order);</script>
 </body>
 </html>

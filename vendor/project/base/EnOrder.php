@@ -2,6 +2,7 @@
 
 namespace vendor\project\base;
 
+use vendor\project\helpers\client;
 use Yii;
 
 /**
@@ -59,5 +60,94 @@ class EnOrder extends \yii\db\ActiveRecord
             'duration' => '充电时长',
             'created_at' => '创建时间',
         ];
+    }
+
+    /**
+     * 获取用户订单
+     * @param int $uid
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getOrders($uid = 0)
+    {
+        $uid = $uid ?: Yii::$app->user->id;
+        $orders = self::find()->where(['uid' => $uid])
+            ->orderBy('created_at desc')
+            ->asArray()->all();
+        foreach ($orders as &$v) {
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['st'] = 2;
+        }
+        if ($order = self::getOnlineOrder()) {
+            $order['st'] = 1;
+            array_unshift($orders, $order);
+        }
+        $orders = [
+            [
+                'no' => '11111111',
+                'pile' => '888',
+                'gun' => '1',
+                'uid' => 1,
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'soc' => 0,
+                'power' => 0,
+                'duration' => 0,
+                'rule' => [0, 86400, 0.8, 0.6],
+                'electricQuantity' => 10,
+                'basisMoney' => 8,
+                'serviceMoney' => 6,
+                'st' => 1,
+            ],
+            [
+                'no' => '222222222',
+                'pile' => '888',
+                'gun' => '1',
+                'uid' => 1,
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'soc' => 0,
+                'power' => 0,
+                'duration' => 0,
+                'rule' => [0, 86400, 0.8, 0.6],
+                'electricQuantity' => 10,
+                'basisMoney' => 8,
+                'serviceMoney' => 6,
+                'st' => 2,
+            ],
+            [
+                'no' => '3333333333',
+                'pile' => '888',
+                'gun' => '1',
+                'uid' => 1,
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'soc' => 0,
+                'power' => 0,
+                'duration' => 0,
+                'rule' => [0, 86400, 0.8, 0.6],
+                'electricQuantity' => 10,
+                'basisMoney' => 8,
+                'serviceMoney' => 6,
+                'st' => 2,
+            ],
+        ];
+        return $orders;
+    }
+
+    /**
+     * 获取用户在线订单
+     * @param int $uid
+     * @return array|mixed
+     */
+    public static function getOnlineOrder($uid = 0)
+    {
+        $uid = $uid ?: Yii::$app->user->id;
+        $userInfo = (new client())->hGet('UserInfo', $uid);
+        if ($userInfo && isset($userInfo['order'])) {
+            if ($order = (new client())->hGet('ChargeOrder', $userInfo['order'])) {
+                return $order;
+            }
+        }
+        return [];
     }
 }

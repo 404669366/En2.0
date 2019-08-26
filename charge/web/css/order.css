@@ -1,0 +1,87 @@
+body {
+    background: #EFEFEF;
+}
+
+.orders {
+    width: 10rem;
+    font-size: 0.45rem;
+    padding: 0.25rem;
+    box-sizing: border-box;
+}
+
+.orders > li {
+    margin-bottom: 0.25rem;
+    background: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    padding: 0.25rem;
+    box-sizing: border-box;
+}
+
+.orders > li:last-child {
+    margin-bottom: 0;
+}
+
+.orders > li > .label {
+    width: 4rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    color: #fff;
+    font-size: 0.4rem;
+    text-align: center;
+    position: absolute;
+    top: 0.2rem;
+    right: -1.4rem;
+    transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+}
+
+.orders > li > .orderInfo {
+    width: 100%;
+}
+
+.orders > li > .orderInfo > li {
+    width: 100%;
+    float: left;
+    height: 0.8rem;
+    line-height: 0.8rem;
+}
+
+.orders > li > .btnBox {
+    text-align: right;
+    width: 100%;
+}
+
+.orders > li > .btnBox > .btn {
+    display: inline-block;
+    text-align: center;
+    width: 3rem;
+    height: 1rem;
+    line-height: 1rem;
+    border: none;
+    font-size: 0.45rem;
+    border-radius: 0.1rem;
+    color: #FFFFFF;
+}
+
+.orders > .red > .label, .orders > .red > .btnBox > .btn {
+    background: #FF4C38;
+}
+
+.orders > .green > .label, .orders > .green > .btnBox > .btn {
+    background: limegreen;
+}
+
+.orders > .blue > .label, .orders > .blue > .btnBox > .btn {
+    background: #00A8EC;
+}
+
+.orders > .none {
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    padding: 0;
+}
+

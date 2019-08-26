@@ -107,7 +107,7 @@
             }
             window.showMsg(global.code[data.code]);
             if (data.code === 200 || data.code === 201 || data.code === 202 || data.code === 203 || data.code === 209) {
-                //window.history.go(-1);
+                window.history.go(-1);
                 return;
             }
             if (data.code === 208) {

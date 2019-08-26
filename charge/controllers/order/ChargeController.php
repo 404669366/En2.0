@@ -41,7 +41,7 @@ class ChargeController extends AuthController
                         if ($user->save()) {
                             $transaction->commit();
                             (new client())->hDel('ChargeOrder', $orderNo);
-                            (new client())->hSetField('UserInfo', \Yii::$app->user->id, 'order', '');
+                            (new client())->hSetField('UserInfo', \Yii::$app->user->id, 'order', null);
                             Msg::set('扣款成功');
                             return $this->redirect(['user/user/center']);
                         }
@@ -65,6 +65,6 @@ class ChargeController extends AuthController
      */
     public function actionList()
     {
-        return $this->render('list.html');
+        return $this->render('list.html', ['order' => EnOrder::getOrders()]);
     }
 }

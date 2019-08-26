@@ -8,10 +8,32 @@
     <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        .waitBox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: table;
+        }
+
+        .waitBox > span {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .waitBox > span > img {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
 </head>
 <body>
 <script>
-    window.wait().open();
+    document.body.style.overflowY = 'hidden';
+    $('body').append('<div class="waitBox"><span><img src="/img/loading.gif" alt=""></span></div>');
     wx.config({
         debug: false,
         appId: global.appId,

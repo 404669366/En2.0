@@ -25,7 +25,7 @@ class Url
      */
     public static function getUrl()
     {
-        $url = \Yii::$app->session->get('LastUrl', \Yii::$app->params['defaultRoute']);
+        $url = \Yii::$app->session->get('LastUrl', '/' . \Yii::$app->params['defaultRoute'] . '.html');
         \Yii::$app->session->remove('LastUrl');
         return $url;
     }

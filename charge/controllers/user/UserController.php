@@ -19,7 +19,6 @@ class UserController extends AuthController
      */
     public function actionCenter()
     {
-        var_dump(\Yii::$app->session->get('open_id', ''));exit();
         return $this->render('center.html', [
             'moneys' => explode('.', (string)(sprintf("%.2f", \Yii::$app->user->identity->money))),
             'tel' => \Yii::$app->user->identity->tel

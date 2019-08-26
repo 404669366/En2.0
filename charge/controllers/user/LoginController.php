@@ -59,6 +59,7 @@ class LoginController extends BasisController
     {
         $user = EnUser::findOne(\Yii::$app->user->id);
         $user->open_id = '';
+        var_dump(\Yii::$app->session->get('open_id', ''));exit();
         if ($user->save()) {
             \Yii::$app->user->logout();
             Msg::set('注销登录成功');

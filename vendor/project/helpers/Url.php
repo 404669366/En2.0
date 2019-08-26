@@ -21,12 +21,11 @@ class Url
 
     /**
      * 获取记录的路由
-     * @param string $defUrl
      * @return mixed
      */
-    public static function getUrl($defUrl = '/user/user/center.html')
+    public static function getUrl()
     {
-        $url = \Yii::$app->session->get('LastUrl', $defUrl);
+        $url = \Yii::$app->session->get('LastUrl', \Yii::$app->params['defaultRoute']);
         \Yii::$app->session->remove('LastUrl');
         return $url;
     }

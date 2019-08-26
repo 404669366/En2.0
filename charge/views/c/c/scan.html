@@ -9,15 +9,10 @@
     <script type="text/javascript" src="/js/layer/layer.min.js"></script>
     <script type="text/javascript" src="/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-    <style>
-        .layui-layer-content {
-            margin: 0 auto;
-        }
-    </style>
 </head>
 <body>
 <script>
-    layer.load(2, {shade: [0.1, '#fff']});
+    window.wait().open();
     wx.config({
         debug: false,
         appId: global.appId,

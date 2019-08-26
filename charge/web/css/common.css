@@ -149,6 +149,26 @@ body {
     border: none;
 }
 
+.waitBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.waitBox > span {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.waitBox > span > img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 .layui-layer-loading {
     width: 100% !important;
 }

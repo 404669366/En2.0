@@ -115,6 +115,20 @@ window.html = function (inner_id, template_id, data) {
     $('#' + inner_id).html(doT.template($('#' + template_id).text())(data));
 };
 
+window.wait = function () {
+    var str = '<div class="waitBox"><span><img src="/img/loading.gif" alt=""></span></div>';
+    return {
+        open: function () {
+            document.body.style.overflowY = 'hidden';
+            $('body').append(str);
+        },
+        close: function () {
+            document.body.style.overflowY = 'visible';
+            $('body').remove('.waitBox');
+        }
+    };
+};
+
 window.load(function () {
 
     $('*[data-url]').click(function () {

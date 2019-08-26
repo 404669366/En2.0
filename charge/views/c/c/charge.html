@@ -85,7 +85,7 @@
 </div>
 </body>
 <script>
-    var load = layer.load(2, {shade: [0.6, '#eeeeee']});
+    window.wait().open();
     $('.title').text(global.info.fieldName);
     $('.demo').radialIndicator().data('radialIndicator').value(0);
     var socket = new WebSocket('ws://47.99.36.149:20001');
@@ -94,7 +94,7 @@
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             if (data.code === 205 || data.code === 206 || data.code === 207) {
-                layer.close(load);
+                window.wait().close();
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
                 window.html('body', 'bodyTpl', data.data);
@@ -107,7 +107,7 @@
             }
             window.showMsg(global.code[data.code]);
             if (data.code === 200 || data.code === 201 || data.code === 202 || data.code === 203 || data.code === 209) {
-                window.history.go(-1);
+                //window.history.go(-1);
                 return;
             }
             if (data.code === 208) {
@@ -115,17 +115,17 @@
                 return;
             }
             if (data.code === 301) {
-                layer.close(load);
+                window.wait().close();
                 return;
             }
         };
         $('.charge_end').click(function () {
-            load = layer.load(2, {shade: [0.6, '#eeeeee']});
+            window.wait().open();
             socket.send(JSON.stringify({do: 'endCharge', pile: global.info.pile, gun: global.info.gun}));
         });
     };
     socket.onerror = function () {
-        layer.close(load);
+        window.wait().close();
         window.showMsg('链接服务器错误,请稍后再试');
         window.history.go(-1);
     };

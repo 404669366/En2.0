@@ -58,12 +58,13 @@ class LoginController extends BasisController
     public function actionLogout()
     {
         $user = EnUser::findOne(\Yii::$app->user->id);
+        $open_id = $user->open_id;
         $user->open_id = '';
         if ($user->save()) {
             \Yii::$app->user->logout();
+            \Yii::$app->session->set('open_id', $open_id);
             Msg::set('注销登录成功');
-            var_dump(\Yii::$app->session->get('open_id', ''));exit();
-            return $this->redirect([\Yii::$app->params['defaultRoute']]);
+            return $this->redirect(['user/login/login']);
         }
         Msg::set('系统错误');
         return $this->goBack();

@@ -81,56 +81,6 @@ class EnOrder extends \yii\db\ActiveRecord
             $order['st'] = 1;
             array_unshift($orders, $order);
         }
-        $orders = [
-            [
-                'no' => '11111111',
-                'pile' => '888',
-                'gun' => '1',
-                'uid' => 1,
-                'status' => 1,
-                'created_at' => date('Y-m-d H:i:s'),
-                'soc' => 0,
-                'power' => 0,
-                'duration' => 0,
-                'rule' => [0, 86400, 0.8, 0.6],
-                'electricQuantity' => 10,
-                'basisMoney' => 8,
-                'serviceMoney' => 6,
-                'st' => 1,
-            ],
-            [
-                'no' => '222222222',
-                'pile' => '888',
-                'gun' => '1',
-                'uid' => 1,
-                'status' => 1,
-                'created_at' => date('Y-m-d H:i:s'),
-                'soc' => 0,
-                'power' => 0,
-                'duration' => 0,
-                'rule' => [0, 86400, 0.8, 0.6],
-                'electricQuantity' => 10,
-                'basisMoney' => 8,
-                'serviceMoney' => 6,
-                'st' => 2,
-            ],
-            [
-                'no' => '3333333333',
-                'pile' => '888',
-                'gun' => '1',
-                'uid' => 1,
-                'status' => 1,
-                'created_at' => date('Y-m-d H:i:s'),
-                'soc' => 0,
-                'power' => 0,
-                'duration' => 0,
-                'rule' => [0, 86400, 0.8, 0.6],
-                'electricQuantity' => 10,
-                'basisMoney' => 8,
-                'serviceMoney' => 6,
-                'st' => 2,
-            ],
-        ];
         return $orders;
     }
 

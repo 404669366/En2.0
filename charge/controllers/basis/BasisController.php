@@ -22,7 +22,6 @@ class BasisController extends Controller
         Msg::setSize('0.5rem');
         if (Wechat::isWechat()) {
             if ($open_id = \Yii::$app->session->get('open_id', '')) {
-                var_dump($open_id);exit();
                 return parent::beforeAction($action);
             }
             Url::remember();

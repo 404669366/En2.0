@@ -5,8 +5,42 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能充电-充值记录</title>
     <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/order.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="orderTpl">
+        {{?it.data.length}}
+        {{~it.data:v}}
+        <li>
+            <p>{{=v.created_at}}</p>
+            <ul>
+                {{?v.st==1}}
+                <li class="status">
+                    进行中
+                    <i class="fa fa-angle-double-right" aria-hidden="true"
+                       data-url="/c/c/c.html?n={{=v.pile}}{{=v.gun}}"></i>
+                </li>
+                {{??}}
+                <li class="status">已完成</li>
+                {{?}}
+                <li><label>订单编号 : </label>{{=v.no}}</li>
+                <li><label>充电电量 : </label>{{=v.electricQuantity}}kwh</li>
+                <li><label>充电金额 : </label>{{=v.basisMoney + v.serviceMoney}}元</li>
+                <li><label>充电电站 : </label>{{=v.name}}</li>
+            </ul>
+        </li>
+        {{~}}
+        {{??}}
+        <li class="none">
+            <p>{{=it.now}}</p>
+            <div>
+                未查询到您的充值信息
+            </div>
+        </li>
+        {{?}}
+    </script>
 </head>
 <body>
-
+<ul class="orders" id="order"></ul>
+<script>window.html('order', 'orderTpl', global);</script>
 </body>
 </html>

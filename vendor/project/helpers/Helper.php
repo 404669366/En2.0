@@ -12,6 +12,43 @@ namespace vendor\project\helpers;
 class Helper
 {
     /**
+     * 接收xml数据
+     * @param string $key
+     * @param string $default
+     * @return array|mixed|string
+     */
+    public static function getXml($key = '', $default = '')
+    {
+        $file_in = file_get_contents("php://input"); //接收post数据
+        $xml = (array)simplexml_load_string($file_in, 'SimpleXMLElement', LIBXML_NOCDATA);
+        if ($key) {
+            if (isset($xml[$key])) {
+                return $xml[$key];
+            } else {
+                return $default;
+            }
+        }
+        return $xml;
+    }
+
+    /**
+     * 返回xml数据
+     * @param array $data
+     * @return string
+     */
+    public static function returnXml($data = [])
+    {
+        $xml = '<xml>';
+        foreach ($data as $k => $v) {
+            $xml .= '<' . $k . '><![CDATA[' . $v . ']]></' . $k . '>';
+        }
+        $xml .= '</xml>';
+
+        echo $xml;
+        exit();
+    }
+
+    /**
      * 将数组key合并进value里
      * @param array $arr
      * @return array
@@ -673,23 +710,26 @@ class Helper
      * 发送xml
      * @param string $url
      * @param string $xmlData
-     * @return mixed
+     * @param int $second
+     * @return array|bool|mixed
      */
-    public static function curlXml($url = '', $xmlData = '')
+    public static function curlXml($url = '', $xmlData = '', $second = 10)
     {
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_TIMEOUT, $second);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type:text/xml; charset=utf-8"]);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
-            return false;
+            $result = false;
         }
         curl_close($ch);
-        $xml = (array)simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
-        return $xml;
+        $result = (array)simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+        return $result;
     }
 }

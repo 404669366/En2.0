@@ -8,7 +8,6 @@
 
 namespace vendor\project\helpers;
 
-
 class Wechat
 {
     const APP_ID = 'wxf7613d39c63057cd';
@@ -165,5 +164,46 @@ class Wechat
             'time' => $time,
             'signature' => $signature
         ];
+    }
+
+    /**
+     * 生成支付预订单并返回jsJsApi参数
+     * @param string $no
+     * @param int $money
+     * @param string $backUrl
+     * @return array|bool|mixed
+     */
+    public static function getPayData($no = '', $money = 0, $backUrl = '/wx/wx/invest.html')
+    {
+
+        $data = [
+            'appid' => self::APP_ID,
+            'attach' => json_encode(['no' => $no]),
+            'out_trade_no' => $no,
+            'device_info' => 'WEB',
+            'total_fee' => $money * 100,
+            'body' => '四川亿能天成科技有限公司-余额充值',
+            'mch_id' => self::MCH_ID,
+            'nonce_str' => Helper::randStr(6),
+            'notify_url' => \Yii::$app->request->hostInfo . $backUrl,
+            'openid' => \Yii::$app->session->get('open_id', ''),
+            'trade_type' => 'JSAPI',
+            'spbill_create_ip' => Helper::getIp(),
+        ];
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($data));
+        if ($data && isset($data['return_code']) && $data['return_code'] == 'SUCCESS') {
+            $data = [
+                'appId' => $data['appid'],
+                'timeStamp' => time(),
+                'nonceStr' => Helper::randStr(6),
+                'package' => "prepay_id={$data['prepay_id']}",
+                'signType' => 'MD5',
+            ];
+            $data['paySign'] = self::addSign($data);
+            $data['timestamp'] = $data['timeStamp'];
+            unset($data['timeStamp']);
+            return $data;
+        }
+        return [];
     }
 }

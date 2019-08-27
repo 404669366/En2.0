@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-充值余额</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/invest.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+<div class="info">
+    <h3>当前余额 : 元</h3>
+    <ul class="money clear">
+        <li data-val="20" class="active">20元</li>
+        <li data-val="50">50元</li>
+        <li data-val="100">100元</li>
+        <li data-val="200">200元</li>
+        <li data-val="300">300元</li>
+        <li data-val="500">500元</li>
+    </ul>
+    <ul class="way clear">
+        <li class="active" data-way="1">
+            <img src="/img/wx.jpg">
+            微信支付
+            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+        </li>
+    </ul>
+    <div class="payBtn">立即充值</div>
+</div>
+<script>
+    $('.info>h3').text('当前余额 : ' + global.money + '元');
+
+    $('ul>li').click(function () {
+        $(this).parent('ul').find('li').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $('.payBtn').click(function () {
+        $.getJSON('/order/invest/create.html', {
+            'money': $('.money>.active').data('val'),
+            'way': $('.way>.active').data('way')
+        }, function (re) {
+            if (re.type) {
+                if ($('.way>.active').data('way') === '1') {
+                    wx.config({
+                        debug: false,
+                        appId: re.data.appId,
+                        timestamp: re.data.time,
+                        nonceStr: re.data.nonceStr,
+                        signature: re.data.signature,
+                        jsApiList: ['chooseWXPay']
+                    });
+                    wx.ready(function () {
+                        re.data.wx.success = function (re) {
+                            window.showMsg('充值成功');
+                        };
+                        re.data.wx.cencel = function (re) {
+                            window.showMsg('充值取消');
+                        };
+                        re.data.wx.fail = function (re) {
+                            window.showMsg('充值失败');
+                        };
+                        wx.chooseWXPay(re.data.wx);
+                    });
+                    wx.error(function (res) {
+                        window.showMsg('拉取支付信息错误,请稍后再试');
+                    });
+                }
+            } else {
+                window.showMsg('拉取支付信息失败,请稍后再试');
+            }
+        });
+    });
+</script>
+</body>
+</html>

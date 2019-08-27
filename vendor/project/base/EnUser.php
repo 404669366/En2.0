@@ -86,12 +86,30 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 返回用户余额
+     * 查询用户余额
      * @return string
      */
     public static function getMoney()
     {
         return self::findOne(Yii::$app->user->id)->money;
+    }
+
+    /**
+     * 增加用户余额
+     * @param int $uid
+     * @param int $money
+     * @return bool
+     */
+    public static function addMoney($uid = 0, $money = 0)
+    {
+        if ($uid && $money) {
+            $model = self::findOne(['id' => $uid]);
+            $model->money += $money;
+            if ($model->save()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //todo**********************  登录接口实现  ***************************

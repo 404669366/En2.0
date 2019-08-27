@@ -23,7 +23,7 @@
     height: 1.4rem;
     line-height: 1.4rem;
     text-align: center;
-    border: solid #00A8EC 0.01rem;
+    border: 0.01rem solid #00A8EC;
     border-radius: 0.1rem;
     box-sizing: border-box;
     margin: 0 0.75rem 0.5rem 0;
@@ -52,6 +52,7 @@
 .info > .way > li > img {
     float: left;
     height: 1rem;
+    background: rgba(0, 0, 0, 0);
 }
 
 .info > .way > li > i {

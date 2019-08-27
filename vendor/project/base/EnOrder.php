@@ -62,6 +62,11 @@ class EnOrder extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getPile()
+    {
+        return $this->hasOne(EnPile::class, ['no' => 'pile']);
+    }
+
     /**
      * 获取用户订单
      * @param int $uid
@@ -70,8 +75,12 @@ class EnOrder extends \yii\db\ActiveRecord
     public static function getOrders($uid = 0)
     {
         $uid = $uid ?: Yii::$app->user->id;
-        $orders = self::find()->where(['uid' => $uid])
-            ->orderBy('created_at desc')
+        $orders = self::find()->alias('o')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
+            ->where(['o.uid' => $uid])
+            ->select(['o.*', 'f.name'])
+            ->orderBy('o.created_at desc')
             ->asArray()->all();
         foreach ($orders as &$v) {
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
@@ -79,6 +88,7 @@ class EnOrder extends \yii\db\ActiveRecord
         }
         if ($order = self::getOnlineOrder()) {
             $order['st'] = 1;
+            $order['name'] = EnPile::findOne(['no' => $order['pile']])->local->name;
             array_unshift($orders, $order);
         }
         return $orders;

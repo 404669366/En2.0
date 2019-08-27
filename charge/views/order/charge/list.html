@@ -8,47 +8,39 @@
     <link rel="stylesheet" href="/css/order.css">
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/x-dot-template" id="orderTpl">
-        {{?it.length}}
-        {{~it:v}}
-        {{?v.st==1}}
-        <li class="green">
-            <div class="label">进行中</div>
-            <ul class="orderInfo clear">
-                <li>订单编号:{{=v.no}}</li>
-                <li>枪口编号:{{=v.gun}}</li>
-                <li>电桩编号:{{=v.pile}}</li>
-                <li>充电电量:{{=v.electricQuantity}}kwh</li>
-                <li>充电金额:{{=v.basisMoney + v.serviceMoney}}元</li>
-                <li>下单时间:{{=v.created_at}}</li>
+        {{?it.order.length}}
+        {{~it.order:v}}
+        <li>
+            <p>{{=v.created_at}}</p>
+            <ul>
+                {{?v.st==1}}
+                <li class="status">
+                    进行中
+                    <i class="fa fa-angle-double-right" aria-hidden="true"
+                       data-url="/c/c/c.html?n={{=v.pile}}{{=v.gun}}"></i>
+                </li>
+                {{??}}
+                <li class="status">已完成</li>
+                {{?}}
+                <li><label>订单编号 : </label>{{=v.no}}</li>
+                <li><label>充电电量 : </label>{{=v.electricQuantity}}kwh</li>
+                <li><label>充电金额 : </label>{{=v.basisMoney + v.serviceMoney}}元</li>
+                <li><label>充电电站 : </label>{{=v.name}}</li>
             </ul>
-            <div class="btnBox">
-                <a class="btn" href="/c/c/c.html?n={{=v.pile}}{{=v.gun}}">前往查看</a>
-            </div>
         </li>
-        {{??}}
-        <li class="blue">
-            <div class="label">已支付</div>
-            <ul class="orderInfo clear">
-                <li>订单编号:{{=v.no}}</li>
-                <li>枪口编号:{{=v.gun}}</li>
-                <li>电桩编号:{{=v.pile}}</li>
-                <li>充电电量:{{=v.electricQuantity}}kwh</li>
-                <li>充电金额:{{=v.basisMoney + v.serviceMoney}}元</li>
-                <li>下单时间:{{=v.created_at}}</li>
-            </ul>
-            <div class="btnBox">
-                <a class="btn" href="/order/charge/info.html?no={{=v.no}}">查看详情</a>
-            </div>
-        </li>
-        {{?}}
         {{~}}
         {{??}}
-        <li class="none">未查询到没有您的订单信息</li>
+        <li class="none">
+            <p>{{=it.now}}</p>
+            <div>
+                未查询到您的订单信息
+            </div>
+        </li>
         {{?}}
     </script>
 </head>
 <body>
 <ul class="orders" id="order"></ul>
-<script>window.html('order', 'orderTpl', global.order);</script>
+<script>window.html('order', 'orderTpl', global);</script>
 </body>
 </html>

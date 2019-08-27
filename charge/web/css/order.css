@@ -4,17 +4,17 @@ body {
 
 .orders {
     width: 10rem;
-    font-size: 0.45rem;
+    font-size: 0.42rem;
+    color: #333333;
     padding: 0.25rem;
     box-sizing: border-box;
 }
 
 .orders > li {
+    width: 100%;
     margin-bottom: 0.25rem;
-    background: #FFFFFF;
     position: relative;
     overflow: hidden;
-    padding: 0.25rem;
     box-sizing: border-box;
 }
 
@@ -22,66 +22,54 @@ body {
     margin-bottom: 0;
 }
 
-.orders > li > .label {
-    width: 4rem;
-    height: 0.8rem;
-    line-height: 0.8rem;
-    color: #fff;
-    font-size: 0.4rem;
-    text-align: center;
-    position: absolute;
-    top: 0.2rem;
-    right: -1.4rem;
-    transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
+.orders > li > p {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.36rem;
+    color: #999999;
 }
 
-.orders > li > .orderInfo {
-    width: 100%;
+.orders > li > ul {
+    background: #fefefe;
+    border-radius: 0.06rem;
+    padding: 0 0.25rem 0.12rem 0.25rem;
+    box-sizing: border-box;
 }
 
-.orders > li > .orderInfo > li {
-    width: 100%;
-    float: left;
-    height: 0.8rem;
-    line-height: 0.8rem;
+.orders > li > ul > li {
+    height: 0.7rem;
+    line-height: 0.7rem;
 }
 
-.orders > li > .btnBox {
-    text-align: right;
-    width: 100%;
-}
-
-.orders > li > .btnBox > .btn {
-    display: inline-block;
-    text-align: center;
-    width: 3rem;
+.orders > li > ul > .status {
     height: 1rem;
     line-height: 1rem;
-    border: none;
+    box-sizing: border-box;
+    border-bottom: 1px solid silver;
     font-size: 0.45rem;
-    border-radius: 0.1rem;
-    color: #FFFFFF;
 }
 
-.orders > .red > .label, .orders > .red > .btnBox > .btn {
-    background: #FF4C38;
+.orders > li > ul > .status > i {
+    float: right;
+    font-size: 0.5rem;
+    width: 2rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: right;
 }
 
-.orders > .green > .label, .orders > .green > .btnBox > .btn {
-    background: limegreen;
+.orders > li > ul > li > label {
+    color: #999999;
 }
 
-.orders > .blue > .label, .orders > .blue > .btnBox > .btn {
-    background: #00A8EC;
-}
-
-.orders > .none {
-    height: 2rem;
-    line-height: 2rem;
+.orders > .none > div {
+    width: 100%;
+    height: 1.2rem;
+    line-height: 1.2rem;
     text-align: center;
-    padding: 0;
+    background: #fefefe;
+    border-radius: 0.06rem;
+    padding: 0 0.25rem 0.12rem 0.25rem;
+    box-sizing: border-box;
 }
 

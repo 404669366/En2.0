@@ -39,8 +39,9 @@
 }
 
 .info > p {
-    height: 1.06rem;
-    line-height: 1.06rem;
+    height: 1rem;
+    line-height: 1rem;
+    margin-bottom: 0.2rem;
 }
 
 .info > .way {
@@ -82,7 +83,7 @@
     font-size: 0.45rem;
     text-align: center;
     background: #00A8EC;
-    margin: 0 auto;
+    margin: 1rem auto;
     letter-spacing: 0.05rem;
     border-radius: 0.6rem;
 }

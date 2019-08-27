@@ -188,13 +188,13 @@ class Wechat
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
             'notify_url' => \Yii::$app->request->hostInfo . $backUrl,
-            'openid' => \Yii::$app->session->get('open_id'),
+            'openid' => \Yii::$app->session->get('open_id','ouYAL6NYHx6AV6jWcGnYDesKt8WU'),
             'trade_type' => 'JSAPI',
             'spbill_create_ip' => Helper::getIp(),
         ];
         $data['sign'] = self::makePaySign($data);
         $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::arrToXml($data));
-        if ($data && isset($data['return_code']) && $data['return_code'] == 'SUCCESS') {
+        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             $data = [
                 'appId' => $data['appid'],
                 'timeStamp' => time(),

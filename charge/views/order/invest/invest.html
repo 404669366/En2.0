@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/invest.css">
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 </head>
 <body>
 <div class="info">
@@ -43,9 +44,7 @@
             'way': $('.way>.active').data('way')
         }, function (re) {
             if (re.type) {
-                console.log(1);
                 if ($('.way>.active').data('way') === '1') {
-                    console.log(3);
                     wx.config({
                         debug: false,
                         appId: re.data.js.appId,
@@ -71,7 +70,6 @@
                     });
                 }
             } else {
-                console.log(2);
                 window.showMsg('拉取支付信息失败,请稍后再试');
             }
         });

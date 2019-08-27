@@ -38,8 +38,7 @@
     });
 
     $('.payBtn').click(function () {
-        window.location.href = '/order/invest/create.html?money=' + $('.money>.active').data('val') + '&way=' + $('.way>.active').data('way');
-        /*$.getJSON('/order/invest/create.html', {
+        $.getJSON('/order/invest/create.html', {
             'money': $('.money>.active').data('val'),
             'way': $('.way>.active').data('way')
         }, function (re) {
@@ -72,7 +71,7 @@
             } else {
                 window.showMsg('拉取支付信息失败,请稍后再试');
             }
-        });*/
+        });
     });
 </script>
 </body>

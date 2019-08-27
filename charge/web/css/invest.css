@@ -47,12 +47,12 @@
     height: 1rem;
     line-height: 1rem;
     text-align: left;
+    text-indent: 0.08rem;
 }
 
 .info > .way > li > img {
     float: left;
     height: 1rem;
-    background: rgba(0, 0, 0, 0);
 }
 
 .info > .way > li > i {

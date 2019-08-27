@@ -44,7 +44,7 @@
             'way': $('.way>.active').data('way')
         }, function (re) {
             if (re.type) {
-                if ($('.way>.active').data('way') === '1') {
+                if ($('.way>.active').data('way') === 1) {
                     wx.config({
                         debug: false,
                         appId: re.data.js.appId,

@@ -38,6 +38,11 @@
     background: #00A8EC;
 }
 
+.info > p {
+    height: 1.06rem;
+    line-height: 1.06rem;
+}
+
 .info > .way {
     margin-bottom: 0.5rem;
 }

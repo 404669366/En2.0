@@ -192,7 +192,8 @@ class Wechat
             'trade_type' => 'JSAPI',
             'spbill_create_ip' => Helper::getIp(),
         ];
-        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($data));
+        $data['sign'] = self::makePaySign($data);
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::arrToXml($data));
         if ($data && isset($data['return_code']) && $data['return_code'] == 'SUCCESS') {
             $data = [
                 'appId' => $data['appid'],
@@ -201,11 +202,70 @@ class Wechat
                 'package' => "prepay_id={$data['prepay_id']}",
                 'signType' => 'MD5',
             ];
-            $data['paySign'] = self::addSign($data);
+            $data['paySign'] = self::makePaySign($data);
             $data['timestamp'] = $data['timeStamp'];
             unset($data['timeStamp']);
             return $data;
         }
         return [];
+    }
+
+    /**
+     * 输出xml字符
+     * @param $arr
+     * @return string
+     */
+    private static function arrToXml($arr)
+    {
+        $xml = "<xml>";
+        foreach ($arr as $key => $val) {
+            if (is_numeric($val)) {
+                $xml .= "<" . $key . ">" . $val . "</" . $key . ">";
+            } else {
+                $xml .= "<" . $key . "><![CDATA[" . $val . "]]></" . $key . ">";
+            }
+        }
+        $xml .= "</xml>";
+        return $xml;
+    }
+
+    /**
+     * 生成sign
+     * @param $arr
+     * @return string
+     */
+    private static function makePaySign($arr)
+    {
+        //签名步骤一：按字典序排序参数
+        ksort($arr);
+        $string = self::toUrlParams($arr);
+
+        //签名步骤二：在string后加入KEY
+        $string = $string . "&key=" . self::MCH_SECRET;
+
+        //签名步骤三：MD5加密
+        $string = md5($string);
+
+        //签名步骤四：所有字符转为大写
+        $result = strtoupper($string);
+
+        return $result;
+    }
+
+    /**
+     * 参数格式化成url参数
+     * @param $arr
+     * @return string
+     */
+    private static function toUrlParams($arr)
+    {
+        $buff = "";
+        foreach ($arr as $k => $v) {
+            if ($k != "sign" && $v != "" && !is_array($v)) {
+                $buff .= $k . "=" . $v . "&";
+            }
+        }
+        $buff = trim($buff, "&");
+        return $buff;
     }
 }

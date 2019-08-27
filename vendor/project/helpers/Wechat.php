@@ -188,7 +188,7 @@ class Wechat
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
             'notify_url' => \Yii::$app->request->hostInfo . $backUrl,
-            'openid' => \Yii::$app->session->get('open_id','ouYAL6NYHx6AV6jWcGnYDesKt8WU'),
+            'openid' => \Yii::$app->session->get('open_id',''),
             'trade_type' => 'JSAPI',
             'spbill_create_ip' => Helper::getIp(),
         ];

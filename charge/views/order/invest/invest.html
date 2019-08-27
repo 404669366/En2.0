@@ -43,7 +43,9 @@
             'way': $('.way>.active').data('way')
         }, function (re) {
             if (re.type) {
+                console.log(1);
                 if ($('.way>.active').data('way') === '1') {
+                    console.log(3);
                     wx.config({
                         debug: false,
                         appId: re.data.js.appId,
@@ -69,6 +71,7 @@
                     });
                 }
             } else {
+                console.log(2);
                 window.showMsg('拉取支付信息失败,请稍后再试');
             }
         });

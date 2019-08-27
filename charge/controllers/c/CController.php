@@ -22,7 +22,7 @@ class CController extends AuthController
      */
     public function actionScan()
     {
-        return $this->render('scan.html', Wechat::getJsApiParamsByScan());
+        return $this->render('scan.html', Wechat::getJsApiParams());
     }
 
     /**

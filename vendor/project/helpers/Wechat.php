@@ -148,14 +148,16 @@ class Wechat
 
     /**
      * 获取扫码JsApi参数
+     * @param int $time
+     * @param string $nonceStr
      * @return array
      */
-    public static function getJsApiParamsByScan()
+    public static function getJsApiParams($time = 0, $nonceStr = '')
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $nonceStr = Helper::randStr(6);
-        $time = time();
+        $nonceStr = $nonceStr ?: Helper::randStr(6);
+        $time = $time ?: time();
         $ticket = self::getTicket();
         $signature = sha1("jsapi_ticket={$ticket}&noncestr={$nonceStr}&timestamp={$time}&url={$url}");
         return [
@@ -186,7 +188,7 @@ class Wechat
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
             'notify_url' => \Yii::$app->request->hostInfo . $backUrl,
-            'openid' => \Yii::$app->session->get('open_id', ''),
+            'openid' => \Yii::$app->session->get('open_id', 'ouYAL6NYHx6AV6jWcGnYDesKt8WU'),
             'trade_type' => 'JSAPI',
             'spbill_create_ip' => Helper::getIp(),
         ];

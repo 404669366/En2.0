@@ -46,23 +46,23 @@
                 if ($('.way>.active').data('way') === '1') {
                     wx.config({
                         debug: false,
-                        appId: re.data.appId,
-                        timestamp: re.data.time,
-                        nonceStr: re.data.nonceStr,
-                        signature: re.data.signature,
+                        appId: re.data.js.appId,
+                        timestamp: re.data.js.time,
+                        nonceStr: re.data.js.nonceStr,
+                        signature: re.data.js.signature,
                         jsApiList: ['chooseWXPay']
                     });
                     wx.ready(function () {
-                        re.data.wx.success = function (re) {
+                        re.data.pay.success = function (re) {
                             window.showMsg('充值成功');
                         };
-                        re.data.wx.cencel = function (re) {
+                        re.data.pay.cencel = function (re) {
                             window.showMsg('充值取消');
                         };
-                        re.data.wx.fail = function (re) {
+                        re.data.pay.fail = function (re) {
                             window.showMsg('充值失败');
                         };
-                        wx.chooseWXPay(re.data.wx);
+                        wx.chooseWXPay(re.data.pay);
                     });
                     wx.error(function (res) {
                         window.showMsg('拉取支付信息错误,请稍后再试');

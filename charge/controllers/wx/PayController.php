@@ -16,6 +16,8 @@ use yii\web\Controller;
 
 class PayController extends Controller
 {
+    public $enableCsrfValidation = false;
+
     /**
      * 支付回调
      * @return string

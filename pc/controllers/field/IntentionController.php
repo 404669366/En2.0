@@ -82,7 +82,7 @@ class IntentionController extends AuthController
                 $model->save(false);
             }
             setcookie('pay-times-' . $id, $times + 1, time() + (60 * 60 * 24), '/');
-            if ($data = Wechat::placeOrder($model->no, $model->order_amount * 100)) {
+            if ($data = Wechat::nativePay($model->no, $model->order_amount)) {
                 return $this->render('pay.html', [
                     'id' => $model->id,
                     'no' => $model->no,

@@ -45,29 +45,21 @@
         }, function (re) {
             if (re.type) {
                 if ($('.way>.active').data('way') === 1) {
-                    wx.config({
-                        debug: false,
-                        appId: re.data.js.appId,
-                        timestamp: re.data.js.time,
-                        nonceStr: re.data.js.nonceStr,
-                        signature: re.data.js.signature,
-                        jsApiList: ['chooseWXPay']
-                    });
-                    wx.ready(function () {
-                        re.data.pay.success = function (re) {
-                            window.showMsg('充值成功');
-                        };
-                        re.data.pay.cencel = function (re) {
-                            window.showMsg('充值取消');
-                        };
-                        re.data.pay.fail = function (re) {
-                            window.showMsg('充值失败');
-                        };
-                        wx.chooseWXPay(re.data.pay);
-                    });
-                    wx.error(function (res) {
-                        window.showMsg('拉取支付信息错误,请稍后再试');
-                    });
+                    WeixinJSBridge.invoke(
+                        'getBrandWCPayRequest',
+                        re.data,
+                        function (res) {
+                            if (res.err_msg === "get_brand_wcpay_request:ok") {
+                                window.showMsg('支付成功');
+                            }
+                            if (res.err_msg === "get_brand_wcpay_request:cancel") {
+                                window.showMsg('支付取消');
+                            }
+                            if (res.err_msg === "get_brand_wcpay_request:fail") {
+                                window.showMsg('支付失败');
+                            }
+                        }
+                    );
                 }
             } else {
                 window.showMsg('拉取支付信息失败,请稍后再试');

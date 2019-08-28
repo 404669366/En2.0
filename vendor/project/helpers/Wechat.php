@@ -82,53 +82,6 @@ class Wechat
     }
 
     /**
-     * 微信支付统一下单
-     * @param string $order
-     * @param int $money
-     * @param string $callUrl
-     * @param string $type
-     * @return bool|mixed
-     */
-    public static function placeOrder($order = '', $money = 0, $callUrl = 'http://pc.en/ink/wx/pay/back.html', $type = 'NATIVE')
-    {
-        $data = self::addSign([
-            'appid' => self::APP_ID,
-            'body' => '场站认购支付定金',
-            'mch_id' => self::MCH_ID,
-            'nonce_str' => Helper::randStr(6),
-            'notify_url' => $callUrl,
-            'out_trade_no' => $order,
-            'spbill_create_ip' => Helper::getIp(),
-            'total_fee' => $money,
-            'trade_type' => $type,
-        ]);
-        $re = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', $data);
-        if ($re['return_code'] == 'SUCCESS' && $re['result_code'] == 'SUCCESS') {
-            return $re;
-        }
-        return false;
-    }
-
-    /**
-     * 最加签名并拼接xml
-     * @param array $params
-     * @return string
-     */
-    private static function addSign($params = [])
-    {
-        $xml = '<xml>';
-        $ascii_str = '';
-        foreach ($params as $k => $v) {
-            $xml .= "<$k>$v</$k>";
-            $ascii_str .= $k . '=' . $v . '&';
-        }
-        $sign = $ascii_str . 'key=' . self::MCH_SECRET;
-        $sign = strtoupper(md5($sign));
-        $xml .= "<sign>$sign</sign>";
-        return $xml . '</xml>';
-    }
-
-    /**
      * 获取ticket
      * @return mixed|string
      */
@@ -169,103 +122,116 @@ class Wechat
     }
 
     /**
-     * 生成支付预订单并返回jsJsApi参数
-     * @param string $no
+     * native支付下单
+     * @param string $order
+     * @param int $money
+     * @param string $backUrl
+     * @return array|bool|mixed|string
+     */
+    public static function nativePay($order = '', $money = 0, $backUrl = 'http://pc.en.ink/wx/pay/back.html')
+    {
+        $data = self::addSign([
+            'appid' => self::APP_ID,
+            'body' => '场站认购支付定金',
+            'mch_id' => self::MCH_ID,
+            'nonce_str' => Helper::randStr(6),
+            'notify_url' => $backUrl,
+            'openid' => '',
+            'out_trade_no' => $order,
+            'spbill_create_ip' => Helper::getIp(),
+            'total_fee' => $money * 100,
+            'trade_type' => 'NATIVE',
+        ]);
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', $data);
+        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+            return $data;
+        }
+        return false;
+    }
+
+    /**
+     * h5支付下单
+     * @param string $order
      * @param int $money
      * @param string $backUrl
      * @return array|bool|mixed
      */
-    public static function getPayData($no = '', $money = 0, $backUrl = '/wx/wx/invest.html')
+    public static function h5Pay($order = '', $money = 0, $backUrl = 'http://c.en.ink/wx/wx/invest.html')
     {
 
-        $data = [
+        $params = [
             'appid' => self::APP_ID,
-            'attach' => json_encode(['no' => $no]),
-            'out_trade_no' => $no,
-            'device_info' => 'WEB',
-            'total_fee' => $money * 100,
-            'body' => '四川亿能天成科技有限公司-余额充值',
+            'body' => '亿能充电-余额充值',
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
-            'notify_url' => \Yii::$app->request->hostInfo . $backUrl,
-            'openid' => \Yii::$app->session->get('open_id',''),
-            'trade_type' => 'JSAPI',
+            'notify_url' => $backUrl,
+            'openid' => '',
+            'out_trade_no' => $order,
             'spbill_create_ip' => Helper::getIp(),
+            'total_fee' => $money * 100,
+            'trade_type' => 'MWEB',
         ];
-        $data['sign'] = self::makePaySign($data);
-        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::arrToXml($data));
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params));
         if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            $data = [
-                'appId' => $data['appid'],
-                'timeStamp' => time(),
-                'nonceStr' => Helper::randStr(6),
-                'package' => "prepay_id={$data['prepay_id']}",
-                'signType' => 'MD5',
-            ];
-            $data['paySign'] = self::makePaySign($data);
-            $data['timestamp'] = $data['timeStamp'];
-            unset($data['timeStamp']);
             return $data;
         }
         return [];
     }
 
     /**
-     * 输出xml字符
-     * @param $arr
-     * @return string
+     * js支付下单
+     * @param string $order
+     * @param int $money
+     * @param string $backUrl
+     * @return array|bool|mixed
      */
-    private static function arrToXml($arr)
+    public static function jsPay($order = '', $money = 0, $backUrl = 'http://c.en.ink/wx/wx/invest.html')
     {
-        $xml = "<xml>";
-        foreach ($arr as $key => $val) {
-            if (is_numeric($val)) {
-                $xml .= "<" . $key . ">" . $val . "</" . $key . ">";
-            } else {
-                $xml .= "<" . $key . "><![CDATA[" . $val . "]]></" . $key . ">";
-            }
+
+        $params = [
+            'appid' => self::APP_ID,
+            'body' => '亿能充电-余额充值',
+            'mch_id' => self::MCH_ID,
+            'nonce_str' => Helper::randStr(6),
+            'notify_url' => $backUrl,
+            'openid' => \Yii::$app->session->get('open_id', 'ouYAL6NYHx6AV6jWcGnYDesKt8WU'),
+            'out_trade_no' => $order,
+            'spbill_create_ip' => Helper::getIp(),
+            'total_fee' => $money * 100,
+            'trade_type' => 'JSAPI',
+        ];
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params));
+        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+            return self::addSign([
+                'appId' => $data['appid'],
+                'timeStamp' => time(),
+                'nonceStr' => $data['nonce_str'],
+                'package' => "prepay_id={$data['prepay_id']}",
+                'signType' => 'MD5',
+            ], 'paySign');
         }
-        $xml .= "</xml>";
-        return $xml;
+        return [];
     }
 
     /**
-     * 生成sign
-     * @param $arr
+     * 追加签名并拼接xml
+     * @param array $params
+     * @param string $signName
      * @return string
      */
-    private static function makePaySign($arr)
+    private static function addSign($params = [], $signName = 'sign')
     {
-        //签名步骤一：按字典序排序参数
-        ksort($arr);
-        $string = self::toUrlParams($arr);
-
-        //签名步骤二：在string后加入KEY
-        $string = $string . "&key=" . self::MCH_SECRET;
-
-        //签名步骤三：MD5加密
-        $string = md5($string);
-
-        //签名步骤四：所有字符转为大写
-        $result = strtoupper($string);
-
-        return $result;
-    }
-
-    /**
-     * 参数格式化成url参数
-     * @param $arr
-     * @return string
-     */
-    private static function toUrlParams($arr)
-    {
-        $buff = "";
-        foreach ($arr as $k => $v) {
-            if ($k != "sign" && $v != "" && !is_array($v)) {
-                $buff .= $k . "=" . $v . "&";
+        $xml = '<xml>';
+        $ascii_str = '';
+        foreach ($params as $k => $v) {
+            if ($v) {
+                $xml .= "<$k>$v</$k>";
+                $ascii_str .= $k . '=' . $v . '&';
             }
         }
-        $buff = trim($buff, "&");
-        return $buff;
+        $sign = $ascii_str . 'key=' . self::MCH_SECRET;
+        $sign = strtoupper(md5($sign));
+        $xml .= "<$signName>$sign</$signName>";
+        return $xml . '</xml>';
     }
 }

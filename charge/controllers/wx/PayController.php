@@ -30,12 +30,12 @@ class PayController extends Controller
                 if (EnUser::addMoney($model->uid, $model->money)) {
                     $model->status = 1;
                     $model->save();
-                    return Helper::returnXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
+                    return Helper::spliceXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
                 }
                 $model->status = 2;
                 $model->save();
             }
         }
-        return Helper::returnXml(['return_code' => 'FAIL', 'return_msg' => '充值失败']);
+        return Helper::spliceXml(['return_code' => 'FAIL', 'return_msg' => '充值失败']);
     }
 }

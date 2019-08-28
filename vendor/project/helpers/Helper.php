@@ -727,11 +727,11 @@ class Helper
     }
 
     /**
-     * 返回xml数据
+     * 构建xml数据
      * @param array $data
      * @return string
      */
-    public static function returnXml($data = [])
+    public static function spliceXml($data = [])
     {
         $xml = '<xml>';
         foreach ($data as $k => $v) {

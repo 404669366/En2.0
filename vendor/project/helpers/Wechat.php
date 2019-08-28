@@ -183,7 +183,7 @@ class Wechat
      * @param string $backUrl
      * @return array|bool|mixed
      */
-    public static function jsPay($order = '', $money = 0, $backUrl = '/wx/wx/invest.html')
+    public static function jsPay($order = '', $money = 0, $backUrl = '/wx/pay/back.html')
     {
 
         $params = [

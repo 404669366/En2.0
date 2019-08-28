@@ -9,12 +9,12 @@
 namespace app\controllers\wx;
 
 
-use app\controllers\basis\BasisController;
-use vendor\project\base\EnField;
-use vendor\project\base\EnFieldIntention;
+use vendor\project\base\EnInvest;
+use vendor\project\base\EnUser;
 use vendor\project\helpers\Helper;
+use yii\web\Controller;
 
-class PayController extends BasisController
+class PayController extends Controller
 {
     /**
      * 支付回调
@@ -22,35 +22,18 @@ class PayController extends BasisController
      */
     public function actionBack()
     {
-        $data = $this->getXml();
+        $data = Helper::getXml();
         if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS') {
-            if ($model = EnFieldIntention::findOne(['no' => $data['out_trade_no'], 'status' => 1])) {
-                $model->pay_at = time();
-                $model->status = 2;
-                if ($model->save()) {
-                    Helper::curlPost(
-                        'http://127.0.0.1:2121',
-                        [
-                            'token' => 'BC-9fdad4748325434b84e113ef10ad8b2e',
-                            'do' => 'publish',
-                            'group' => $model->no,
-                            'content' => 1,
-                        ]
-                    );
-                    return $this->rXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
+            if ($model = EnInvest::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
+                if (EnUser::addMoney($model->uid, $model->money)) {
+                    $model->status = 1;
+                    $model->save();
+                    return Helper::returnXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
                 }
+                $model->status = 2;
+                $model->save();
             }
         }
-        Helper::curlPost(
-            'http://127.0.0.1:2121',
-            [
-                'token' => 'BC-9fdad4748325434b84e113ef10ad8b2e',
-                'do' => 'publish',
-                'group' => $data['out_trade_no'],
-                'content' => 0,
-            ]
-
-        );
-        return $this->rXml(['return_code' => 'FAIL', 'return_msg' => '充值失败']);
+        return Helper::returnXml(['return_code' => 'FAIL', 'return_msg' => '充值失败']);
     }
 }

@@ -115,7 +115,6 @@
 }
 
 .list li > span {
-    display: table;
     height: 2rem;
     line-height: 2rem;
     float: left;
@@ -123,8 +122,8 @@
 
 .list li > span > i {
     font-size: 0.6rem;
-    display: table-cell;
-    vertical-align: middle;
+    height: 2rem;
+    line-height: 2rem;
 }
 
 .list li > span:first-child {

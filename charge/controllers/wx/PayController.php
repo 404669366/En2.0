@@ -26,7 +26,6 @@ class PayController extends Controller
     {
         \Yii::$app->cache->delete('IP');
         $data = Helper::getXml();
-        \Yii::$app->cache->set('data', json_encode($data));
         if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             if ($model = EnInvest::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
                 if (EnUser::addMoney($model->uid, $model->money)) {

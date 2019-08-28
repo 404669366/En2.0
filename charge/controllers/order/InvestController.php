@@ -46,6 +46,9 @@ class InvestController extends AuthController
      */
     public function actionList()
     {
-        return $this->render('list.html', ['data' => EnInvest::getUserInvest()]);
+        return $this->render('list.html', [
+            'data' => EnInvest::getUserInvest(),
+            'now' => date('Y-m-d H:i:s')
+        ]);
     }
 }

@@ -23,8 +23,8 @@ body {
 }
 
 .orders > li > p {
-    height: 0.6rem;
-    line-height: 0.6rem;
+    height: 0.62rem;
+    line-height: 0.62rem;
     font-size: 0.36rem;
     color: #999999;
 }
@@ -64,8 +64,8 @@ body {
 
 .orders > .none > div {
     width: 100%;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
     text-align: center;
     background: #fefefe;
     border-radius: 0.06rem;

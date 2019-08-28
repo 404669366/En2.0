@@ -122,6 +122,7 @@
 }
 
 .list li > span > i {
+    font-size: 0.6rem;
     display: table-cell;
     vertical-align: middle;
 }

@@ -159,6 +159,38 @@ body {
     height: 1.5rem;
 }
 
+.txt_red {
+    color: #FF0000;
+}
+
+.txt_org {
+    color: #FF6600;
+}
+
+.txt_blue {
+    color: #00A8EC;
+}
+
+.txt_green {
+    color: #06A156;
+}
+
+.txt_gray {
+    color: #909090;
+}
+
+.txt_golden {
+    color: #F8CC08;
+}
+
+.bg_blue {
+    background: #00A8EC;
+}
+
+.bg_red {
+    background: #FF4C38;
+}
+
 .layui-layer-loading {
     width: 100% !important;
 }

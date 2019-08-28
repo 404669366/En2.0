@@ -9,7 +9,7 @@
 #header .headCard {
     width: 8rem;
     color: #fff;
-    background: #00A8EC;
+    background: #3366ff;
     padding: 0.7rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.3rem;
 }
@@ -196,7 +196,6 @@
 .footer li:nth-child(2) > p {
     width: 2rem;
     height: 2rem;
-    background: #00A8EC;
     border-radius: 5rem;
     margin: 0.25rem auto;
 }

@@ -316,4 +316,30 @@ class Constant
             2 => '国标2015',
         ];
     }
+
+    /**
+     * 充值来源
+     * @return array
+     */
+    public static function investSource()
+    {
+        return [
+            1 => '微信支付',
+            2 => '支付宝支付',
+            3 => '银联支付',
+        ];
+    }
+
+    /**
+     * 充值状态
+     * @return array
+     */
+    public static function investStatus()
+    {
+        return [
+            0 => '等待支付',
+            1 => '支付成功',
+            2 => '支付失败',
+        ];
+    }
 }

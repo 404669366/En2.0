@@ -2,6 +2,7 @@
 
 namespace vendor\project\base;
 
+use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Wechat;
 use Yii;
@@ -82,5 +83,25 @@ class EnInvest extends \yii\db\ActiveRecord
             }
         }
         return false;
+    }
+
+    /**
+     * 用户充值记录
+     * @param int $uid
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getUserInvest($uid = 0)
+    {
+        $uid = $uid ?: Yii::$app->user->id;
+        $data = self::find()->where(['uid' => $uid, 'status' => [1, 2]])
+            ->select(['money', 'balance', 'source', 'status', 'created_at'])
+            ->orderBy('created_at desc')
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $v['source'] = Constant::investSource()[$v['source']];
+            $v['status'] = Constant::investStatus()[$v['status']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+        }
+        return $data;
     }
 }

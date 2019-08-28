@@ -47,7 +47,6 @@ class InvestController extends AuthController
     public function actionList()
     {
         var_dump(\Yii::$app->cache->get('data'));
-        \Yii::$app->cache->delete('IP');
         \Yii::$app->cache->delete('data');
         return $this->render('list.html');
     }

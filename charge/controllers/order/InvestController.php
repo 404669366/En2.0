@@ -22,7 +22,7 @@ class InvestController extends AuthController
     public function actionInvest()
     {
         return $this->render('invest.html', [
-            'money' => EnUser::getMoney() ?: 0,
+            'money' => EnUser::getMoney() ?: '0.00',
         ]);
     }
 

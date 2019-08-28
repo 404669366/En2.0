@@ -52,11 +52,11 @@ class Wechat
      * @param string $redirect
      * @return string
      */
-    public static function getUserAuthorizeCodeUrl($redirect = 'http://m.en.ink/login/login/login-w.html')
+    public static function getUserAuthorizeCodeUrl($redirect = '')
     {
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?';
         $url .= 'appid=' . self::APP_ID;
-        $url .= '&redirect_uri=' . urlencode($redirect);
+        $url .= '&redirect_uri=' . urlencode(Helper::spliceUrl($redirect));
         $url .= '&response_type=code&scope=snsapi_userinfo#wechat_redirect';
         return $url;
     }
@@ -101,16 +101,14 @@ class Wechat
 
     /**
      * 获取扫码JsApi参数
-     * @param int $time
-     * @param string $nonceStr
      * @return array
      */
-    public static function getJsApiParams($time = 0, $nonceStr = '')
+    public static function getJsApiParams()
     {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $nonceStr = $nonceStr ?: Helper::randStr(6);
-        $time = $time ?: time();
+        $nonceStr = Helper::randStr(6);
+        $time = time();
         $ticket = self::getTicket();
         $signature = sha1("jsapi_ticket={$ticket}&noncestr={$nonceStr}&timestamp={$time}&url={$url}");
         return [
@@ -128,14 +126,14 @@ class Wechat
      * @param string $backUrl
      * @return array|bool|mixed|string
      */
-    public static function nativePay($order = '', $money = 0, $backUrl = 'http://pc.en.ink/wx/pay/back.html')
+    public static function nativePay($order = '', $money = 0, $backUrl = '/wx/pay/back.html')
     {
         $data = self::addSign([
             'appid' => self::APP_ID,
             'body' => '场站认购支付定金',
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
-            'notify_url' => $backUrl,
+            'notify_url' => Helper::spliceUrl($backUrl),
             'openid' => '',
             'out_trade_no' => $order,
             'spbill_create_ip' => Helper::getIp(),
@@ -156,7 +154,7 @@ class Wechat
      * @param string $backUrl
      * @return array|bool|mixed
      */
-    public static function h5Pay($order = '', $money = 0, $backUrl = 'http://c.en.ink/wx/wx/invest.html')
+    public static function h5Pay($order = '', $money = 0, $backUrl = '/wx/wx/invest.html')
     {
 
         $params = [
@@ -164,7 +162,7 @@ class Wechat
             'body' => '亿能充电-余额充值',
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
-            'notify_url' => $backUrl,
+            'notify_url' => Helper::spliceUrl($backUrl),
             'openid' => '',
             'out_trade_no' => $order,
             'spbill_create_ip' => Helper::getIp(),
@@ -185,7 +183,7 @@ class Wechat
      * @param string $backUrl
      * @return array|bool|mixed
      */
-    public static function jsPay($order = '', $money = 0, $backUrl = 'http://c.en.ink/wx/wx/invest.html')
+    public static function jsPay($order = '', $money = 0, $backUrl = '/wx/wx/invest.html')
     {
 
         $params = [
@@ -193,7 +191,7 @@ class Wechat
             'body' => '亿能充电-余额充值',
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
-            'notify_url' => $backUrl,
+            'notify_url' => Helper::spliceUrl($backUrl),
             'openid' => \Yii::$app->session->get('open_id', 'ouYAL6NYHx6AV6jWcGnYDesKt8WU'),
             'out_trade_no' => $order,
             'spbill_create_ip' => Helper::getIp(),
@@ -202,13 +200,21 @@ class Wechat
         ];
         $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params));
         if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            return self::addSign([
+            $data = [
                 'appId' => $data['appid'],
-                'timeStamp' => time(),
                 'nonceStr' => $data['nonce_str'],
                 'package' => "prepay_id={$data['prepay_id']}",
                 'signType' => 'MD5',
-            ], 'paySign');
+                'timeStamp' => time(),
+            ];
+            $str = '';
+            foreach ($data as $k => $v) {
+                $str .= $k . '=' . $v . '&';
+            }
+            $str .= 'key=' . self::MCH_SECRET;
+            $sign = strtoupper(md5($str));
+            $data['paySign'] = $sign;
+            return $data;
         }
         return [];
     }
@@ -216,10 +222,9 @@ class Wechat
     /**
      * 追加签名并拼接xml
      * @param array $params
-     * @param string $signName
      * @return string
      */
-    private static function addSign($params = [], $signName = 'sign')
+    private static function addSign($params = [])
     {
         $xml = '<xml>';
         $ascii_str = '';
@@ -231,7 +236,7 @@ class Wechat
         }
         $sign = $ascii_str . 'key=' . self::MCH_SECRET;
         $sign = strtoupper(md5($sign));
-        $xml .= "<$signName>$sign</$signName>";
+        $xml .= "<sign>$sign</sign>";
         return $xml . '</xml>';
     }
 }

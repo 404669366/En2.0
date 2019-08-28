@@ -77,7 +77,7 @@ class EnInvest extends \yii\db\ActiveRecord
         if ($model->save()) {
             if ($way == 1) {
                 if ($data = Wechat::jsPay($model->no, $money)) {
-                    return ['url' => $data['mweb_url']];
+                    return $data;
                 }
             }
         }

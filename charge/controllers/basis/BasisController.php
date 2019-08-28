@@ -25,7 +25,7 @@ class BasisController extends Controller
                 return parent::beforeAction($action);
             }
             Url::remember();
-            return $this->redirect(Wechat::getUserAuthorizeCodeUrl('http://c.en.ink/wx/wx/auth.html'))->send();
+            return $this->redirect(Wechat::getUserAuthorizeCodeUrl('/wx/wx/auth.html'))->send();
         }
         return $this->redirect(['basis/error/no-wx'])->send();
     }

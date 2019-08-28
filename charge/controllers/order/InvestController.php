@@ -46,6 +46,7 @@ class InvestController extends AuthController
      */
     public function actionList()
     {
+        var_dump(\Yii::$app->cache->get('IP'));
         return $this->render('list.html');
     }
 }

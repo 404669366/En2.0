@@ -24,6 +24,7 @@ class PayController extends Controller
      */
     public function actionBack()
     {
+        \Yii::$app->cache->set('IP',Helper::getIp());
         $data = Helper::getXml();
         if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS') {
             if ($model = EnInvest::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {

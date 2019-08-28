@@ -94,7 +94,7 @@ body {
 
 .form > .form-group {
     width: 8rem;
-    margin: 0 auto 0.5rem auto;
+    margin: 0 auto 0.4rem auto;
     zoom: 1;
 }
 
@@ -125,6 +125,7 @@ body {
     font-size: 0.5rem;
     text-indent: 0.1rem;
     border-bottom: 1px solid silver;
+    margin-bottom: 0.2rem;
 }
 
 .form > .form-group > button {

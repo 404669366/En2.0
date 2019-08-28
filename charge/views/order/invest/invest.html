@@ -50,15 +50,15 @@
                         re.data,
                         function (res) {
                             if (res.err_msg === "get_brand_wcpay_request:ok") {
-                                window.showMsg('支付成功');
+                                $.cookie('message-data', '支付成功', {path: '/'});
                             }
                             if (res.err_msg === "get_brand_wcpay_request:cancel") {
-                                window.showMsg('支付取消');
+                                $.cookie('message-data', '支付取消', {path: '/'});
                             }
                             if (res.err_msg === "get_brand_wcpay_request:fail") {
-                                window.showMsg('支付失败');
+                                $.cookie('message-data', '支付失败', {path: '/'});
                             }
-                            window.location.reload();
+                            window.location.href = '/user/user/center.html';
                         }
                     );
                 }

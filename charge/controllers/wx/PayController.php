@@ -31,7 +31,6 @@ class PayController extends Controller
                 if (EnUser::addMoney($model->uid, $model->money)) {
                     $model->status = 1;
                     $model->save();
-                    \Yii::$app->cache->set('data', json_encode($data));
                     return Helper::spliceXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
                 }
                 $model->status = 2;

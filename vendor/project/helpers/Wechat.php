@@ -41,7 +41,7 @@ class Wechat
         $url .= '&secret=' . self::SECRET;
         $re = json_decode(file_get_contents($url), true);
         if (isset($re['access_token'])) {
-            \Yii::$app->cache->set('UnifiedAccessToken', $re['access_token'], $re['expires_in'] - 300);
+            \Yii::$app->cache->set('UnifiedAccessToken', $re['access_token'], 60 * 60);
             return $re['access_token'];
         }
         return '';

@@ -12,7 +12,7 @@ body {
     color: #333;
     font-size: 0.5rem;
     background: #fff;
-    margin:0 auto 0.25rem auto;
+    margin: 0 auto 0.25rem auto;
     border-radius: 0.06rem;
 }
 
@@ -34,5 +34,13 @@ body {
 
 .list > li > span:nth-child(3), .list > li > span:nth-child(4) {
     color: #A9A9A9;
+    font-size: 0.4rem;
+}
+
+.list > .none {
+    text-align: center;
+}
+
+.list > .none > p {
     font-size: 0.4rem;
 }

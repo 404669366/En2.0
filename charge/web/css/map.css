@@ -4,10 +4,10 @@ body {
 
 #map {
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 10rem;
-    height: 110%;
+    left: -15%;
+    top: -15%;
+    width: 130%;
+    height: 130%;
 }
 
 #map .zoom-control {
@@ -18,8 +18,8 @@ body {
     position: absolute;
     left: 0.25rem;
     bottom: 0.25rem;
-    width: 0.8rem;
-    height: 0.8rem;
-    border-radius: 0.4rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.5rem;
     z-index: 999;
 }

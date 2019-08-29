@@ -35,10 +35,10 @@
                     map: map,
                     styles: {
                         "marker1": new TMap.MarkerStyle({
-                            "width": 1.2 * window.remSize,
-                            "height": 1.2 * window.remSize,
+                            "width": 1.6 * window.remSize,
+                            "height": 1.6 * window.remSize,
                             "src": "/img/marker1.png",
-                            "anchor": {x: 0.6 * window.remSize, y: 0.6 * window.remSize},
+                            "anchor": {x: 0.8 * window.remSize, y: 0.8 * window.remSize},
                         }),
                         "marker2": new TMap.MarkerStyle({
                             "width": 1.2 * window.remSize,
@@ -59,17 +59,17 @@
             },
             cancel: function (re) {
                 $.cookie('message-data', '授权取消', {path: '/'});
-                //window.history.go(-1);
+                window.history.go(-1);
             },
             fail: function (re) {
                 $.cookie('message-data', '系统错误', {path: '/'});
-                //window.history.go(-1);
+                window.history.go(-1);
             }
         });
     });
     wx.error(function (re) {
         $.cookie('message-data', '系统错误', {path: '/'});
-        //window.history.go(-1);
+        window.history.go(-1);
     });
 </script>
 </html>

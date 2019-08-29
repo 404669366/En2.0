@@ -669,10 +669,12 @@ class Helper
     public static function curlGet($url = '', $data = [])
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_URL, $url . '?' . http_build_query($data));
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $re = curl_exec($ch);
         curl_close($ch);
@@ -698,11 +700,10 @@ class Helper
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
         $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            $result = false;
-        }
         curl_close($ch);
-        $result = (array)simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+        if ($result) {
+            $result = (array)simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+        }
         return $result;
     }
 

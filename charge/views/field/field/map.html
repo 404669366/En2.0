@@ -29,7 +29,7 @@
             type: 'gcj02',
             success: function (re) {
                 var center = new TMap.LatLng(re.latitude, re.longitude);
-                var map = new TMap.Map('map', {center: center, pitch: 45, zoom: 16});
+                var map = new TMap.Map('map', {center: center, pitch: 45, zoom: 11});
                 var marker = new TMap.MultiMarker({
                     id: "marker-layer",
                     map: map,
@@ -43,7 +43,8 @@
                         "marker2": new TMap.MarkerStyle({
                             "width": 1.2 * window.remSize,
                             "height": 1.2 * window.remSize,
-                            "src": "/img/marker1.png"
+                            "src": "/img/marker2.png",
+                            "anchor": {x: 0.6 * window.remSize, y: 0.6 * window.remSize},
                         }),
                     },
                     geometries: [{
@@ -52,7 +53,37 @@
                         "position": center,
                     }]
                 });
-
+                $.ajax({
+                    url: 'https://apis.map.qq.com/place_cloud/search/nearby',
+                    data: {
+                        'location': re.latitude + ',' + re.longitude,
+                        'radius': 10000,
+                        'auto_extend': 1,
+                        'table_id': '5d490255d31eea5b7b36b922',
+                        'key': 'LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO',
+                        'output': 'jsonp'
+                    },
+                    dataType: 'jsonp',
+                    success: function (re) {
+                        if (re.status === 0 && re.message === '成功' && re.result.count > 0) {
+                            var spots = [];
+                            $.each(re.result.data, function (k, v) {
+                                spots.push({
+                                    "id": v.ud_id,
+                                    "styleId": 'marker2',
+                                    "position": new TMap.LatLng(v.location.lat, v.location.lng),
+                                    "properties": v
+                                });
+                            });
+                            marker.add(spots);
+                            marker.on('click', function (evt) {
+                                window.showMsg('111');
+                            });
+                        } else {
+                            window.showMsg('未查询到附近充电站');
+                        }
+                    }
+                });
                 $('.back').click(function () {
                     map.panTo(center);
                 });
@@ -62,7 +93,7 @@
                 window.history.go(-1);
             },
             fail: function (re) {
-                $.cookie('message-data', '系统错误', {path: '/'});
+                $.cookie('message-data', '授权错误', {path: '/'});
                 window.history.go(-1);
             }
         });

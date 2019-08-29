@@ -42,5 +42,7 @@ body {
 }
 
 .list > .none > p {
+    height: 0.7rem;
+    line-height: 0.7rem;
     font-size: 0.4rem;
 }

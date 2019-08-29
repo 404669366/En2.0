@@ -30,6 +30,26 @@
             success: function (re) {
                 var center = new TMap.LatLng(re.latitude, re.longitude);
                 var map = new TMap.Map('map', {center: center, pitch: 45});
+                var marker = new TMap.MultiMarker({
+                    id: "marker-layer",
+                    map: map,
+                    styles: {
+                        "marker": new TMap.MarkerStyle({
+                            "width": 25,
+                            "height": 35,
+                            "anchor": {x: 16, y: 32},
+                            "src": "/img/marker.png"
+                        })
+                    },
+                    geometries: [{
+                        "id": "demo",
+                        "styleId": "marker",
+                        "position": center,
+                        "properties": {
+                            "title": "marker"
+                        }
+                    }]
+                });
 
                 $('.back').click(function () {
                     map.panTo(center);
@@ -37,17 +57,17 @@
             },
             cancel: function (re) {
                 $.cookie('message-data', '授权取消', {path: '/'});
-                window.history.go(-1);
+                //window.history.go(-1);
             },
             fail: function (re) {
                 $.cookie('message-data', '系统错误', {path: '/'});
-                window.history.go(-1);
+                //window.history.go(-1);
             }
         });
     });
     wx.error(function (re) {
         $.cookie('message-data', '系统错误', {path: '/'});
-        window.history.go(-1);
+        //window.history.go(-1);
     });
 </script>
 </html>

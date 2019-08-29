@@ -29,24 +29,27 @@
             type: 'gcj02',
             success: function (re) {
                 var center = new TMap.LatLng(re.latitude, re.longitude);
-                var map = new TMap.Map('map', {center: center, pitch: 45,zoom:16});
+                var map = new TMap.Map('map', {center: center, pitch: 45, zoom: 16});
                 var marker = new TMap.MultiMarker({
                     id: "marker-layer",
                     map: map,
                     styles: {
-                        "marker": new TMap.MarkerStyle({
+                        "marker1": new TMap.MarkerStyle({
                             "width": 1.2 * window.remSize,
                             "height": 1.2 * window.remSize,
-                            "src": "/img/marker.png"
-                        })
+                            "src": "/img/marker1.png",
+                            "anchor": {x: 0.6 * window.remSize, y: 0.6 * window.remSize},
+                        }),
+                        "marker2": new TMap.MarkerStyle({
+                            "width": 1.2 * window.remSize,
+                            "height": 1.2 * window.remSize,
+                            "src": "/img/marker1.png"
+                        }),
                     },
                     geometries: [{
-                        "id": "demo",
-                        "styleId": "marker",
+                        "id": "self",
+                        "styleId": "marker1",
                         "position": center,
-                        "properties": {
-                            "title": "marker"
-                        }
                     }]
                 });
 

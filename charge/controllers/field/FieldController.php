@@ -10,7 +10,6 @@ namespace app\controllers\field;
 
 
 use app\controllers\basis\AuthController;
-use vendor\project\helpers\Helper;
 use vendor\project\helpers\Wechat;
 
 class FieldController extends AuthController

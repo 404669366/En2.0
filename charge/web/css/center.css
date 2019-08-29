@@ -127,7 +127,9 @@
 }
 
 .list li > span:first-child {
-    margin-right: 0.4rem;
+    text-align: center;
+    width: 0.66rem;
+    margin-right: 0.2rem;
 }
 
 .list li > span:last-child {

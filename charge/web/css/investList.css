@@ -38,6 +38,7 @@ body {
 }
 
 .list > .none {
+    line-height: 1rem;
     text-align: center;
 }
 

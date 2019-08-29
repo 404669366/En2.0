@@ -1,0 +1,38 @@
+body {
+    background: #EFEFEF;
+}
+
+.list {
+    width: 10rem;
+}
+
+.list > li {
+    width: 9rem;
+    padding: 0.25rem;
+    color: #333;
+    font-size: 0.5rem;
+    background: #fff;
+    margin:0 auto 0.25rem auto;
+    border-radius: 0.06rem;
+}
+
+.list > li:first-child {
+    margin-top: 0.25rem;
+}
+
+.list > li > span {
+    float: left;
+    width: 50%;
+    height: 1rem;
+    line-height: 1rem;
+}
+
+.list > li > span:nth-child(2), .list > li > span:nth-child(4) {
+    float: right;
+    text-align: right;
+}
+
+.list > li > span:nth-child(3), .list > li > span:nth-child(4) {
+    color: #A9A9A9;
+    font-size: 0.4rem;
+}

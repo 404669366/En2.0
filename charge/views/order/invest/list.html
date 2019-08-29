@@ -5,19 +5,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能充电-充值记录</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/order.css">
+    <link rel="stylesheet" href="/css/investList.css">
     <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/x-dot-template" id="orderTpl">
+    <script type="text/x-dot-template" id="listTpl">
         {{?it.data.length}}
         {{~it.data:v}}
-        <li>
-            <p>{{=v.created_at}}</p>
-            <ul>
-                <li class="status">{{=v.status}}</li>
-                <li><label>充值金额 : </label>{{=v.money}}元</li>
-                <li><label>当前余额 : </label>{{=v.balance}}元</li>
-                <li><label>支付方式 : </label>{{=v.source}}</li>
-            </ul>
+        <li class="clear">
+            <span>{{=v.status}}</span>
+            <span class="txt_red">+{{=v.money}}</span>
+            <span>{{=v.created_at}}</span>
+            <span class="txt_gray">当前余额: {{=v.balance}}</span>
         </li>
         {{~}}
         {{??}}
@@ -31,7 +28,7 @@
     </script>
 </head>
 <body>
-<ul class="orders" id="order"></ul>
-<script>window.html('order', 'orderTpl', global);</script>
+<ul class="list" id="list"></ul>
+<script>window.html('list', 'listTpl', global);</script>
 </body>
 </html>

@@ -29,7 +29,7 @@
             type: 'gcj02',
             success: function (re) {
                 var center = new TMap.LatLng(re.latitude, re.longitude);
-                var map = new TMap.Map('map', {center: center, pitch: 45});
+                var map = new TMap.Map('map', {center: center, pitch: 45,zoom:16});
                 var marker = new TMap.MultiMarker({
                     id: "marker-layer",
                     map: map,

@@ -191,17 +191,18 @@
     background: #fff;
     border-radius: 5rem;
     box-shadow: 0 -0.05rem 0.1rem rgba(0, 0, 0, 0.4);
+    display: table;
 }
 
 .footer li:nth-child(2) > p {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 5rem;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
 }
 
 .footer li:nth-child(2) > p img {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.32rem;
+    height: 2.32rem;
     border-radius: 5rem;
     background-size: cover;
 }

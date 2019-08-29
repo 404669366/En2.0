@@ -10,16 +10,12 @@ namespace app\controllers\field;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\helpers\Wechat;
 
 class FieldController extends AuthController
 {
     public function actionMap()
     {
-        return $this->render('map.html');
-    }
-
-    public function actionList()
-    {
-        return $this->render('list.html');
+        return $this->render('map.html', ['jsApi' => Wechat::getJsApiParams()]);
     }
 }

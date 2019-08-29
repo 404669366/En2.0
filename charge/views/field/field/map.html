@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Title</title>
+    <title>亿能充电-电站地图</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/map.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript"
+            src="https://map.qq.com/api/gljs?v=1.exp&key=LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO"></script>
 </head>
 <body>
-
+<div id="map"></div>
+<img class="back" src="/img/mapBack.png">
 </body>
+<script>
+    wx.config({
+        debug: false,
+        appId: global.jsApi.appId,
+        timestamp: global.jsApi.time,
+        nonceStr: global.jsApi.nonceStr,
+        signature: global.jsApi.signature,
+        jsApiList: ['getLocation']
+    });
+    wx.ready(function () {
+        wx.getLocation({
+            type: 'gcj02',
+            success: function (re) {
+                var center = new TMap.LatLng(re.latitude, re.longitude);
+                var map = new TMap.Map('map', {center: center, pitch: 45});
+
+                $('.back').click(function () {
+                    map.panTo(center);
+                });
+            },
+            cancel: function (re) {
+                $.cookie('message-data', '授权取消', {path: '/'});
+                window.history.go(-1);
+            },
+            fail: function (re) {
+                $.cookie('message-data', '系统错误', {path: '/'});
+                window.history.go(-1);
+            }
+        });
+    });
+    wx.error(function (re) {
+        $.cookie('message-data', '系统错误', {path: '/'});
+        window.history.go(-1);
+    });
+</script>
 </html>

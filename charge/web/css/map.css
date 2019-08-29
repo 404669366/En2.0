@@ -1,0 +1,25 @@
+body {
+    overflow: hidden;
+}
+
+#map {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 10rem;
+    height: 110%;
+}
+
+#map .zoom-control {
+    right: 0.25rem !important;
+    top: 0.25rem !important;
+}
+.back{
+    position: absolute;
+    left: 0.25rem;
+    bottom: 0.25rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 0.4rem;
+    z-index: 999;
+}

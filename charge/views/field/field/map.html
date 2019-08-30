@@ -16,7 +16,7 @@
                data-lng="{{=it.position.lng}}" data-name="{{=it.properties.title}}"
                data-address="{{=it.properties.address}}"></i>
         </h3>
-        <p>{{=it.properties.address}}</p>
+        <p>{{=it.properties.address}} {{=it.distance}}km</p>
     </script>
 </head>
 <body>
@@ -87,7 +87,7 @@
                             marker.add(spots);
                             marker.on('touchstart', function (evt) {
                                 if (evt.geometry.id !== 'self') {
-                                    console.log(evt);
+                                    evt.geometry.distance = window.distance(evt.geometry.position.lat, evt.geometry.position.lng, center.lat, center.lng).toFixed(2);
                                     window.html('info', 'infoTpl', evt.geometry);
                                     $('#info').show();
                                 }
@@ -96,7 +96,6 @@
                                 $('#info').hide();
                             });
                             $('#info').on('click', 'i', function () {
-                                console.log(111);
                                 wx.openLocation({
                                     latitude: $(this).data('lat'),
                                     longitude: $(this).data('lng'),

@@ -38,13 +38,13 @@ body {
 }
 
 #info > h3 {
-    padding-right: 1.3rem;
+    padding-right: 1.5rem;
     box-sizing: border-box;
     height: 1.2rem;
     line-height: 1.2rem;
     font-size: 0.52rem;
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
 }
@@ -52,7 +52,7 @@ body {
 #info > h3 > i {
     position: absolute;
     right: 0;
-    top:0;
+    top: 0;
     display: inline-block;
     height: 1.2rem;
     width: 1.2rem;
@@ -63,12 +63,13 @@ body {
 }
 
 #info > p {
-    padding-right: 1.3rem;
+    padding-right: 1.5rem;
     height: 1.2rem;
     line-height: 0.6rem;
     font-size: 0.4rem;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
     color: #888888;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }

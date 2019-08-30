@@ -154,7 +154,7 @@
 
 .footer {
     width: 10rem;
-    height: 1.6rem;
+    height: 1.8rem;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -166,7 +166,7 @@
 
 .footer li {
     width: 3.3333rem;
-    height: 1.7rem;
+    height: 1.8rem;
     text-align: center;
     display: table;
 }
@@ -185,11 +185,11 @@
 }
 
 .footer li:nth-child(2) {
-    width: 2.5rem;
+    width: 2.8rem;
+    height: 2.8rem;
     position: absolute;
-    left: 3.75rem;
+    left: 3.6rem;
     bottom: 0;
-    height: 2.5rem;
     background: #fff;
     border-radius: 5rem;
     box-shadow: 0 -0.05rem 0.1rem rgba(0, 0, 0, 0.4);
@@ -203,8 +203,8 @@
 }
 
 .footer li:nth-child(2) > p img {
-    width: 1.46rem;
-    height: 1.46rem;
+    width: 1.5rem;
+    height: 1.5rem;
     background-size: cover;
 }
 

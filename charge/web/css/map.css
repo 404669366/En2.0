@@ -71,6 +71,10 @@ body {
     position: relative;
 }
 
+#info > h3 > a {
+    color: #333333;
+}
+
 #info > h3 > i {
     position: absolute;
     right: 0;

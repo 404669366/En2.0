@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>亿能充电-电站地图</title>
+    <title>亿能充电-发现</title>
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/map.css">
     <script type="text/javascript" src="/js/common.js"></script>
@@ -11,7 +11,7 @@
     <script type="text/javascript" src="/js/tx.map.gl.js"></script>
     <script type="text/x-dot-template" id="infoTpl">
         <h3>
-            {{=it.properties.title}}
+            <a href="/field/field/info.html?no={{=it.id}}">{{=it.properties.title}}</a>
             <i class="fa fa-paper-plane-o" aria-hidden="true" data-lat="{{=it.position.lat}}"
                data-lng="{{=it.position.lng}}" data-name="{{=it.properties.title}}"
                data-address="{{=it.properties.address}}"></i>
@@ -27,7 +27,6 @@
 </body>
 <script>
     wx.config({
-        debug: false,
         appId: global.jsApi.appId,
         timestamp: global.jsApi.time,
         nonceStr: global.jsApi.nonceStr,

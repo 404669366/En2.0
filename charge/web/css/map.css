@@ -19,9 +19,9 @@ body {
     position: absolute;
     top: 0.2rem;
     right: 0.2rem;
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 0.35rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 0.3rem;
     z-index: 999;
 }
 

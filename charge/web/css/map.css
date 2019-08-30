@@ -56,10 +56,13 @@ body {
     display: inline-block;
     height: 1.2rem;
     width: 1.2rem;
-    line-height: 1.2rem;
+    line-height: 1.08rem;
     text-align: center;
     font-size: 0.72rem;
     color: #3366ff;
+    border: 2px solid #3366ff;
+    box-sizing: border-box;
+    border-radius: 0.2rem;
 }
 
 #info > p {

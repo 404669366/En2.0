@@ -14,12 +14,59 @@ body {
     right: 0.25rem !important;
     top: 0.25rem !important;
 }
-.back{
+
+.back {
     position: absolute;
-    bottom: 0.25rem;
+    top: 0.25rem;
     right: 0.25rem;
     width: 1rem;
     height: 1rem;
     border-radius: 0.5rem;
     z-index: 999;
+}
+
+#info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 9rem;
+    z-index: 999;
+    background: #fefefe;
+    padding: 0.5rem;
+    color: #23252a;
+    display: none;
+}
+
+#info > h3 {
+    padding-right: 1.3rem;
+    box-sizing: border-box;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: 0.52rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    position: relative;
+}
+
+#info > h3 > i {
+    position: absolute;
+    right: 0;
+    top:0;
+    display: inline-block;
+    height: 1.2rem;
+    width: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #3366ff;
+}
+
+#info > p {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    font-size: 0.46rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }

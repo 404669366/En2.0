@@ -7,13 +7,22 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/map.css">
     <script type="text/javascript" src="/js/common.js"></script>
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-    <script type="text/javascript"
-            src="https://map.qq.com/api/gljs?v=1.exp&key=LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO"></script>
+    <script src="/js/wx.js"></script>
+    <script type="text/javascript" src="/js/tx.map.gl.js"></script>
+    <script type="text/x-dot-template" id="infoTpl">
+        <h3>
+            {{=it.properties.title}}
+            <i class="fa fa-paper-plane-o" aria-hidden="true" data-lat="{{=it.position.lat}}"
+               data-lng="{{=it.position.lng}}" data-name="{{=it.properties.title}}"
+               data-address="{{=it.properties.address}}"></i>
+        </h3>
+        <p>{{=it.properties.address}}</p>
+    </script>
 </head>
 <body>
 <div id="map"></div>
 <img class="back" src="/img/mapBack.png">
+<div id="info"></div>
 </body>
 <script>
     wx.config({
@@ -22,7 +31,7 @@
         timestamp: global.jsApi.time,
         nonceStr: global.jsApi.nonceStr,
         signature: global.jsApi.signature,
-        jsApiList: ['getLocation']
+        jsApiList: ['getLocation', 'openLocation']
     });
     wx.ready(function () {
         wx.getLocation({
@@ -76,9 +85,26 @@
                                 });
                             });
                             marker.add(spots);
-                            marker.on('click', function (evt) {
-                                window.showMsg(1111);
+                            marker.on('touchstart', function (evt) {
+                                if (evt.geometry.id !== 'self') {
+                                    console.log(evt);
+                                    window.html('info', 'infoTpl', evt.geometry);
+                                    $('#info').show();
+                                }
                             });
+                            $('#map>div').on('touchstart', function () {
+                                $('#info').hide();
+                            });
+                            $('#info').on('click', 'i', function () {
+                                console.log(111);
+                                wx.openLocation({
+                                    latitude: $(this).data('lat'),
+                                    longitude: $(this).data('lng'),
+                                    name: $(this).data('name'),
+                                    address: $(this).data('address'),
+                                    scale: 10,
+                                });
+                            })
                         } else {
                             window.showMsg('未查询到附近充电站');
                         }

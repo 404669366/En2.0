@@ -17,11 +17,11 @@ body {
 
 .back {
     position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 0.5rem;
+    top: 0.2rem;
+    right: 0.2rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 0.35rem;
     z-index: 999;
 }
 

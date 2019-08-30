@@ -63,6 +63,7 @@ body {
 }
 
 #info > p {
+    padding-right: 1.3rem;
     height: 1.2rem;
     line-height: 0.6rem;
     font-size: 0.4rem;

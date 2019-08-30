@@ -33,7 +33,7 @@ body {
     z-index: 999;
     background: #fefefe;
     padding: 0.5rem;
-    color: #23252a;
+    color: #333333;
     display: none;
 }
 
@@ -63,10 +63,11 @@ body {
 }
 
 #info > p {
-    height: 0.8rem;
-    line-height: 0.8rem;
-    font-size: 0.46rem;
+    height: 1.2rem;
+    line-height: 0.6rem;
+    font-size: 0.4rem;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+    color: #888888;
 }

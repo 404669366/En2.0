@@ -37,80 +37,112 @@
         wx.getLocation({
             type: 'gcj02',
             success: function (re) {
-                var center = new TMap.LatLng(re.latitude, re.longitude);
-                var map = new TMap.Map('map', {center: center, pitch: 45, zoom: 11});
-                var marker = new TMap.MultiMarker({
-                    id: "marker-layer",
-                    map: map,
-                    styles: {
-                        "marker1": new TMap.MarkerStyle({
-                            "width": 1.6 * window.remSize,
-                            "height": 1.6 * window.remSize,
-                            "src": "/img/marker1.png",
-                            "anchor": {x: 0.8 * window.remSize, y: 0.8 * window.remSize},
-                        }),
-                        "marker2": new TMap.MarkerStyle({
-                            "width": 1.2 * window.remSize,
-                            "height": 1.2 * window.remSize,
-                            "src": "/img/marker2.png",
-                            "anchor": {x: 0.6 * window.remSize, y: 0.6 * window.remSize},
-                        }),
-                    },
-                    geometries: [{
-                        "id": "self",
-                        "styleId": "marker1",
-                        "position": center,
-                    }]
-                });
+                var point = {
+                    lat: re.latitude,
+                    lng: re.longitude,
+                    city: '',
+                };
                 $.ajax({
-                    url: 'https://apis.map.qq.com/place_cloud/search/nearby',
+                    url: 'https://apis.map.qq.com/ws/geocoder/v1/',
                     data: {
                         'location': re.latitude + ',' + re.longitude,
-                        'radius': 10000,
-                        'auto_extend': 1,
-                        'table_id': '5d490255d31eea5b7b36b922',
                         'key': 'LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO',
                         'output': 'jsonp'
                     },
                     dataType: 'jsonp',
                     success: function (re) {
-                        if (re.status === 0 && re.message === '成功' && re.result.count > 0) {
-                            var spots = [];
-                            $.each(re.result.data, function (k, v) {
-                                spots.push({
-                                    "id": v.ud_id,
-                                    "styleId": 'marker2',
-                                    "position": new TMap.LatLng(v.location.lat, v.location.lng),
-                                    "properties": v
-                                });
-                            });
-                            marker.add(spots);
-                            marker.on('touchstart', function (evt) {
-                                if (evt.geometry.id !== 'self') {
-                                    evt.geometry.distance = window.distance(evt.geometry.position.lat, evt.geometry.position.lng, center.lat, center.lng).toFixed(2);
-                                    window.html('info', 'infoTpl', evt.geometry);
-                                    $('#info').show();
+                        if (re.status === 0) {
+                            point.city = re.result.address_component.city;
+                            $.ajax({
+                                url: 'https://apis.map.qq.com/place_cloud/search/region',
+                                data: {
+                                    'region': point.city,
+                                    'table_id': '5d490255d31eea5b7b36b922',
+                                    'key': 'LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO',
+                                    'output': 'jsonp'
+                                },
+                                dataType: 'jsonp',
+                                success: function (re) {
+                                    if (re.status === 0) {
+                                        var center = new TMap.LatLng(point.lat, point.lng);
+                                        var map = new TMap.Map('map', {center: center, pitch: 45, zoom: 16});
+                                        var spots = [{
+                                            "id": "self",
+                                            "styleId": "marker1",
+                                            "position": center,
+                                        }];
+                                        $.each(re.result.data, function (k, v) {
+                                            spots.push({
+                                                "id": v.ud_id,
+                                                "styleId": 'marker2',
+                                                "position": new TMap.LatLng(v.location.lat, v.location.lng),
+                                                "properties": v
+                                            });
+                                        });
+                                        window.showMsg('共为您查询到' + re.result.data.length + '个充电站');
+                                        var marker = new TMap.MultiMarker({
+                                            id: "marker-layer",
+                                            map: map,
+                                            styles: {
+                                                "marker1": new TMap.MarkerStyle({
+                                                    "width": 1.6 * window.remSize,
+                                                    "height": 1.6 * window.remSize,
+                                                    "src": "/img/marker1.png",
+                                                    "anchor": {x: 0.8 * window.remSize, y: 0.8 * window.remSize},
+                                                }),
+                                                "marker2": new TMap.MarkerStyle({
+                                                    "width": 1.2 * window.remSize,
+                                                    "height": 1.2 * window.remSize,
+                                                    "src": "/img/marker2.png",
+                                                    "anchor": {x: 0.6 * window.remSize, y: 0.6 * window.remSize},
+                                                }),
+                                            },
+                                            geometries: spots
+                                        });
+                                        marker.on('touchstart', function (evt) {
+                                            if (evt.geometry.id !== 'self') {
+                                                evt.geometry.distance = window.distance(evt.geometry.position.lat, evt.geometry.position.lng, center.lat, center.lng).toFixed(2);
+                                                window.html('info', 'infoTpl', evt.geometry);
+                                                $('#info').show();
+                                            }
+                                        });
+
+                                        $('#map>div').on('touchstart', function () {
+                                            $('#info').hide();
+                                        });
+
+                                        $('#info').on('click', 'i', function () {
+                                            wx.openLocation({
+                                                latitude: $(this).data('lat'),
+                                                longitude: $(this).data('lng'),
+                                                name: $(this).data('name'),
+                                                address: $(this).data('address'),
+                                                scale: 10,
+                                            });
+                                        });
+
+                                        $('.back').click(function () {
+                                            map.panTo(center);
+                                        });
+                                    } else {
+                                        $.cookie('message-data', '拉取电站失败', {path: '/'});
+                                        window.history.go(-1);
+                                    }
+                                },
+                                error: function () {
+                                    $.cookie('message-data', '拉取电站错误', {path: '/'});
+                                    window.history.go(-1);
                                 }
                             });
-                            $('#map>div').on('touchstart', function () {
-                                $('#info').hide();
-                            });
-                            $('#info').on('click', 'i', function () {
-                                wx.openLocation({
-                                    latitude: $(this).data('lat'),
-                                    longitude: $(this).data('lng'),
-                                    name: $(this).data('name'),
-                                    address: $(this).data('address'),
-                                    scale: 10,
-                                });
-                            })
                         } else {
-                            window.showMsg('未查询到附近充电站');
+                            $.cookie('message-data', '拉取城市信息失败', {path: '/'});
+                            window.history.go(-1);
                         }
+                    },
+                    error: function () {
+                        $.cookie('message-data', '拉取城市信息错误', {path: '/'});
+                        window.history.go(-1);
                     }
-                });
-                $('.back').click(function () {
-                    map.panTo(center);
                 });
             },
             cancel: function (re) {

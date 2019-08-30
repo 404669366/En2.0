@@ -40,6 +40,12 @@ body {
     box-sizing: border-box;
 }
 
+.city > img {
+    margin-top: 0.15rem;
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
 #info {
     position: absolute;
     bottom: 0;

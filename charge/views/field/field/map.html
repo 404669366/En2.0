@@ -21,7 +21,7 @@
 </head>
 <body>
 <div id="map"></div>
-<div class="city"></div>
+<div class="city"><img src="/img/loading.gif"></div>
 <img class="back" src="/img/mapBack.png">
 <div id="info"></div>
 </body>
@@ -54,7 +54,7 @@
                     success: function (re) {
                         if (re.status === 0) {
                             point.city = re.result.address_component.city;
-                            $('.city').text('当前城市：' + point.city);
+                            $('.city').html('当前城市：' + point.city);
                             $.ajax({
                                 url: 'https://apis.map.qq.com/place_cloud/search/region',
                                 data: {

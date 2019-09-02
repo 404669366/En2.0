@@ -134,9 +134,9 @@ class EnPile extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询电桩归属桩
+     * 查询电桩归属桩信息
      * @param string $no
-     * @return array|\yii\db\ActiveRecord[]
+     * @return array
      */
     public static function getPilesByField($no = '')
     {

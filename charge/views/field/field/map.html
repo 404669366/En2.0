@@ -11,9 +11,12 @@
     <script type="text/javascript" src="/js/tx.map.gl.js"></script>
     <script type="text/x-dot-template" id="infoTpl">
         <div class="fl">
-            <h3><a href="/field/field/info.html?no={{=it.id}}">{{=it.properties.title}}</a></h3>
-            <a href="/field/field/info.html?no={{=it.id}}">
-                枪口 <span class="txt_blue">[ {{=it.properties.x.count}} ]</span>&emsp;空闲 <span class="txt_green">[ {{=it.properties.x.count-it.properties.x.used}} ]</span>&emsp;详情 >>
+            <h3>
+                <a href="/field/field/info.html?no={{=it.id}}&guns={{=it.properties.x.count}},{{=it.properties.x.used}}">{{=it.properties.title}}</a>
+            </h3>
+            <a href="/field/field/info.html?no={{=it.id}}&guns={{=it.properties.x.count}},{{=it.properties.x.used}}">
+                枪口 <span class="txt_blue">[ {{=it.properties.x.count}} ]</span>&emsp;空闲 <span class="txt_green">[ {{=it.properties.x.count-it.properties.x.used}} ]</span>&emsp;详情
+                >>
             </a>
             <p>{{=it.properties.address}} {{=it.distance}}km</p>
         </div>

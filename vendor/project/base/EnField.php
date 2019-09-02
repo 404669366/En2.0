@@ -527,7 +527,6 @@ class EnField extends \yii\db\ActiveRecord
             ->asArray()->one();
         if ($data) {
             $data['images'] = explode(',', $data['images']);
-            $data['guns'] = (new client())->hGet('FieldInfo', $no) ?: ['count' => 0, 'used' => 0];
         }
         return $data;
     }

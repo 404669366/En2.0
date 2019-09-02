@@ -59,46 +59,56 @@ body {
     box-shadow: 0 -0.05rem 0.1rem rgba(0, 0, 0, 0.2);
 }
 
-#info > h3 {
-    padding-right: 1.5rem;
-    box-sizing: border-box;
-    height: 1.2rem;
-    line-height: 1.2rem;
+#info > .fl {
+    width: 7.5rem;
+}
+
+#info > .fl > h3 {
+    height: 0.82rem;
+    line-height: 0.82rem;
     font-size: 0.52rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    position: relative;
 }
 
-#info > h3 > a {
+#info > .fl > h3 > a {
     color: #333333;
 }
 
-#info > h3 > i {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: inline-block;
-    height: 1.2rem;
-    width: 1.2rem;
-    line-height: 1.08rem;
-    text-align: center;
-    font-size: 0.72rem;
-    color: #3366ff;
-    border: 2px solid #3366ff;
-    box-sizing: border-box;
-    border-radius: 0.2rem;
+#info > .fl > a {
+    height: 0.72rem;
+    line-height: 0.72rem;
+    font-size: 0.4rem;
+    color: #333333;
 }
 
-#info > p {
-    padding-right: 1.5rem;
-    height: 1.2rem;
-    line-height: 0.6rem;
+#info > .fl > p {
+    height: 1.1rem;
+    line-height: 0.55rem;
     font-size: 0.4rem;
     color: #888888;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+}
+
+#info > .fr {
+    width: 1.5rem;
+    text-align: right;
+}
+
+#info > .fr > i {
+    margin-top: 0.85rem;
+    display: inline-block;
+    height: 1.2rem;
+    line-height: 1.08rem;
+    width: 1.2rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #3366ff;
+    border: 2px solid #3366ff;
+    box-sizing: border-box;
+    border-radius: 0.2rem;
 }

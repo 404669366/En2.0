@@ -10,20 +10,25 @@
     <script src="/js/wx.js"></script>
     <script type="text/javascript" src="/js/tx.map.gl.js"></script>
     <script type="text/x-dot-template" id="infoTpl">
-        <h3>
-            <a href="/field/field/info.html?no={{=it.id}}">{{=it.properties.title}}</a>
+        <div class="fl">
+            <h3><a href="/field/field/info.html?no={{=it.id}}">{{=it.properties.title}}</a></h3>
+            <a href="/field/field/info.html?no={{=it.id}}">
+                快充 <span class="txt_red">[ {{=it.properties.x.count}} ]</span>&emsp;空闲 <span class="txt_green">[ {{=it.properties.x.count-it.properties.x.used}} ]</span>&emsp;详情 >>
+            </a>
+            <p>{{=it.properties.address}} {{=it.distance}}km</p>
+        </div>
+        <div class="fr">
             <i class="fa fa-paper-plane-o" aria-hidden="true" data-lat="{{=it.position.lat}}"
                data-lng="{{=it.position.lng}}" data-name="{{=it.properties.title}}"
                data-address="{{=it.properties.address}}"></i>
-        </h3>
-        <p>{{=it.properties.address}} {{=it.distance}}km</p>
+        </div>
     </script>
 </head>
 <body>
 <div id="map"></div>
 <div class="city"><img src="/img/loading.gif"></div>
 <img class="back" src="/img/mapBack.png">
-<div id="info"></div>
+<div id="info" class="clear"></div>
 </body>
 <script>
     wx.config({
@@ -100,6 +105,7 @@
                                         });
                                         marker.on('touchstart', function (evt) {
                                             if (evt.geometry.id !== 'self') {
+                                                console.log(evt);
                                                 evt.geometry.distance = window.distance(evt.geometry.position.lat, evt.geometry.position.lng, center.lat, center.lng).toFixed(2);
                                                 window.html('info', 'infoTpl', evt.geometry);
                                                 $('#info').show();

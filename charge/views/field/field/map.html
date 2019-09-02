@@ -13,7 +13,7 @@
         <div class="fl">
             <h3><a href="/field/field/info.html?no={{=it.id}}">{{=it.properties.title}}</a></h3>
             <a href="/field/field/info.html?no={{=it.id}}">
-                快充 <span class="txt_red">[ {{=it.properties.x.count}} ]</span>&emsp;空闲 <span class="txt_green">[ {{=it.properties.x.count-it.properties.x.used}} ]</span>&emsp;详情 >>
+                快充 <span class="txt_blue">[ {{=it.properties.x.count}} ]</span>&emsp;空闲 <span class="txt_green">[ {{=it.properties.x.count-it.properties.x.used}} ]</span>&emsp;详情 >>
             </a>
             <p>{{=it.properties.address}} {{=it.distance}}km</p>
         </div>
@@ -85,7 +85,7 @@
                                                 "properties": v
                                             });
                                         });
-                                        window.showMsg('共为您查询到' + re.result.data.length + '个充电站');
+                                        window.showMsg('共为您找到' + re.result.data.length + '个充电站');
                                         var marker = new TMap.MultiMarker({
                                             id: "marker-layer",
                                             map: map,

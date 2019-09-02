@@ -1,0 +1,132 @@
+.field {
+    width: 10rem;
+    overflow-x: hidden;
+}
+
+.field > .swiper-container {
+    height: 6rem;
+    width: 10rem;
+    position: relative;
+}
+
+.field img {
+    display: block;
+    margin: 0 auto;
+    height: 6rem;
+    max-width: 100%;
+}
+
+.field h3 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1rem;
+    width: 100%;
+    line-height: 1rem;
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+    font-size: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    z-index: 99;
+}
+
+.fieldInfo {
+    width: 9.5rem;
+    padding: 0.25rem;
+    color: #333333;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.fieldInfo > p {
+    float: left;
+    width: 50%;
+    height: 0.66rem;
+    line-height: 0.66rem;
+    font-size: 0.42rem;
+}
+
+.fieldInfo > .tit {
+    height: 1.24rem;
+    line-height: 0.62rem;
+    width: 100%;
+    font-size: 0.5rem;
+    margin-bottom: 0.2rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.fieldInfo > p > label {
+    color: #909090;
+}
+
+.piles {
+    color: #333333;
+    width: 10rem;
+    margin-bottom: 1.5rem;
+}
+
+.piles > li {
+    padding: 0.25rem;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.piles > li:last-child {
+    border-bottom: none;
+}
+
+.piles > li > .fl {
+    width: 2.5rem;
+    height: 3rem;
+    display: table;
+}
+
+.piles > li > .fl > span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.piles > li > .fl > span > img {
+    width: 2.5rem;
+    max-height: 3rem;
+}
+
+.piles > li > .fr {
+    width: 6.75rem;
+    height: 3rem;
+}
+
+.piles > li > .fr > p {
+    width: 100%;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    font-size: 0.42rem;
+}
+
+.piles > li > .fr > .tit {
+    height: 0.65rem;
+    line-height: 0.65rem;
+    font-size: 0.46rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.piles > li > .fr > p > label {
+    color: #909090;
+}
+
+.goTo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 10rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    font-size: 0.45rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+}

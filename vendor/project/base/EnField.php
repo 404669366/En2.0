@@ -2,6 +2,7 @@
 
 namespace vendor\project\base;
 
+use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
@@ -512,5 +513,22 @@ class EnField extends \yii\db\ActiveRecord
     public static function getNeedFieldCount()
     {
         return self::find()->where(['status' => 0, 'commissioner_id' => 0])->count();
+    }
+
+    /**
+     * 返回电桩信息
+     * @param string $no
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getFieldInfo($no = '')
+    {
+        $data = self::find()->where(['no' => $no])
+            ->select(['name', 'address', 'lng', 'lat', 'images'])
+            ->asArray()->one();
+        if ($data) {
+            $data['images'] = explode(',', $data['images']);
+            $data['guns'] = (new client())->hGet('FieldInfo', $no) ?: ['count' => 0, 'used' => 0];
+        }
+        return $data;
     }
 }

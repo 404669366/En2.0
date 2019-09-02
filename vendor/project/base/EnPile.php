@@ -3,6 +3,7 @@
 namespace vendor\project\base;
 
 use vendor\project\helpers\client;
+use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 use Yii;
@@ -130,5 +131,46 @@ class EnPile extends \yii\db\ActiveRecord
         }
         Msg::set('未查询到该电桩信息,请检查电桩编号');
         return false;
+    }
+
+    /**
+     * 查询电桩归属桩
+     * @param string $no
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getPilesByField($no = '')
+    {
+        $data = self::find()->alias('p')
+            ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
+            ->leftJoin(EnModel::tableName() . ' m', 'm.id=p.model_id')
+            ->where(['f.no' => $no])
+            ->select(['p.no', 'm.*'])
+            ->orderBy('p.created_at desc')
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $images = explode(',', $v['images']);
+            $v['image'] = $images[array_rand($images)];
+            $v['standard'] = Constant::pileStandard()[$v['standard']];
+            $v['rule'] = self::getNowRule($v['no']);
+        }
+        return $data;
+    }
+
+    /**
+     * 返回当前计价规则
+     * @param string $no
+     * @return array
+     */
+    public static function getNowRule($no = '')
+    {
+        $time = time();
+        $now = $time - strtotime(date('Y-m-d'));
+        $rules = json_decode((new client())->hGetField('PileInfo', $no, 'rules'), true) ?: [];
+        foreach ($rules as $v) {
+            if ($now >= $v[0] && $now < $v[1]) {
+                return $v;
+            }
+        }
+        return [0, 86400, 0.8, 0.6];
     }
 }

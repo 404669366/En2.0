@@ -26,17 +26,24 @@ class FieldController extends AuthController
     }
 
     /**
+     * 查询电桩枪口信息
+     * @param $no
+     * @return string
+     */
+    public function actionGuns($no)
+    {
+        return $this->rJson(EnField::getGuns($no));
+    }
+
+    /**
      * 电桩详情
      * @param string $no
-     * @param string $guns
      * @return string|\yii\web\Response
      */
-    public function actionInfo($no = '', $guns = '')
+    public function actionInfo($no = '')
     {
         if ($field = EnField::getFieldInfo($no)) {
             $piles = EnPile::getPilesByField($no);
-            $guns = explode(',', $guns);
-            $field['guns'] = ['count' => $guns[0], 'used' => $guns[1]];
             return $this->render('info.html', [
                 'jsApi' => Wechat::getJsApiParams(),
                 'field' => $field,

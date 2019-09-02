@@ -527,7 +527,25 @@ class EnField extends \yii\db\ActiveRecord
             ->asArray()->one();
         if ($data) {
             $data['images'] = explode(',', $data['images']);
+            $data['guns'] = self::getGuns($no);
         }
         return $data;
+    }
+
+    /**
+     * 查询枪口信息
+     * @param string $no
+     * @return array
+     */
+    public static function getGuns($no = '')
+    {
+        $guns = ['count' => 0, 'used' => 0];
+        $piles = (new client())->hGet('FieldInfo', $no) ?: [];
+        foreach ($piles as $v) {
+            $v = json_decode($v, true);
+            $guns['count'] += $v['count'];
+            $guns['used'] += $v['used'];
+        }
+        return $guns;
     }
 }

@@ -12,6 +12,7 @@ namespace app\controllers\pile;
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnModel;
 use vendor\project\base\EnPile;
+use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
@@ -43,6 +44,7 @@ class PileController extends CommonController
         if (\Yii::$app->request->isPost) {
             $model->load(['EnPile' => \Yii::$app->request->post()]);
             if ($model->validate() && $model->save()) {
+                (new client())->hSetField('PileInfo', $model->no, 'field', $model->field);
                 Msg::set('保存成功');
             } else {
                 Msg::set($model->errors());

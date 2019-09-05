@@ -19,7 +19,7 @@ use yii\db\Exception;
 class ChargeController extends AuthController
 {
     /**
-     *
+     * 订单付款
      * @param string $orderNo
      * @param int $pay
      * @return string|\yii\web\Response

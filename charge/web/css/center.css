@@ -79,6 +79,10 @@
     border-right: 0.015rem solid #fff
 }
 
+.headCard .account p i {
+    margin-right: 0.1rem;
+}
+
 .collect_list {
     width: 9rem;
     display: table;
@@ -216,4 +220,8 @@
 
 .footer li:nth-child(3) {
     float: right;
+}
+
+.footer > .active {
+    color: #3366ff;
 }

@@ -47,7 +47,8 @@ class FieldController extends AuthController
             return $this->render('info.html', [
                 'jsApi' => Wechat::getJsApiParams(),
                 'field' => $field,
-                'piles' => $piles
+                'piles' => $piles,
+                'now' => date('Ymd')
             ]);
         }
         return $this->goBack('充电站不见啦!');

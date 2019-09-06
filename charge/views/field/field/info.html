@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/swiper/swiper.min.css">
     <script type="text/javascript" src="/js/common.js"></script>
     <script src="/js/wx.js"></script>
+    <script src="/js/coordtransform.js"></script>
     <script type="text/javascript" src="/swiper/swiper.min.js"></script>
     <script type="text/x-dot-template" id="fieldTpl">
         <div class="swiper-container">
@@ -68,7 +69,7 @@
         jsApiList: ['openLocation']
     });
     wx.ready(function () {
-        var point = window.bdToGcj(global.field.lng, global.field.lat);
+        var point = coordtransform.bd09togcj02(global.field.lng, global.field.lat);
         $('.goTo').on('click', function () {
             wx.openLocation({
                 latitude: point.lat,
@@ -83,6 +84,13 @@
         $.cookie('message-data', '系统错误', {path: '/'});
         window.history.go(-1);
     });
+
+    var last = $.cookie('step' + global.now) || '';
+    last = last.split(',');
+    if (!window.in_array(last, global.field.no)) {
+        last.unshift(global.field.no);
+        $.cookie('step' + global.now, last.join(','), {path: '/', expires: 3});
+    }
 </script>
 </body>
 </html>

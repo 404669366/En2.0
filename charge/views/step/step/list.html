@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-浏览记录</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/step.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/js/wx.js"></script>
+    <script type="text/javascript" src="/js/coordtransform.js"></script>
+    <script type="text/x-dot-template" id="listTpl">
+        {{?it.data.length}}
+        {{~it.data:v}}
+        <li data-url="/field/field/info.html?no={{=v.no}}">
+            <h3>{{=v.name}}</h3>
+            <p>{{=v.address}}</p>
+            <div>
+                <span>枪口 <c class="txt_blue">[{{=v.guns.count}}]</c> 空闲 <c class="txt_green">[{{=v.guns.count-v.guns.used}}]</c></span>
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                {{=window.distance(it.lat,it.lng,v.lat,v.lng).toFixed(2)}}km
+            </div>
+        </li>
+        {{~}}
+        {{??}}
+        <li class="none">
+            未查询到您的浏览记录信息
+        </li>
+        {{?}}
+    </script>
+</head>
+<body>
+<ul id="list"></ul>
+<script>
+    wx.config({
+        appId: global.jsApi.appId,
+        timestamp: global.jsApi.time,
+        nonceStr: global.jsApi.nonceStr,
+        signature: global.jsApi.signature,
+        jsApiList: ['getLocation']
+    });
+    wx.ready(function () {
+        wx.getLocation({
+            type: 'gcj02',
+            success: function (re) {
+                var point = coordtransform.gcj02tobd09(re.longitude, re.latitude);
+                global.nowCut0 = $.cookie('step' + global.nowCut0) || '';
+                global.nowCut1 = $.cookie('step' + global.nowCut1) || '';
+                global.nowCut2 = $.cookie('step' + global.nowCut2) || '';
+                global.data = global.nowCut0.split(',').concat(global.nowCut1.split(','), global.nowCut2.split(','));
+                $.post('/step/step/guns.html', {_csrf: global._csrf, nos: $.unique(global.data)}, function (re) {
+                    if (re.type) {
+                        re.lat = point.lat;
+                        re.lng = point.lng;
+                        window.html('list', 'listTpl', re);
+                    } else {
+                        $.cookie('message-data', '拉取枪口信息失败', {path: '/'});
+                        window.history.go(-1);
+                    }
+                }, 'json');
+            },
+            cancel: function (re) {
+                $.cookie('message-data', '授权取消', {path: '/'});
+                window.history.go(-1);
+            },
+            fail: function (re) {
+                $.cookie('message-data', '授权错误', {path: '/'});
+                window.history.go(-1);
+            }
+        });
+    });
+    wx.error(function (re) {
+        $.cookie('message-data', '系统错误', {path: '/'});
+        window.history.go(-1);
+    });
+
+    $('#list').on('touchstart', 'li', function () {
+        window.location.href = $(this).data('url');
+    });
+</script>
+</body>
+</html>

@@ -40,7 +40,7 @@ class BasisController extends Controller
                 'points' => $params['user']->points ?: 0
             ];
         }
-        $params['friends'] = Constant::friends();
+        $params['sysTime'] = time();
         echo '<script>var global = JSON.parse(`' . json_encode($params, JSON_UNESCAPED_UNICODE) . '`)</script>';
         return parent::render($view, $params);
     }

@@ -523,7 +523,7 @@ class EnField extends \yii\db\ActiveRecord
     public static function getFieldInfo($no = '')
     {
         $data = self::find()->where(['no' => $no])
-            ->select(['name', 'address', 'lng', 'lat', 'images'])
+            ->select(['no', 'name', 'address', 'lng', 'lat', 'images'])
             ->asArray()->one();
         if ($data) {
             $data['images'] = explode(',', $data['images']);
@@ -547,5 +547,20 @@ class EnField extends \yii\db\ActiveRecord
             $guns['used'] += $v['used'];
         }
         return $guns;
+    }
+
+    /**
+     * @param array $nos
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getStep($nos = [])
+    {
+        $data = self::find()->where(['no' => $nos])
+            ->select(['no', 'name', 'address', 'lng', 'lat',])
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $v['guns'] = self::getGuns($v['no']);
+        }
+        return $data;
     }
 }

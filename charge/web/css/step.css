@@ -1,0 +1,70 @@
+body {
+    background: #F6F6F6;
+}
+
+#list {
+    width: 9.5rem;
+    padding: 0.25rem;
+    font-size: 0.45rem;
+    color: #909090;
+}
+
+#list > li {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.25rem;
+    background: #FFFFFF;
+    border-radius: 0.1rem;
+    box-shadow: 0 0 0.1rem 0.05rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.25rem;
+}
+
+#list > li:last-child {
+    margin-bottom: 0;
+}
+
+#list > li > h3 {
+    height: 0.62rem;
+    line-height: 0.62rem;
+    color: #888888;
+}
+
+#list > li > p {
+    margin: 0.12rem 0;
+    height: 1rem;
+    line-height: 0.5rem;
+    font-size: 0.4rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+#list > li > div {
+    height: 0.8rem;
+    line-height: 0.8rem;
+}
+
+#list > li > div > span {
+    display: inline-block;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    letter-spacing: 0.02rem;
+    border-radius: 0.05rem;
+    text-align: center;
+    background: #E1FAEB;
+    border: solid #C7F5D9 0.01rem;
+    padding: 0 0.14rem;
+    margin-right: 0.12rem;
+}
+
+#list > li > div > i {
+    height: 0.8rem;
+    line-height: 0.8rem;
+}
+
+#list > .none {
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+}

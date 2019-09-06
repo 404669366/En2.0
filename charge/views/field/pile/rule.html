@@ -37,15 +37,15 @@
             font-size: 0.46rem;
             border-width: 1px;
             border-style: solid;
-            border-color: #666666;
-            background-color: #3366ff;
+            border-color: #909090;
+            background-color: #00a8ec;
             color: #FFFFFF;
         }
 
         table td {
             background-color: #ffffff;
             font-size: 0.42rem;
-            color: #4a4a4a;
+            color: #909090;
         }
     </style>
 </head>
@@ -55,8 +55,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>起始时间</th>
-                    <th>结束时间</th>
+                    <th>时间区间</th>
                     <th>基础电价</th>
                     <th>服务电价</th>
                 </tr>
@@ -69,8 +68,7 @@
     var str = '';
     $.each(global.rules, function (k, v) {
         str += '<tr>';
-        str += '<td>' + timeToStr(v[0]) + '</td>';
-        str += '<td>' + timeToStr(v[1]) + '</td>';
+        str += '<td>' + timeToStr(v[0]) + ' - ' + timeToStr(v[1]) + '</td>';
         str += '<td>' + v[2] + '元</td>';
         str += '<td>' + v[3] + '元</td>';
         str += '</tr>';

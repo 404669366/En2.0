@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/js/common.js"></script>
     <script src="/js/wx.js"></script>
     <script type="text/javascript" src="/js/tx.map.gl.js"></script>
+    <script type="text/javascript" src="/js/coordtransform.js"></script>
     <script type="text/x-dot-template" id="infoTpl">
         <div class="fl">
             <h3><a href="/field/field/info.html?no={{=it.id}}">{{=it.properties.title}}</a></h3>
@@ -79,10 +80,11 @@
                                             "position": center,
                                         }];
                                         $.each(re.result.data, function (k, v) {
+                                            var point = coordtransform.bd09togcj02(v.location.lng, v.location.lat);
                                             spots.push({
                                                 "id": v.ud_id,
                                                 "styleId": 'marker2',
-                                                "position": new TMap.LatLng(v.location.lat, v.location.lng),
+                                                "position": new TMap.LatLng(point.lat, point.lng),
                                                 "properties": v
                                             });
                                         });

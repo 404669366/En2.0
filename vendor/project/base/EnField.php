@@ -42,6 +42,7 @@ use Yii;
  * @property string $remark 备注
  * @property int $status 场站状态 0待处理1挂起2审核中3审核不通过4正在融资5融资完成6用户删除
  * @property int $source 来源 1用户发布2平台专员3三方专员
+ * @property int $online 上线状态 1未上线2已上线
  * @property string $created 创建用户
  * @property string $created_at 创建时间
  */
@@ -75,7 +76,7 @@ class EnField extends \yii\db\ActiveRecord
             [['images'], 'string', 'max' => 400],
             [['address'], 'string', 'max' => 60],
             [['field_configure'], 'string', 'max' => 500],
-            [['budget_amount', 'lowest_amount', 'present_amount'], 'number'],
+            [['budget_amount', 'lowest_amount', 'present_amount', 'online'], 'number'],
             [['field_contract', 'field_prove', 'field_drawing', 'transformer_drawing', 'power_contract'], 'string', 'max' => 240],
             [['record_file'], 'string', 'max' => 80],
             [['intro', 'cobberTel'], 'string'],
@@ -229,6 +230,7 @@ class EnField extends \yii\db\ActiveRecord
             'remark' => '备注',
             'status' => '场站状态 0待处理1挂起2审核中3审核不通过4正在融资5融资完成6用户删除',
             'source' => '来源 1用户发布2平台专员3三方专员',
+            'online' => '上线状态 1未上线2已上线',
             'created' => '创建用户',
             'created_at' => '创建时间',
         ];
@@ -516,7 +518,27 @@ class EnField extends \yii\db\ActiveRecord
     }
 
     /**
-     * 返回电桩信息
+     * 获取
+     * @return mixed
+     */
+    public static function getFieldByFinish()
+    {
+        $data = self::find()->alias('f')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=f.local_id')
+            ->where(['f.status' => 5])
+            ->select(['f.no', 'f.name', 'f.address', 'u.tel as local', 'f.online'])
+            ->page([
+                'content' => ['like', 'f.no', 'f.name', 'f.address', 'u.tel'],
+                'online' => ['=', 'f.online'],
+            ]);
+        foreach ($data['data'] as &$v) {
+            $v['online'] = Constant::fieldOnline()[$v['online']];
+        }
+        return $data;
+    }
+
+    /**
+     * 返回电站信息
      * @param string $no
      * @return array|null|\yii\db\ActiveRecord
      */

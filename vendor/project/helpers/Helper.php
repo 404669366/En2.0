@@ -645,15 +645,26 @@ class Helper
      * curlPost
      * @param string $url
      * @param array $data
+     * @param bool $isJson
      * @return mixed
      */
-    public static function curlPost($url = '', $data = [])
+    public static function curlPost($url = '', $data = [], $isJson = false)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        if ($isJson) {
+            $data = json_encode($data);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json; charset=utf-8',
+                'Content-Length:' . strlen($data)
+            ]);
+        }
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $re = curl_exec($ch);
         curl_close($ch);

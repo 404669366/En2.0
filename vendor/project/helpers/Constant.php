@@ -122,14 +122,14 @@ class Constant
     }
 
     /**
-     * 基础场站类型
+     * 场站上线
      * @return array
      */
-    public static function baseFieldStatus()
+    public static function fieldOnline()
     {
         return [
-            1 => '待转化',
-            2 => '已转化'
+            1 => '未上线',
+            2 => '已上线'
         ];
     }
 

@@ -238,7 +238,7 @@ class EnField extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
-        if (in_array($this->status, [1, 2])) {
+        if (in_array($this->status, [1, 2]) && !isset($changedAttributes['online'])) {
             Yii::$app->cache->set('FieldIntro-' . $this->id, $this->intro);
         }
     }
@@ -525,7 +525,7 @@ class EnField extends \yii\db\ActiveRecord
     {
         $data = self::find()->alias('f')
             ->leftJoin(EnUser::tableName() . ' u', 'u.id=f.local_id')
-            ->where(['f.status' => 5])
+            ->where(['f.status' => [1, 2, 3, 4, 5]])
             ->select(['f.no', 'f.name', 'f.address', 'u.tel as local', 'f.online'])
             ->page([
                 'content' => ['like', 'f.no', 'f.name', 'f.address', 'u.tel'],

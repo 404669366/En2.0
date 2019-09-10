@@ -35,6 +35,13 @@
         </div>
     </div>
 </div>
+<div class="wait" style="display: none">
+    <div style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: 999;background: rgba(0,0,0,0.06);display: table">
+        <span style="display: table-cell;vertical-align: middle;text-align: center">
+            <img src="/img/loading.gif" style="width: 3rem;height: 3rem">
+        </span>
+    </div>
+</div>
 <script>
     myTable.load({
         table: '#table',
@@ -62,9 +69,9 @@
                 "data": "no", "orderable": false, "render": function (data, type, row) {
                 var btn = '';
                 if (row.online === '未上线') {
-                    btn = '<a class="btn btn-sm btn-info" href="/pile/field/up?no=' + data + '">上线</a>';
+                    btn = '<button class="btn btn-sm btn-info do" data-url="/pile/field/up?no=' + data + '">上线</button>';
                 } else {
-                    btn = '<a class="btn btn-sm btn-warning" href="/pile/field/down?no=' + data + '">下线</a>'
+                    btn = '<button class="btn btn-sm btn-warning do" data-url="/pile/field/down?no=' + data + '">下线</button>'
                 }
                 return btn;
             }
@@ -73,4 +80,9 @@
         default_order: [0, 'desc']
     });
     myTable.search();
+
+    $('#table').on('click', '.do', function () {
+        $('.wait').show();
+        window.location.href = $(this).data('url');
+    });
 </script>

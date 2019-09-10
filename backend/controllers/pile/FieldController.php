@@ -43,7 +43,7 @@ class FieldController extends CommonController
     public function actionUp($no = '')
     {
         Msg::set('非法操作');
-        if ($model = EnField::findOne(['no' => $no, 'status' => 5, 'online' => 1])) {
+        if ($model = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5], 'online' => 1])) {
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 $data = [
@@ -67,7 +67,14 @@ class FieldController extends CommonController
                     throw new Exception('推送信息失败');
                 }
                 $model->online = 2;
+                $model->intro = '111';
                 if (!$model->save()) {
+                    $data = [
+                        'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
+                        'table_id' => '5d490255d31eea5b7b36b922',
+                        'filter' => 'ud_id=' . $no
+                    ];
+                    Helper::curlPost('https://apis.map.qq.com/place_cloud/data/delete', $data, true);
                     throw new Exception('状态更新失败');
                 }
                 Msg::set('上线成功');
@@ -88,7 +95,7 @@ class FieldController extends CommonController
     public function actionDown($no = '')
     {
         Msg::set('非法操作');
-        if ($model = EnField::findOne(['no' => $no, 'status' => 5, 'online' => 2])) {
+        if ($model = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5], 'online' => 2])) {
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 $data = [
@@ -102,7 +109,24 @@ class FieldController extends CommonController
                     throw new Exception('推送信息失败');
                 }
                 $model->online = 1;
+                $model->intro = '111';
                 if (!$model->save()) {
+                    $data = [
+                        'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
+                        'table_id' => '5d490255d31eea5b7b36b922',
+                        'data' => [
+                            [
+                                'ud_id' => $model->no,
+                                'title' => $model->name,
+                                'address' => $model->address,
+                                'location' => [
+                                    'lat' => (float)$model->lat,
+                                    'lng' => (float)$model->lng,
+                                ]
+                            ]
+                        ]
+                    ];
+                    Helper::curlPost('https://apis.map.qq.com/place_cloud/data/create', $data, true);
                     throw new Exception('状态更新失败');
                 }
                 Msg::set('下线成功');

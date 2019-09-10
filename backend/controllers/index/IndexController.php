@@ -22,7 +22,7 @@ class IndexController extends AuthController
         $data['tel'] = \Yii::$app->user->getIdentity()->tel;
         $job = EnJob::findOne(\Yii::$app->user->getIdentity()->job_id);
         $data['job'] = $job ? $job->name : 'root';
-        $data['company'] = $job ? $job->company->name : '----';
+        $data['company'] = $job ? $job->company->name : '系统账户';
         $data['logo'] = $job ? $job->company->logo : '/img/profile_small.jpg';
         $data['menus'] = EnPower::getUserMenus();
         return $this->render('index', ['data' => $data]);

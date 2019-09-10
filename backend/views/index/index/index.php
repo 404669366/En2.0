@@ -26,7 +26,7 @@ $this->beginPage();
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
-                    <div class="dropdown">
+                    <div class="dropdown" style="margin: 0.5rem 0">
                         <img alt="image" class="img-circle imgPre" src="<?= $data['logo'] ?>"/>
                         <span class="text-muted text-xs block" style="margin-top: 0.4rem">
                             <?= $data['company'] ?>

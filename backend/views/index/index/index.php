@@ -26,20 +26,22 @@ $this->beginPage();
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle imgPre" src="/img/profile_small.jpg"/></span>
-                        <a data-toggle="dropdown" class="dropdown-toggle">
-                            <span class="clear" style="margin-top: 0.6rem">
-                                <span class="text-muted text-xs block">
-                                    <strong class="font-bold">
-                                        <?= $data['tel'] ?>
-                                    </strong>
-                                    <b class="caret"></b>
-                                </span>
-                            </span>
-                        </a>
+                    <div class="dropdown">
+                        <img alt="image" class="img-circle imgPre" src="<?= $data['logo'] ?>"/>
+                        <span class="text-muted text-xs block" style="margin-top: 0.4rem">
+                            <?= $data['company'] ?>
+                        </span>
+                        <span class="text-muted text-xs block">
+                            <?= $data['job'] ?>
+                        </span>
+                        <span class="text-muted text-xs block dropdown-toggle" data-toggle="dropdown">
+                            <strong class="font-bold"><?= $data['tel'] ?></strong>
+                            <b class="caret"></b>
+                        </span>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs updatePasswordBox">
-                            <li><a class="J_menuItem updatePassword" href="/<?= Yii::$app->params['updateRoute'] ?>">修改密码</a></li>
+                            <li>
+                                <a class="J_menuItem updatePassword" href="/<?= Yii::$app->params['updateRoute'] ?>">修改密码</a>
+                            </li>
                         </ul>
                         <script>
                             $('.updatePassword').click(function () {

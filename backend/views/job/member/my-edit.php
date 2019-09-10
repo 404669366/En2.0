@@ -2,7 +2,7 @@
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
             <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-            <input type="hidden" name="company_id" value="<?= Yii::$app->user->identity->company_id ?>">
+            <input type="hidden" name="company_id" value="<?= \vendor\project\base\EnMember::getCompanyId() ?>">
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">手机号</label>

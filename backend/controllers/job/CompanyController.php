@@ -11,6 +11,7 @@ namespace app\controllers\job;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnCompany;
+use vendor\project\base\EnMember;
 use vendor\project\base\EnPower;
 use vendor\project\helpers\Msg;
 
@@ -67,7 +68,7 @@ class CompanyController extends CommonController
      */
     public function actionMy()
     {
-        if ($company_id = \Yii::$app->user->identity->company_id) {
+        if ($company_id = EnMember::getCompanyId()) {
             $model = EnCompany::findOne($company_id);
             $model->intro = \Yii::$app->cache->get('CompanyIntro_' . $model->id);
             if (\Yii::$app->request->isPost) {

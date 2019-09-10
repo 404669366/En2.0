@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "en_job".
  *
  * @property string $id
- * @property string $company_id 公司id 0本部公司
+ * @property string $company_id 公司id
  * @property string $name 职位名
  * @property string $powers 拥有权限
  * @property string $remark 备注
@@ -29,26 +29,12 @@ class EnJob extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'powers', 'company_id'], 'required'],
+            [['name', 'company_id', 'powers'], 'required'],
             [['name'], 'validateName'],
             [['company_id'], 'integer'],
             [['name'], 'string', 'max' => 30],
             [['powers'], 'string', 'max' => 1000],
             [['remark'], 'string', 'max' => 255],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'company_id' => '公司id 0本部公司',
-            'name' => '职位名',
-            'powers' => '拥有权限',
-            'remark' => '备注',
         ];
     }
 
@@ -64,11 +50,28 @@ class EnJob extends \yii\db\ActiveRecord
         }
     }
 
-    public function afterSave($insert, $changedAttributes)
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
     {
-        if (!$insert && isset($changedAttributes['company_id'])) {
-            EnMember::updateAll(['company_id' => $this->company_id], ['job_id' => $this->id]);
-        }
+        return [
+            'id' => 'ID',
+            'company_id' => '公司',
+            'name' => '职位',
+            'powers' => '权限',
+            'remark' => '备注',
+        ];
+    }
+
+    /**
+     * 管理公司表
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCompany()
+    {
+        return $this->hasOne(EnCompany::class, ['id' => 'company_id']);
     }
 
     /**
@@ -86,9 +89,6 @@ class EnJob extends \yii\db\ActiveRecord
             ]);
         foreach ($data['data'] as &$v) {
             $v['powers'] = EnPower::getPowerName($v['powers']);
-            if (!$v['company']) {
-                $v['company'] = '本部公司';
-            }
         }
         return $data;
     }
@@ -99,7 +99,7 @@ class EnJob extends \yii\db\ActiveRecord
      */
     public static function getMyPageData()
     {
-        $data = self::find()->where(['company_id' => Yii::$app->user->identity->company_id])
+        $data = self::find()->where(['company_id' => EnMember::getCompanyId()])
             ->page(['name' => ['like', 'j.name']]);
         foreach ($data['data'] as &$v) {
             $v['powers'] = EnPower::getPowerName($v['powers']);

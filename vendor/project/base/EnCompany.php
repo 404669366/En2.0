@@ -96,10 +96,8 @@ class EnCompany extends \yii\db\ActiveRecord
      */
     public static function getCompany()
     {
-        $data = self::find()->select(['id', 'name'])
+        return self::find()->select(['id', 'name'])
             ->orderBy('id asc')
             ->asArray()->all();
-        array_unshift($data, ['id' => 0, 'name' => '本部公司']);
-        return $data;
     }
 }

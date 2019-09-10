@@ -16,6 +16,7 @@
                 <label class="col-sm-2 control-label">归属公司</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="company_id">
+                        <option value="">--请选择--</option>
                         <?php foreach ($company as $v): ?>
                             <option <?= $model->company_id == $v['id'] ? 'selected' : '' ?>
                                     value="<?= $v['id'] ?>"><?= $v['name'] ?></option>

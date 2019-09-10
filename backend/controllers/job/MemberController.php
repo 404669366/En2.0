@@ -45,11 +45,14 @@ class MemberController extends CommonController
     public function actionEdit($id = 0)
     {
         $model = EnMember::findOne($id);
+        $company = EnMember::getCompanyId($id);
         if (!$model) {
             $model = new EnMember();
+            $company = 0;
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
+            $company = $post['company_id'];
             $model->load(['EnMember' => $post]);
             if ($post['passwordA']) {
                 Msg::set('密码最少6位');
@@ -72,7 +75,8 @@ class MemberController extends CommonController
         return $this->render('edit', [
             'model' => $model,
             'company' => EnCompany::getCompany(),
-            'job' => EnJob::getJob($model->company_id ?: 0)
+            'now' => $company,
+            'job' => $company ? EnJob::getJob($company) : [],
         ]);
     }
 
@@ -83,7 +87,7 @@ class MemberController extends CommonController
      */
     public function actionGetJobs($company_id = 0)
     {
-        return $this->rJson(EnJob::getJob($company_id));
+        return $this->rJson($company_id ? EnJob::getJob($company_id) : []);
     }
 
     /**
@@ -92,7 +96,11 @@ class MemberController extends CommonController
      */
     public function actionMyList()
     {
-        return $this->render('my-list');
+        if (EnMember::getCompanyId()) {
+            return $this->render('my-list');
+        }
+        Msg::set('非法操作');
+        return $this->redirect(['index/index/first']);
     }
 
     /**
@@ -138,7 +146,7 @@ class MemberController extends CommonController
         }
         return $this->render('my-edit', [
             'model' => $model,
-            'job' => EnJob::getJob(\Yii::$app->user->identity->company_id)
+            'job' => EnJob::getJob(EnMember::getCompanyId())
         ]);
     }
 }

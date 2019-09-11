@@ -45,14 +45,11 @@ class MemberController extends CommonController
     public function actionEdit($id = 0)
     {
         $model = EnMember::findOne($id);
-        $company = EnMember::getCompanyId($id);
         if (!$model) {
             $model = new EnMember();
-            $company = 0;
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
-            $company = $post['company_id'];
             $model->load(['EnMember' => $post]);
             if ($post['passwordA']) {
                 Msg::set('密码最少6位');
@@ -75,8 +72,7 @@ class MemberController extends CommonController
         return $this->render('edit', [
             'model' => $model,
             'company' => EnCompany::getCompany(),
-            'now' => $company,
-            'job' => $company ? EnJob::getJob($company) : [],
+            'job' => EnJob::getJobByCompany($model->company_id),
         ]);
     }
 
@@ -87,7 +83,7 @@ class MemberController extends CommonController
      */
     public function actionGetJobs($company_id = 0)
     {
-        return $this->rJson($company_id ? EnJob::getJob($company_id) : []);
+        return $this->rJson(EnJob::getJobByCompany($company_id));
     }
 
     /**
@@ -96,11 +92,7 @@ class MemberController extends CommonController
      */
     public function actionMyList()
     {
-        if (EnMember::getCompanyId()) {
-            return $this->render('my-list');
-        }
-        Msg::set('非法操作');
-        return $this->redirect(['index/index/first']);
+        return $this->render('my-list');
     }
 
     /**
@@ -122,6 +114,7 @@ class MemberController extends CommonController
         $model = EnMember::findOne($id);
         if (!$model) {
             $model = new EnMember();
+            $model->company_id = \Yii::$app->user->identity->company_id;
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
@@ -146,7 +139,7 @@ class MemberController extends CommonController
         }
         return $this->render('my-edit', [
             'model' => $model,
-            'job' => EnJob::getJob(EnMember::getCompanyId())
+            'job' => EnJob::getJobByCompany($model->company_id)
         ]);
     }
 }

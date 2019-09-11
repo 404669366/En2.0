@@ -18,9 +18,30 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
+                <label class="col-sm-2 control-label">公司简称</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="abridge" value="<?= $model->abridge ?>">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label">公司地址</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="address" value="<?= $model->address ?>">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">对公账户</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="account" value="<?= $model->account ?>">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">开户银行</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="bank" value="<?= $model->bank ?>">
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -41,7 +62,52 @@
                 </div>
                 <script>
                     $('.summernote').summernote({lang: "zh-CN", height: 500});
-                    $('.summernote').summernote('code', `<?=$model->intro?>`);
+                    $('.summernote').summernote('code', `<?=$model->getIntro()?>`);
+                </script>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">营业执照</label>
+                <div class="col-sm-8">
+                    <div class="license"></div>
+                </div>
+                <script>
+                    uploadImg('.license', 'license', '<?= $model->license ?>', false, 1);
+                </script>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">法人手机号</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="legal" value="<?= $model->legal ?>">
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">法人身份证正反面</label>
+                <div class="col-sm-8">
+                    <div class="legal_card"></div>
+                </div>
+                <script>
+                    uploadImg('.legal_card', 'legal_card', '<?= $model->legal_card ?>', false, 2);
+                </script>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">管理员手机号</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="admin" value="<?= $model->admin ?>">
+                    <small style="color: red">* 将自动生成一个管理员账号(默认密码手机号后六位,修改此项旧管理员账户将被删除)</small>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">管理员身份证正反面</label>
+                <div class="col-sm-8">
+                    <div class="admin_card"></div>
+                </div>
+                <script>
+                    uploadImg('.admin_card', 'admin_card', '<?= $model->admin_card ?>', false, 2);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>

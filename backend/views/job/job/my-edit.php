@@ -4,7 +4,6 @@
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
             <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-            <input type="hidden" name="company_id" value="<?= $model->company_id ?>">
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">职位名称</label>

@@ -29,7 +29,7 @@ class EnJob extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'company_id', 'powers'], 'required'],
+            [['name', 'company_id'], 'required'],
             [['name'], 'validateName'],
             [['company_id'], 'integer'],
             [['name'], 'string', 'max' => 30],
@@ -99,8 +99,8 @@ class EnJob extends \yii\db\ActiveRecord
      */
     public static function getMyPageData()
     {
-        $data = self::find()->where(['company_id' => EnMember::getCompanyId()])
-            ->page(['name' => ['like', 'j.name']]);
+        $data = self::find()->where(['company_id' => \Yii::$app->user->identity->company_id])
+            ->page(['name' => ['like', 'name']]);
         foreach ($data['data'] as &$v) {
             $v['powers'] = EnPower::getPowerName($v['powers']);
         }
@@ -112,7 +112,7 @@ class EnJob extends \yii\db\ActiveRecord
      * @param int $company_id
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getJob($company_id = 0)
+    public static function getJobByCompany($company_id)
     {
         return self::find()->where(['company_id' => $company_id])
             ->select(['id', 'name', 'remark'])

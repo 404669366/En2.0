@@ -12,7 +12,6 @@ namespace app\controllers\job;
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnCompany;
 use vendor\project\base\EnJob;
-use vendor\project\base\EnMember;
 use vendor\project\base\EnPower;
 use vendor\project\helpers\Msg;
 
@@ -58,7 +57,7 @@ class JobController extends CommonController
         return $this->render('edit', [
             'model' => $model,
             'company' => EnCompany::getCompany(),
-            'powers' => json_encode($model->company_id ? EnPower::getTreeData($model->company_id) : [])
+            'powers' => json_encode(EnPower::getPowersDataByCompany($model->company_id))
         ]);
     }
 
@@ -69,7 +68,7 @@ class JobController extends CommonController
      */
     public function actionGetPowers($company_id = 0)
     {
-        return $this->rJson($company_id ? EnPower::getTreeData($company_id) : []);
+        return $this->rJson(EnPower::getPowersDataByCompany($company_id));
     }
 
     /**
@@ -78,11 +77,7 @@ class JobController extends CommonController
      */
     public function actionMyList()
     {
-        if (EnMember::getCompanyId()) {
-            return $this->render('my-list');
-        }
-        Msg::set('非法操作');
-        return $this->redirect(['index/index/first']);
+        return $this->render('my-list');
     }
 
     /**
@@ -104,7 +99,7 @@ class JobController extends CommonController
         $model = EnJob::findOne($id);
         if (!$model) {
             $model = new EnJob();
-            $model->company_id = EnMember::getCompanyId();
+            $model->company_id = \Yii::$app->user->identity->company_id;
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
@@ -116,7 +111,7 @@ class JobController extends CommonController
         }
         return $this->render('my-edit', [
             'model' => $model,
-            'powers' => json_encode(EnPower::getTreeData($model->company_id))
+            'powers' => json_encode(EnPower::getPowersDataByCompany($model->company_id))
         ]);
     }
 }

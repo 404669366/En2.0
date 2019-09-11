@@ -105,51 +105,63 @@ class EnPower extends \yii\db\ActiveRecord
     }
 
     /**
-     * 返回权限树类型数据
-     * @param int $company_id
-     * @return $this|array|\yii\db\ActiveRecord[]
+     * 根据用户返回权限信息
+     * @param int $uid
+     * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getTreeData($company_id = 0)
+    public static function getPowersDataByUser($uid)
     {
-
         $data = self::find()->select(['id', 'name as title', 'last_id as pid']);
-        if ($powers = EnCompany::findOne($company_id)) {
-            $data->where(['id' => explode(',', $powers->powers)]);
+        $user = EnMember::findOne($uid);
+        if ($user->company_id && $user->job_id) {
+            $data->where(['id' => explode(',', $user->job->powers)]);
+        }
+        if ($user->company_id && !$user->job_id) {
+            $data->where(['id' => explode(',', $user->company->powers)]);
         }
         return $data->orderBy('sort asc')->asArray()->all();
     }
 
     /**
-     * 权限验证
-     * @return array|bool|null|\yii\db\ActiveRecord
+     * 根据公司返回权限信息
+     * @param int $company_id
+     * @return array|\yii\db\ActiveRecord[]
      */
-    public static function pass()
+    public static function getPowersDataByCompany($company_id)
     {
-        $job_id = Yii::$app->user->identity->job_id;
-        if ($job_id) {
-            if ($rule = self::findOne(['url' => '/' . Yii::$app->controller->getRoute()])) {
-                return EnJob::find()->where(['id' => $job_id])
-                    ->andWhere('find_in_set(' . $rule->id . ',powers)')
-                    ->one();
-            }
-        }
-        return true;
+        $company = EnCompany::findOne($company_id);
+        return self::find()->select(['id', 'name as title', 'last_id as pid'])
+            ->where(['id' => explode(',', $company ? $company->powers : '')])
+            ->orderBy('sort asc')
+            ->asArray()->all();
+
     }
 
     /**
-     * 返回当前用户权限
+     * 根据职位返回权限信息
+     * @param int $job_id
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getUserPowers()
+    public static function getPowersDataByJob($job_id)
     {
-        $job_id = Yii::$app->user->identity->job_id;
-        if ($job_id) {
-            $rule = explode(',', EnJob::findOne($job_id)->powers);
-        } else {
-            $rule = self::find()->select(['id'])->asArray()->all();
-            $rule = array_column($rule, 'id');
+        $job = EnCompany::findOne($job_id);
+        return self::find()->select(['id', 'name as title', 'last_id as pid'])
+            ->where(['id' => explode(',', $job ? $job->powers : '')])
+            ->orderBy('sort asc')
+            ->asArray()->all();
+    }
+
+    /**
+     * 权限验证
+     * @return bool
+     */
+    public static function pass()
+    {
+        if ($rule = self::findOne(['url' => '/' . Yii::$app->controller->getRoute()])) {
+            $have = array_column(self::getPowersDataByUser(Yii::$app->user->id), 'id');
+            return in_array($rule->id, $have);
         }
-        return $rule;
+        return true;
     }
 
     /**
@@ -159,7 +171,8 @@ class EnPower extends \yii\db\ActiveRecord
     public static function getUserMenus()
     {
         $str = '';
-        if ($rule = self::getUserPowers()) {
+        if ($rule = self::getPowersDataByUser(Yii::$app->user->id)) {
+            $rule = array_column($rule, 'id');
             $firstMenu = self::find()->where(['id' => $rule, 'last_id' => 0, 'type' => 1])->select(['id', 'name'])->orderBy('sort asc')->asArray()->all();
             foreach ($firstMenu as $v1) {
                 $str .= '<li><a href="#"><span class="nav-label">' . $v1['name'] . '</span><span class="fa arrow"></span></a><ul class="nav nav-second-level collapse">';

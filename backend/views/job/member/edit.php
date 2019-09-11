@@ -23,7 +23,7 @@
                     <select class="form-control" name="company_id">
                         <option value="">--请选择--</option>
                         <?php foreach ($company as $v): ?>
-                            <option <?= $now == $v['id'] ? 'selected' : '' ?>
+                            <option <?= $model->company_id == $v['id'] ? 'selected' : '' ?>
                                     value="<?= $v['id'] ?>"><?= $v['name'] ?></option>
                         <?php endforeach; ?>
                     </select>

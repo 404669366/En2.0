@@ -11,7 +11,6 @@ namespace app\controllers\job;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnCompany;
-use vendor\project\base\EnMember;
 use vendor\project\base\EnPower;
 use vendor\project\helpers\Msg;
 
@@ -45,8 +44,7 @@ class CompanyController extends CommonController
         $model = EnCompany::findOne($id);
         if (!$model) {
             $model = new EnCompany();
-        } else {
-            $model->intro = \Yii::$app->cache->get('CompanyIntro_' . $model->id);
+            $model->created_at = time();
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
@@ -58,7 +56,7 @@ class CompanyController extends CommonController
         }
         return $this->render('edit', [
             'model' => $model,
-            'powers' => json_encode(EnPower::getTreeData())
+            'powers' => json_encode(EnPower::getPowersDataByUser(\Yii::$app->user->id))
         ]);
     }
 
@@ -68,9 +66,7 @@ class CompanyController extends CommonController
      */
     public function actionMy()
     {
-        if ($company_id = EnMember::getCompanyId()) {
-            $model = EnCompany::findOne($company_id);
-            $model->intro = \Yii::$app->cache->get('CompanyIntro_' . $model->id);
+        if ($model = EnCompany::findOne(\Yii::$app->user->identity->company_id)) {
             if (\Yii::$app->request->isPost) {
                 $post = \Yii::$app->request->post();
                 if ($model->load(['EnCompany' => $post]) && $model->validate() && $model->save()) {

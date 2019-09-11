@@ -9,6 +9,7 @@ use yii\web\IdentityInterface;
  * This is the model class for table "en_member".
  *
  * @property string $id
+ * @property string $company_id 公司id
  * @property string $job_id 职位id
  * @property string $tel 手机号
  * @property string $password 密码
@@ -30,7 +31,7 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['tel'], 'unique'],
-            [['tel', 'job_id', 'password'], 'required'],
+            [['tel', 'company_id', 'job_id', 'password'], 'required'],
             [
                 'tel',
                 'match',
@@ -38,7 +39,7 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
                 'message' => '手机号格式不正确'
             ],
             [['password'], 'validatePassword'],
-            [['job_id'], 'integer'],
+            [['job_id', 'company_id'], 'integer'],
             [['tel'], 'string', 'max' => 11],
             [['password'], 'string', 'max' => 80],
         ];
@@ -51,6 +52,7 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
+            'company_id' => '公司',
             'job_id' => '职位',
             'tel' => '手机号',
             'password' => '密码',
@@ -76,6 +78,15 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * 关联company表
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCompany()
+    {
+        return $this->hasOne(EnCompany::class, ['id' => 'company_id']);
+    }
+
+    /**
      * 用户管理分页数据
      * @return mixed
      */
@@ -83,8 +94,8 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return self::find()->alias('m')
             ->leftJoin(EnJob::tableName() . ' j', 'm.job_id=j.id')
-            ->leftJoin(EnCompany::tableName() . ' c', 'j.company_id=c.id')
-            ->where(['<>', 'm.job_id', 0])
+            ->leftJoin(EnCompany::tableName() . ' c', 'm.company_id=c.id')
+            ->where(['<>', 'm.company_id', 0])
             ->select(['m.*', 'j.name as job', 'c.name as company'])
             ->page([
                 'tel' => ['like', 'm.tel'],
@@ -100,24 +111,12 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return self::find()->alias('m')
             ->leftJoin(EnJob::tableName() . ' j', 'm.job_id=j.id')
-            ->where(['<>', 'm.job_id', 0])
-            ->andWhere(['j.company_id' => self::getCompanyId()])
+            ->where(['m.company_id' => Yii::$app->user->identity->company_id])
+            ->andWhere(['<>', 'm.job_id', 0])
             ->select(['m.*', 'j.name as job'])
             ->page([
                 'tel' => ['like', 'm.tel'],
             ]);
-    }
-
-    /**
-     * 获取用户公司id
-     * @param int $uid
-     * @return int
-     */
-    public static function getCompanyId($uid = 0)
-    {
-        $uid = $uid ?: Yii::$app->user->id;
-        $user = self::find()->where(['id' => $uid])->andWhere(['<>', 'job_id', 0])->one();
-        return $user ? $user->job->company->id : 0;
     }
 
     /**

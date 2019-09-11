@@ -11,6 +11,7 @@ namespace app\controllers\index;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnJob;
+use vendor\project\base\EnMember;
 use vendor\project\base\EnPower;
 
 class IndexController extends AuthController
@@ -19,11 +20,11 @@ class IndexController extends AuthController
     public function actionIndex()
     {
         $this->layout = false;
-        $data['tel'] = \Yii::$app->user->getIdentity()->tel;
-        $job = EnJob::findOne(\Yii::$app->user->getIdentity()->job_id);
-        $data['job'] = $job ? $job->name : 'root';
-        $data['company'] = $job ? $job->company->name : '系统账户';
-        $data['logo'] = $job ? $job->company->logo : '/img/profile_small.jpg';
+        $user = EnMember::findOne(\Yii::$app->user->id);
+        $data['tel'] = $user->tel;
+        $data['job'] = $user->job_id ? $user->job->name : '管理员';
+        $data['company'] = $user->company_id ? $user->company->name : '系统账户';
+        $data['logo'] = $user->company_id ? $user->company->logo : '/img/profile_small.jpg';
         $data['menus'] = EnPower::getUserMenus();
         return $this->render('index', ['data' => $data]);
     }

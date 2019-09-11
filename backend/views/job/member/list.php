@@ -47,10 +47,20 @@
             {"data": "id"},
             {"data": "tel"},
             {"data": "company"},
-            {"data": "job"},
+            {
+                "data": "job", "render": function (data, type, row) {
+                if (!data) {
+                    return '管理员';
+                }
+                return data;
+            }
+            },
             {
                 "data": "id", "orderable": false, "render": function (data, type, row) {
-                return '<a class="btn btn-sm btn-warning" href="/job/member/edit?id=' + data + '">修改</a>';
+                if (row.job) {
+                    return '<a class="btn btn-sm btn-warning" href="/job/member/edit?id=' + data + '">修改</a>';
+                }
+                return '';
             }
             }
         ],

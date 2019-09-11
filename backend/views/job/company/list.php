@@ -4,7 +4,7 @@
             <div class="row tableSearchBox">
                 <div class="col-sm-10">
                     <span class="tableSpan">
-                        公司名称: <input class="searchField" type="text" value="" name="name">
+                        综合搜索: <input class="searchField" type="text" value="" name="key" placeholder="名称/简称/法人/管理员">
                     </span>
                     <span class="tableSpan">
                         <button class="tableSearch">搜索</button>
@@ -20,8 +20,9 @@
                 <tr role="row">
                     <th>ID</th>
                     <th>公司名称</th>
-                    <th>公司Logo</th>
-                    <th>公司地址</th>
+                    <th>公司简称</th>
+                    <th>公司法人</th>
+                    <th>管理员</th>
                     <th>拥有权限</th>
                     <th>操作</th>
                 </tr>
@@ -42,16 +43,9 @@
                 return linFeed(data);
             }
             },
-            {
-                "data": "logo", "render": function (data, type, row) {
-                return '<img style="height: 4rem;display: block;margin: 0 auto" src="' + data + '"/>';
-            }
-            },
-            {
-                "data": "address", "render": function (data, type, row) {
-                return linFeed(data, 25);
-            }
-            },
+            {"data": "abridge"},
+            {"data": "legal"},
+            {"data": "admin"},
             {
                 "data": "powers", "render": function (data, type, row) {
                 return linFeed(data.join(','));

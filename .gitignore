@@ -1,13 +1,17 @@
 /backend/config/params.php
 /charge/config/params.php
 /pc/config/params.php
+/mp/config/params.php
 /backend/web/index.php
 /charge/web/index.php
 /pc/web/index.php
+/mp/web/index.php
 /backend/runtime/
 /charge/runtime/
 /pc/runtime/
+/mp/runtime/
 /backend/web/assets/
 /charge/web/assets/
 /pc/web/assets/
+/mp/web/assets/
 .idea/

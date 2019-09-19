@@ -1,0 +1,181 @@
+2019-09-19 17:43:23 [127.0.0.1][-][-][warning][yii\web\Session::init] Session is already started
+2019-09-19 17:43:23 [127.0.0.1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_ga' => 'GA1.2.1628367015.1565235611'
+]
+
+$_SESSION = [
+    '__flash' => []
+]
+
+$_SERVER = [
+    'PATH' => 'D:\\APP\\xshell\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\APP\\Git\\cmd;C:\\ProgramData\\ComposerSetup\\bin;D:\\APP\\phpStudy\\PHPTutorial\\tools\\composer;C:\\Users\\miku\\Desktop\\php-7.0.30-ts;C:\\Users\\miku\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\miku\\AppData\\Roaming\\Composer\\vendor\\bin'
+    'SYSTEMROOT' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'PHP_FCGI_MAX_REQUESTS' => '1000'
+    'PHPRC' => 'D:/APP/phpStudy/PHPTutorial/php/php-7.2.1-nts/'
+    '_FCGI_SHUTDOWN_EVENT_' => '2172'
+    'SCRIPT_NAME' => '/index.php'
+    'REQUEST_URI' => '/'
+    'QUERY_STRING' => ''
+    'REQUEST_METHOD' => 'GET'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REMOTE_PORT' => '61838'
+    'SCRIPT_FILENAME' => 'D:/work/en2.0/mp/web/index.php'
+    'SERVER_ADMIN' => 'admin@php.cn'
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/work/en2.0/mp/web'
+    'CONTEXT_PREFIX' => ''
+    'REQUEST_SCHEME' => 'http'
+    'DOCUMENT_ROOT' => 'D:/work/en2.0/mp/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_NAME' => 'mp.en.com'
+    'SERVER_SOFTWARE' => 'Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9'
+    'SERVER_SIGNATURE' => ''
+    'SystemRoot' => 'C:\\WINDOWS'
+    'HTTP_COOKIE' => '_ga=GA1.2.1628367015.1565235611'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.8'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 UBrowser/6.2.4098.3 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'mp.en.com'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1568886203.2362
+    'REQUEST_TIME' => 1568886203
+]
+2019-09-19 17:43:24 [127.0.0.1][-][-][warning][yii\web\Session::init] Session is already started
+2019-09-19 17:43:24 [127.0.0.1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_ga' => 'GA1.2.1628367015.1565235611'
+    'PHPSESSID' => 'q9lptc2rnu3c2du736mqvln02o'
+    'message-size' => '0.5rem'
+]
+
+$_SESSION = [
+    '__flash' => []
+]
+
+$_SERVER = [
+    'PATH' => 'D:\\APP\\xshell\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\APP\\Git\\cmd;C:\\ProgramData\\ComposerSetup\\bin;D:\\APP\\phpStudy\\PHPTutorial\\tools\\composer;C:\\Users\\miku\\Desktop\\php-7.0.30-ts;C:\\Users\\miku\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\miku\\AppData\\Roaming\\Composer\\vendor\\bin'
+    'SYSTEMROOT' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'PHP_FCGI_MAX_REQUESTS' => '1000'
+    'PHPRC' => 'D:/APP/phpStudy/PHPTutorial/php/php-7.2.1-nts/'
+    '_FCGI_SHUTDOWN_EVENT_' => '2172'
+    'SCRIPT_NAME' => '/index.php'
+    'REQUEST_URI' => '/basis/error/no-wx.html'
+    'QUERY_STRING' => ''
+    'REQUEST_METHOD' => 'GET'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REDIRECT_URL' => '/basis/error/no-wx.html'
+    'REMOTE_PORT' => '61838'
+    'SCRIPT_FILENAME' => 'D:/work/en2.0/mp/web/index.php'
+    'SERVER_ADMIN' => 'admin@php.cn'
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/work/en2.0/mp/web'
+    'CONTEXT_PREFIX' => ''
+    'REQUEST_SCHEME' => 'http'
+    'DOCUMENT_ROOT' => 'D:/work/en2.0/mp/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_NAME' => 'mp.en.com'
+    'SERVER_SOFTWARE' => 'Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9'
+    'SERVER_SIGNATURE' => ''
+    'SystemRoot' => 'C:\\WINDOWS'
+    'HTTP_COOKIE' => '_ga=GA1.2.1628367015.1565235611; PHPSESSID=q9lptc2rnu3c2du736mqvln02o; message-size=0.5rem'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.8'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 UBrowser/6.2.4098.3 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'mp.en.com'
+    'REDIRECT_STATUS' => '200'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1568886204.3711
+    'REQUEST_TIME' => 1568886204
+]
+2019-09-19 17:43:30 [127.0.0.1][-][-][warning][yii\web\Session::init] Session is already started
+2019-09-19 17:43:30 [127.0.0.1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_ga' => 'GA1.2.1628367015.1565235611'
+    'PHPSESSID' => 'q9lptc2rnu3c2du736mqvln02o'
+    'message-size' => '0.5rem'
+    'message-data' => ''
+]
+
+$_SESSION = [
+    '__flash' => []
+]
+
+$_SERVER = [
+    'PATH' => 'D:\\APP\\xshell\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\APP\\Git\\cmd;C:\\ProgramData\\ComposerSetup\\bin;D:\\APP\\phpStudy\\PHPTutorial\\tools\\composer;C:\\Users\\miku\\Desktop\\php-7.0.30-ts;C:\\Users\\miku\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\miku\\AppData\\Roaming\\Composer\\vendor\\bin'
+    'SYSTEMROOT' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'PHP_FCGI_MAX_REQUESTS' => '1000'
+    'PHPRC' => 'D:/APP/phpStudy/PHPTutorial/php/php-7.2.1-nts/'
+    '_FCGI_SHUTDOWN_EVENT_' => '2172'
+    'SCRIPT_NAME' => '/index.php'
+    'REQUEST_URI' => '/basis/error/no-wx.html'
+    'QUERY_STRING' => ''
+    'REQUEST_METHOD' => 'GET'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REDIRECT_URL' => '/basis/error/no-wx.html'
+    'REMOTE_PORT' => '61838'
+    'SCRIPT_FILENAME' => 'D:/work/en2.0/mp/web/index.php'
+    'SERVER_ADMIN' => 'admin@php.cn'
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/work/en2.0/mp/web'
+    'CONTEXT_PREFIX' => ''
+    'REQUEST_SCHEME' => 'http'
+    'DOCUMENT_ROOT' => 'D:/work/en2.0/mp/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'SERVER_NAME' => 'mp.en.com'
+    'SERVER_SOFTWARE' => 'Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9'
+    'SERVER_SIGNATURE' => ''
+    'SystemRoot' => 'C:\\WINDOWS'
+    'HTTP_COOKIE' => '_ga=GA1.2.1628367015.1565235611; PHPSESSID=q9lptc2rnu3c2du736mqvln02o; message-size=0.5rem; message-data='
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.8'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 UBrowser/6.2.4098.3 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'mp.en.com'
+    'REDIRECT_STATUS' => '200'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1568886210.0654
+    'REQUEST_TIME' => 1568886210
+]

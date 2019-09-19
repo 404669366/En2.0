@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-个人中心</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/center.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="carListTpl">
+        <p class="head_port"><img src="/img/head.jpg" alt=""></p>
+        <p class="nick_name">
+            {{=it.tel.replace(/(\d{3})(\d{4})(\d{4})/,"$1<b>****</b>$3")}}<!--<br><span>积分 78</span>-->
+        </p>
+        <p class="balance">{{=it.moneys[0]}}.<span>{{=it.moneys[1]}}</span></p>
+    </script>
+</head>
+<body>
+<div id="header">
+    <div class="headCard">
+        <div class="carList" id="carList"></div>
+        <script>window.html('carList', 'carListTpl', global);</script>
+        <div class="account">
+            <p data-url=""><span><i class="fa fa-ticket" aria-hidden="true"></i></span>申请开票</p>
+            <p data-url="/order/invest/invest.html"><span><i class="fa fa-jpy" aria-hidden="true"></i></span>前往充值</p>
+        </div>
+    </div>
+    <ul class="collect_list">
+        <li data-url="">
+            <p class="txt_red"><i class="fa fa-heart" aria-hidden="true"></i></p>
+            我的收藏
+        </li>
+        <li data-url="" class="comment">
+            <p class="txt_org"><i class="fa fa-commenting" aria-hidden="true"></i></p>
+            我的点评
+        </li>
+        <li data-url="/step/step/list.html">
+            <p class="txt_blue"><i class="fa fa-newspaper-o" aria-hidden="true"></i></p>
+            浏览记录
+        </li>
+    </ul>
+    <ul class="list">
+        <li data-url="/order/charge/list.html">
+            <span class="txt_blue"><i class="fa fa-list-alt" aria-hidden="true"></i></span>
+            我的订单
+            <span><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        </li>
+        <li data-url="/order/invest/list.html">
+            <span class="txt_golden"><i class="fa fa-database" aria-hidden="true"></i></span>
+            充值记录
+            <span><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        </li>
+        <li data-url="/c/c/hand.html">
+            <span class="txt_red"><i class="fa fa-plug" aria-hidden="true"></i></span>
+            手动充电
+            <span><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        </li>
+        <li data-url="/user/login/logout.html">
+            <span class="txt_gray"><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+            注销登录
+            <span><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        </li>
+        <li data-url="/problem/problem/problem.html">
+            <span class="txt_green"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+            <span class="other">
+                <span>常见问题<p>有疑问就找我们，客户在里面</p></span>
+            </span>
+            <span><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        </li>
+    </ul>
+</div>
+<ul class="footer">
+    <li data-url="/field/field/map.html">
+        <span><p><i class="fa fa-globe" aria-hidden="true"></i></p>发现</span>
+    </li>
+    <li data-url="/c/c/scan.html">
+        <p><img src="/img/scan.png"/></p>
+    </li>
+    <li data-url="/user/user/center.html" class="active">
+        <span><p><i class="fa fa-user-o" aria-hidden="true"></i></p>我的</span>
+    </li>
+</ul>
+</body>
+</html>

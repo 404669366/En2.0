@@ -169,6 +169,10 @@ window.load(function () {
         }
     });
 
+    $('.back').click(function () {
+        window.history.back(-1);
+    });
+
     window.showMsg($.cookie('message-data'));
     $.cookie('message-data', '', {path: '/'});
 

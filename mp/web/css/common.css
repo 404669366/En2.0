@@ -41,6 +41,7 @@ select:-webkit-autofill:active {
 
 body {
     overflow-x: hidden;
+    color: #4a4a4a;
 }
 
 .hide {
@@ -87,79 +88,6 @@ body {
     width: 20%;
 }
 
-.form {
-    width: 8rem;
-    font-size: 0.5rem;
-}
-
-.form > .form-group {
-    width: 8rem;
-    margin: 0 auto 0.4rem auto;
-    zoom: 1;
-}
-
-.form > .form-group:after {
-    clear: both;
-    display: block;
-    content: "";
-    visibility: hidden;
-    height: 0;
-}
-
-.form > .form-group:last-child {
-    margin: 0 auto;
-}
-
-.form > .form-group > .title {
-    width: 8rem;
-    height: 1.8rem;
-    line-height: 1.8rem;
-    text-align: center;
-    font-size: 0.7rem;
-}
-
-.form > .form-group > input {
-    width: 8rem;
-    height: 1.5rem;
-    line-height: 1.5rem;
-    font-size: 0.5rem;
-    text-indent: 0.1rem;
-    border-bottom: 1px solid silver;
-    margin-bottom: 0.2rem;
-}
-
-.form > .form-group > button {
-    width: 8rem;
-    height: 1.5rem;
-    line-height: 1.5rem;
-    border-radius: 0.04rem;
-    text-align: center;
-    font-size: 0.5rem;
-    color: #FFFFFF;
-    background: #00A8EC;
-    border: none;
-}
-
-.waitBox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: table;
-}
-
-.waitBox > span {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-}
-
-.waitBox > span > img {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
 .txt_red {
     color: #FF0000;
 }
@@ -202,5 +130,49 @@ body {
 
 .layui-layer-content {
     margin: 0 auto;
+}
+
+.header {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 10rem;
+    height: 1.5rem;
+    padding: 0 0.32rem;
+    border-bottom: 0.01rem solid #E4E6F0;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.header i {
+    line-height: 1.5rem;
+    font-size: 0.6rem;
+    color: #3072F3;
+}
+
+.header i:first-child {
+    font-size: 0.9rem;
+}
+
+.header img {
+    width: 1.7rem;
+    height: 0.78rem;
+    margin: 0.36rem 0.1rem;
+}
+
+.foot {
+    width: 10rem;
+    height: 1.6rem;
+    display: table;
+    background: #2f3130;
+}
+
+.foot > span {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.24rem;
+    color: #FFFFFF;
 }
 

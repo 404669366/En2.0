@@ -1,0 +1,121 @@
+.searchBox {
+    position: fixed;
+    left: 0;
+    top: 1.5rem;
+    width: 10rem;
+    height: 2.6rem;
+    border-bottom: 1px solid #cccccc;
+}
+
+.searchBox > .searchInput {
+    background: #F9F9F9;
+    padding: 0.2rem;
+    height: 1.6rem;
+    width: 10rem;
+    box-sizing: border-box;
+}
+
+.searchBox > .searchInput > input {
+    width: 8.4rem;
+    height: 1.2rem;
+    border: none;
+    display: block;
+    font-size: 0.40rem;
+    padding: 0 0.2rem;
+    background: #E8E8E9;
+    box-sizing: border-box;
+}
+
+.searchBox > .searchInput > i {
+    width: 1.2rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    font-size: 0.5rem;
+    background: #a6a6a6;
+    color: #f3f3f3;
+}
+
+.searchBox > .searchBtn {
+    width: 10rem;
+    height: 1rem;
+    background: white;
+}
+
+.searchBox > .searchBtn > div {
+    float: left;
+    width: 2rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    font-size: 0.36rem;
+}
+
+.searchBox > .searchBtn > .active {
+    color: #fff;
+    background-color: #3072F6;
+}
+
+.recommend {
+    min-height: calc(100% - 4.1rem);
+    box-sizing: border-box;
+    padding: 0.2rem 0.4rem;
+    width: 10rem;
+    margin-top: 4.1rem;
+}
+
+.recommend > .cont {
+    width: 9.2rem;
+}
+
+.recommend > .cont > .one {
+    width: 9.2rem;
+    height: 2.8rem;
+    border-bottom: 1px solid #e4e6f0;
+    padding: 0.2rem 0;
+    box-sizing: border-box;
+}
+
+.recommend > .cont > .one:last-child {
+    border-bottom: 0;
+}
+
+.recommend > .cont > .one > img {
+    float: left;
+    width: 3.2rem;
+    height: 2.4rem;
+}
+
+.recommend > .cont > .one > .oneInfo {
+    float: right;
+    width: 5.8rem;
+    height: 2.4rem;
+}
+
+.recommend > .cont > .one > .oneInfo > .title {
+    height: 0.7rem;
+    line-height: 0.7rem;
+    font-size: 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recommend > .cont > .one > .oneInfo > .info {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recommend > .cont > .one > .oneInfo > .price {
+    height: 0.7rem;
+    line-height: 0.7rem;
+    color: #fa5741;
+    font-size: 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

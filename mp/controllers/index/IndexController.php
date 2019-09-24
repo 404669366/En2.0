@@ -10,6 +10,8 @@ namespace app\controllers\index;
 
 
 use app\controllers\basis\BasisController;
+use vendor\project\base\EnField;
+use vendor\project\helpers\Constant;
 
 class IndexController extends BasisController
 {
@@ -19,6 +21,9 @@ class IndexController extends BasisController
      */
     public function actionIndex()
     {
-        return $this->render('index.html');
+        return $this->render('index.html', [
+            'banner' => Constant::bannerImg(),
+            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1), 4)
+        ]);
     }
 }

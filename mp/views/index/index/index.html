@@ -3,49 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>亿能充电-充电订单</title>
+    <title>亿能建站-首页</title>
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/swiper/swiper.min.css">
     <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/swiper/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/x-dot-template" id="bannerTpl">
+        {{~it:v}}
+        <img class="swiper-slide" src="{{=v}}">
+        {{~}}
+    </script>
+    <script type="text/x-dot-template" id="fieldTpl">
+        {{~it:v}}
+        <div class="one" data-url="/field/field/detail.html?no={{=v.no}}">
+            <img src="{{=v.images}}">
+            <div class="oneInfo">
+                <div class="title">{{=v.title}}</div>
+                <div class="info">{{=v.address}}</div>
+                <div class="info">{{=v.business_type}}&emsp;{{=v.invest_type}}</div>
+                <div class="price">{{=v.budget_amount}}￥ / {{=v.lowest_amount}}￥ / {{=v.present_amount}}￥</div>
+            </div>
+        </div>
+        {{~}}
+    </script>
 </head>
 <body>
-
 <div class="banner">
     <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="/img/index1.jpg"></div>
+        <div class="swiper-wrapper" id="bannerImg">
+            <img class="swiper-slide" src="/img/index1.jpg">
+        </div>
+    </div>
+    <script>window.html('bannerImg', 'bannerTpl', global.banner);</script>
+    <div class="bannerIcon" data-url="/user/user/user.html"><i class="fa fa-user-o" aria-hidden="true"></i></div>
+    <div class="bannerInfo">
+        <div class="bannerTitle">专业 / 快速 / 省心</div>
+        <div class="bannerDetail">
+            <p>海量投资源</p>
+            <p>省心上亿能</p>
         </div>
     </div>
 </div>
-
-<div class="bannerIcon" data-url="/user/user/user.html"><i class="fa fa-user-o" aria-hidden="true"></i></div>
-<div class="bannerInfo">
-    <div class="bannerTitle">专业 / 快速 / 省心</div>
-    <div class="bannerDetail">
-        <p>海量场地源</p>
-        <p>省心上亿能</p>
-    </div>
-</div>
-
-<div class="search" data-url="/index/index/list.html?focus=1">
+<div class="search" data-url="/field/field/list.html">
     <i class="fa fa-search" aria-hidden="true"></i> 搜索场地
 </div>
 
 <div class="nav">
-    <div data-url="/index/index/list.html?type=1">
+    <div data-url="/field/field/list.html?type=1">
         <span><img src="/img/icon_01.png"><br>最新</span>
     </div>
-    <div data-url="/index/index/list.html?type=2">
+    <div data-url="/field/field/list.html?type=2">
         <span><img src="/img/icon_02.png"><br>融资</span>
     </div>
-    <div data-url="/index/index/list.html?type=3">
-        <span><img src="/img/icon_03.png"><br>人气</span>
+    <div data-url="/field/field/list.html?type=3">
+        <span><img src="/img/icon_03.png"><br>规模</span>
     </div>
-    <div data-url="/index/index/list.html?type=4">
-        <span><img src="/img/icon_04.png"><br>点击</span>
+    <div data-url="/field/field/list.html?type=4">
+        <span><img src="/img/icon_04.png"><br>起投</span>
     </div>
-    <div data-url="/index/index/list.html?type=5">
-        <span><img src="/img/icon_05.png"><br>车位</span>
+    <div data-url="/field/field/list.html?type=5">
+        <span><img src="/img/icon_05.png"><br>综合</span>
     </div>
 </div>
 
@@ -56,13 +74,13 @@
             <span><img src="/img/tool_01.png"><br>发布场地</span>
         </div>
         <div data-url="/user/user/basis-field.html">
-            <span><img src="/img/tool_02.png"><br>我的发布</span>
+            <span><img src="/img/tool_02.png"><br>我的场站</span>
         </div>
         <div data-url="/user/intention/list.html">
             <span><img src="/img/tool_03.png"><br>我的意向</span>
         </div>
         <div data-url="/estimate/estimate/estimate.html">
-            <span><img src="/img/tool_04.png"><br>收益预测</span>
+            <span><img src="/img/tool_04.png"><br>我的收益</span>
         </div>
         <div data-url="tel:">
             <span><img src="/img/tool_09.png"><br>客服电话</span>
@@ -74,19 +92,15 @@
     <div class="titleBox">
         <div class="title">为您推荐</div>
         <div class="type">
-            <span data-url="/index/index/index.html?type=4">点击</span>
-            <span data-url="/index/index/index.html?type=3">人气</span>
+            <span data-url="/index/index/index.html?type=3">规模</span>
             <span data-url="/index/index/index.html?type=2">火热</span>
             <span data-url="/index/index/index.html?type=1">最新</span>
         </div>
     </div>
-    <div class="cont">
-
-    </div>
-    <div class="more">查看更多场地</div>
+    <div class="cont" id="field"></div>
+    <script>window.html('field', 'fieldTpl', global.fields);</script>
+    <div class="more" data-url="">更多项目</div>
 </div>
-
-
 <div class="foot">
     <span>蜀ICP备19002778号-1 Copyright © 2019 en.ink.<br>四川亿能天成科技有限公司</span>
 </div>
@@ -96,18 +110,13 @@
         grabCursor: true,
         autoplay: {
             delay: 5000,
-            stopOnLastSlide: false,
             disableOnInteraction: true
         }
     });
-
-    var type = getParams('type', 1);
-    $('.recommend>.titleBox>.type').find('span').removeClass('active').each(function (k, v) {
-        if ($(v).attr('url') === ('/index/index/index.html?type=' + type)) {
-            $(v).addClass('active');
-            $('.recommend>.more').attr('url', '/index/index/list.html?type=' + type);
-        }
-    });
+    var type = window.getParams('type', 1);
+    $('.type>span').removeClass('active');
+    $('[data-url="/index/index/index.html?type=' + type + '"]').addClass('active');
+    $('.more').data('url', '/field/field/list.html?type=' + type);
 </script>
 </body>
 </html>

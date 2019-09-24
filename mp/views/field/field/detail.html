@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能建站-场站详情</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/swiper/swiper.min.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/swiper/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/map.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
+    <script type="text/x-dot-template" id="bannerTpl">
+        {{~it:v}}
+        <div class="swiper-slide" style="text-align: center"><img style="height: 5.6rem;" src="{{=v}}"/></div>
+        {{~}}
+    </script>
+    <script type="text/x-dot-template" id="infoTpl">
+        <div class="title">{{=it.field.title}}</div>
+        <div class="base">
+            <div><span><p>{{=it.field.budget_amount}}￥</p>总额</span></div>
+            <div><span><p>{{=it.field.lowest_amount}}￥</p>起投</span></div>
+            <div><span><p>{{=it.field.present_amount}}￥</p>现投</span></div>
+        </div>
+        <div class="skill" style="background-size: {{=it.field.present_amount/it.field.budget_amount*100}}% auto">
+            项目进度: {{=it.field.present_amount/it.field.budget_amount*100}}%
+        </div>
+        <div class="detail borderTop">
+            <span>项目信息</span>
+            <ul class="clear">
+                <li class="fl w100">场站编号 : {{=it.field.no}}</li>
+                <li class="fl w50">发改备案 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></li>
+                <li class="fl w50">电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></li>
+            </ul>
+        </div>
+        <div class="detail">
+            <span>项目配置</span>
+            <div class="txt">{{=it.field.field_configure}}</div>
+        </div>
+        <div class="detail">
+            <span>项目介绍</span>
+            <div class="txt">{{=it.intro}}</div>
+        </div>
+        <div class="detail">
+            <span>项目收益</span>
+            <div class="txt">{{=it.investInfo}}</div>
+        </div>
+        <div class="detail">
+            <span>项目位置</span>
+            <div class="p">{{=it.field.address}}</div>
+            <div class="map" id="map"></div>
+        </div>
+    </script>
+    <script type="text/x-dot-template" id="brokerTpl">
+        <div class="head" data-url="/field/field/commissioner.html?id={{=it.field.commissioner_id}}">
+            <span><img src="/img/agent_none.png"/><br>{{=it.field.tel}}</span>
+        </div>
+        <div class="btns">
+            <div class="btn have fl">有意向</div>
+            <div class="btn fr" data-url="tel:{{=it.field.tel}}" style="background: #3072F6">打电话</div>
+        </div>
+    </script>
+</head>
+<body>
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<div class="banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="banner"></div>
+    </div>
+</div>
+<div class="info" id="info"></div>
+<div class="help">
+    <span>
+        空闲场地如何处理？我们可以帮到你
+        <div data-url="/user/field/create.html">发布我的场站</div>
+    </span>
+</div>
+<div class="broker" id="broker"></div>
+<div class="modal">
+    <div>
+        <h3>项目投资须知<i class="fa fa-times close" aria-hidden="true"></i></h3>
+        <div class="content">
+            111<br>111<br>111<br>111<br>111<br>
+            111<br>111<br>111<br>111<br>111<br>
+            111<br>111<br>111<br>111<br>111<br>
+        </div>
+        <div class="click">我已知晓</div>
+    </div>
+</div>
+<div class="foot">
+    <span>蜀ICP备19002778号-1 Copyright © 2019 en.ink.<br>四川亿能天成科技有限公司</span>
+</div>
+<script>
+    window.html('banner', 'bannerTpl', global.images);
+    window.html('info', 'infoTpl', global);
+    window.html('broker', 'brokerTpl', global);
+    new Swiper('.swiper-container', {loop: true, grabCursor: true,});
+    var map = new BMap.Map('map');
+    var point = new BMap.Point(global.field.lng, global.field.lat);
+    map.centerAndZoom(point, 16);
+    map.addOverlay(new BMap.Marker(point));
+    map.disableDragging();
+    map.addControl(new BMap.NavigationControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        type: BMAP_NAVIGATION_CONTROL_SMALL
+    }));
+    $('.broker').on('click', '.have', function () {
+        window.modal.open('.modal');
+    });
+    $('.close').click(function () {
+        window.modal.close('.modal');
+    });
+    $('.click').click(function () {
+        window.location.href = '/user/intention/add.html?no=' + global.field.no;
+    });
+</script>
+</body>
+</html>

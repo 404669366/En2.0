@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能建站-场站列表</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/list.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="listTpl">
+        {{~it:v}}
+        <div class="one" data-url="/field/field/detail.html?no={{=v.no}}">
+            <img src="{{=v.images}}">
+            <div class="oneInfo">
+                <div class="title">{{=v.title}}</div>
+                <div class="info">{{=v.address}}</div>
+                <div class="info">{{=v.business_type}}&emsp;{{=v.invest_type}}</div>
+                <div class="price">{{=v.budget_amount}}￥ / {{=v.lowest_amount}}￥ / {{=v.present_amount}}￥</div>
+            </div>
+        </div>
+        {{~}}
+    </script>
+</head>
+<body>
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<div class="searchBox">
+    <div class="searchInput">
+        <input type="text" class="searchKey fl" placeholder="请输入小区或商圈名称">
+        <i class="fa fa-search fr" aria-hidden="true"></i>
+    </div>
+    <div class="searchBtn">
+        <div type="1" class="active">最新</div>
+        <div type="2">融资</div>
+        <div type="3">规模</div>
+        <div type="4">起投</div>
+        <div type="5">综合</div>
+    </div>
+</div>
+<div class="recommend">
+    <div class="cont" id="list"></div>
+</div>
+<div class="foot">
+    <span>蜀ICP备19002778号-1 Copyright © 2019 en.ink.<br>四川亿能天成科技有限公司</span>
+</div>
+<script>
+    window.html('list', 'listTpl', global.fields);
+    var type = window.getParams('type', 1);
+    var search = window.getParams('search', '');
+    $('.searchKey').val(search);
+    $('.searchBtn>div').removeClass('active');
+    $('[type="' + type + '"]').addClass('active');
+    $('.searchBtn>div,.searchInput>i').click(function () {
+        if ($(this).parent('div').hasClass('searchBtn')) {
+            $('.searchBtn>div').removeClass('active');
+            $(this).addClass('active');
+        }
+        search = $('.searchKey').val();
+        type = $('.searchBtn>.active').attr('type');
+        window.location.href = '?search=' + search + '&type=' + type;
+    });
+</script>
+</body>
+</html>

@@ -35,15 +35,21 @@
 }
 
 .headCard .carList .head_port > img {
-    width: 100%;
-    height: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 1.5rem;
     background-size: cover;
 }
 
 .headCard .carList .nick_name {
     width: 3rem;
-    padding-left: 0.1rem;
+}
+
+.headCard .carList .nick_name > b {
+    display: inline-block;
+    vertical-align: middle;
+    letter-spacing: 0.02rem;
+    padding: 0.02rem 0.04rem 0 0.04rem;
 }
 
 .headCard .carList .nick_name > span {
@@ -54,6 +60,7 @@
     width: 3rem;
     font-size: 0.7rem;
     text-align: right;
+    line-height: 0.45rem;
 }
 
 .headCard .carList .balance > span {

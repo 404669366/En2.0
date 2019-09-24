@@ -10,7 +10,7 @@
     <script type="text/x-dot-template" id="carListTpl">
         <p class="head_port"><img src="/img/head.jpg" alt=""></p>
         <p class="nick_name">
-            {{=it.tel}}<!--<br><span>积分 78</span>-->
+            {{=it.tel.replace(/(\d{3})(\d{4})(\d{4})/,"$1<b>****</b>$3")}}<!--<br><span>积分 78</span>-->
         </p>
         <p class="balance">{{=it.moneys[0]}}.<span>{{=it.moneys[1]}}</span></p>
     </script>

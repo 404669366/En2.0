@@ -9,11 +9,11 @@
 namespace app\controllers\step;
 
 
-use app\controllers\basis\BasisController;
+use app\controllers\basis\AuthController;
 use vendor\project\base\EnField;
 use vendor\project\helpers\Wechat;
 
-class StepController extends BasisController
+class StepController extends AuthController
 {
     /**
      * 浏览记录

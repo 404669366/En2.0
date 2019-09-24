@@ -19,13 +19,10 @@ class BasisController extends Controller
 {
     public function beforeAction($action)
     {
+        $re = parent::beforeAction($action);
         Msg::setSize('0.5rem');
         if (Wechat::isWechat()) {
-            if ($open_id = \Yii::$app->session->get('open_id', '')) {
-                return parent::beforeAction($action);
-            }
-            Url::remember();
-            return $this->redirect(Wechat::getUserAuthorizeCodeUrl('/wx/wx/auth.html'))->send();
+            return $re;
         }
         return $this->redirect(['basis/error/no-wx'])->send();
     }

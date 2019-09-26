@@ -61,8 +61,8 @@
             <span><img src="/img/agent_none.png"/><br>{{=it.field.tel}}</span>
         </div>
         <div class="btns">
-            <div class="btn have fl">有意向</div>
-            <div class="btn fr" data-url="tel:{{=it.field.tel}}" style="background: #3072F6">打电话</div>
+            <div class="btn fl have">有意向</div>
+            <div class="btn fr call" style="background: #3072F6">打电话</div>
         </div>
     </script>
 </head>
@@ -116,6 +116,8 @@
     }));
     $('.broker').on('click', '.have', function () {
         window.modal.open('.modal');
+    }).on('click', '.call', function () {
+        window.location.href = 'tel:' + global.field.tel;
     });
     $('.close').click(function () {
         window.modal.close('.modal');

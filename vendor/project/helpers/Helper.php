@@ -12,6 +12,25 @@ namespace vendor\project\helpers;
 class Helper
 {
     /**
+     * 百度坐标系 (BD-09) 与 火星坐标系 (GCJ-02)的转换
+     * 即 百度 转 谷歌、高德、腾讯
+     * @param $lat
+     * @param $lng
+     * @return array
+     */
+    public static function bd09ToGcj02($lat, $lng)
+    {
+        $x = (double)$lng - 0.0065;
+        $y = (double)$lat - 0.006;
+        $x_pi = 3.14159265358979324;
+        $z = sqrt($x * $x + $y * $y) - 0.00002 * sin($y * $x_pi);
+        $theta = atan2($y, $x) - 0.000003 * cos($x * $x_pi);
+        $gb = number_format($z * cos($theta), 15);
+        $ga = number_format($z * sin($theta), 15);
+        return ['lat' => $ga, 'lng' => $gb];
+    }
+
+    /**
      * 拼接当前域名路由
      * @param string $url
      * @return string

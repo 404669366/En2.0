@@ -32,7 +32,7 @@ class FieldController extends CommonController
      */
     public function actionData()
     {
-        return $this->rTableData(EnField::getFieldByFinish());
+        return $this->rTableData(EnField::getPageData(0, [1, 2, 3, 4, 5]));
     }
 
     /**
@@ -46,6 +46,7 @@ class FieldController extends CommonController
         if ($model = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5], 'online' => 1])) {
             $transaction = \Yii::$app->db->beginTransaction();
             try {
+                $point = Helper::bd09ToGcj02($model->lat, $model->lng);
                 $data = [
                     'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
                     'table_id' => '5d490255d31eea5b7b36b922',
@@ -55,8 +56,8 @@ class FieldController extends CommonController
                             'title' => $model->name,
                             'address' => $model->address,
                             'location' => [
-                                'lat' => (float)$model->lat,
-                                'lng' => (float)$model->lng,
+                                'lat' => (float)$point['lat'],
+                                'lng' => (float)$point['lng'],
                             ]
                         ]
                     ]
@@ -101,7 +102,7 @@ class FieldController extends CommonController
                 $data = [
                     'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
                     'table_id' => '5d490255d31eea5b7b36b922',
-                    'filter' => 'ud_id=' . $no
+                    'filter' => 'ud_id in("' . $no . '")'
                 ];
                 $re = Helper::curlPost('https://apis.map.qq.com/place_cloud/data/delete', $data, true);
                 $re = json_decode($re, true);
@@ -111,6 +112,7 @@ class FieldController extends CommonController
                 $model->online = 1;
                 $model->intro = '111';
                 if (!$model->save()) {
+                    $point = Helper::bd09ToGcj02($model->lat, $model->lng);
                     $data = [
                         'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
                         'table_id' => '5d490255d31eea5b7b36b922',
@@ -120,8 +122,8 @@ class FieldController extends CommonController
                                 'title' => $model->name,
                                 'address' => $model->address,
                                 'location' => [
-                                    'lat' => (float)$model->lat,
-                                    'lng' => (float)$model->lng,
+                                    'lat' => (float)$point['lat'],
+                                    'lng' => (float)$point['lng'],
                                 ]
                             ]
                         ]

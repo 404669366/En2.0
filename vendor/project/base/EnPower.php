@@ -198,4 +198,23 @@ class EnPower extends \yii\db\ActiveRecord
             ->asArray()->all();
         return array_column($names, 'name');
     }
+
+    /**
+     * 返回用户各类型权限
+     * @param $uid
+     * @param $type
+     * @return array
+     */
+    public static function getPowersByType($uid, $type)
+    {
+        $data = self::find()->select(['id'])->where(['type' => $type]);
+        $user = EnMember::findOne($uid);
+        if ($user->company_id && $user->job_id) {
+            $data->andWhere(['id' => explode(',', $user->job->powers)]);
+        }
+        if ($user->company_id && !$user->job_id) {
+            $data->andWhere(['id' => explode(',', $user->company->powers)]);
+        }
+        return array_column($data->asArray()->all(), 'id', 'id');
+    }
 }

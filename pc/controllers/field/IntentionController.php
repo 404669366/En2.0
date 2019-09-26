@@ -11,7 +11,7 @@ namespace app\controllers\field;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnField;
-use vendor\project\base\EnFieldIntention;
+use vendor\project\base\EnIntention;
 use vendor\project\base\EnUser;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
@@ -20,6 +20,31 @@ use vendor\project\helpers\Wechat;
 
 class IntentionController extends AuthController
 {
+    /**
+     * 创建意向
+     * @param string $no
+     * @return \yii\web\Response
+     */
+    public function actionAdd($no = '')
+    {
+        if ($detail = EnField::findOne(['status' => 4, 'no' => $no])) {
+            $model = new EnIntention();
+            $model->no = Helper::createNo('I');
+            $model->user = \Yii::$app->user->identity->tel;
+            $model->created_at = time();
+            $model->source = 1;
+            $model->status = 1;
+            $model->commissioner_id = 0;
+            $model->field = $no;
+            if ($model->save()) {
+                Msg::set('意向保存成功,专员将尽快与您联系');
+                return $this->redirect(['user/intention/list']);
+            }
+            return $this->goBack($model->errors());
+        }
+        return $this->goBack('该场站已完成融资');
+    }
+
     /**
      * 意向下单
      * @param string $no
@@ -37,7 +62,7 @@ class IntentionController extends AuthController
                     }
                 }
                 $post = \Yii::$app->request->post();
-                $model = new EnFieldIntention();
+                $model = new EnIntention();
                 $model->no = Helper::createNo('I');
                 $model->purchase_amount = $post['purchase_amount'];
                 $model->order_amount = $model->purchase_amount * Constant::orderRatio();
@@ -61,7 +86,7 @@ class IntentionController extends AuthController
                 'business_type' => Constant::businessType()[$detail->business_type],
                 'invest_type' => Constant::investType()[$detail->invest_type],
                 '_csrf' => \Yii::$app->request->csrfToken,
-                'ratio'=>Constant::orderRatio()
+                'ratio' => Constant::orderRatio()
             ]);
         }
         return $this->goBack('该场站已完成融资');
@@ -74,7 +99,7 @@ class IntentionController extends AuthController
      */
     public function actionPay($id = 0)
     {
-        if ($model = EnFieldIntention::findOne(['status' => 1, 'id' => $id])) {
+        if ($model = EnIntention::findOne(['status' => 1, 'id' => $id])) {
             $times = 0;
             if (isset($_COOKIE['pay-times-' . $id]) && $_COOKIE['pay-times-' . $id]) {
                 $times = $_COOKIE['pay-times-' . $id];
@@ -102,7 +127,7 @@ class IntentionController extends AuthController
     public function actionNoPay($no = '')
     {
         Msg::set('错误操作');
-        $model = EnFieldIntention::findOne(['no' => $no]);
+        $model = EnIntention::findOne(['no' => $no]);
         if ($model->status == 1) {
             $model->status = 7;
             $model->save(false);

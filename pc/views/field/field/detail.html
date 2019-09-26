@@ -92,7 +92,7 @@
                     <div>{{=it.detail.budget_amount}}<p>已认购</p></div>
                     <div>{{=it.detail.lowest_amount}}<p>起投金额</p></div>
                 </div>
-                <div class="notBtn">立即认购</div>
+                <div class="notBtn">融资完成</div>
                 {{??}}
                 <div class="progress">
                     <div>项目总额: {{=it.detail.budget_amount}}</div>
@@ -104,11 +104,11 @@
                     <div>{{=it.detail.present_amount}}<p>已认购</p></div>
                     <div>{{=it.detail.lowest_amount}}<p>起投金额</p></div>
                 </div>
-                <div class="btn">立即认购</div>
+                <div class="btn">我要投资</div>
                 <div class="model model1">
                     <div class="modelBox">
                         <div class="modelHead">
-                            <h3 class="title">1、风险提示书</h3>
+                            <h3 class="title">项目投资须知</h3>
                             <div class="close close1"><i class="fa fa-times" aria-hidden="true"></i></div>
                         </div>
                         <div class="modelContent">
@@ -121,22 +121,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="model model2">
-                    <div class="modelBox">
-                        <div class="modelHead">
-                            <h3 class="title">2、冷静期说明</h3>
-                            <div class="close close2"><i class="fa fa-times" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="modelContent">
-                            111<br>111<br>111<br>111<br>111<br>
-                            111<br>111<br>111<br>111<br>111<br>
-                            111<br>111<br>111<br>111<br>111<br>
-                        </div>
-                        <div class="modelFoot">
-                            <button type="button" class="modelBtn modelBtn2">我已知晓</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="loading"><img src="/img/loading.gif"></div>
                 {{?}}
             </div>
             <div class="clearBoth"></div>
@@ -265,14 +250,9 @@
     });
     $('.modelBtn1').click(function () {
         window.modal.close('.model1');
-        window.modal.open('.model2');
-    });
-    $('.close2').click(function () {
-        window.modal.close('.model2');
-    });
-    $('.modelBtn2').click(function () {
-        window.modal.close('.model2');
-        window.location.href = '/field/intention/buy.html?no=' + global.detail.no;
+        window.location.href = '/field/intention/add.html?no=' + global.detail.no;
+        $('.loading').show();
+        document.body.style.overflowY = 'hidden';
     });
 </script>
 </body>

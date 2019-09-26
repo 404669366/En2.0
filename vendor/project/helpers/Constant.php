@@ -87,7 +87,7 @@ class Constant
             1 => '托管运营',
             2 => '保底运营',
             3 => '保底回购',
-            4 => '第三方',
+            4 => '其他类型',
         ];
     }
 
@@ -115,9 +115,8 @@ class Constant
     public static function fieldSource()
     {
         return [
-            1 => '用户发布',
-            2 => '平台专员',
-            3 => '三方专员',
+            1 => '用户',
+            2 => '平台',
         ];
     }
 
@@ -134,40 +133,31 @@ class Constant
     }
 
     /**
-     * 定金收取比例
-     * @return float
-     */
-    public static function orderRatio()
-    {
-        return 0.1;
-    }
-
-    /**
-     * 冷静期
-     * @return int
-     */
-    public static function orderBackTime()
-    {
-        return 3 * 24 * 60 * 60;
-    }
-
-    /**
      * 场站意向状态
      * @return array
      */
     public static function intentionStatus()
     {
         return [
-            1 => '待付定金',
-            2 => '已付定金',
-            3 => '审核凭证',
-            4 => '审核通过',
-            5 => '审核不通过',
-            6 => '用户违约',
-            7 => '放弃支付',
-            8 => '申请退款',
-            9 => '已退款',
-            10 => '用户删除',
+            1 => '等待沟通',
+            2 => '合同签署',
+            3 => '合同审核',
+            4 => '等待打款',
+            5 => '打款审核',
+            6 => '审核通过',
+            7 => '用户违约',
+        ];
+    }
+
+    /**
+     * 场站意向删除状态
+     * @return array
+     */
+    public static function intentionDelete()
+    {
+        return [
+            1 => '未删除',
+            2 => '已删除',
         ];
     }
 
@@ -179,7 +169,7 @@ class Constant
     {
         return [
             1 => '用户',
-            2 => '专员',
+            2 => '平台',
         ];
     }
 
@@ -340,6 +330,25 @@ class Constant
             0 => '等待支付',
             1 => '支付成功',
             2 => '支付失败',
+        ];
+    }
+
+    /**
+     * 返回客服电话
+     * @return string
+     */
+    public static function serviceTel()
+    {
+        return '15680898996';//代
+    }
+
+    /**
+     * @return array
+     */
+    public static function bannerImg()
+    {
+        return [
+            '/img/index1.jpg',
         ];
     }
 }

@@ -10,8 +10,7 @@ namespace app\controllers\wx;
 
 
 use app\controllers\basis\BasisController;
-use vendor\project\base\EnField;
-use vendor\project\base\EnFieldIntention;
+use vendor\project\base\EnIntention;
 use vendor\project\helpers\Helper;
 
 class PayController extends BasisController
@@ -24,7 +23,7 @@ class PayController extends BasisController
     {
         $data = $this->getXml();
         if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS') {
-            if ($model = EnFieldIntention::findOne(['no' => $data['out_trade_no'], 'status' => 1])) {
+            if ($model = EnIntention::findOne(['no' => $data['out_trade_no'], 'status' => 1])) {
                 $model->pay_at = time();
                 $model->status = 2;
                 if ($model->save()) {

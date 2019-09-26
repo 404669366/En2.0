@@ -7,6 +7,7 @@
 
 namespace yii\base;
 
+use vendor\project\base\EnPower;
 use Yii;
 
 /**
@@ -396,7 +397,7 @@ class Controller extends Component implements ViewContextInterface
     {
         $layoutFile = $this->findLayoutFile($this->getView());
         if ($layoutFile !== false) {
-            return $this->getView()->renderFile($layoutFile, ['content' => $content], $this);
+            return $this->getView()->renderFile($layoutFile, ['content' => $content, 'btns' => EnPower::getPowersByType(\Yii::$app->user->id, 2)], $this);
         }
 
         return $content;

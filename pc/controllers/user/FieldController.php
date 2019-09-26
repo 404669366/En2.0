@@ -27,10 +27,9 @@ class FieldController extends AuthController
             $post = \Yii::$app->request->post();
             $model = new EnField();
             $model->no = Helper::createNo('F');
-            $model->local_id = \Yii::$app->user->id;
+            $model->local = \Yii::$app->user->identity->tel;
             $model->status = 0;
             $model->source = 1;
-            $model->created = \Yii::$app->user->id;
             $model->created_at = time();
             if ($model->load(['EnField' => $post]) && $model->validate() && $model->save()) {
                 Msg::set('项目发布成功');
@@ -68,15 +67,5 @@ class FieldController extends AuthController
             }
         }
         return $this->redirect(['list']);
-    }
-
-    /**
-     * 推荐场站
-     * @return string
-     */
-    public function actionRList()
-    {
-        $this->rUCenterUrl();
-        return $this->render('r-list.html', ['data' => EnField::getUserRField()]);
     }
 }

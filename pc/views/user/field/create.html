@@ -55,10 +55,6 @@
                 <label>备注(选填)</label>
                 <textarea name="remark" placeholder="您是否还有其他补充说明，或对我们的期望">{{=it.post.remark}}</textarea>
             </div>
-            <div class="line1">
-                <label>推荐(选填)</label>
-                <input type="text" name="cobberTel" placeholder="请填写推荐人注册手机号" value="{{=it.post.cobberTel}}">
-            </div>
         </div>
         <button type="submit">确认提交</button>
     </script>
@@ -139,6 +135,7 @@
     });
 
     uploadImg('.images', global.post.images);
+
     $('[type="submit"]').click(function () {
         if (!$('[name="address"]').val()) {
             window.showMsg('请填写场站位置');
@@ -146,11 +143,6 @@
         }
         if (!$('[name="lng"]').val() || !$('[name="lat"]').val()) {
             window.showMsg('请标出场站位置');
-            return false;
-        }
-        var tel = $('[name="cobberTel"]').val();
-        if (tel && !window.checkTel(tel)) {
-            window.showMsg('请填写正确的手机号');
             return false;
         }
         return true;

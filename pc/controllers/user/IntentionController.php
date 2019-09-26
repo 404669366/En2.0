@@ -11,7 +11,7 @@ namespace app\controllers\user;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnField;
-use vendor\project\base\EnFieldIntention;
+use vendor\project\base\EnIntention;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
 
@@ -24,7 +24,7 @@ class IntentionController extends AuthController
     public function actionList()
     {
         $this->rUCenterUrl();
-        return $this->render('list.html', ['data' => EnFieldIntention::getUserData()]);
+        return $this->render('list.html', ['data' => EnIntention::getUserData()]);
     }
 
     /**
@@ -34,7 +34,7 @@ class IntentionController extends AuthController
      */
     public function actionUpload($id)
     {
-        if ($model = EnFieldIntention::findOne(['status' => [2, 5], 'id' => $id])) {
+        if ($model = EnIntention::findOne(['status' => [2, 5], 'id' => $id])) {
             if (\Yii::$app->request->isPost) {
                 $post = \Yii::$app->request->post();
                 $model->status = 3;
@@ -61,7 +61,7 @@ class IntentionController extends AuthController
     public function actionBack($id)
     {
         Msg::set('错误操作');
-        if ($model = EnFieldIntention::findOne(['status' => 2, 'id' => $id])) {
+        if ($model = EnIntention::findOne(['status' => 2, 'id' => $id])) {
             Msg::set('退款超时');
             if (time() <= ($model->pay_at + Constant::orderBackTime())) {
                 $model->status = 8;
@@ -80,7 +80,7 @@ class IntentionController extends AuthController
     public function actionRevoke($id)
     {
         Msg::set('错误操作');
-        if ($model = EnFieldIntention::findOne(['status' => 8, 'id' => $id])) {
+        if ($model = EnIntention::findOne(['status' => 8, 'id' => $id])) {
             $model->status = 2;
             $model->save(false);
             Msg::set('撤销成功');
@@ -96,7 +96,7 @@ class IntentionController extends AuthController
     public function actionDel($id)
     {
         Msg::set('错误操作');
-        if ($model = EnFieldIntention::findOne(['status' => [10, 1], 'id' => $id])) {
+        if ($model = EnIntention::findOne(['status' => [10, 1], 'id' => $id])) {
             $model->status = 11;
             $model->save(false);
             Msg::set('删除成功');
@@ -111,13 +111,12 @@ class IntentionController extends AuthController
      */
     public function actionInfo($id)
     {
-        if ($model = EnFieldIntention::findOne(['status' => 1, 'id' => $id])) {
+        if ($model = EnIntention::findOne(['status' => 1, 'id' => $id])) {
             if ($detail = EnField::findOne(['status' => 4, 'no' => $model->field->no])) {
                 if (\Yii::$app->request->isPost) {
                     $post = \Yii::$app->request->post();
-                    $model->purchase_amount = $post['purchase_amount'];
-                    $model->order_amount = $model->purchase_amount * Constant::orderRatio();
-                    $model->part_ratio = $model->purchase_amount / $detail->budget_amount;
+                    $model->amount = $post['purchase_amount'];
+                    $model->ratio = $model->amount / $detail->budget_amount;
                     if ($model->save()) {
                         return $this->redirect(['field/intention/pay', 'id' => $model->id]);
                     }
@@ -130,21 +129,10 @@ class IntentionController extends AuthController
                     'business_type' => Constant::businessType()[$detail->business_type],
                     'invest_type' => Constant::investType()[$detail->invest_type],
                     '_csrf' => \Yii::$app->request->csrfToken,
-                    'ratio'=>Constant::orderRatio()
                 ]);
             }
         }
         Msg::set('错误操作');
         return $this->redirect(['list']);
-    }
-
-    /**
-     * 推荐意向
-     * @return string
-     */
-    public function actionRList()
-    {
-        $this->rUCenterUrl();
-        return $this->render('r-list.html', ['data' => EnFieldIntention::getUserRData()]);
     }
 }

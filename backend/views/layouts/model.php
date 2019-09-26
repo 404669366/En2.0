@@ -15,10 +15,25 @@ $this->beginPage();
 <?php $this->beginBody(); ?>
 <?php $this->endBody(); ?>
 <script>
+    var btns = JSON.parse(`<?=json_encode($btns)?>`);
     $(function () {
+        $.each($('.btn'), function (k, v) {
+            var rid = $(v).data('rid');
+            if (rid) {
+                if (!btns[rid]) {
+                    $(v).remove();
+                }
+            }
+        });
         $('.back').prop('type', 'button').click(function () {
             history.go(-1);
         });
+    });
+
+    $('body').on('click', '[data-url]', function () {
+        if($(this).data('url')){
+            window.location.href = $(this).data('url');
+        }
     });
 
     function timeToDate(timestamp = +new Date()) {

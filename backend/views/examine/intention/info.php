@@ -7,6 +7,13 @@
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
+                        <label class="col-sm-4 control-label">意向编号</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="<?= $model->no ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
                         <label class="col-sm-4 control-label">意向状态</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control"
@@ -18,22 +25,14 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">场站编号</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->field->no ?>" readonly>
+                            <input type="text" class="form-control" placeholder="<?= $model->field ?>" readonly>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">意向用户</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->user->tel ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">推荐用户</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>" readonly>
+                            <input type="text" class="form-control" placeholder="<?= $model->user ?>" readonly>
                         </div>
                     </div>
                 </div>
@@ -49,25 +48,28 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">分成比例</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="<?= $model->ratio ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">认购金额</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->purchase_amount ?>"
+                            <input type="text" class="form-control" placeholder="<?= $model->amount ?>"
                                    readonly>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">定金金额</label>
+                        <label class="col-sm-3 control-label">意向合同</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->order_amount ?>" readonly>
+                            <div class="contract"></div>
                         </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">分成比例</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->part_ratio ?>" readonly>
-                        </div>
+                        <script>
+                            uploadFile('.contract', 'contract', '<?=$model->contract?>', true);
+                        </script>
                     </div>
                 </div>
             </div>
@@ -83,31 +85,21 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">意向合同</label>
-                <div class="col-sm-8">
-                    <div class="contract"></div>
-                </div>
-                <script>
-                    uploadImg('.contract', 'contract', '<?=$model->contract?>', true, 4);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-8">
                     <textarea class="form-control" rows="10"
-                        <?= in_array($model->status, [4, 5]) ? 'readonly' : 'name="remark"' ?>><?= $model->remark ?></textarea>
+                        <?= in_array($model->status, [6]) ? 'readonly' : 'name="remark"' ?>><?= $model->remark ?></textarea>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <div class="col-sm-5 col-sm-offset-2">
-                    <?php if ($model->status == 3): ?>
+                    <?php if ($model->status == 5): ?>
                         <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
                         <input type="hidden" name="status" value="">
-                        <button type="submit" class="btn btn-info pass" data-st="4">通过</button>
+                        <button type="submit" class="btn btn-info pass" data-st="6">通过</button>
                         &emsp;
-                        <button type="submit" class="btn btn-info pass" data-st="5">驳回</button>
+                        <button type="submit" class="btn btn-info pass" data-st="4">驳回</button>
                         &emsp;
                     <?php endif; ?>
                     <button class="btn btn-white back">返回</button>
@@ -119,7 +111,7 @@
 <script>
     $('.pass').click(function () {
         $('[name="status"]').val($(this).data('st'));
-        if ($(this).data('st') === 5 && !$('[name="remark"]').val()) {
+        if ($(this).data('st') === 4 && !$('[name="remark"]').val()) {
             showMsg('请填写备注');
             return false;
         }

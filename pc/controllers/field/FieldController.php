@@ -23,7 +23,7 @@ class FieldController extends BasisController
     public function actionList()
     {
         return $this->render('list.html', [
-            'data' => EnField::listData(),
+            'data' => EnField::listDataByPc(),
             'businessType' => Helper::arrayKeyToV(Constant::businessType()),
             'investType' => Helper::arrayKeyToV(Constant::investType()),
         ]);
@@ -45,7 +45,7 @@ class FieldController extends BasisController
                 'detail' => $detail,
                 'images' => Helper::completionImg($detail['images']),
                 'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail['id']),
-                'investInfo' => \Yii::$app->cache->get('InvestInfo-' . $detail['invest_type']),
+                'investInfo' => \Yii::$app->cache->get('InvestInfo-' . $detail['invest_type']) ?: '',
                 'business_type' => Constant::businessType()[$detail['business_type']],
                 'invest_type' => Constant::investType()[$detail['invest_type']],
             ]);

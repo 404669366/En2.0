@@ -3,9 +3,16 @@
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
             <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-            <input type="hidden" name="status" value="3">
+            <input type="hidden" name="status" value="<?= $model->status ?>">
             <div class="row">
                 <div class="col-sm-6">
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">意向编号</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="<?= $model->no ?>" readonly>
+                        </div>
+                    </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">意向状态</label>
@@ -15,112 +22,28 @@
                                    readonly>
                         </div>
                     </div>
-                    <?php if ($model->source == 2): ?>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">绑定场站</label>
-                            <div class="col-sm-5">
-                                <div class="input-group">
-                                    <input type="text" class="form-control no" placeholder="填写场站编号完成场站绑定"
-                                           value="<?= $model->field ? $model->field->no : '' ?>">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary searchField1">绑定</button>
-                                    </span>
-                                </div>
-                                <input type="hidden" name="field_id" value="<?= $model->field_id ?>">
-                            </div>
-                            <script>
-                                $('.searchField1').click(function () {
-                                    $('[name="field_id"]').val(0);
-                                    $.getJSON('/field/intention/field-search', {no: $('.no').val()}, function (re) {
-                                        if (re.type) {
-                                            $('[name="field_id"]').val(re.data);
-                                            showMsg('场站绑定成功');
-                                        } else {
-                                            showMsg('场站不存在或状态错误,请重新输入场站编号进行绑定');
-                                        }
-                                    })
-                                });
-                            </script>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">场站编号</label>
+                        <div class="col-sm-5">
+                            <select class="form-control" name="field">
+                                <option value="">----</option>
+                                <?php foreach ($fields as $v): ?>
+                                    <option <?= $model->field == $v['no'] ? 'selected' : '' ?>
+                                            value="<?= $v['no'] ?>"><?= $v['no'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">绑定用户</label>
-                            <div class="col-sm-5">
-                                <div class="input-group">
-                                    <input type="text" class="form-control tel" placeholder="填写手机号完成用户绑定"
-                                           value="<?= $model->user ? $model->user->tel : '' ?>">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary searchField2">绑定</button>
-                                    </span>
-                                </div>
-                                <input type="hidden" name="user_id" value="<?= $model->user_id ?>">
-                            </div>
-                            <script>
-                                $('.searchField2').click(function () {
-                                    $('[name="user_id"]').val(0);
-                                    $.getJSON('/field/field/user-search', {tel: $('.tel').val()}, function (re) {
-                                        if (re.type) {
-                                            $('[name="user_id"]').val(re.data);
-                                            showMsg('用户绑定成功');
-                                        } else {
-                                            showMsg('用户不存在,请重新输入用户手机号进行绑定');
-                                        }
-                                    })
-                                });
-                            </script>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">意向用户</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="user" value="<?= $model->user ?>"
+                                   placeholder="请填写用户手机号">
+                            <small>* 账户不存在将自动创建</small>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">推荐用户</label>
-                            <div class="col-sm-5">
-                                <div class="input-group">
-                                    <input type="text" class="form-control tel3" placeholder="填写手机号完成推荐用户绑定(选填)"
-                                           value="<?= $model->cobber ? $model->cobber->tel : '' ?>">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary searchField3">绑定</button>
-                                    </span>
-                                </div>
-                                <input type="hidden" name="cobber_id" value="<?= $model->cobber_id ?>">
-                            </div>
-                            <script>
-                                $('.searchField3').click(function () {
-                                    $('[name="cobber_id"]').val(0);
-                                    $.getJSON('/field/field/user-search', {tel: $('.tel3').val()}, function (re) {
-                                        if (re.type) {
-                                            $('[name="cobber_id"]').val(re.data);
-                                            showMsg('推荐用户绑定成功');
-                                        } else {
-                                            showMsg('推荐用户不存在,请重新输入用户手机号进行绑定');
-                                        }
-                                    })
-                                });
-                            </script>
-                        </div>
-                    <?php else: ?>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">场站编号</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="<?= $model->field->no ?>" readonly>
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">意向用户</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="<?= $model->user->tel ?>" readonly>
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">推荐用户</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control"
-                                       placeholder="<?= $model->cobber ? $model->cobber->tel : '' ?>" readonly>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
@@ -132,62 +55,33 @@
                                    readonly>
                         </div>
                     </div>
-                    <?php if ($model->source == 2): ?>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">认购金额</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" name="purchase_amount"
-                                       value="<?= $model->purchase_amount ?>">
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">认购金额</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" placeholder="<?= $model->purchase_amount ?>"
-                                       readonly>
-                            </div>
-                        </div>
-                    <?php endif; ?>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">分成比例</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control"
-                                   placeholder="<?= $model->part_ratio ? $model->part_ratio : '系统自动完成计算' ?>" readonly>
+                                   placeholder="<?= $model->ratio ? $model->ratio : '系统自动完成计算' ?>" readonly>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">定金金额</label>
+                        <label class="col-sm-3 control-label">认购金额</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->order_amount ?>"
-                                   readonly>
+                            <input type="text" class="form-control" name="amount" value="<?= $model->amount ?: 0 ?>">
                         </div>
                     </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">意向合同</label>
+                        <div class="col-sm-5">
+                            <div class="contract"></div>
+                        </div>
+                        <script>
+                            uploadFile('.contract', 'contract', '<?=$model->contract?>');
+                            $('.contract').find('.fileInput').prop('accept', '.pdf');
+                        </script>
+                    </div>
                 </div>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">打款凭条</label>
-                <div class="col-sm-8">
-                    <div class="voucher"></div>
-                </div>
-                <script>
-                    uploadImg('.voucher', 'voucher', '<?=$model->voucher?>', false, 1);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">意向合同</label>
-                <div class="col-sm-8">
-                    <div class="contract"></div>
-                </div>
-                <script>
-                    uploadImg('.contract', 'contract', '<?=$model->contract?>', false, 4);
-                </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
@@ -198,12 +92,22 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <div class="col-sm-5 col-sm-offset-2">
-                    <button class="btn btn-primary" type="submit">提交审核</button>
-                    &emsp;
-                    <button class="btn btn-white back">返回</button>
+                <div class="col-sm-5 col-sm-offset-2 btnBox">
+                    <button class="btn btn-primary" type="submit">保存内容</button> &emsp;
+                    <?php if ($model->status == 1): ?>
+                        <button class="btn btn-warning save" data-s="2" type="submit">保存合同</button> &emsp;
+                    <?php endif; ?>
+                    <?php if ($model->status == 2): ?>
+                        <button class="btn btn-warning save" data-s="3" type="submit">提交审核</button> &emsp;
+                    <?php endif; ?>
+                    <button class="btn btn-white jump" type="button" data-url="/field/intention/list">返回</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+<script>
+    $('.btnBox').on('click', '.save', function () {
+        $('[name="status"]').val($(this).data('s'));
+    });
+</script>

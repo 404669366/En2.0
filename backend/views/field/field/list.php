@@ -6,7 +6,7 @@
                 <div class="col-sm-10">
                     <span class="tableSpan">
                         综合搜索: <input class="searchField" type="text" value="" name="content"
-                                     placeholder="编号/名称/标题/地址/用户/推荐用户" style="width: 18rem">
+                                     placeholder="编号/名称/标题/地址/用户" style="width: 18rem">
                     </span>
                     <span class="tableSpan">
                         场站来源: <select class="searchField" name="source">
@@ -47,7 +47,7 @@
                     </span>
                 </div>
                 <div class="col-sm-2">
-                    <a class="btn btn-sm btn-warning" href="/field/field/get">抢单(<?= $count ?>)</a>
+                    <a class="btn btn-sm btn-warning" data-rid="21" href="/field/field/get">抢单(<?= $count ?>)</a>
                     &emsp;
                     <a class="btn btn-sm btn-info" href="/field/field/edit">添加场地</a>
                 </div>
@@ -57,15 +57,14 @@
                 <tr role="row">
                     <th>NO</th>
                     <th>场站来源</th>
-                    <th>业务类型</th>
-                    <th>投资类型</th>
-                    <th>用户</th>
-                    <th>推荐用户</th>
                     <th>场站名称</th>
                     <th>场站标题</th>
                     <th>场站位置</th>
-                    <th>融资情况</th>
+                    <th>业务类型</th>
+                    <th>投资类型</th>
+                    <th>场地用户</th>
                     <th>分成比例</th>
+                    <th>融资情况</th>
                     <th>场站状态</th>
                     <th>创建时间</th>
                     <th>操作</th>
@@ -83,17 +82,6 @@
         columns: [
             {"data": "no"},
             {"data": "source"},
-            {"data": "business_type"},
-            {"data": "invest_type"},
-            {
-                "data": "uTel", "render": function (data, type, row) {
-                return data || '----';
-            }
-            }, {
-                "data": "cTel", "render": function (data, type, row) {
-                    return data || '----';
-                }
-            },
             {
                 "data": "name", "render": function (data, type, row) {
                 return linFeed(data, 15);
@@ -109,8 +97,15 @@
                 return linFeed(data, 15);
             }
             },
-            {"data": "info"},
+            {"data": "business_type"},
+            {"data": "invest_type"},
+            {
+                "data": "local", "render": function (data, type, row) {
+                return data || '----';
+            }
+            },
             {"data": "ratio"},
+            {"data": "info"},
             {"data": "status"},
             {
                 "data": "created_at", "render": function (data, type, row) {
@@ -119,11 +114,11 @@
             },
             {
                 "data": "id", "orderable": false, "render": function (data, type, row) {
-                var str = '<button type="button" class="btn btn-sm btn-danger appoint" data-fid="' + data + '">指派</button>&emsp;';
+                var str = '<a class="btn btn-sm btn-info" href="/field/field/info?id=' + data + '">详情</a>&emsp;';
                 if (row.status === '待处理' || row.status === '挂起' || row.status === '审核不通过') {
-                    return str + '<a class="btn btn-sm btn-warning" href="/field/field/edit?id=' + data + '">编辑</a>';
+                    str = '<a class="btn btn-sm btn-warning" href="/field/field/edit?id=' + data + '">编辑</a>&emsp;';
                 }
-                return str + '<a class="btn btn-sm btn-info" href="/field/field/info?id=' + data + '">详情</a>';
+                return str + '<button type="button" class="btn btn-sm btn-danger appoint" data-fid="' + data + '">指派</button>';
             }
             }
         ],

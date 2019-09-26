@@ -23,7 +23,7 @@ class FieldController extends CommonController
      */
     public function actionList()
     {
-        return $this->render('list', ['count' => EnField::getNeedFieldCount()]);
+        return $this->render('list', ['count' => EnField::getRobCount()]);
     }
 
     /**
@@ -32,7 +32,7 @@ class FieldController extends CommonController
      */
     public function actionData()
     {
-        return $this->rTableData(EnField::getPageData());
+        return $this->rTableData(EnField::getPageData(\Yii::$app->user->id));
     }
 
     /**
@@ -48,10 +48,7 @@ class FieldController extends CommonController
             $model->no = Helper::createNo('F');
             $model->commissioner_id = \Yii::$app->user->id;
             $model->source = 2;
-            $model->created = \Yii::$app->user->id;
             $model->created_at = time();
-        } else {
-            $model->intro = \Yii::$app->cache->get('FieldIntro-' . $model->id);
         }
         if (\Yii::$app->request->isPost) {
             if ($model->load(['EnField' => \Yii::$app->request->post()]) && $model->validate() && $model->save()) {
@@ -73,19 +70,6 @@ class FieldController extends CommonController
     public function actionInfo($id)
     {
         return $this->render('info', ['model' => EnField::findOne($id)]);
-    }
-
-    /**
-     * 用户绑定搜索
-     * @param $tel
-     * @return string
-     */
-    public function actionUserSearch($tel)
-    {
-        if ($data = EnField::userSearch($tel)) {
-            return $this->rJson($data);
-        }
-        return $this->rJson([], false);
     }
 
     /**
@@ -116,7 +100,7 @@ class FieldController extends CommonController
      */
     public function actionGet()
     {
-        EnField::getNeedField();
+        EnField::robField();
         return $this->redirect(['list']);
     }
 }

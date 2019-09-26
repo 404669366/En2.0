@@ -29,7 +29,7 @@ class FieldController extends CommonController
      */
     public function actionData()
     {
-        return $this->rTableData(EnField::getExamineData());
+        return $this->rTableData(EnField::getPageData(0, [2, 3]));
     }
 
     /**

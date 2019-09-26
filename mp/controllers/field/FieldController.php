@@ -22,7 +22,7 @@ class FieldController extends BasisController
     public function actionList()
     {
         return $this->render('list.html', [
-            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1))
+            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1), \Yii::$app->request->get('search', ''))
         ]);
     }
 

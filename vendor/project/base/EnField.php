@@ -370,10 +370,11 @@ class EnField extends \yii\db\ActiveRecord
     /**
      * 列表页数据
      * @param int $type
+     * @param string $search
      * @param int $limit
-     * @return array|\yii\db\ActiveRecord[]
+     * @return $this|array|\yii\db\ActiveRecord[]
      */
-    public static function listDataByMp($type = 1, $limit = 0)
+    public static function listDataByMp($type = 1, $search = '', $limit = 0)
     {
         $map = [
             1 => 'created_at',
@@ -383,6 +384,15 @@ class EnField extends \yii\db\ActiveRecord
             5 => '',
         ];
         $data = self::find()->where(['status' => 4])->select(['no', 'title', 'name', 'address', 'images', 'budget_amount', 'lowest_amount', 'present_amount', 'business_type', 'invest_type']);
+        if ($search) {
+            $data->andWhere([
+                'or',
+                ['like', 'no', $search],
+                ['like', 'title', $search],
+                ['like', 'name', $search],
+                ['like', 'address', $search],
+            ]);
+        }
         if (isset($map[$type]) && $map[$type]) {
             $data->orderBy($map[$type] . ' desc');
         }

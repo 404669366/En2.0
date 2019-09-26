@@ -23,7 +23,7 @@ class IndexController extends BasisController
     {
         return $this->render('index.html', [
             'banner' => Constant::bannerImg(),
-            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1), 4),
+            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1), '', 4),
             'serviceTel' => Constant::serviceTel()
         ]);
     }

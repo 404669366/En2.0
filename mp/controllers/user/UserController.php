@@ -10,6 +10,7 @@ namespace app\controllers\user;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\helpers\Constant;
 
 class UserController extends AuthController
 {
@@ -21,7 +22,7 @@ class UserController extends AuthController
     {
         return $this->render('center.html', [
             'moneys' => explode('.', (string)(sprintf("%.2f", \Yii::$app->user->identity->money))),
-            'tel' => \Yii::$app->user->identity->tel
+            'serviceTel' => Constant::serviceTel()
         ]);
     }
 }

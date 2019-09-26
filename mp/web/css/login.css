@@ -1,0 +1,84 @@
+body {
+    width: 10rem;
+    height: 100%;
+    position: fixed;
+    display: table;
+    background: url("../img/bg_1.jpg") no-repeat;
+    background-size: cover;
+}
+
+body > form {
+    display: table-cell;
+    vertical-align: middle;
+    width: 9rem;
+    padding: 0 0.5rem;
+    text-align: center;
+}
+
+body > form .logo {
+    width: 3.2rem;
+    height: 3.2rem;
+    padding-bottom: 1rem;
+}
+
+body > form .loginBox {
+    width: 9rem;
+    height: 1.5rem;
+    border-bottom: 1px #C3C3C3 solid;
+    padding: 0.35rem 0;
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
+    font: 0.8rem/0.8rem '微软雅黑';
+}
+
+body > form .loginBox > * {
+    display: block;
+    float: left;
+    height: 0.8rem;
+    border: none;
+    background: none;
+}
+
+body > form .loginBox > span {
+    width: 2rem;
+    color: #5A5A5A;
+    text-align: center;
+}
+
+body > form .loginBox > input {
+    box-sizing: border-box;
+    width: 7rem;
+    text-indent: 0.4rem;
+    border-left: 1.5px #C3C3C3 solid;
+    color: white;
+    font: 0.4rem/0.8rem '微软雅黑';
+}
+
+body > form .loginBox > input[name="code"] {
+    width: 4rem;
+}
+
+body > form .loginBox .yzm {
+    display: inline-block;
+    width: 3rem;
+    color: #00A8EC;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px #00A8EC solid;
+    border-radius: 0.1rem;
+    float: right;
+    font: 0.4rem/0.8rem '微软雅黑';
+}
+
+body > form > button {
+    width: 9rem;
+    height: 1.5rem;
+    border: none;
+    color: #fff;
+    background: #00A8EC;
+    border-radius: 0.2rem;
+    letter-spacing: 0.1rem;
+    margin-top: 0.2rem;
+    outline: none;
+    font: 0.44rem/1.5rem '微软雅黑';
+}

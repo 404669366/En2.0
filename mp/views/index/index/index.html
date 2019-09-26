@@ -36,7 +36,7 @@
         </div>
     </div>
     <script>window.html('bannerImg', 'bannerTpl', global.banner);</script>
-    <div class="bannerIcon" data-url="/user/user/user.html"><i class="fa fa-user-o" aria-hidden="true"></i></div>
+    <div class="bannerIcon" data-url="/user/user/center.html"><i class="fa fa-user-o" aria-hidden="true"></i></div>
     <div class="bannerInfo">
         <div class="bannerTitle">专业 / 快速 / 省心</div>
         <div class="bannerDetail">
@@ -70,19 +70,19 @@
 <div class="toolsBox">
     <span>常用工具</span>
     <div class="tools">
-        <div data-url="/user/release/release-basis.html">
+        <div data-url="/user/field/add.html">
             <span><img src="/img/tool_01.png"><br>发布场地</span>
         </div>
-        <div data-url="/user/user/basis-field.html">
+        <div data-url="/user/field/list.html">
             <span><img src="/img/tool_02.png"><br>我的场站</span>
         </div>
         <div data-url="/user/intention/list.html">
-            <span><img src="/img/tool_03.png"><br>我的意向</span>
+            <span><img src="/img/tool_03.png"><br>我的参与</span>
         </div>
-        <div data-url="/estimate/estimate/estimate.html">
+        <div data-url="/user/income/list.html">
             <span><img src="/img/tool_04.png"><br>我的收益</span>
         </div>
-        <div data-url="tel:">
+        <div class="service">
             <span><img src="/img/tool_09.png"><br>客服电话</span>
         </div>
     </div>
@@ -117,6 +117,9 @@
     $('.type>span').removeClass('active');
     $('[data-url="/index/index/index.html?type=' + type + '"]').addClass('active');
     $('.more').data('url', '/field/field/list.html?type=' + type);
+    $('.service').click(function () {
+        window.location.href = 'tel:' + global.serviceTel;
+    });
 </script>
 </body>
 </html>

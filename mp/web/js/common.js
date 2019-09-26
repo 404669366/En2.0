@@ -137,7 +137,7 @@ window.distance = function (lat1, lng1, lat2, lng2) {
 };
 
 window.wait = function () {
-    var str = '<div class="waitBox"><span><img src="/img/loading.gif" alt=""></span></div>';
+    var str = '<div class="wait"><img src="/img/loading.gif" alt=""></div>';
     return {
         open: function () {
             document.body.style.overflowY = 'hidden';
@@ -148,7 +148,7 @@ window.wait = function () {
             $('body').remove('.waitBox');
         }
     };
-};
+}();
 
 window.arrayUnique = function (arr, params) {
     const res = new Map();
@@ -165,6 +165,7 @@ window.load(function () {
                 window.open(url);
             } else {
                 window.location.href = url;
+                window.wait.open();
             }
         }
     });

@@ -1,0 +1,63 @@
+.userInfo {
+    width: 10rem;
+    height: 5rem;
+    margin-top: 1.5rem;
+    background: #4371FB;
+    display: table;
+}
+
+.userInfo > span {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.54rem;
+    color: #f0f4f7;
+}
+
+.userInfo > span > img {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    margin-bottom: 0.2rem;
+}
+
+.menuList {
+    width: 10rem;
+    margin-top: 0.2rem;
+}
+
+.menuList > .menu {
+    width: 10rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    font-size: 0.52rem;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.menu > i {
+    width: 1.6rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    text-align: center;
+    color: #999999;
+}
+
+.menu > .name {
+    float: left;
+    width: 6.8rem;
+    height: 1.4rem;
+    color: #777777;
+}
+
+.logout {
+    margin: 0.4rem auto;
+    width: 6rem;
+    height: 1rem;
+    line-height: 1rem;
+    background: #0B57F0;
+    color: #f0f4f7;
+    text-align: center;
+    font-size: 0.42rem;
+    border-radius: 0.06rem;
+}
+

@@ -35,6 +35,10 @@
             </ul>
         </div>
         <div class="detail">
+            <span>项目特色</span>
+            <div class="txt">{{=it.field.trait}}</div>
+        </div>
+        <div class="detail">
             <span>项目配置</span>
             <div class="txt">{{=it.field.field_configure}}</div>
         </div>
@@ -92,6 +96,7 @@
         <div class="click">我已知晓</div>
     </div>
 </div>
+<div class="loading"></div>
 <div class="foot">
     <span>蜀ICP备19002778号-1 Copyright © 2019 en.ink.<br>四川亿能天成科技有限公司</span>
 </div>
@@ -116,6 +121,8 @@
         window.modal.close('.modal');
     });
     $('.click').click(function () {
+        window.modal.close('.modal');
+        window.wait.open();
         window.location.href = '/user/intention/add.html?no=' + global.field.no;
     });
 </script>

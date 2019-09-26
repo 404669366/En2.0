@@ -20,7 +20,7 @@ class BasisController extends Controller
     public function beforeAction($action)
     {
         $re = parent::beforeAction($action);
-        Msg::setSize('0.5rem');
+        Msg::setSize('0.3rem');
         if (Wechat::isWechat()) {
             return $re;
         }

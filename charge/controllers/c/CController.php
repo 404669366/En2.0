@@ -47,6 +47,6 @@ class CController extends AuthController
                 'code' => Constant::serverCode()
             ]);
         }
-        return $this->redirect(['user/user/center']);
+        return $this->goBack();
     }
 }

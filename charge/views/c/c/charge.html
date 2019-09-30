@@ -106,7 +106,11 @@
                 return;
             }
             window.showMsg(global.code[data.code]);
-            if (data.code === 200 || data.code === 201 || data.code === 202 || data.code === 203 || data.code === 209) {
+            if (data.code === 201) {
+                window.location.href = '/order/invest/invest.html';
+                return;
+            }
+            if (data.code === 200 || data.code === 202 || data.code === 203 || data.code === 209) {
                 window.history.go(-1);
                 return;
             }

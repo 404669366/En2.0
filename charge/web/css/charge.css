@@ -28,7 +28,6 @@
     left: calc(50% - 2rem);
     top: calc(50% - 1.5rem);
     border-radius: 0.5rem;
-    background: #fff;
 }
 
 .demo > .bolt {

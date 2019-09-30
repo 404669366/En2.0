@@ -92,20 +92,19 @@
     socket.onopen = function () {
         socket.send(JSON.stringify(global.info));
         socket.onmessage = function (event) {
+            window.wait().close();
             var data = JSON.parse(event.data);
             if (data.code === 205 || data.code === 206 || data.code === 207) {
-                window.wait().close();
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207) {
                     window.showMsg(global.code[data.code]);
-                    load = layer.load(2, {shade: [0.6, '#eeeeee']});
+                    window.wait().open();
                 }
                 return;
             }
-            $.cookie('message-data', global.code[data.code], {path: '/'});
             if (data.code === 201) {
                 window.showMsgDo(global.code[data.code], 3, function () {
                     window.location.href = '/order/invest/invest.html';
@@ -125,7 +124,6 @@
                 return;
             }
             if (data.code === 301) {
-                window.wait().close();
                 window.showMsg(global.code[data.code]);
                 return;
             }

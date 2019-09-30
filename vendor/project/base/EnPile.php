@@ -106,8 +106,6 @@ class EnPile extends \yii\db\ActiveRecord
     public static function chargeInfo($no = '')
     {
         $pile = substr($no, 0, 10);
-        var_dump($pile);
-        var_dump(substr($no, 10));exit();
         if ($pile = self::findOne(['no' => $pile])) {
             $userInfo = (new client())->hGet('UserInfo', Yii::$app->user->id);
             if ($userInfo && isset($userInfo['order'])) {

@@ -530,8 +530,7 @@ class EnField extends \yii\db\ActiveRecord
             ->select(['no', 'name', 'address', 'lng', 'lat',])
             ->asArray()->all();
         foreach ($data as &$v) {
-            $gun = (new client())->hGet('PileInfo', $v['no']);
-            $v['guns'] = ['count' => $gun['count'], 'used' => count(json_decode($gun['orderInfo'], true))];
+            $v['guns'] = self::getFieldGuns($v['no']);
         }
         return $data;
     }

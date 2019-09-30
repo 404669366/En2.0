@@ -1,5 +1,5 @@
-.body, .demo, .charge_process, .charge_time {
-    background: #ffffff;
+.body, .title, .demo, .charge_process, .charge_time {
+    background: #ffffff !important;
 }
 
 .title {

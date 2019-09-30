@@ -85,14 +85,14 @@
 </div>
 </body>
 <script>
-    window.wait.open();
+    window.wait().open();
     $('.title').text(global.info.fieldName);
     $('.demo').radialIndicator().data('radialIndicator').value(0);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
         socket.send(JSON.stringify(global.info));
         socket.onmessage = function (event) {
-            window.wait.close();
+            window.wait().close();
             var data = JSON.parse(event.data);
             if (data.code === 205 || data.code === 206 || data.code === 207) {
                 data.data.fieldName = global.info.fieldName;
@@ -101,7 +101,7 @@
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207) {
                     window.showMsg(global.code[data.code]);
-                    window.wait.open();
+                    window.wait().open();
                 }
                 return;
             }
@@ -129,12 +129,12 @@
             }
         };
         $('.charge_end').click(function () {
-            window.wait.open();
+            window.wait().open();
             socket.send(JSON.stringify({do: 'endCharge', pile: global.info.pile, gun: global.info.gun}));
         });
     };
     socket.onerror = function () {
-        window.wait.close();
+        window.wait().close();
         window.showMsgDo('链接服务器错误,请稍后再试', 3, function () {
             window.history.go(-1);
         });

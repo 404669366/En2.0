@@ -1,5 +1,5 @@
-.body {
-    background: #f2f2f2;
+.body, .demo, .charge_process, .charge_time {
+    background: #ffffff;
 }
 
 .title {
@@ -7,10 +7,6 @@
     width: 100%;
     line-height: 1.2rem;
     font-size: 0.5rem;
-}
-
-.demo, .charge_process, .charge_time {
-    background: #ffffff;
 }
 
 .demo {

@@ -158,7 +158,7 @@ window.wait = function () {
         },
         close: function () {
             document.body.style.overflowY = 'visible';
-            $('body').remove('.waitBox');
+            $('body').find('.waitBox').remove();
         }
     };
 };

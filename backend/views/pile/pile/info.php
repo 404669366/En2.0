@@ -43,8 +43,6 @@
     }
 
 </style>
-<button type="button" class="btn btn-sm btn-info lala" data-do="beginCharge">充电测试</button>
-<button type="button" class="btn btn-sm btn-info lala" data-do="endCharge">结束充电</button>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
@@ -55,20 +53,6 @@
                     <label class="col-sm-2 control-label">电桩编号</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control no" name="no" value="<?= $model->no ?>" readonly>
-                    </div>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">连接状态</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control carStatus" value="" readonly>
-                    </div>
-                </div>
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">工作状态</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control workStatus" value="" readonly>
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
@@ -147,18 +131,11 @@
     </div>
 </div>
 <script>
-    var rNo = `<?= $rNo ?>`;
-    var sNo = `<?= $model->no ?>`;
     var code = JSON.parse(`<?=$code?>`);
-    var carStatus = JSON.parse(`<?=$carStatus?>`);
-    var workStatus = JSON.parse(`<?=$workStatus?>`);
     var socket = new WebSocket('ws://47.99.36.149:20001');
+    var no = '<?=$model->no?>';
     socket.onopen = function () {
-        if (rNo !== sNo) {
-            socket.send(JSON.stringify({do: 'setNo', pile: rNo, no: sNo}));
-        } else {
-            socket.send(JSON.stringify({do: 'pileInfo', pile: sNo}));
-        }
+        socket.send(JSON.stringify({do: 'pileInfo', pile: no}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             console.log(data);
@@ -169,35 +146,19 @@
                     $('.qrCode' + i).makeCode({
                         width: 260,
                         height: 260,
-                        text: 'http://c.en.ink/c/c/c.html?n=' + sNo + i
+                        text: 'http://c.en.ink/c/c/c.html?n=' + no + i
                     });
                 }
-                $('.carStatus').val(carStatus[data.data.carStatus]);
-                $('.workStatus').val(workStatus[data.data.workStatus]);
                 $('.alarmInfo').val((data.data.alarmInfo.split('1')).length - 1);
                 return;
             }
-            if (data.code === 400) {
-                socket.send(JSON.stringify({do: 'pileInfo', pile: sNo}));
-                return;
-            }
-            if (data.code === 601 || data.code === 401) {
+            if (data.code === 601) {
                 $.cookie('message-data', code[data.code], {path: '/'});
                 window.location.href = '/pile/pile/list';
                 return;
             }
             window.showMsg(code[data.code]);
         };
-
-        $('.lala').click(function () {
-            socket.send(JSON.stringify({
-                do: $(this).data('do'),
-                pile: sNo,
-                gun: 1,
-                orderNo: 'C0000000000000',
-                uid: 0,
-            }))
-        });
     };
     var rules = $('.rules').val() ? JSON.parse($('.rules').val()) : [];
     var str = '';

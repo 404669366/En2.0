@@ -31,7 +31,6 @@
         {{??}}
         <li>
             <p data-url="/user/login/login.html">登录 / 注册</p>
-            <a href="/user/login/login.html" class="hide">登录 / 注册</a>
         </li>
         {{?}}
     </script>
@@ -48,16 +47,16 @@
         <b>投资 | 建设 | 运营 | 维护</b>
         <div class="slider-btn-box">
             <div class="slider-btn" data-url="/user/field/create.html">
-                发起项目<a class="hide" href="/user/field/create.html">发起项目</a>
+                发起项目
             </div>
             &nbsp;
             {{?it.user}}
             <div class="slider-btn" data-url="/field/field/list.html">
-                投资项目<a class="hide" href="/user/field/list.html">投资项目</a>
+                投资项目
             </div>
             {{??}}
-            <div class="slider-btn" data-url="/index/index/index.html">
-                成为投资人<a class="hide" href="/user/login/login.html">成为投资人</a>
+            <div class="slider-btn" data-url="/user/login/login.html">
+                成为投资人
             </div>
             {{?}}
         </div>
@@ -109,7 +108,6 @@
                 <div style="background-size: {{=v.present_amount / v.budget_amount * 100}}% auto"></div>
                 {{?}}
             </div>
-            <a class="hide" href="/field/field/detail.html?no={{=v.no}}">{{=v.title}}</a>
         </li>
         {{~}}
     </script>
@@ -125,7 +123,6 @@
             </p>
             <h3>{{=v.title}}</h3>
             <div class="intro">{{=v.intro}}</div>
-            <a class="hide" href="/news/news/detail.html?id={{=v.id}}">{{=v.title}}</a>
         </li>
         {{~}}
     </script>

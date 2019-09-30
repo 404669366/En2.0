@@ -38,25 +38,21 @@ class PileController extends CommonController
         $model = EnPile::findOne(['no' => $no]);
         if (!$model) {
             $model = new EnPile();
-            $model->no = Helper::createNo('P');
+            $model->no = $no;
             $model->created_at = time();
         }
         if (\Yii::$app->request->isPost) {
             $model->load(['EnPile' => \Yii::$app->request->post()]);
             if ($model->validate() && $model->save()) {
-                (new client())->hSetField('PileInfo', $model->no, 'field', $model->field);
                 Msg::set('保存成功');
             } else {
                 Msg::set($model->errors());
             }
         }
         return $this->render('info', [
-            'rNo' => $no,
             'model' => $model,
             'models' => EnModel::getModels(),
             'code' => json_encode(Constant::serverCode()),
-            'carStatus' => json_encode(Constant::carStatus()),
-            'workStatus' => json_encode(Constant::workStatus()),
         ]);
     }
 

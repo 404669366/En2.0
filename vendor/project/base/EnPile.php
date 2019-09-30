@@ -118,8 +118,7 @@ class EnPile extends \yii\db\ActiveRecord
                 }
             }
             $orderNo = Helper::createNo('O');
-            (new client())->hSetField('UserInfo', Yii::$app->user->id, 'order', $orderNo);
-            (new client())->hSetField('UserInfo', Yii::$app->user->id, 'money', EnUser::getMoney());
+            (new client())->hSet('UserInfo', Yii::$app->user->id, ['order' => $orderNo, 'money' => EnUser::getMoney()]);
             return [
                 'do' => 'beginCharge',
                 'orderNo' => $orderNo,

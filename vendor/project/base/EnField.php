@@ -493,7 +493,7 @@ class EnField extends \yii\db\ActiveRecord
             ->asArray()->one();
         if ($data) {
             $data['images'] = explode(',', $data['images']);
-            $data['guns'] = self::getGuns($no);
+            $data['guns'] = self::getFieldGuns($no);
         }
         return $data;
     }
@@ -503,19 +503,28 @@ class EnField extends \yii\db\ActiveRecord
      * @param string $no
      * @return array
      */
-    public static function getGuns($no = '')
+    public static function getFieldGuns($no = '')
     {
         $guns = ['count' => 0, 'used' => 0];
-        $piles = (new client())->hGet('FieldInfo', $no) ?: [];
+        $piles = EnPile::find()->alias('p')
+            ->leftJoin(self::tableName() . ' f', 'f.id=p.field_id')
+            ->where(['f.no' => $no])
+            ->select(['p.no'])
+            ->asArray()->all();
         foreach ($piles as $v) {
-            $v = json_decode($v, true);
-            $guns['count'] += $v['count'];
-            $guns['used'] += $v['used'];
+            $gunCount = (new client())->hGetField('PileInfo', $v['no'], 'gunCount');
+            $guns['count'] += $gunCount;
+            for ($i = 1; $i <= $gunCount; $i++) {
+                if ((new client())->hGetField('GunInfo', $v['no'] . '-' . $i, 'orderNo')) {
+                    $guns['used'] += 1;
+                }
+            }
         }
         return $guns;
     }
 
     /**
+     * 返回浏览记录信息
      * @param array $nos
      * @return array|\yii\db\ActiveRecord[]
      */
@@ -525,7 +534,7 @@ class EnField extends \yii\db\ActiveRecord
             ->select(['no', 'name', 'address', 'lng', 'lat',])
             ->asArray()->all();
         foreach ($data as &$v) {
-            $v['guns'] = self::getGuns($v['no']);
+            $v['guns'] = self::getFieldGuns($v['no']);
         }
         return $data;
     }

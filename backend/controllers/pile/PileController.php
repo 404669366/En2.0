@@ -55,19 +55,4 @@ class PileController extends CommonController
             'code' => json_encode(Constant::serverCode()),
         ]);
     }
-
-    /**
-     * 修改编号
-     * @param string $old
-     * @param string $new
-     * @return string
-     */
-    public function actionEditNo($old = '', $new = '')
-    {
-        if ($model = EnPile::findOne(['no' => $old])) {
-            $model->no = $new;
-            $model->save(false);
-        }
-        return $this->rJson();
-    }
 }

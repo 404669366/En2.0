@@ -85,11 +85,11 @@ class EnPile extends \yii\db\ActiveRecord
 
     public function validateField()
     {
-        $model = EnField::findOne(['no' => $this->field, 'status' => [5]]);
+        $model = EnField::findOne(['no' => $this->field]);
         if ($model) {
             $this->field_id = $model->id;
         } else {
-            $this->addError('field', '场站未开放或不存在');
+            $this->addError('field', '场站未不存在');
         }
     }
 

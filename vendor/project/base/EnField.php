@@ -512,13 +512,9 @@ class EnField extends \yii\db\ActiveRecord
             ->select(['p.no'])
             ->asArray()->all();
         foreach ($piles as $v) {
-            $gunCount = (new client())->hGetField('PileInfo', $v['no'], 'gunCount');
-            $guns['count'] += $gunCount;
-            for ($i = 1; $i <= $gunCount; $i++) {
-                if ((new client())->hGetField('GunInfo', $v['no'] . '-' . $i, 'orderNo')) {
-                    $guns['used'] += 1;
-                }
-            }
+            $gun = (new client())->hGet('PileInfo', $v['no']);
+            $guns['count'] += $gun['count'];
+            $guns['used'] += count(json_decode($gun['orderInfo'], true));
         }
         return $guns;
     }
@@ -534,7 +530,8 @@ class EnField extends \yii\db\ActiveRecord
             ->select(['no', 'name', 'address', 'lng', 'lat',])
             ->asArray()->all();
         foreach ($data as &$v) {
-            $v['guns'] = self::getFieldGuns($v['no']);
+            $gun = (new client())->hGet('PileInfo', $v['no']);
+            $v['guns'] = ['count' => $gun['count'], 'used' => count(json_decode($gun['orderInfo'], true))];
         }
         return $data;
     }

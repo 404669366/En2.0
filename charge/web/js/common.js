@@ -69,6 +69,19 @@ window.showMsg = function (data, size) {
     }
 };
 
+window.showMsgDo = function (data, time, func, size) {
+    if (data) {
+        var messageSize = size || ($.cookie('message-size') || '1rem');
+        if (messageSize) {
+            layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>', {time: time * 1000}, function () {
+                func();
+            });
+        } else {
+            layer.msg(data);
+        }
+    }
+};
+
 window.format = function (num, length) {
     return Math.round(num * Math.pow(10, length)) / Math.pow(10, length);
 };

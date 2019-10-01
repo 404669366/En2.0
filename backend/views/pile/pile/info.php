@@ -146,7 +146,7 @@
                     $('.qrCode' + i).makeCode({
                         width: 260,
                         height: 260,
-                        text: 'http://c.en.ink/c/c/c.html?n=' + no + ',' + i
+                        text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + i
                     });
                 }
                 $('.alarmInfo').val((data.data.alarmInfo.split('1')).length - 1);

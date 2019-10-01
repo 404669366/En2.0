@@ -109,7 +109,7 @@ class EnPile extends \yii\db\ActiveRecord
             Msg::set('您有订单进行中');
             return [
                 'do' => 'seeCharge',
-                'orderNo' => $orderNo,
+                'orderNo' => 'O20191001157765',
                 'fieldName' => (new client())->hGetField('UserInfo', Yii::$app->user->id, 'fieldName'),
             ];
         }

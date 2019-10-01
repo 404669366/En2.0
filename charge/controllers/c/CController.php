@@ -23,7 +23,7 @@ class CController extends AuthController
      */
     public function actionScan()
     {
-        if ((new client())->hGetField('UserInfo', \Yii::$app->user->id, 'order')) {
+        if (\Yii::$app->session->get('order', '')) {
             return $this->redirect(['c']);
         }
         return $this->render('scan.html', Wechat::getJsApiParams());
@@ -35,7 +35,7 @@ class CController extends AuthController
      */
     public function actionHand()
     {
-        if ((new client())->hGetField('UserInfo', \Yii::$app->user->id, 'order')) {
+        if (\Yii::$app->session->get('order', '')) {
             return $this->redirect(['c']);
         }
         return $this->render('hand.html');

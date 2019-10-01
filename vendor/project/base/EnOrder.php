@@ -86,28 +86,11 @@ class EnOrder extends \yii\db\ActiveRecord
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
             $v['st'] = 2;
         }
-        if ($order = self::getOnlineOrder()) {
+        if ($order = (new client())->hGet('ChargeOrder', Yii::$app->session->get('order', ''))) {
             $order['st'] = 1;
             $order['name'] = EnPile::findOne(['no' => $order['pile']])->local->name;
             array_unshift($orders, $order);
         }
         return $orders;
-    }
-
-    /**
-     * 获取用户在线订单
-     * @param int $uid
-     * @return array|mixed
-     */
-    public static function getOnlineOrder($uid = 0)
-    {
-        $uid = $uid ?: Yii::$app->user->id;
-        $userInfo = (new client())->hGet('UserInfo', $uid);
-        if ($userInfo && isset($userInfo['order'])) {
-            if ($order = (new client())->hGet('ChargeOrder', $userInfo['order'])) {
-                return $order;
-            }
-        }
-        return [];
     }
 }

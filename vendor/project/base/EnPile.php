@@ -105,18 +105,20 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public static function chargeInfo($no = '')
     {
-        if ($orderNo = (new client())->hGetField('UserInfo', Yii::$app->user->id, 'order')) {
+        if ($orderNo = Yii::$app->session->get('order', '')) {
             Msg::set('您有订单进行中');
             return [
                 'do' => 'seeCharge',
                 'orderNo' => $orderNo,
-                'fieldName' => (new client())->hGetField('UserInfo', Yii::$app->user->id, 'fieldName'),
+                'fieldName' => Yii::$app->session->get('fieldName', '----'),
             ];
         }
         $no = explode('-', $no);
         if ($pile = self::findOne(['no' => $no[0]])) {
             $orderNo = Helper::createNo('O');
-            (new client())->hSet('UserInfo', Yii::$app->user->id, ['order' => $orderNo, 'fieldName' => $pile->local->name, 'money' => EnUser::getMoney()]);
+            Yii::$app->session->set('order', $orderNo);
+            Yii::$app->session->get('fieldName', $pile->local->name);
+            (new client())->hSet('UserInfo', Yii::$app->user->id, ['money' => EnUser::getMoney()]);
             return [
                 'do' => 'beginCharge',
                 'orderNo' => $orderNo,

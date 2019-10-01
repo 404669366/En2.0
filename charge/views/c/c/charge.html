@@ -99,7 +99,6 @@
             if (data.code === 205 || data.code === 206 || data.code === 207) {
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
-                data.data.rule = global.info.rule;
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207) {

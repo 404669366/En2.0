@@ -105,11 +105,12 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public static function chargeInfo($no = '')
     {
+        (new client())->hSetField('UserInfo', Yii::$app->user->id, 'order','');
         if ($orderNo = (new client())->hGetField('UserInfo', Yii::$app->user->id, 'order')) {
             Msg::set('您有订单进行中');
             return [
                 'do' => 'seeCharge',
-                'orderNo' => 'O20191001157765',
+                'orderNo' => $orderNo,
                 'fieldName' => (new client())->hGetField('UserInfo', Yii::$app->user->id, 'fieldName'),
             ];
         }

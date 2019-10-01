@@ -65,6 +65,7 @@ class ChargeController extends AuthController
      */
     public function actionList()
     {
+        var_dump((new client())->hGetAll('ChargeOrder'));exit();
         return $this->render('list.html', [
             'order' => EnOrder::getOrders(),
             'now' => date('Y-m-d H:i:s')

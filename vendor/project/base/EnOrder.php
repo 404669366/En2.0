@@ -68,17 +68,15 @@ class EnOrder extends \yii\db\ActiveRecord
     }
 
     /**
-     * 获取用户订单
-     * @param int $uid
+     * 获取当前用户订单
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getOrders($uid = 0)
+    public static function getOrders()
     {
-        $uid = $uid ?: Yii::$app->user->id;
         $orders = self::find()->alias('o')
             ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
             ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
-            ->where(['o.uid' => $uid])
+            ->where(['o.uid' => Yii::$app->user->id])
             ->select(['o.*', 'f.name'])
             ->orderBy('o.created_at desc')
             ->asArray()->all();
@@ -87,7 +85,6 @@ class EnOrder extends \yii\db\ActiveRecord
             $v['st'] = 2;
         }
         if ($order = (new client())->hGet('ChargeOrder', Yii::$app->session->get('order', ''))) {
-            var_dump($order);exit();
             $order['st'] = 1;
             $order['name'] = EnPile::findOne(['no' => $order['pile']])->local->name;
             array_unshift($orders, $order);

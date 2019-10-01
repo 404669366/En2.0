@@ -72,7 +72,7 @@
     <li>
         <span><i class="fa fa-jpy" aria-hidden="true"></i>&emsp;当前电价(元)</span>
         <span data-url="">
-            E:0.8/S:0.6
+            E:---/S:---
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
         </span>
     </li>
@@ -99,6 +99,7 @@
             if (data.code === 205 || data.code === 206 || data.code === 207) {
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
+                data.data.rule = global.info.rule;
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207) {

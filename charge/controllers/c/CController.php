@@ -51,7 +51,7 @@ class CController extends AuthController
         if ($info = EnPile::chargeInfo($n)) {
             return $this->render('charge.html', [
                 'info' => $info,
-                'code' => Constant::serverCode()
+                'code' => Constant::serverCode(),
             ]);
         }
         return $this->goBack();

@@ -111,6 +111,7 @@ class EnPile extends \yii\db\ActiveRecord
                 'do' => 'seeCharge',
                 'orderNo' => $orderNo,
                 'fieldName' => (new client())->hGetField('UserInfo', Yii::$app->user->id, 'fieldName'),
+                'rule' => self::getNowRule((new client())->hGetField('UserInfo', Yii::$app->user->id, 'pile')),
             ];
         }
         $no = explode('-', $no);
@@ -124,6 +125,7 @@ class EnPile extends \yii\db\ActiveRecord
                 'gun' => $no[1],
                 'uid' => Yii::$app->user->id,
                 'fieldName' => $pile->local->name,
+                'rule' => self::getNowRule($pile->no),
             ];
         }
         Msg::set('未查询到该电桩信息,请检查电桩编号');

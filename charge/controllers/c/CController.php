@@ -11,6 +11,7 @@ namespace app\controllers\c;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnPile;
+use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Wechat;
 
@@ -22,6 +23,9 @@ class CController extends AuthController
      */
     public function actionScan()
     {
+        if ((new client())->hGetField('UserInfo', \Yii::$app->user->id, 'order')) {
+            return $this->redirect(['c']);
+        }
         return $this->render('scan.html', Wechat::getJsApiParams());
     }
 
@@ -31,6 +35,9 @@ class CController extends AuthController
      */
     public function actionHand()
     {
+        if ((new client())->hGetField('UserInfo', \Yii::$app->user->id, 'order')) {
+            return $this->redirect(['c']);
+        }
         return $this->render('hand.html');
     }
 

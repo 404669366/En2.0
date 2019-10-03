@@ -113,22 +113,27 @@ class EnPile extends \yii\db\ActiveRecord
                 'fieldName' => Yii::$app->session->get('fieldName', '----'),
             ];
         }
-        $no = explode('-', $no);
-        if ($pile = self::findOne(['no' => $no[0]])) {
-            $orderNo = Helper::createNo('O');
-            Yii::$app->session->set('order', $orderNo);
-            Yii::$app->session->get('fieldName', $pile->local->name);
-            (new client())->hSet('UserInfo', Yii::$app->user->id, ['money' => EnUser::getMoney()]);
-            return [
-                'do' => 'beginCharge',
-                'orderNo' => $orderNo,
-                'pile' => $pile->no,
-                'gun' => $no[1],
-                'uid' => Yii::$app->user->id,
-                'fieldName' => $pile->local->name,
-            ];
+        $money = EnUser::getMoney();
+        if ($money > 5) {
+            $no = explode('-', $no);
+            if ($pile = self::findOne(['no' => $no[0]])) {
+                $orderNo = Helper::createNo('O');
+                Yii::$app->session->set('order', $orderNo);
+                Yii::$app->session->get('fieldName', $pile->local->name);
+                (new client())->hSet('UserInfo', Yii::$app->user->id, ['money' => EnUser::getMoney()]);
+                return [
+                    'do' => 'beginCharge',
+                    'orderNo' => $orderNo,
+                    'pile' => $pile->no,
+                    'gun' => $no[1],
+                    'user_id' => Yii::$app->user->id,
+                    'fieldName' => $pile->local->name,
+                ];
+            }
+            Msg::set('未查询到该电桩信息,请检查电桩编号');
+            return false;
         }
-        Msg::set('未查询到该电桩信息,请检查电桩编号');
+        Msg::set('您的余额不足,请前往充值');
         return false;
     }
 

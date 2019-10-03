@@ -96,6 +96,12 @@
         socket.onmessage = function (event) {
             window.wait().close();
             var data = JSON.parse(event.data);
+            if (data.code === 204) {
+                window.showMsgDo(global.code[data.code], 3, function () {
+                    window.wait().open();
+                });
+                return;
+            }
             if (data.code === 205 || data.code === 206 || data.code === 207) {
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);

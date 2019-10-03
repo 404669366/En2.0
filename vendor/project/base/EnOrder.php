@@ -85,6 +85,7 @@ class EnOrder extends \yii\db\ActiveRecord
             $v['st'] = 2;
         }
         if ($order = (new client())->hGet('ChargeOrder', Yii::$app->session->get('order', ''))) {
+            var_dump($order);exit();
             $order['st'] = 1;
             $order['name'] = EnPile::findOne(['no' => $order['pile']])->local->name;
             array_unshift($orders, $order);

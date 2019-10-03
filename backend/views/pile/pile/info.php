@@ -149,7 +149,11 @@
                         text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + i
                     });
                 }
-                $('.alarmInfo').val((data.data.alarmInfo.split('1')).length - 1);
+                if (data.data.alarmInfo) {
+                    $('.alarmInfo').val((data.data.alarmInfo.split('1')).length - 1);
+                } else {
+                    $('.alarmInfo').val(0);
+                }
                 return;
             }
             if (data.code === 601) {

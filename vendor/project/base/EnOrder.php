@@ -81,6 +81,7 @@ class EnOrder extends \yii\db\ActiveRecord
             ->orderBy('o.created_at desc')
             ->asArray()->all();
         foreach ($orders as &$v) {
+            $v['electricQuantity'] = (float)$v['electricQuantity'];
             $v['money'] = $v['basisMoney'] + $v['serviceMoney'];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
             $v['st'] = 2;
@@ -88,6 +89,7 @@ class EnOrder extends \yii\db\ActiveRecord
         if ($orderNo = Yii::$app->session->get('order', '')) {
             if ($order = (new client())->hGet('ChargeOrder', $orderNo)) {
                 $order['st'] = 1;
+                $order['electricQuantity'] = (float)$order['electricQuantity'];
                 $order['money'] = $order['basisMoney'] + $order['serviceMoney'];
                 $order['name'] = EnPile::findOne(['no' => $order['pile']])->local->name;
                 array_unshift($orders, $order);

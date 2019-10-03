@@ -11,7 +11,6 @@ namespace app\controllers\c;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnPile;
-use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Wechat;
 
@@ -35,7 +34,6 @@ class CController extends AuthController
      */
     public function actionHand()
     {
-        (new client())->__unset('ChargeOrder');
         if (\Yii::$app->session->get('order', '')) {
             return $this->redirect(['c']);
         }

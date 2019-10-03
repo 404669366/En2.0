@@ -116,9 +116,8 @@
                 return;
             }
             if (data.code === 208) {
-                window.showMsgDo(global.code[data.code], 3, function () {
-                    window.location.href = '/order/charge/pay.html?orderNo=' + data.data.no;
-                });
+                $.cookie('message-data', global.code[data.code], {path: '/'});
+                window.location.href = '/order/charge/pay.html?orderNo=' + data.data.no;
                 return;
             }
             if (data.code === 200 || data.code === 202 || data.code === 203 || data.code === 209) {

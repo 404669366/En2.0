@@ -124,7 +124,7 @@
                         &emsp;
                         <a class="btn btn-white jump" href="/pile/pile/list">返回</a>
                         &emsp;
-                        <button type="button" class="btn btn-info close">结束充电</button>
+                        <button type="button" class="btn btn-info end">结束充电</button>
                     </div>
                 </div>
             </div>
@@ -164,7 +164,7 @@
                 return;
             }
             window.showMsg(code[data.code]);
-            $('.close').click(function () {
+            $('.end').click(function () {
                 socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
             });
         };

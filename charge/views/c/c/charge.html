@@ -21,11 +21,11 @@
                 功率(kw)
             </li>
             <li>
-                <p>{{=it.electricQuantity}}</p>
+                <p>{{=it.electricQuantity.toFixed(2)}}</p>
                 充电(kwh)
             </li>
             <li>
-                <p>{{=it.basisMoney + it.serviceMoney}}</p>
+                <p>{{=(it.basisMoney + it.serviceMoney).toFixed(2)}}</p>
                 费用(元)
             </li>
         </ul>

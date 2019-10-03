@@ -113,12 +113,6 @@
                 }
                 return;
             }
-            if (data.code === 201) {
-                window.showMsgDo(global.code[data.code], 3, function () {
-                    window.location.href = '/order/invest/invest.html';
-                });
-                return;
-            }
             if (data.code === 208) {
                 window.showMsgDo(global.code[data.code], 3, function () {
                     window.location.href = '/order/charge/pay.html?orderNo=' + data.data.no;
@@ -127,7 +121,9 @@
             }
             if (data.code === 200 || data.code === 202 || data.code === 203 || data.code === 209) {
                 window.showMsgDo(global.code[data.code], 3, function () {
-                    window.history.go(-1);
+                    $.getJSON('/c/c/del.html', {}, function (re) {
+                        window.history.go(-1);
+                    });
                 });
                 return;
             }

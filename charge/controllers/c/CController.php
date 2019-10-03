@@ -35,6 +35,7 @@ class CController extends AuthController
      */
     public function actionHand()
     {
+        \Yii::$app->session->set('order', '');
         if (\Yii::$app->session->get('order', '')) {
             return $this->redirect(['c']);
         }
@@ -55,5 +56,15 @@ class CController extends AuthController
             ]);
         }
         return $this->redirect(['user/user/center']);
+    }
+
+    /**
+     * 删除充电记录
+     * @return string
+     */
+    public function actionDel()
+    {
+        \Yii::$app->session->set('order', '');
+        return $this->rJson();
     }
 }

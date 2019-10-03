@@ -137,10 +137,12 @@
     var socket = new WebSocket('ws://47.99.36.149:20001');
     var no = '<?=$model->no?>';
     socket.onopen = function () {
+        $('.end').click(function () {
+            socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
+        });
         socket.send(JSON.stringify({do: 'pileInfo', pile: no}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            console.log(data);
             if (data.code === 600) {
                 $('.gunBox').html('');
                 for (var i = 1; i <= data.data.gunCount; i++) {
@@ -164,9 +166,6 @@
                 return;
             }
             window.showMsg(code[data.code]);
-            $('.end').click(function () {
-                socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
-            });
         };
     };
     var rules = $('.rules').val() ? JSON.parse($('.rules').val()) : [];

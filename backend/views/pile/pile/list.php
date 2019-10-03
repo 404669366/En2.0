@@ -28,7 +28,6 @@
         socket.send(JSON.stringify({do: 'pileList'}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            console.log(data);
             if (data.code === 500) {
                 var str = '';
                 $.each(data.data, function (k, v) {

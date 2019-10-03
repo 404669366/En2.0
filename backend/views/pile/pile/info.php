@@ -137,7 +137,8 @@
     var socket = new WebSocket('ws://47.99.36.149:20001');
     var no = '<?=$model->no?>';
     socket.onopen = function () {
-        $('.end').click(function () {
+        $('body').on('click', '.end', function () {
+            console.log(1);
             socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
         });
         socket.send(JSON.stringify({do: 'pileInfo', pile: no}));

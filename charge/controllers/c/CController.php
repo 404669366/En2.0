@@ -35,7 +35,6 @@ class CController extends AuthController
      */
     public function actionHand()
     {
-        \Yii::$app->session->set('order', '');
         if (\Yii::$app->session->get('order', '')) {
             return $this->redirect(['c']);
         }

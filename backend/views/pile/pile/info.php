@@ -123,6 +123,8 @@
                         <button type="submit" class="btn btn-info save">保存</button>
                         &emsp;
                         <a class="btn btn-white jump" href="/pile/pile/list">返回</a>
+                        &emsp;
+                        <button type="button" class="btn btn-info end">结束充电</button>
                     </div>
                 </div>
             </div>
@@ -135,6 +137,9 @@
     var socket = new WebSocket('ws://47.99.36.149:20001');
     var no = '<?=$model->no?>';
     socket.onopen = function () {
+        $('body').on('click', '.end', function () {
+            socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
+        });
         socket.send(JSON.stringify({do: 'pileInfo', pile: no}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);

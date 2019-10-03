@@ -513,8 +513,8 @@ class EnField extends \yii\db\ActiveRecord
             ->asArray()->all();
         foreach ($piles as $v) {
             $gun = (new client())->hGet('PileInfo', $v['no']);
-            $guns['count'] += $gun['count'];
-            $guns['used'] += count(json_decode($gun['orderInfo'], true));
+            $guns['count'] += $gun['gunCount'];
+            $guns['used'] += $gun['used'];
         }
         return $guns;
     }

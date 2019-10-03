@@ -138,7 +138,6 @@
     var no = '<?=$model->no?>';
     socket.onopen = function () {
         $('body').on('click', '.end', function () {
-            console.log(1);
             socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
         });
         socket.send(JSON.stringify({do: 'pileInfo', pile: no}));

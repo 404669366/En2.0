@@ -123,6 +123,8 @@
                         <button type="submit" class="btn btn-info save">保存</button>
                         &emsp;
                         <a class="btn btn-white jump" href="/pile/pile/list">返回</a>
+                        &emsp;
+                        <button type="button" class="btn btn-info close">结束充电</button>
                     </div>
                 </div>
             </div>
@@ -162,6 +164,9 @@
                 return;
             }
             window.showMsg(code[data.code]);
+            $('.close').click(function () {
+                socket.send(JSON.stringify({do: 'endCharge', pile: no, gun: 8}));
+            });
         };
     };
     var rules = $('.rules').val() ? JSON.parse($('.rules').val()) : [];

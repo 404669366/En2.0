@@ -120,7 +120,7 @@ class EnPile extends \yii\db\ActiveRecord
                 if ($pile = self::findOne(['no' => $no[0]])) {
                     $orderNo = Helper::createNo('O');
                     Yii::$app->session->set('order', $orderNo);
-                    Yii::$app->session->get('fieldName', $pile->local->name);
+                    Yii::$app->session->set('fieldName', $pile->local->name);
                     (new client())->hSet('UserInfo', Yii::$app->user->id, ['money' => EnUser::getMoney()]);
                     return [
                         'do' => 'beginCharge',

@@ -28,15 +28,15 @@
                 </li>
                 <li>
                     <span>基础电费:</span>
-                    <p class="txt_red">&yen; {{=it.basisMoney}}</p>
+                    <p class="txt_red">&yen; {{=it.basisMoney.toFixed(2)}}</p>
                 </li>
                 <li>
                     <span>服务电费:</span>
-                    <p class="txt_red">&yen; {{=it.serviceMoney}}</p>
+                    <p class="txt_red">&yen; {{=it.serviceMoney.toFixed(2)}}</p>
                 </li>
                 <li>
                     <span>充电电量:</span>
-                    <p>{{=it.electricQuantity}}kwh</p>
+                    <p>{{=it.electricQuantity.toFixed(2)}}kwh</p>
                 </li>
                 <li>
                     <span>开始时间:</span>
@@ -50,7 +50,7 @@
         </div>
         <div class="order_time">
             <span>订单总额:</span>
-            <p>{{=it.basisMoney + it.serviceMoney}}</p>
+            <p>{{=(it.basisMoney + it.serviceMoney).toFixed(2)}}</p>
         </div>
         <div class="pay" data-url="/order/charge/pay.html?orderNo={{=it.no}}&pay=1">立即支付</div>
     </script>

@@ -35,6 +35,7 @@ class CController extends AuthController
      */
     public function actionHand()
     {
+        (new client())->__unset('ChargeOrder');
         if (\Yii::$app->session->get('order', '')) {
             return $this->redirect(['c']);
         }

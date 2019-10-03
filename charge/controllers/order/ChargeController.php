@@ -34,7 +34,7 @@ class ChargeController extends AuthController
                     if ($model->load(['EnOrder' => $order]) && $model->validate() && $model->save()) {
                         $user = EnUser::findOne(\Yii::$app->user->id);
                         $money = $order['basisMoney'] + $order['serviceMoney'];
-                        if ($user->money < $order['basisMoney']) {
+                        if ($user->money < $money) {
                             throw new Exception('余额不足,请前往充值');
                         }
                         $user->money -= $money;

@@ -126,6 +126,14 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-5">
+                            <button type="submit" class="btn btn-info save">保存</button>
+                            &emsp;
+                            <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
                         <label class="col-sm-1 control-label">枪口信息</label>
                         <div class="col-sm-10">
                             <table class="gunTable" border="1">
@@ -136,14 +144,6 @@
                                     <td>枪口操作</td>
                                 </tr>
                             </table>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-5">
-                            <button type="submit" class="btn btn-info save">保存</button>
-                            &emsp;
-                            <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
                         </div>
                     </div>
                 </div>

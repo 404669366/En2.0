@@ -152,7 +152,7 @@
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
         var no = $('.no').val();
-        socket.send(JSON.stringify({do: 'pileInfo', pile: no}));
+        socket.send(JSON.stringify({do: 'seePile', pile: no}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             console.log(data);

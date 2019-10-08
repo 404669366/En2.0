@@ -42,6 +42,11 @@
         margin-bottom: 1rem;
     }
 
+    .qrCode>canvas{
+        width: 120px;
+        height: 120px;
+    }
+
 </style>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">

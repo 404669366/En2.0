@@ -76,7 +76,7 @@
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-2">
                     <button class="btn btn-primary" type="submit">保存</button>
-                    <a class="btn btn-white" href="/pile/model/list">返回</a>
+                    <a class="btn btn-white" href="/oam/model/list">返回</a>
                 </div>
             </div>
         </form>

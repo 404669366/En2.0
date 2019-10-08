@@ -17,7 +17,7 @@ window.modal = function (config) {
         '            </div>' +
         '            <div class="content" style="width: 100%;height: ' + height + '">' + content + '</div>' +
         '            <div style="width: 100%;height: 6rem;border-top:1px solid silver;padding: 1rem 0;box-sizing: border-box;text-align: center">' +
-        '                <button class="true" type="button" style="border: none;background: #1f00fc;color: #FFFFFF;height:4rem;line-height: 4rem;text-align: center;font-size: 2rem;box-sizing: border-box;padding: 0 3rem;border-radius: 0.2rem">确 认</button>' +
+        '                <button class="true" type="button" style="border: none;background: #23c6c8;color: #FFFFFF;height:4rem;line-height: 4rem;text-align: center;font-size: 2rem;box-sizing: border-box;padding: 0 3rem;border-radius: 0.2rem">确 认</button>' +
         '            </div>' +
         '        </div>' +
         '    </span>' +

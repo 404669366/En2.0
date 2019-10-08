@@ -13,17 +13,23 @@
         <li>
             <p>{{=v.created_at}}</p>
             <ul>
-                {{?v.st==1}}
+                {{?v.status=='启动中' || v.status=='充电中'}}
                 <li class="status">
-                    进行中
+                    {{=v.status}}
                     <i class="fa fa-angle-double-right" aria-hidden="true"
                        data-url="/c/c/c.html?n={{=v.pile}}{{=v.gun}}"></i>
                 </li>
+                {{??v.status=='充电结束'}}
+                <li class="status">
+                    {{=v.status}}
+                    <i class="fa fa-angle-double-right" aria-hidden="true"
+                       data-url="/order/charge/pay.html?no={{=v.no}}"></i>
+                </li>
                 {{??}}
-                <li class="status">已完成</li>
+                <li class="status">{{=v.status}}</li>
                 {{?}}
                 <li><label>订单编号 : </label>{{=v.no}}</li>
-                <li><label>充电电量 : </label>{{=v.electricQuantity.toFixed(2)}}kwh</li>
+                <li><label>充电电量 : </label>{{=v.e.toFixed(2)}}kwh</li>
                 <li><label>充电金额 : </label>{{=v.money.toFixed(2)}}元</li>
                 <li><label>充电电站 : </label>{{=v.name}}</li>
             </ul>

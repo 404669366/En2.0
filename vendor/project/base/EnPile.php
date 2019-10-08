@@ -2,7 +2,6 @@
 
 namespace vendor\project\base;
 
-use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
@@ -11,19 +10,17 @@ use Yii;
 /**
  * This is the model class for table "en_pile".
  *
- * @property int $id
  * @property string $no 电桩编号
- * @property string $field_id 场站ID
+ * @property int count 场站ID
+ * @property int online 在线状态 0离线1在线
+ * @property string $rules 计费规则
+ * @property int $field_id 场站ID
  * @property string $field 场站编号
  * @property int $model_id 电桩型号
- * @property string $remark 备注
- * @property string $created_at 创建时间
- * @property string $rules 计费规则
  */
 class EnPile extends \yii\db\ActiveRecord
 {
     public $field;
-    public $rules;
 
     /**
      * {@inheritdoc}
@@ -42,10 +39,19 @@ class EnPile extends \yii\db\ActiveRecord
             [['no'], 'unique'],
             [['no', 'model_id', 'field', 'rules'], 'required'],
             [['field'], 'validateField'],
-            [['field_id', 'model_id', 'created_at'], 'integer'],
+            [['field_id', 'model_id', 'count', 'online'], 'integer'],
             [['no'], 'string', 'max' => 32],
-            [['remark'], 'string', 'max' => 255],
+            [['rules'], 'string', 'max' => 1000],
         ];
+    }
+
+    public function validateField()
+    {
+        if ($model = EnField::findOne(['no' => $this->field])) {
+            $this->field_id = $model->id;
+        } else {
+            $this->addError('field', '场站不存在');
+        }
     }
 
     /**
@@ -54,14 +60,13 @@ class EnPile extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'no' => '电桩编号',
+            'count' => '枪口数量',
+            'online' => '在线状态 0离线1在线',
+            'rules' => '计费规则',
             'field_id' => '场站ID',
             'field' => '场站编号',
             'model_id' => '电桩型号',
-            'remark' => '备注',
-            'created_at' => '创建时间',
-            'rules' => '计费规则',
         ];
     }
 
@@ -75,27 +80,24 @@ class EnPile extends \yii\db\ActiveRecord
     }
 
     /**
-     * 查询计价规则
+     * 分页数据
      * @return mixed
      */
-    public function getRules()
+    public static function getPageData()
     {
-        return (new client())->hGetField('PileInfo', $this->no, 'rules');
-    }
-
-    public function validateField()
-    {
-        $model = EnField::findOne(['no' => $this->field]);
-        if ($model) {
-            $this->field_id = $model->id;
-        } else {
-            $this->addError('field', '场站未不存在');
+        $data = self::find()->alias('p')
+            ->leftJoin(EnField::tableName() . ' f', 'p.field_id=f.id')
+            ->leftJoin(EnModel::tableName() . ' m', 'p.model_id=m.id')
+            ->select(['p.*', 'f.no as fno', 'f.name', 'f.address', 'f.local', 'm.name as model'])
+            ->page([
+                'keywords' => ['like', 'p.no', 'f.no', 'f.name', 'f.address', 'f.local', 'm.name'],
+                'online' => ['=', 'p.online'],
+            ]);
+        foreach ($data['data'] as &$v) {
+            $v['online'] = Constant::pileOnline()[$v['online']];
+            $v['fieldInfo'] = "场站业主: {$v['local']}<br>场站编号: {$v['fno']}<br>场站名称: {$v['name']}<br>场站地址: {$v['address']}";
         }
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        (new client())->hSetField('PileInfo', $this->no, 'rules', $this->rules);
+        return $data;
     }
 
     /**
@@ -105,31 +107,40 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public static function chargeInfo($no = '')
     {
-        if ($orderNo = Yii::$app->session->get('order', '')) {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1]])) {
             Msg::set('您有订单进行中');
             return [
                 'do' => 'seeCharge',
-                'orderNo' => $orderNo,
-                'fieldName' => Yii::$app->session->get('fieldName', '----'),
+                'pile' => $order->pile,
+                'gun' => $order->gun,
+                'fieldName' => $order->pileInfo->local->name,
             ];
         }
-        $money = EnUser::getMoney();
-        if ($money > 5) {
+        if (EnUser::getMoney() > 5) {
             $no = explode('-', $no);
             if (count($no) == 2) {
-                if ($pile = self::findOne(['no' => $no[0]])) {
-                    $orderNo = Helper::createNo('O');
-                    Yii::$app->session->set('order', $orderNo);
-                    Yii::$app->session->set('fieldName', $pile->local->name);
-                    (new client())->hSet('UserInfo', Yii::$app->user->id, ['money' => EnUser::getMoney()]);
-                    return [
-                        'do' => 'beginCharge',
-                        'orderNo' => $orderNo,
-                        'pile' => $pile->no,
-                        'gun' => $no[1],
-                        'user_id' => Yii::$app->user->id,
-                        'fieldName' => $pile->local->name,
-                    ];
+                if ($pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
+                    $order = EnOrder::findOne(['pile' => $no[0], 'gun' => $no[1], 'status' => [0, 1]]);
+                    if (!$order) {
+                        $order = new EnOrder();
+                        $order->no = Helper::createNo('O');
+                        $order->pile = $no[0];
+                        $order->gun = $no[1];
+                        $order->created_at = time();
+                        if ($order->save()) {
+                            return [
+                                'do' => 'beginCharge',
+                                'orderNo' => $order->no,
+                                'pile' => $no[0],
+                                'gun' => $no[1],
+                                'fieldName' => $pile->local->name,
+                            ];
+                        }
+                        Msg::set('创建订单失败,请稍后再试');
+                        return false;
+                    }
+                    Msg::set('枪口已占用,请稍后再试');
+                    return false;
                 }
             }
             Msg::set('未查询到该电桩信息,请检查电桩编号');
@@ -150,28 +161,27 @@ class EnPile extends \yii\db\ActiveRecord
             ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
             ->leftJoin(EnModel::tableName() . ' m', 'm.id=p.model_id')
             ->where(['f.no' => $no])
-            ->select(['p.no', 'm.*'])
-            ->orderBy('p.created_at desc')
+            ->select(['p.no', 'p.rules', 'm.*'])
+            ->orderBy('p.no desc')
             ->asArray()->all();
         foreach ($data as &$v) {
             $images = explode(',', $v['images']);
             $v['image'] = $images[array_rand($images)];
             $v['standard'] = Constant::pileStandard()[$v['standard']];
-            $v['rule'] = self::getNowRule($v['no']);
+            $v['rule'] = self::getNowRule($v['rules']);
         }
         return $data;
     }
 
     /**
      * 返回当前计价规则
-     * @param string $no
+     * @param string $rules
      * @return array
      */
-    public static function getNowRule($no = '')
+    public static function getNowRule($rules = '')
     {
-        $time = time();
-        $now = $time - strtotime(date('Y-m-d'));
-        $rules = json_decode((new client())->hGetField('PileInfo', $no, 'rules'), true) ?: [];
+        $now = time() - strtotime(date('Y-m-d'));
+        $rules = json_decode($rules, true);
         foreach ($rules as $v) {
             if ($now >= $v[0] && $now < $v[1]) {
                 return $v;

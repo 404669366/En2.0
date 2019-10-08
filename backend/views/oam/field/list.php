@@ -45,7 +45,7 @@
 <script>
     myTable.load({
         table: '#table',
-        url: '/pile/field/data',
+        url: '/oam/field/data',
         length: 10,
         columns: [
             {"data": "no"},
@@ -69,9 +69,9 @@
                 "data": "no", "orderable": false, "render": function (data, type, row) {
                 var btn = '';
                 if (row.online === '未上线') {
-                    btn = '<button class="btn btn-sm btn-info do" data-url="/pile/field/up?no=' + data + '">上线</button>';
+                    btn = '<button class="btn btn-sm btn-info do" data-url="/oam/field/up?no=' + data + '">上线</button>';
                 } else {
-                    btn = '<button class="btn btn-sm btn-warning do" data-url="/pile/field/down?no=' + data + '">下线</button>'
+                    btn = '<button class="btn btn-sm btn-warning do" data-url="/oam/field/down?no=' + data + '">下线</button>'
                 }
                 return btn;
             }

@@ -21,11 +21,11 @@
                 功率(kw)
             </li>
             <li>
-                <p>{{=it.electricQuantity.toFixed(2)}}</p>
+                <p>{{=it.e.toFixed(2)}}</p>
                 充电(kwh)
             </li>
             <li>
-                <p>{{=(it.basisMoney + it.serviceMoney).toFixed(2)}}</p>
+                <p>{{=(it.bm + it.sm).toFixed(2)}}</p>
                 费用(元)
             </li>
         </ul>
@@ -89,7 +89,7 @@
 <script>
     window.wait().open();
     $('.title').text(global.info.fieldName);
-    $('.demo').radialIndicator().data('radialIndicator').value(100);
+    $('.demo').radialIndicator().data('radialIndicator').value(0);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
         socket.send(JSON.stringify(global.info));
@@ -105,26 +105,24 @@
             if (data.code === 205 || data.code === 206 || data.code === 207) {
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
-                global.info.pile = data.data.pile;
-                global.info.gun = data.data.gun;
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207) {
-                    window.showMsg(global.code[data.code]);
-                    window.wait().open();
+                    window.showMsgDo(global.code[data.code], 3, function () {
+                        window.wait().open();
+                    });
                 }
                 return;
             }
             if (data.code === 208) {
-                $.cookie('message-data', global.code[data.code], {path: '/'});
-                window.location.href = '/order/charge/pay.html?orderNo=' + data.data.no;
+                window.showMsgDo(global.code[data.code], 3, function () {
+                    window.location.href = '/order/charge/pay.html?no=' + data.data.no;
+                });
                 return;
             }
-            if (data.code === 200 || data.code === 202 || data.code === 203 || data.code === 209) {
+            if (data.code === 100 || data.code === 200 || data.code === 202 || data.code === 203) {
                 window.showMsgDo(global.code[data.code], 3, function () {
-                    $.getJSON('/c/c/del.html', {}, function (re) {
-                        window.history.go(-1);
-                    });
+                    window.history.go(-1);
                 });
                 return;
             }

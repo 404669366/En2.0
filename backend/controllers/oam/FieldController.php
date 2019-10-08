@@ -6,7 +6,7 @@
  * Time: 17:02
  */
 
-namespace app\controllers\pile;
+namespace app\controllers\oam;
 
 
 use app\controllers\basis\CommonController;

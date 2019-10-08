@@ -28,7 +28,7 @@
                     </span>
                 </div>
                 <div class="col-sm-1">
-                    <a class="btn btn-sm btn-info" href="/pile/model/edit">添加</a>
+                    <a class="btn btn-sm btn-info" href="/oam/model/edit">添加</a>
                 </div>
             </div>
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
@@ -52,7 +52,7 @@
 <script>
     myTable.load({
         table: '#table',
-        url: '/pile/model/data',
+        url: '/oam/model/data',
         length: 10,
         columns: [
             {"data": "id"},
@@ -85,7 +85,7 @@
             {"data": "standard"},
             {
                 "data": "id", "orderable": false, "render": function (data, type, row) {
-                return '<a class="btn btn-sm btn-warning" href="/pile/model/edit?id=' + data + '">修改</a>';
+                return '<a class="btn btn-sm btn-warning" href="/oam/model/edit?id=' + data + '">修改</a>';
             }
             }
         ],

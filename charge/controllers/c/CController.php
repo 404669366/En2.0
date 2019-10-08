@@ -10,8 +10,10 @@ namespace app\controllers\c;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\base\EnOrder;
 use vendor\project\base\EnPile;
 use vendor\project\helpers\Constant;
+use vendor\project\helpers\Msg;
 use vendor\project\helpers\Wechat;
 
 class CController extends AuthController
@@ -22,7 +24,11 @@ class CController extends AuthController
      */
     public function actionScan()
     {
-        if (\Yii::$app->session->get('order', '')) {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1, 2]])) {
+            if ($order['status'] == 2) {
+                Msg::set('您有订单未支付');
+                return $this->redirect(['order/charge/pay', 'no' => $order['no']]);
+            }
             return $this->redirect(['c']);
         }
         return $this->render('scan.html', Wechat::getJsApiParams());
@@ -34,7 +40,11 @@ class CController extends AuthController
      */
     public function actionHand()
     {
-        if (\Yii::$app->session->get('order', '')) {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1, 2]])) {
+            if ($order['status'] == 2) {
+                Msg::set('您有订单未支付');
+                return $this->redirect(['order/charge/pay', 'no' => $order['no']]);
+            }
             return $this->redirect(['c']);
         }
         return $this->render('hand.html');
@@ -54,15 +64,5 @@ class CController extends AuthController
             ]);
         }
         return $this->redirect(['user/user/center']);
-    }
-
-    /**
-     * 删除充电记录
-     * @return string
-     */
-    public function actionDel()
-    {
-        \Yii::$app->session->set('order', '');
-        return $this->rJson();
     }
 }

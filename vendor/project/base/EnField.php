@@ -512,9 +512,8 @@ class EnField extends \yii\db\ActiveRecord
             ->select(['p.no'])
             ->asArray()->all();
         foreach ($piles as $v) {
-            $gun = (new client())->hGet('PileInfo', $v['no']);
-            $guns['count'] += $gun['gunCount'];
-            $guns['used'] += $gun['used'];
+            $guns['count'] += $v['count'];
+            $guns['used'] += EnOrder::find()->where(['pile' => $v['no'], 'status' => [0, 1]])->count();
         }
         return $guns;
     }

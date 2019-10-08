@@ -20,29 +20,27 @@ class ChargeController extends AuthController
 {
     /**
      * 订单付款
-     * @param string $orderNo
+     * @param string $no
      * @param int $pay
      * @return string|\yii\web\Response
      */
-    public function actionPay($orderNo = '', $pay = 0)
+    public function actionPay($no = '', $pay = 0)
     {
-        if ($order = (new client())->hGet('ChargeOrder', $orderNo)) {
-            if ($order['status'] == 3 && $pay) {
+        if ($order = EnOrder::findOne(['no' => $no, 'status' => 2])) {
+            if ($pay) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    $model = new EnOrder();
-                    if ($model->load(['EnOrder' => $order]) && $model->validate() && $model->save()) {
-                        $user = EnUser::findOne(\Yii::$app->user->id);
-                        $money = $order['basisMoney'] + $order['serviceMoney'];
-                        if ($user->money < $money) {
-                            throw new Exception('余额不足,请前往充值');
-                        }
-                        $user->money -= $money;
-                        if ($user->save()) {
+                    $order->status = 3;
+                    $user = EnUser::findOne(\Yii::$app->user->id);
+                    $money = round($order['bm'] + $order['sm'], 2);
+                    if ($user->money < $money) {
+                        throw new Exception('余额不足,请前往充值');
+                    }
+                    $user->money -= $money;
+                    if ($user->save()) {
+                        if ($order->save()) {
                             $transaction->commit();
-                            (new client())->hDel('ChargeOrder', $orderNo);
-                            \Yii::$app->session->set('order', '');
-                            Msg::set('扣款成功');
+                            Msg::set('支付扣款成功');
                             return $this->redirect(['user/user/center']);
                         }
                     }

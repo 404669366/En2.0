@@ -6,26 +6,33 @@
  * Time: 10:39
  */
 
-namespace app\controllers\pile;
+namespace app\controllers\oam;
 
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnModel;
 use vendor\project\base\EnPile;
-use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
-use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 
 class PileController extends CommonController
 {
     /**
-     * 在线电桩页
+     * 电桩管理页
      * @return string
      */
     public function actionList()
     {
-        return $this->render('list');
+        return $this->render('list', ['online' => Constant::pileOnline()]);
+    }
+
+    /**
+     * 电桩管理页数据
+     * @return string
+     */
+    public function actionData()
+    {
+        return $this->rTableData(EnPile::getPageData());
     }
 
     /**
@@ -36,11 +43,6 @@ class PileController extends CommonController
     public function actionInfo($no)
     {
         $model = EnPile::findOne(['no' => $no]);
-        if (!$model) {
-            $model = new EnPile();
-            $model->no = $no;
-            $model->created_at = time();
-        }
         if (\Yii::$app->request->isPost) {
             $model->load(['EnPile' => \Yii::$app->request->post()]);
             if ($model->validate() && $model->save()) {
@@ -53,6 +55,8 @@ class PileController extends CommonController
             'model' => $model,
             'models' => EnModel::getModels(),
             'code' => json_encode(Constant::serverCode()),
+            'work' => json_encode(Constant::workStatus()),
+            'link' => json_encode(Constant::linkStatus()),
         ]);
     }
 }

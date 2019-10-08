@@ -230,7 +230,7 @@ class Constant
             '200' => '充电启动失败,请稍后再试',
             '201' => '余额不足,请充值',
             '202' => '充电枪口未连接',
-            '203' => '充电枪口占用或故障',
+            '203' => '充电枪口故障,请稍后再试',
             '204' => '充电启动中,请稍候',
             '205' => '正在充电',
             '206' => '充电结束中',
@@ -256,7 +256,7 @@ class Constant
      * 枪口连接状态
      * @return array
      */
-    public static function carStatus()
+    public static function linkStatus()
     {
         return [
             0 => '枪口断开',
@@ -283,6 +283,18 @@ class Constant
     }
 
     /**
+     * 在线状态
+     * @return array
+     */
+    public static function pileOnline()
+    {
+        return [
+            0 => '离线',
+            1 => '在线',
+        ];
+    }
+
+    /**
      * 电桩类型
      * @return array
      */
@@ -305,6 +317,21 @@ class Constant
         return [
             1 => '国标2011',
             2 => '国标2015',
+        ];
+    }
+
+    /**
+     * 充电订单状态
+     * @return array
+     */
+    public static function orderStatus()
+    {
+        return [
+            0 => '启动中',
+            1 => '充电中',
+            2 => '充电结束',
+            3 => '完成支付',
+            4 => '启动失败',
         ];
     }
 

@@ -43,8 +43,9 @@
     }
 
     .qrCode>canvas{
-        width: 120px;
-        height: 120px;
+        margin-top: 10px;
+        width: 80px;
+        height: 80px;
     }
 
 </style>

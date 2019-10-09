@@ -162,7 +162,7 @@
             var data = JSON.parse(event.data);
             console.log(data);
             if (data.code === 600) {
-                $('.gunTable').html('<tr><td>枪口编号</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
+                $('.gunTable').html('<tr><td>枪口编码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
                 $.each(data.data.status || [], function (k, v) {
                     var str = '<tr>';
                     str += '<td>';

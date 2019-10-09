@@ -186,11 +186,15 @@
                         text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + k
                     });
                 });
-            }
-            if (data.code === 601) {
+            } else {
                 window.showMsg(code[data.code]);
             }
         };
+
+        $('.gunTable').on('click', '.close', function () {
+            socket.send(JSON.stringify({do: 'endCharge', pile: $(this).data('no'), gun: $(this).data('gun')}));
+        })
+
     };
 
     var rules = JSON.parse($('[name="rules"]').val());

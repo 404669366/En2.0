@@ -169,9 +169,8 @@ class EnPile extends \yii\db\ActiveRecord
             $images = explode(',', $v['images']);
             $v['image'] = $images[array_rand($images)];
             $v['standard'] = Constant::pileStandard()[$v['standard']];
-            $v['rule'] = self::getNowRule($v['rules']);
+            $v['rules'] = self::getNowRule($v['rules']);
         }
-        var_dump($data);exit();
         return $data;
     }
 

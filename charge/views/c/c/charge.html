@@ -92,7 +92,9 @@
     $('.demo').radialIndicator().data('radialIndicator').value(0);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
+
         socket.send(JSON.stringify(global.info));
+
         socket.onmessage = function (event) {
             window.wait().close();
             var data = JSON.parse(event.data);
@@ -131,6 +133,7 @@
                 return;
             }
         };
+
         $('body').on('click', '.charge_end', function () {
             window.wait().open();
             socket.send(JSON.stringify({do: 'endCharge', pile: global.info.pile, gun: global.info.gun}));

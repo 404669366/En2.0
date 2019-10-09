@@ -122,11 +122,13 @@
                             <div style="text-align: right">
                                 <button type="button" class="btn btn-danger delRule">删除规则</button>
                                 &emsp;
-                                <button type="button" class="btn btn-info addRule">添加规则</button>
+                                <button type="button" class="btn btn-primary addRule">添加规则</button>
                                 &emsp;
-                                <button type="submit" class="btn btn-info save">保存</button>
+                                <button type="submit" class="btn btn-success save">保存</button>
                                 &emsp;
                                 <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
+                                &emsp;
+                                <button type="button" class="btn btn-info" onclick="location.reload()">添加规则</button>
                             </div>
                         </div>
                     </div>

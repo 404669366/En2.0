@@ -63,9 +63,33 @@ class EnOrder extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 关联电桩表
+     * @return \yii\db\ActiveQuery
+     */
     public function getPileInfo()
     {
         return $this->hasOne(EnPile::class, ['no' => 'pile']);
+    }
+
+    /**
+     * 后台订单列表数据
+     * @return mixed
+     */
+    public static function getPageData()
+    {
+        $data = self::find()->alias('o')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid')
+            ->select(['o.*', 'u.tel'])
+            ->page([
+                'keywords' => ['like', 'o.no', 'o.pile', 'u.tel'],
+                'status' => ['=', 'o.status']
+            ]);
+        foreach ($data['data'] as &$v) {
+            $v['status'] = Constant::orderStatus()[$v['status']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+        }
+        return $data;
     }
 
     /**

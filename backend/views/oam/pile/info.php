@@ -168,7 +168,7 @@
                     str += '<td>' + work[v.workStatus] + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     if (v.workStatus === 2) {
-                        str += '<td><button class="btn btn-sm btn-danger close" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
+                        str += '<td><button class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
                     } else {
                         str += '<td>----</td>';
                     }
@@ -185,7 +185,7 @@
             }
         };
 
-        $('.gunTable').on('click', '.close', function () {
+        $('.gunTable').on('click', '.endCharge', function () {
             socket.send(JSON.stringify({do: 'endCharge', pile: $(this).data('no'), gun: $(this).data('gun')}));
         })
 

@@ -173,7 +173,11 @@
                     str += '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
-                    str += '<td>枪口操作</td>';
+                    if (v.workStatus === 2) {
+                        str += '<td><button class="btn btn-sm btn-danger close" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
+                    } else {
+                        str += '<td>----</td>';
+                    }
                     str += '</tr>';
                     $('.gunTable').append(str);
                     $('.qrCode' + k).makeCode({

@@ -32,7 +32,7 @@ class ChargeController extends AuthController
                 try {
                     $order->status = 3;
                     $user = EnUser::findOne(\Yii::$app->user->id);
-                    $money = round($order['bm'] + $order['sm'], 2);
+                    $money = $order['bm'] + $order['sm'];
                     if ($user->money < $money) {
                         throw new Exception('余额不足,请前往充值');
                     }

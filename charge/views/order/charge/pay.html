@@ -28,15 +28,15 @@
                 </li>
                 <li>
                     <span>基础电费:</span>
-                    <p class="txt_red">&yen; {{=it.bm.toFixed(2)}}</p>
+                    <p class="txt_red">&yen; {{=parseFloat(it.bm).toFixed(2)}}</p>
                 </li>
                 <li>
                     <span>服务电费:</span>
-                    <p class="txt_red">&yen; {{=it.sm.toFixed(2)}}</p>
+                    <p class="txt_red">&yen; {{=parseFloat(it.sm).toFixed(2)}}</p>
                 </li>
                 <li>
                     <span>充电电量:</span>
-                    <p>{{=it.e.toFixed(2)}}kwh</p>
+                    <p>{{=parseFloat(it.e).toFixed(2)}}kwh</p>
                 </li>
                 <li>
                     <span>开始时间:</span>

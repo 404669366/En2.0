@@ -118,7 +118,7 @@ for (function (a) {
                 var c, d, e, f, g, h, i, j, k, a = new QRCode(b.typeNumber, b.correctLevel);
                 console.log((b.contentHeight-b.contentSize)/2);
                 for (a.addData(utf16to8(b.text)), a.make(), c = document.createElement("canvas"), c.width = b.width, c.height = b.height, d = c.getContext("2d"),
-                     b.content && (c.height += b.contentHeight,d.font = b.contentSize+'px microsoft yahei', d.textAlign = 'center', d.fillStyle = 'black', d.fillText(b.content, c.width/2, c.height -(b.contentHeight-b.contentSize)/2-2)),
+                     b.content && (c.height += b.contentHeight,d.font = '600 '+b.contentSize+'px/'+b.contentHeight+'px microsoft yahei', d.textAlign = 'center', d.fillStyle = 'black', d.fillText(b.content, c.width/2, c.height-(b.contentHeight-b.contentSize))),
                      b.src && (e = new Image(), e.src = b.src, e.onload = function () {
                          d.drawImage(e, (b.width - b.imgWidth) / 2, (b.height - b.imgHeight) / 2, b.imgWidth, b.imgHeight);
                      }),

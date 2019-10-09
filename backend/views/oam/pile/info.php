@@ -56,6 +56,16 @@
                 <div class="col-sm-12">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-5">
+                            <button type="submit" class="btn btn-info save">保存</button>
+                            &emsp;
+                            <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
                         <label class="col-sm-1 control-label">电桩编号</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control no" value="<?= $model->no ?>" readonly>
@@ -121,14 +131,6 @@
                                 &emsp;
                                 <button type="button" class="btn btn-info addRule">添加规则</button>
                             </div>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-5">
-                            <button type="submit" class="btn btn-info save">保存</button>
-                            &emsp;
-                            <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>

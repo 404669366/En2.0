@@ -170,7 +170,7 @@ window.arrayUnique = function (arr, params) {
 
 window.load(function () {
 
-    $('*[data-url]').click(function () {
+    $('body').on('click', '*[data-url]', function () {
         var url = $(this).data('url');
         var newWindow = $(this).data('new');
         if (url) {

@@ -10,6 +10,7 @@ namespace app\controllers\field;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\base\EnPile;
 use vendor\project\helpers\client;
 
 class PileController extends AuthController
@@ -21,7 +22,6 @@ class PileController extends AuthController
      */
     public function actionRule($no = '')
     {
-        $rule = json_decode((new client())->hGetField('PileInfo', $no, 'rules'), true);
-        return $this->render('rule.html', ['rules' => $rule ?: [[0, 86400, 0.8, 0.6]]]);
+        return $this->render('rule.html', ['rules' => json_decode(EnPile::findOne(['no' => $no])->rules, true)]);
     }
 }

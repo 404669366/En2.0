@@ -116,7 +116,7 @@
             }
             if (data.code === 208) {
                 window.showMsgDo(global.code[data.code], 3, function () {
-                    window.location.href = '/order/charge/pay.html?no=' + data.data.no;
+                    window.location.href = '/order/charge/pay.html?no=' + global.info.orderNo;
                 });
                 return;
             }

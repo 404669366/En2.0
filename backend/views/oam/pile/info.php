@@ -43,8 +43,8 @@
     }
 
     .qrCode > canvas {
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
     }
 
 </style>
@@ -175,10 +175,12 @@
                     str += '</tr>';
                     $('.gunTable').append(str);
                     $('#qrCode' + k).qrcode({
-                        width: 260,
-                        height: 260,
+                        width: 320,
+                        height: 320,
                         text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + k,
-                        src: '/img/user.png'
+                        src: '/img/logo.jpg',
+                        imgWidth: 80,
+                        imgHeight: 80
                     });
                 });
             } else {

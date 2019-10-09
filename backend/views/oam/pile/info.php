@@ -56,7 +56,7 @@
                 <div class="col-sm-12">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-5">
+                        <div class="col-sm-4 col-sm-offset-1">
                             <button type="submit" class="btn btn-info save">保存</button>
                             &emsp;
                             <a class="btn btn-white jump" href="/oam/pile/list">返回</a>

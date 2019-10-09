@@ -50,7 +50,7 @@
         </div>
         <div class="order_time">
             <span>订单总额:</span>
-            <p>{{=parseFloat(it.bm + it.sm).toFixed(2)}}</p>
+            <p>{{=(parseFloat(it.bm)+parseFloat(it.sm)).toFixed(2)}}</p>
         </div>
         <div class="pay" data-url="/order/charge/pay.html?no={{=it.no}}&pay=1">立即支付</div>
     </script>

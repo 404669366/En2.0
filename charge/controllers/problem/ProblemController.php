@@ -10,6 +10,7 @@ namespace app\controllers\problem;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\helpers\Constant;
 
 class ProblemController extends AuthController
 {
@@ -19,6 +20,6 @@ class ProblemController extends AuthController
      */
     public function actionProblem()
     {
-        return $this->render('problem.html');
+        return $this->render('problem.html', ['sysTel' => Constant::serviceTel()]);
     }
 }

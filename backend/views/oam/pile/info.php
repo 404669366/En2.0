@@ -163,7 +163,7 @@
                     var str = '<tr>';
                     str += '<td>';
                     str += no + '-' + k;
-                    str += '<div class="qrCode" id="qrCode' + k + '"></div>';
+                    str += '<div class="qrCode" id="qrCode' + k + '" title="鼠标右键保存图片"></div>';
                     str += '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';

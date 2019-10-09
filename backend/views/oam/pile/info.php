@@ -163,7 +163,7 @@
                     var str = '<tr>';
                     str += '<td>';
                     str += no + '-' + k;
-                    str += '<div class="qrCode qrCode' + k + '"></div>';
+                    str += '<div class="qrCode" id="qrCode' + k + '"></div>';
                     str += '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
@@ -174,10 +174,11 @@
                     }
                     str += '</tr>';
                     $('.gunTable').append(str);
-                    $('.qrCode' + k).makeCode({
+                    $('#qrCode' + k).qrcode({
                         width: 260,
                         height: 260,
-                        text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + k
+                        text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + k,
+                        src: '/img/user.png'
                     });
                 });
             } else {

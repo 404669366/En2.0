@@ -124,7 +124,11 @@
             }
             if (data.code === 100 || data.code === 200 || data.code === 202 || data.code === 203) {
                 window.showMsgDo(global.code[data.code], 3, function () {
-                    window.history.go(-1);
+                    if (window.history.length > 1) {
+                        window.history.go(-1);
+                    } else {
+                        window.location.href = '/user/user/center.html';
+                    }
                 });
                 return;
             }
@@ -142,7 +146,11 @@
     socket.onerror = function () {
         window.wait().close();
         window.showMsgDo('链接服务器错误,请稍后再试', 3, function () {
-            window.history.go(-1);
+            if (window.history.length > 1) {
+                window.history.go(-1);
+            } else {
+                window.location.href = '/user/user/center.html';
+            }
         });
     };
 

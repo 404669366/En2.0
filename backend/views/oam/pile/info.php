@@ -43,8 +43,11 @@
     }
 
     .qrCode > canvas {
-        width: 40px;
-        height: 40px;
+        margin: 10px auto;
+        display: table-cell;
+        vertical-align: middle;
+        width: 60px;
+        height: 62px;
     }
 
 </style>
@@ -161,9 +164,7 @@
                 $('.gunTable').html('<tr><td>枪口编码</td><td>枪口状态</td><td>连接状态</td><td>枪口操作</td></tr>');
                 $.each(data.data.status || [], function (k, v) {
                     var str = '<tr>';
-                    str += '<td>';
-                    str += no + '-' + k;
-                    str += '<div class="qrCode" id="qrCode' + k + '" title="鼠标右键保存图片"></div>';
+                    str += '<td class="qrCode" id="qrCode' + k + '" title="鼠标右键保存图片">';
                     str += '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
@@ -180,7 +181,9 @@
                         text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + k,
                         src: '/img/logo.jpg',
                         imgWidth: 80,
-                        imgHeight: 80
+                        imgHeight: 80,
+                        content: 'NO: '+no + '-' + k,
+                        contentSize: 18
                     });
                 });
             } else {

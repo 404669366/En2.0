@@ -88,13 +88,11 @@ function QRPolynomial(a, b) {
 }
 
 function QRRSBlock(a, b) {
-    this.totalCount = a,
-        this.dataCount = b
+    this.totalCount = a, this.dataCount = b
 }
 
 function QRBitBuffer() {
-    this.buffer = new Array(),
-        this.length = 0
+    this.buffer = new Array(), this.length = 0
 }
 
 var QRMode, QRErrorCorrectLevel, QRMaskPattern, QRUtil, QRMath, i;
@@ -107,34 +105,35 @@ for (function (a) {
                 width: 256,
                 height: 256,
                 //这里是图片的高度和宽度
-                imgWidth: b.width / 3.6,
-                imgHeight: b.height / 3.6,
+                imgWidth: b.width / 3,
+                imgHeight: b.height / 3,
                 typeNumber: -1,
                 correctLevel: QRErrorCorrectLevel.H,
                 background: "#ffffff",
-                foreground: "#000000"
-            }, b), c = function () {
-            var c, d, e, f, g, h, i, j, k, a = new QRCode(b.typeNumber, b.correctLevel);
-            for (a.addData(utf16to8(b.text)), a.make(),
-                     c = document.createElement("canvas"),
-                     c.width = b.width, c.height = b.height, d = c.getContext("2d"),
-                 b.src && (e = new Image(), e.src = b.src, e.onload = function () {
-                     d.drawImage(e, (b.width - b.imgWidth) / 2, (b.height - b.imgHeight) / 2,
-                         b.imgWidth, b.imgHeight)
-                 }), f = b.width / a.getModuleCount(),
-                     g = b.height / a.getModuleCount(), h = 0; h < a.getModuleCount(); h++) {
-                for (i = 0; i < a.getModuleCount(); i++) {
-                    d.fillStyle = a.isDark(h, i) ? b.foreground : b.background,
-                        j = Math.ceil((i + 1) * f) - Math.floor(i * f),
-                        k = Math.ceil((h + 1) * f) - Math.floor(h * f),
-                        d.fillRect(Math.round(i * f), Math.round(h * g), j, k)
+                foreground: "#000000",
+                contentHeight:20,
+                contentSize:8,
+            }, b),
+            c = function () {
+                var c, d, e, f, g, h, i, j, k, a = new QRCode(b.typeNumber, b.correctLevel);
+                console.log((b.contentHeight-b.contentSize)/2);
+                for (a.addData(utf16to8(b.text)), a.make(), c = document.createElement("canvas"), c.width = b.width, c.height = b.height, d = c.getContext("2d"),
+                     b.content && (c.height += b.contentHeight,d.font = b.contentSize+'px microsoft yahei', d.textAlign = 'center', d.fillStyle = 'black', d.fillText(b.content, c.width/2, c.height -(b.contentHeight-b.contentSize)/2-2)),
+                     b.src && (e = new Image(), e.src = b.src, e.onload = function () {
+                         d.drawImage(e, (b.width - b.imgWidth) / 2, (b.height - b.imgHeight) / 2, b.imgWidth, b.imgHeight);
+                     }),
+                     f = b.width / a.getModuleCount(), g = b.height / a.getModuleCount(), h = 0; h < a.getModuleCount(); h++) {
+                        for (i = 0; i < a.getModuleCount(); i++) {
+                            d.fillStyle = a.isDark(h, i) ? b.foreground : b.background,
+                                j = Math.ceil((i + 1) * f) - Math.floor(i * f),
+                                k = Math.ceil((h + 1) * f) - Math.floor(h * f),
+                                d.fillRect(Math.round(i * f), Math.round(h * g), j, k)
+                        }
                 }
-            }
-            return c
-        },
+                return c
+            },
             d = function () {
-                var d, e, f, g, h, i,
-                    c = new QRCode(b.typeNumber, b.correctLevel);
+                var d, e, f, g, h, i, c = new QRCode(b.typeNumber, b.correctLevel);
                 //这里的utf16to8(b.text)是对Text中的字符串进行转码，让其支持中文
                 for (c.addData(utf16to8(b.text)), c.make(), d = a("<table></table>").css("width", b.width + "px").css("height", b.height + "px").css("border", "0px").css("border-collapse", "collapse").css("background-color", b.background), e = b.width / c.getModuleCount(), f = b.height / c.getModuleCount(), g = 0; g < c.getModuleCount(); g++) {
                     for (h = a("<tr></tr>").css("height", f + "px").appendTo(d), i = 0; i < c.getModuleCount(); i++) {
@@ -142,10 +141,11 @@ for (function (a) {
                     }
                 }
                 return d
-            }, this.each(function () {
-            var e = "canvas" == b.render ? c() : d();
-            a(e).appendTo(this)
-        })
+            },
+            this.each(function () {
+                var e = "canvas" == b.render ? c() : d();
+                a(e).appendTo(this)
+            })
     }
 }(jQuery), QR8bitByte.prototype = {
     getLength: function () {

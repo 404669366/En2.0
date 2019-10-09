@@ -42,7 +42,7 @@
         margin-bottom: 1rem;
     }
 
-    .qrCode>canvas{
+    .qrCode > canvas {
         margin-top: 10px;
         width: 80px;
         height: 80px;
@@ -163,11 +163,13 @@
             var data = JSON.parse(event.data);
             console.log(data);
             if (data.code === 600) {
-                $('.gunTable').html('<tr><td>枪口编号</td><td>枪口二维码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
+                $('.gunTable').html('<tr><td>枪口编号</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
                 $.each(data.data.status || [], function (k, v) {
                     var str = '<tr>';
-                    str += '<td>' + no + '-' + k + '</td>';
-                    str += '<td class="qrCode qrCode' + k + '"></td>';
+                    str += '<td>';
+                    str += no + '-' + k;
+                    str += '<div class="qrCode qrCode' + k + '"></div>';
+                    str += '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     str += '<td>枪口操作</td>';

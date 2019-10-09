@@ -61,6 +61,28 @@ class EnInvest extends \yii\db\ActiveRecord
     }
 
     /**
+     * 后台分页数据
+     * @return mixed
+     */
+    public static function getPageData()
+    {
+        $data = self::find()->alias('i')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.uid')
+            ->select(['i.*', 'u.tel'])
+            ->page([
+                'keywords' => ['like', 'i.no', 'u.tel'],
+                'status' => ['=', 'i.status'],
+                'source' => ['=', 'i.source'],
+            ]);
+        foreach ($data['data'] as &$v) {
+            $v['status'] = Constant::investStatus()[$v['status']];
+            $v['source'] = Constant::investSource()[$v['source']];
+            $v['created_at'] = date('Y-m-d H:i:s');
+        }
+        return $data;
+    }
+
+    /**
      * 发起充值
      * @param int $money
      * @param int $way

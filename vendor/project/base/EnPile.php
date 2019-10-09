@@ -169,7 +169,7 @@ class EnPile extends \yii\db\ActiveRecord
             $images = explode(',', $v['images']);
             $v['image'] = $images[array_rand($images)];
             $v['standard'] = Constant::pileStandard()[$v['standard']];
-            $v['rule'] = self::getNowRule($v['rules']);
+            $v['rule'] = json_encode(self::getNowRule($v['rules']));
         }
         return $data;
     }

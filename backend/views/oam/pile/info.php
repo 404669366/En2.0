@@ -128,7 +128,7 @@
                                 &emsp;
                                 <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
                                 &emsp;
-                                <button type="button" class="btn btn-info" onclick="location.reload()">添加规则</button>
+                                <button type="button" class="btn btn-info" onclick="location.reload()">刷新</button>
                             </div>
                         </div>
                     </div>

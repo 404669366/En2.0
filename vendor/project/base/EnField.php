@@ -509,7 +509,7 @@ class EnField extends \yii\db\ActiveRecord
         $piles = EnPile::find()->alias('p')
             ->leftJoin(self::tableName() . ' f', 'f.id=p.field_id')
             ->where(['f.no' => $no])
-            ->select(['p.no'])
+            ->select(['p.no', 'p.count'])
             ->asArray()->all();
         foreach ($piles as $v) {
             $guns['count'] += $v['count'];

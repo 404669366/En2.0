@@ -12,6 +12,22 @@ namespace vendor\project\helpers;
 class Helper
 {
     /**
+     * 获取指定时间对应周所有日期
+     * @param int $time
+     * @return array
+     */
+    public static function getWeekDay($time = 0)
+    {
+        $time = $time != '' ? $time : time();
+        $week = date('w', $time);
+        $date = [];
+        for ($i = 1; $i <= 7; $i++) {
+            $date[$i] = date('Y-m-d', strtotime('+' . $i - $week . ' days', $time));
+        }
+        return $date;
+    }
+
+    /**
      * 百度坐标系 (BD-09) 与 火星坐标系 (GCJ-02)的转换
      * 即 百度 转 谷歌、高德、腾讯
      * @param $lat

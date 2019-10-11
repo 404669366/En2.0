@@ -77,7 +77,7 @@ class EnInvest extends \yii\db\ActiveRecord
         foreach ($data['data'] as &$v) {
             $v['status'] = Constant::investStatus()[$v['status']];
             $v['source'] = Constant::investSource()[$v['source']];
-            $v['created_at'] = date('Y-m-d H:i:s');
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return $data;
     }

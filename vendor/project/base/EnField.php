@@ -540,7 +540,7 @@ class EnField extends \yii\db\ActiveRecord
      */
     public static function getMapData()
     {
-        $data = self::find()->where(['online' => 2])->select(['no', 'lat', 'lng'])->asArray()->all();
+        $data = self::find()->where(['online' => 2])->select(['no', 'lat', 'lng','name','address','local'])->asArray()->all();
         foreach ($data as &$v) {
             $v['styleId'] = 'circle';
             $point = Helper::bd09ToGcj02($v['lat'], $v['lng']);

@@ -113,4 +113,36 @@ class EnOrder extends \yii\db\ActiveRecord
         }
         return $orders;
     }
+
+    /**
+     * 报表数据
+     * @return array
+     */
+    public static function reportInfo()
+    {
+        $minYear = self::find()->min("FROM_UNIXTIME(created_at,'%Y')") ?: date('Y');
+        $data = [
+            'allOrder' => round(self::find()->where(['status' => [2, 3]])->sum('bm + sm'), 2),
+            'yearOrder' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'monthOrder' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'dayOrder' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'years' => array_reverse(range($minYear, date('Y'))),
+        ];
+        return $data;
+    }
+
+    /**
+     * 报表数据
+     * @param string $year
+     * @return array
+     */
+    public static function reportData($year = '')
+    {
+        $year = $year ?: date('Y');
+        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        foreach ($data as &$v) {
+            $v = round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v, 'status' => [2, 3]])->sum('bm + sm'), 2);
+        }
+        return $data;
+    }
 }

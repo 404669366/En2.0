@@ -133,12 +133,13 @@ class EnInvest extends \yii\db\ActiveRecord
      */
     public static function reportInfo()
     {
+        $minYear = self::find()->min("FROM_UNIXTIME(created_at,'%Y')") ?: date('Y');
         $data = [
             'allInvest' => round(self::find()->where(['status' => 1])->sum('money'), 2),
             'yearInvest' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => 1])->sum('money'), 2),
             'monthInvest' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => 1])->sum('money'), 2),
             'dayInvest' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => 1])->sum('money'), 2),
-            'years' => array_reverse(range(self::find()->min("FROM_UNIXTIME(created_at,'%Y')"), date('Y'))),
+            'years' => array_reverse(range($minYear, date('Y'))),
         ];
         return $data;
     }

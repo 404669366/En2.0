@@ -11,6 +11,7 @@ namespace app\controllers\finance;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnInvest;
+use vendor\project\base\EnOrder;
 
 class FinanceController extends CommonController
 {
@@ -22,7 +23,7 @@ class FinanceController extends CommonController
     {
         return $this->render('report', [
             'invest' => EnInvest::reportInfo(),
-            'order' => []
+            'order' => EnOrder::reportInfo()
         ]);
     }
 
@@ -36,8 +37,13 @@ class FinanceController extends CommonController
         return $this->rJson(EnInvest::reportData($year));
     }
 
-    public function actionOrderData()
+    /**
+     * 订单报表数据
+     * @param string $year
+     * @return string
+     */
+    public function actionOrderData($year = '')
     {
-
+        return $this->rJson(EnOrder::reportData($year));
     }
 }

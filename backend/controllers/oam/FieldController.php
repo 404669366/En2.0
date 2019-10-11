@@ -119,4 +119,13 @@ class FieldController extends CommonController
         }
         return $this->redirect(['list']);
     }
+
+    /**
+     * 电站地图
+     * @return string
+     */
+    public function actionMap()
+    {
+        return $this->render('map', ['data' => json_encode(EnField::getMapData())]);
+    }
 }

@@ -544,8 +544,8 @@ class EnField extends \yii\db\ActiveRecord
         foreach ($data as &$v) {
             $v['styleId'] = 'circle';
             $point = Helper::bd09ToGcj02($v['lat'], $v['lng']);
-            $v['lat'] = $point['lat'];
-            $v['lng'] = $point['lng'];
+            $v['lat'] = (float)$point['lat'];
+            $v['lng'] = (float)$point['lng'];
         }
         return $data;
     }

@@ -563,13 +563,15 @@ class EnField extends \yii\db\ActiveRecord
             ->where(['f.no' => $no]);
         $month = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
         foreach ($month as &$v) {
-            $v = $model->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y') . $v])->count();
+            $model0 = clone $model;
+            $v = $model0->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y') . $v])->count();
         }
+        $model1 = $model2 = $model3 = $model4 = clone $model;
         $data = [
-            'allCharge' => round($model->andWhere(['o.status' => [2, 3]])->sum('o.e'), 2),
-            'allUse' => round($model->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
-            'useCount' => $model->andWhere(['o.status' => [2, 3]])->count(),
-            'allCount' => $model->count(),
+            'allCharge' => round($model1->andWhere(['o.status' => [2, 3]])->sum('o.e'), 2),
+            'allUse' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
+            'useCount' => $model3->andWhere(['o.status' => [2, 3]])->count(),
+            'allCount' => $model4->count(),
             'chart' => implode(',', $month)
         ];
         return $data;

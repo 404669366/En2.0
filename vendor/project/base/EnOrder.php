@@ -162,13 +162,13 @@ class EnOrder extends \yii\db\ActiveRecord
                 $user = EnUser::findOne($order->uid);
                 $money = round($order['bm'] + $order['sm'], 2);
                 if ($user->money < $money) {
-                    throw new Exception('用户余额不足,不能扣款');
+                    throw new Exception('余额不足');
                 }
                 $user->money -= $money;
                 if ($user->save()) {
                     if ($order->save()) {
                         $transaction->commit();
-                        Msg::set('扣款成功');
+                        Msg::set('支付成功');
                         return true;
                     }
                 }
@@ -179,7 +179,7 @@ class EnOrder extends \yii\db\ActiveRecord
                 return false;
             }
         }
-        Msg::set('订单已付款');
+        Msg::set('订单已支付');
         return false;
     }
 }

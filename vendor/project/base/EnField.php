@@ -540,13 +540,38 @@ class EnField extends \yii\db\ActiveRecord
      */
     public static function getMapData()
     {
-        $data = self::find()->where(['online' => 2])->select(['no', 'lat', 'lng','name','address','local'])->asArray()->all();
+        $data = self::find()->where(['online' => 2])->select(['no', 'lat', 'lng', 'name', 'address', 'local'])->asArray()->all();
         foreach ($data as &$v) {
             $v['styleId'] = 'circle';
             $point = Helper::bd09ToGcj02($v['lat'], $v['lng']);
             $v['lat'] = (float)$point['lat'];
             $v['lng'] = (float)$point['lng'];
         }
+        return $data;
+    }
+
+    /**
+     * 地图数据
+     * @param string $no
+     * @return array
+     */
+    public static function getMapInfo($no = '')
+    {
+        $model = EnOrder::find()->alias('o')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
+            ->where(['f.no' => $no]);
+        $month = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        foreach ($month as &$v) {
+            $v = $model->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y') . $v])->count();
+        }
+        $data = [
+            'allCharge' => round($model->andWhere(['o.status' => [2, 3]])->sum('o.e'), 2),
+            'allUse' => round($model->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
+            'useCount' => $model->andWhere(['o.status' => [2, 3]])->count(),
+            'allCount' => $model->count(),
+            'chart' => implode(',', $month)
+        ];
         return $data;
     }
 }

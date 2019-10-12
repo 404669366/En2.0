@@ -128,4 +128,14 @@ class FieldController extends CommonController
     {
         return $this->render('map', ['data' => json_encode(EnField::getMapData())]);
     }
+
+    /**
+     * 电站地图信息
+     * @param string $no
+     * @return string
+     */
+    public function actionMapInfo($no = '')
+    {
+        return $this->rJson(EnField::getMapInfo($no));
+    }
 }

@@ -4,7 +4,9 @@ namespace vendor\project\base;
 
 use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
+use vendor\project\helpers\Msg;
 use Yii;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "en_order".
@@ -144,5 +146,40 @@ class EnOrder extends \yii\db\ActiveRecord
             $v = round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v, 'status' => [2, 3]])->sum('bm + sm'), 2);
         }
         return $data;
+    }
+
+    /**
+     * 订单扣款
+     * @param string $no
+     * @return bool
+     */
+    public static function deduct($no = '')
+    {
+        if ($order = self::findOne(['no' => $no, 'status' => 2])) {
+            $transaction = \Yii::$app->db->beginTransaction();
+            try {
+                $order->status = 3;
+                $user = EnUser::findOne($order->uid);
+                $money = round($order['bm'] + $order['sm'], 2);
+                if ($user->money < $money) {
+                    throw new Exception('用户余额不足,不能扣款');
+                }
+                $user->money -= $money;
+                if ($user->save()) {
+                    if ($order->save()) {
+                        $transaction->commit();
+                        Msg::set('扣款成功');
+                        return true;
+                    }
+                }
+                throw new Exception('系统错误,请稍后再试');
+            } catch (Exception $e) {
+                $transaction->rollBack();
+                Msg::set($e->getMessage());
+                return false;
+            }
+        }
+        Msg::set('订单已付款');
+        return false;
     }
 }

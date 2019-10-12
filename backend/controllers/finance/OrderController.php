@@ -32,4 +32,15 @@ class OrderController extends CommonController
     {
         return $this->rTableData(EnOrder::getPageData());
     }
+
+    /**
+     * 订单扣款
+     * @param string $no
+     * @return \yii\web\Response
+     */
+    public function actionDeduct($no = '')
+    {
+        EnOrder::deduct($no);
+        return $this->redirect(['list']);
+    }
 }

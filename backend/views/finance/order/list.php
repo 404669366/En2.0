@@ -57,6 +57,9 @@
             {"data": "status"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
+                if (row.status === '充电结束') {
+                    return '<a href="/finance/order/deduct?no=' + data + '" class="btn btn-sm btn-primary">扣款</a>'
+                }
                 return '';
             }
             }

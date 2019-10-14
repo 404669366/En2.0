@@ -53,7 +53,6 @@ class FinanceController extends CommonController
      */
     public function actionReply()
     {
-        phpinfo();exit();
         return $this->render('reply', ['status' => []]);
     }
 }

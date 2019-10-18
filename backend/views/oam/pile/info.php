@@ -170,7 +170,7 @@
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     if (v.workStatus === 2) {
-                        str += '<td><button class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
+                        str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
                     } else {
                         str += '<td>----</td>';
                     }

@@ -169,8 +169,7 @@
                     str += '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
-                    console.log(v);
-                    if (v.workStatus === 2 && v.linkStatus !== 0) {
+                    if (v.workStatus === 2 && v.linkStatus) {
                         str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
                     } else {
                         str += '<td>----</td>';

@@ -169,7 +169,7 @@
                     str += '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
-                    if (v.workStatus === 2) {
+                    if (v.workStatus === 2 && v.linkStatus) {
                         str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
                     } else {
                         str += '<td>----</td>';
@@ -183,7 +183,7 @@
                         src: '/img/logo.jpg',
                         imgWidth: 80,
                         imgHeight: 80,
-                        content: 'NO: '+no + '-' + k,
+                        content: 'NO: ' + no + '-' + k,
                         contentSize: 18
                     });
                 });

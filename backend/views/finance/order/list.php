@@ -29,8 +29,7 @@
                     <th>充电枪口</th>
                     <th>充电用户</th>
                     <th>充电电量</th>
-                    <th>基础电费</th>
-                    <th>服务电费</th>
+                    <th>费用信息</th>
                     <th>创建时间</th>
                     <th>订单状态</th>
                     <th>操作</th>
@@ -51,8 +50,7 @@
             {"data": "gun"},
             {"data": "tel"},
             {"data": "e"},
-            {"data": "bm"},
-            {"data": "sm"},
+            {"data": "info"},
             {"data": "created_at"},
             {"data": "status"},
             {
@@ -64,7 +62,7 @@
             }
             }
         ],
-        default_order: [7, 'desc']
+        default_order: [6, 'desc']
     });
     myTable.search();
 </script>

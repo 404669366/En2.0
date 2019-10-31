@@ -5,38 +5,22 @@
             <div class="row tableSearchBox">
                 <div class="col-sm-10">
                     <span class="tableSpan">
-                        综合搜索: <input class="searchField" type="text" value="" name="content"
-                                     placeholder="编号/名称/标题/地址/用户" style="width: 18rem">
+                        综合搜索: <input class="searchField" type="text" value="" name="key"
+                                     placeholder="编号/名称/标题/地址/企业/专员/用户" style="width: 18rem">
                     </span>
                     <span class="tableSpan">
-                        场站来源: <select class="searchField" name="source">
+                        场站状态: <select class="searchField" name="status">
                                 <option value="">----</option>
-                            <?php foreach (\vendor\project\helpers\Constant::fieldSource() as $k => $type): ?>
-                                <option value="<?= $k ?>"><?= $type ?></option>
+                            <?php foreach ($status as $k => $v): ?>
+                                <option value="<?= $k ?>"><?= $v ?></option>
                             <?php endforeach; ?>
                         </select>
                     </span>
                     <span class="tableSpan">
-                        业务类型: <select class="searchField" name="business_type">
+                        上线状态: <select class="searchField" name="online">
                                 <option value="">----</option>
-                            <?php foreach (\vendor\project\helpers\Constant::businessType() as $k => $type): ?>
-                                <option value="<?= $k ?>"><?= $type ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </span>
-                    <span class="tableSpan">
-                        投资类型: <select class="searchField" name="invest_type">
-                                <option value="">----</option>
-                            <?php foreach (\vendor\project\helpers\Constant::investType() as $k => $type): ?>
-                                <option value="<?= $k ?>"><?= $type ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </span>
-                    <span class="tableSpan">
-                        状态: <select class="searchField" name="status">
-                                <option value="">----</option>
-                            <?php foreach (\vendor\project\helpers\Constant::fieldStatus() as $k => $type): ?>
-                                <option value="<?= $k ?>"><?= $type ?></option>
+                            <?php foreach ($online as $k => $v): ?>
+                                <option value="<?= $k ?>"><?= $v ?></option>
                             <?php endforeach; ?>
                         </select>
                     </span>
@@ -55,18 +39,13 @@
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
                 <thead>
                 <tr role="row">
-                    <th>NO</th>
-                    <th>场站来源</th>
-                    <th>场站名称</th>
-                    <th>场站标题</th>
-                    <th>场站位置</th>
-                    <th>业务类型</th>
-                    <th>投资类型</th>
-                    <th>场地用户</th>
-                    <th>分成比例</th>
-                    <th>融资情况</th>
+                    <th>NO/创建时间</th>
+                    <th>归属企业</th>
+                    <th>归属专员</th>
+                    <th>归属用户</th>
+                    <th>场站信息</th>
+                    <th>股权情况</th>
                     <th>场站状态</th>
-                    <th>创建时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -80,53 +59,28 @@
         url: '/field/field/data',
         length: 10,
         columns: [
-            {"data": "no"},
-            {"data": "source"},
-            {
-                "data": "name", "render": function (data, type, row) {
-                return linFeed(data, 15);
-            }
-            },
-            {
-                "data": "title", "render": function (data, type, row) {
-                return linFeed(data, 15);
-            }
-            },
-            {
-                "data": "address", "render": function (data, type, row) {
-                return linFeed(data, 15);
-            }
-            },
-            {"data": "business_type"},
-            {"data": "invest_type"},
-            {
-                "data": "local", "render": function (data, type, row) {
-                return data || '----';
-            }
-            },
-            {"data": "ratio"},
             {"data": "info"},
-            {"data": "status"},
+            {"data": "cName"},
+            {"data": "cTel"},
+            {"data": "uTel"},
+            {"data": "data"},
+            {"data": "stock"},
+            {"data": "statusInfo"},
             {
-                "data": "created_at", "render": function (data, type, row) {
-                return timeToDate(data);
-            }
-            },
-            {
-                "data": "id", "orderable": false, "render": function (data, type, row) {
-                var str = '<a class="btn btn-sm btn-info" href="/field/field/info?id=' + data + '">详情</a>&emsp;';
-                if (row.status === '待处理' || row.status === '挂起' || row.status === '审核不通过') {
-                    str = '<a class="btn btn-sm btn-warning" href="/field/field/edit?id=' + data + '">编辑</a>&emsp;';
+                "data": "no", "orderable": false, "render": function (data, type, row) {
+                var str = '<a class="btn btn-sm btn-info" href="/field/field/info?no=' + data + '">详情</a>&emsp;';
+                if (row.status == 0 || row.status == 1) {
+                    str = '<a class="btn btn-sm btn-warning" href="/field/field/edit?no=' + data + '">编辑</a>&emsp;';
                 }
-                return str + '<button type="button" class="btn btn-sm btn-danger appoint" data-fid="' + data + '">指派</button>';
+                return str + '<button type="button" class="btn btn-sm btn-danger appoint" data-no="' + data + '">指派</button>';
             }
             }
         ],
-        default_order: [0, 'desc']
+        default_order: [7, 'asc']
     });
     myTable.search();
     $('#table').on('click', '.appoint', function () {
-        var content = '<input value="" placeholder="请输入要指派专员手机号" data-fid="' + $(this).data('fid') + '" type="text" style="width: 100%;height:6rem;line-height: 6rem;padding:1rem 0;border: none;background: none;text-align: center;font-size: 2rem"/>';
+        var content = '<input value="" placeholder="请输入要指派专员手机号" data-no="' + $(this).data('no') + '" type="text" style="width: 100%;height:6rem;line-height: 6rem;padding:1rem 0;border: none;background: none;text-align: center;font-size: 2rem"/>';
         window.modal({
             title: '指派专员',
             width: '40rem',
@@ -134,11 +88,11 @@
             content: content,
             callback: function (event) {
                 var input = event.find('input');
-                if (input.data('fid') && input.val()) {
-                    $.getJSON('/field/field/appoint', {id: input.data('fid'), tel: input.val()}, function (re) {
+                if (input.data('no') && input.val()) {
+                    $.getJSON('/field/field/appoint', {no: input.data('no'), tel: input.val()}, function (re) {
                         if (re.type) {
-                            $('#table').find('[data-fid="' + input.data('fid') + '"]').parents('tr').remove();
-                            showMsg('指派成功');
+                            window.location.reload();
+                            $.cookie('message-data', '指派成功', {path: '/'});
                             event.close();
                         } else {
                             showMsg(re.msg);

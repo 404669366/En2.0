@@ -45,9 +45,6 @@
         </span>
         {{~}}
     </script>
-    <script type="text/x-dot-template" id="btnTpl">
-        <a href="/field/intention/no-pay.html?no={{=it.no}}" class="btn">放弃支付</a>
-    </script>
 </head>
 <body>
 <div class="head">
@@ -59,10 +56,10 @@
 </div>
 <div class="center">
     <div class="pay">
-        <h1>Pay Deposit</h1>
-        <h3>支付定金</h3>
+        <h1>Pay</h1>
+        <h3>支付</h3>
         <div class="payBox">
-            <h3>微信支付<span class="surplus">二维码剩余有效时间为分钟,请尽快支付</span></h3>
+            <h3>微信支付<span class="surplus">二维码剩余有效时间为分钟,请尽快完成支付</span></h3>
             <div class="scanBox">
                 <div>
                     <div class="qrCode">
@@ -78,8 +75,6 @@
                 </div>
             </div>
         </div>
-        <div class="btnBox" id="btnBox"></div>
-        <script>window.html('btnBox', 'btnTpl', global);</script>
     </div>
 </div>
 <div class="footer">
@@ -140,11 +135,11 @@
 
     $('.qrCode').makeCode({text: global.url});
     var time = 7200;
-    $('.surplus').text('二维码剩余有效时间为' + window.toDate(time) + ',请尽快支付');
+    $('.surplus').text('二维码剩余有效时间为' + window.toDate(time) + ',请尽快完成支付');
     var i = setInterval(function () {
         time--;
         if (time > 0) {
-            $('.surplus').text('二维码剩余有效时间为' + window.toDate(time) + ',请尽快支付');
+            $('.surplus').text('二维码剩余有效时间为' + window.toDate(time) + ',请尽快完成支付');
         } else {
             clearInterval(i);
             $('.qrCode').css('position', 'relative');
@@ -155,23 +150,15 @@
     $('.occlusion').click(function () {
         window.location.reload();
     });
-    var socket = io('http://127.0.0.1:2120');
+    var socket = io('http://47.99.36.149:2120');
     socket.on('connect', function () {
         socket.emit('bind', global.no);
     });
     socket.on('msg', function (msg) {
-        $.removeCookie('pay-times-' + global.id, {path: '/'});
-        if (msg) {
-            window.showMsg('支付成功');
-            setTimeout(function () {
-                window.location.href = '/user/intention/list.html';
-            }, 2000);
-            return;
-        }
-        window.showMsg('错误操作');
-        setTimeout(function () {
-            window.location.href = '/field/field/detail.html?no=' + global.fieldNo;
-        }, 2000);
+        msg = JSON.parse(msg);
+        window.showMsgDo(msg.msg, 2, function () {
+            window.location.href = '/user/intention/list.html';
+        });
     });
 </script>
 </body>

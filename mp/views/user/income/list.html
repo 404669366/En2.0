@@ -2,9 +2,41 @@
 <html lang="zh-Hans">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能建站-我的收益</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/center-list.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="listTpl">
+        {{~it:v}}
+        <div class="clear">
+            <h3>{{=v.order}}<span>{{=v.created}}</span></h3>
+            <div class="info">
+                <p>
+                    收益类型: {{=v.typeName}}
+                    <span>&plus;&yen;{{=v.money}}</span>
+                </p>
+                <p>电桩信息: {{=v.name}} | {{=v.pile}}</p>
+                <p>订单信息: {{=v.e}}kwh | &yen;{{=v.sm}}</p>
+            </div>
+        </div>
+        {{~}}
+    </script>
 </head>
 <body>
-
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<div class="list intention-list cash-list" id="list"></div>
+<div class="btnBox">
+    <span>总收益: <span class="price"></span></span>
+    <a href="/user/income/income.html" class="btn">收益统计</a>
+</div>
+<script>
+    $('.price').html('&yen;' + global.all);
+    window.html('list', 'listTpl', global.data);
+</script>
 </body>
 </html>

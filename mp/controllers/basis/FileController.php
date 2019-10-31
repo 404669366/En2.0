@@ -34,12 +34,12 @@ class FileController extends AuthController
 
     /**
      * 删除文件
-     * @param $src
+     * @param $name
      * @return string
      */
-    public function actionDelete($src)
+    public function actionDelete($name)
     {
-        if ($src && Oss::aliDelete($src)) {
+        if ($name && Oss::aliDelete($name)) {
             return $this->rJson();
         }
         return $this->rJson('', false, '删除错误');

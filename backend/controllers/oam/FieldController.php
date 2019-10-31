@@ -11,9 +11,10 @@ namespace app\controllers\oam;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnField;
-use vendor\project\helpers\Helper;
+use vendor\project\base\EnModel;
+use vendor\project\base\EnPile;
+use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
-use yii\db\Exception;
 
 class FieldController extends CommonController
 {
@@ -23,16 +24,64 @@ class FieldController extends CommonController
      */
     public function actionList()
     {
-        return $this->render('list');
+        return $this->render('list', [
+            'status' => Constant::fieldStatus(),
+            'online' => Constant::fieldOnline(),
+        ]);
     }
 
     /**
-     * 场站上线管理数据
+     * 场站上线管理列表数据
      * @return string
      */
     public function actionData()
     {
-        return $this->rTableData(EnField::getPageData(0, [1, 2, 3, 4, 5]));
+        return $this->rTableData(EnField::getPageData(4));
+    }
+
+    /**
+     * 场站电桩页
+     * @param string $no
+     * @return string
+     */
+    public function actionPile($no = '')
+    {
+        return $this->render('pile', ['no' => $no]);
+    }
+
+    /**
+     * 场站电桩页数据
+     * @param string $no
+     * @return string
+     */
+    public function actionPileData($no = '')
+    {
+        return $this->rTableData(EnPile::getPageData($no));
+    }
+
+    /**
+     * 场站电桩详情页
+     * @param string $no
+     * @return string
+     */
+    public function actionPileInfo($no)
+    {
+        $model = EnPile::findOne(['no' => $no]);
+        if (\Yii::$app->request->isPost) {
+            $model->load(['EnPile' => \Yii::$app->request->post()]);
+            if ($model->validate() && $model->save()) {
+                Msg::set('保存成功');
+            } else {
+                Msg::set($model->errors());
+            }
+        }
+        return $this->render('info', [
+            'model' => $model,
+            'models' => EnModel::getModels(),
+            'code' => json_encode(Constant::serverCode()),
+            'work' => json_encode(Constant::workStatus()),
+            'link' => json_encode(Constant::linkStatus()),
+        ]);
     }
 
     /**
@@ -43,41 +92,11 @@ class FieldController extends CommonController
     public function actionUp($no = '')
     {
         Msg::set('非法操作');
-        if ($model = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5], 'online' => 1])) {
-            $transaction = \Yii::$app->db->beginTransaction();
-            try {
-                $model->online = 2;
-                $model->intro = '111';
-                if ($model->save()) {
-                    $point = Helper::bd09ToGcj02($model->lat, $model->lng);
-                    $data = [
-                        'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
-                        'table_id' => '5d490255d31eea5b7b36b922',
-                        'data' => [
-                            [
-                                'ud_id' => $model->no,
-                                'title' => $model->name,
-                                'address' => $model->address,
-                                'location' => [
-                                    'lat' => (float)$point['lat'],
-                                    'lng' => (float)$point['lng'],
-                                ]
-                            ]
-                        ]
-                    ];
-                    $re = Helper::curlPost('https://apis.map.qq.com/place_cloud/data/create', $data, true);
-                    $re = json_decode($re, true);
-                    if ($re && $re['status'] == 0) {
-                        $transaction->commit();
-                        Msg::set('上线成功');
-                        return $this->redirect(['list']);
-                    }
-                    throw new Exception('推送信息失败');
-                }
-                throw new Exception('状态更新失败');
-            } catch (Exception $e) {
-                Msg::set($e->getMessage());
-                $transaction->rollBack();
+        if ($model = EnField::findOne(['no' => $no, 'online' => 0])) {
+            $model->online = 1;
+            Msg::set('上线成功');
+            if (!$model->save()) {
+                Msg::set($model->errors());
             }
         }
         return $this->redirect(['list']);
@@ -91,30 +110,11 @@ class FieldController extends CommonController
     public function actionDown($no = '')
     {
         Msg::set('非法操作');
-        if ($model = EnField::findOne(['no' => $no, 'status' => [1, 2, 3, 4, 5], 'online' => 2])) {
-            $transaction = \Yii::$app->db->beginTransaction();
-            try {
-                $model->online = 1;
-                $model->intro = '111';
-                if ($model->save()) {
-                    $data = [
-                        'key' => 'NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2',
-                        'table_id' => '5d490255d31eea5b7b36b922',
-                        'filter' => 'ud_id in("' . $no . '")'
-                    ];
-                    $re = Helper::curlPost('https://apis.map.qq.com/place_cloud/data/delete', $data, true);
-                    $re = json_decode($re, true);
-                    if ($re && $re['status'] == 0) {
-                        $transaction->commit();
-                        Msg::set('下线成功');
-                        return $this->redirect(['list']);
-                    }
-                    throw new Exception('推送信息失败');
-                }
-                throw new Exception('状态更新失败');
-            } catch (Exception $e) {
-                Msg::set($e->getMessage());
-                $transaction->rollBack();
+        if ($model = EnField::findOne(['no' => $no, 'online' => 1])) {
+            $model->online = 0;
+            Msg::set('下线成功');
+            if (!$model->save()) {
+                Msg::set($model->errors());
             }
         }
         return $this->redirect(['list']);

@@ -41,6 +41,7 @@ class EnOrder extends \yii\db\ActiveRecord
             [['no'], 'unique'],
             [['no', 'pile', 'gun', 'uid'], 'required'],
             [['gun', 'uid', 'duration', 'status', 'created_at'], 'integer'],
+            [['status'], 'validateStatus'],
             [['no', 'pile'], 'string', 'max' => 32],
             [['e', 'bm', 'sm'], 'number'],
         ];
@@ -60,9 +61,16 @@ class EnOrder extends \yii\db\ActiveRecord
             'bm' => '基础电费',
             'sm' => '服务电费',
             'duration' => '充电时长',
-            'status' => '订单状态 0启动中1充电中2充电结束3完成支付4启动失败',
+            'status' => '订单状态',
             'created_at' => '创建时间',
         ];
+    }
+
+    public function validateStatus()
+    {
+        if ($this->status == 3) {
+            EnIncome::count($this->pileInfo->local->no, $this->no, $this->sm);
+        }
     }
 
     /**

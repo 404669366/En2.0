@@ -77,7 +77,9 @@ window.showMsgDo = function (data, time, func, size) {
                 func();
             });
         } else {
-            layer.msg(data);
+            layer.msg(data, {time: time * 1000}, function () {
+                func();
+            });
         }
     }
 };

@@ -13,7 +13,6 @@ use yii\web\IdentityInterface;
  * @property string $open_id 微信open_id
  * @property string $tel 手机号
  * @property string $money 余额
- * @property string $points 积分
  * @property string $address 地址
  * @property string $created_at 创建时间
  */
@@ -44,7 +43,7 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
             [['created_at'], 'integer'],
             [['open_id', 'token'], 'string', 'max' => 80],
             [['tel'], 'string', 'max' => 11],
-            [['money', 'points'], 'number'],
+            [['money'], 'number'],
             [['address'], 'string', 'max' => 50],
         ];
     }
@@ -60,7 +59,6 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
             'open_id' => '微信open_id',
             'tel' => '手机号',
             'money' => '余额',
-            'points' => '积分',
             'address' => '地址',
             'created_at' => '创建时间',
         ];

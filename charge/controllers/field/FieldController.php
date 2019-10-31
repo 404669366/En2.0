@@ -32,7 +32,7 @@ class FieldController extends AuthController
      */
     public function actionGuns($no)
     {
-        return $this->rJson(EnField::getFieldGuns($no));
+        return $this->rJson(EnPile::getGunsInfoByField($no));
     }
 
     /**

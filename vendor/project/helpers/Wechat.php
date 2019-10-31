@@ -10,6 +10,7 @@ namespace vendor\project\helpers;
 
 class Wechat
 {
+    //平台参数
     const APP_ID = 'wxf7613d39c63057cd';
     const SECRET = '26efc892fbe387d62dd131f6eedc5fd1';
     const MCH_ID = '1536153491';
@@ -121,16 +122,17 @@ class Wechat
 
     /**
      * native支付下单
+     * @param string $body
      * @param string $order
      * @param int $money
      * @param string $backUrl
-     * @return array|bool|mixed|string
+     * @return array|bool|mixed
      */
-    public static function nativePay($order = '', $money = 0, $backUrl = '/wx/pay/back.html')
+    public static function nativePay($body = '', $order = '', $money = 0, $backUrl = '')
     {
-        $data = self::addSign([
+        $params = [
             'appid' => self::APP_ID,
-            'body' => '场站认购支付定金',
+            'body' => $body,
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
             'notify_url' => Helper::spliceUrl($backUrl),
@@ -139,9 +141,9 @@ class Wechat
             'spbill_create_ip' => Helper::getIp(),
             'total_fee' => $money * 100,
             'trade_type' => 'NATIVE',
-        ]);
-        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', $data);
-        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+        ];
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
+        if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             return $data;
         }
         return false;
@@ -149,17 +151,18 @@ class Wechat
 
     /**
      * h5支付下单
+     * @param string $body
      * @param string $order
      * @param int $money
      * @param string $backUrl
      * @return array|bool|mixed
      */
-    public static function h5Pay($order = '', $money = 0, $backUrl = '/wx/wx/invest.html')
+    public static function h5Pay($body = '', $order = '', $money = 0, $backUrl = '')
     {
 
         $params = [
             'appid' => self::APP_ID,
-            'body' => '亿能充电-余额充值',
+            'body' => $body,
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
             'notify_url' => Helper::spliceUrl($backUrl),
@@ -169,37 +172,38 @@ class Wechat
             'total_fee' => $money * 100,
             'trade_type' => 'MWEB',
         ];
-        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params));
-        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
+        if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             return $data;
         }
-        return [];
+        return false;
     }
 
     /**
      * js支付下单
+     * @param string $body
      * @param string $order
      * @param int $money
      * @param string $backUrl
      * @return array|bool|mixed
      */
-    public static function jsPay($order = '', $money = 0, $backUrl = '/wx/pay/back.html')
+    public static function jsPay($body = '', $order = '', $money = 0, $backUrl = '')
     {
 
         $params = [
             'appid' => self::APP_ID,
-            'body' => '亿能充电-余额充值',
+            'body' => $body,
             'mch_id' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
             'notify_url' => Helper::spliceUrl($backUrl),
-            'openid' => \Yii::$app->session->get('open_id', 'ouYAL6NYHx6AV6jWcGnYDesKt8WU'),
+            'openid' => \Yii::$app->session->get('open_id', ''),
             'out_trade_no' => $order,
             'spbill_create_ip' => Helper::getIp(),
             'total_fee' => $money * 100,
             'trade_type' => 'JSAPI',
         ];
-        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params));
-        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+        $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
+        if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             $data = [
                 'appId' => $data['appid'],
                 'nonceStr' => $data['nonce_str'],
@@ -216,15 +220,16 @@ class Wechat
             $data['paySign'] = $sign;
             return $data;
         }
-        return [];
+        return false;
     }
 
     /**
      * 追加签名并拼接xml
      * @param array $params
+     * @param string $mch_secret
      * @return string
      */
-    private static function addSign($params = [])
+    private static function addSign($params = [], $mch_secret = '')
     {
         $xml = '<xml>';
         $ascii_str = '';
@@ -234,7 +239,7 @@ class Wechat
                 $ascii_str .= $k . '=' . $v . '&';
             }
         }
-        $sign = $ascii_str . 'key=' . self::MCH_SECRET;
+        $sign = $ascii_str . 'key=' . $mch_secret;
         $sign = strtoupper(md5($sign));
         $xml .= "<sign>$sign</sign>";
         return $xml . '</xml>';

@@ -12,17 +12,20 @@ namespace app\controllers\field;
 use app\controllers\basis\BasisController;
 use vendor\project\base\EnField;
 use vendor\project\base\EnMember;
+use vendor\project\helpers\Constant;
 
 class FieldController extends BasisController
 {
     /**
      * 场地列表页
+     * @param int $type
+     * @param string $search
      * @return string
      */
-    public function actionList()
+    public function actionList($type = 1, $search = '')
     {
         return $this->render('list.html', [
-            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1), \Yii::$app->request->get('search', ''))
+            'fields' => EnField::listDataByMp($type, $search)
         ]);
     }
 
@@ -33,16 +36,9 @@ class FieldController extends BasisController
      */
     public function actionDetail($no = '')
     {
-        $field = EnField::find()->alias('f')
-            ->leftJoin(EnMember::tableName() . ' m', 'm.id=f.commissioner_id')
-            ->select(['f.*', 'm.tel'])
-            ->where(['f.no' => $no])
-            ->asArray()->one();
-        return $this->render('detail.html', [
-            'field' => $field,
-            'images' => explode(',', $field['images']),
-            'intro' => \Yii::$app->cache->get('FieldIntro-' . $field['id']),
-            'investInfo' => \Yii::$app->cache->get('InvestInfo-' . $field['invest_type']) ?: ''
-        ]);
+        if ($detail = EnField::detailData($no)) {
+            return $this->render('detail.html', ['detail' => $detail]);
+        }
+        return $this->redirect(['basis/basis/error']);
     }
 }

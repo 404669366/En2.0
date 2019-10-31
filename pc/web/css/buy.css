@@ -77,9 +77,7 @@
 }
 
 .infoBox > .price {
-    position: absolute;
-    right: 1rem;
-    top: 0.5rem;
+    float: right;
     height: 2rem;
     line-height: 2rem;
     font-size: 0.8rem;
@@ -114,7 +112,7 @@
     font-size: 1rem;
 }
 
-.buyCount > .one > .order_amount {
+.buyCount > .one > .amount {
     color: #ff5436;
 }
 

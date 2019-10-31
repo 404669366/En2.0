@@ -23,7 +23,7 @@ class IndexController extends BasisController
     public function actionIndex()
     {
         return $this->render('index.html', [
-            'field' => EnField::indexData(),
+            'field' => EnField::recommendDataByPC(6),
             'news' => EnNews::indexData(),
             'goDay' => Constant::goDay(),
             'userCount' => Constant::userCount(),

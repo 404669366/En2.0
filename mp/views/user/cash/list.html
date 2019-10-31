@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能建站-我的提现</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/center-list.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/modal.js"></script>
+    <script type="text/x-dot-template" id="listTpl">
+        {{~it:v}}
+        <div class="clear">
+            <h3>{{=v.no}}<span>{{=v.created}}</span></h3>
+            <div class="info">
+                <p>
+                    提现状态: {{=v.statusName}}
+                    <span>&minus;&yen;{{=v.money}}</span>
+                </p>
+                {{? v.status==3}}
+                <span>驳回原因: {{=v.remark}}</span>
+                {{?}}
+            </div>
+        </div>
+        {{~}}
+    </script>
+</head>
+<body>
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<div class="list intention-list cash-list" id="list"></div>
+<div class="btnBox">
+    <span>剩余收益: <span class="price"></span></span>
+    <button type="button" class="btn">申请提现</button>
+</div>
+<div class="modal">
+    <div>
+        <h3>申请提现<i class="fa fa-times close" aria-hidden="true"></i></h3>
+        <input type="text" class="need" placeholder="提现金额" autofocus="autofocus">
+        <button type="button" class="sure">确认提交</button>
+    </div>
+</div>
+<script>
+    $('.price').html('&yen;' + global.surplus);
+    window.html('list', 'listTpl', global.data);
+    $('.btn').click(function () {
+        window.modal.open('.modal');
+    });
+    $('.close').click(function () {
+        window.modal.close('.modal');
+    });
+    $('.sure').click(function () {
+        var need = parseFloat($('.need').val());
+        if (need) {
+            window.wait.open();
+            window.modal.close('.modal');
+            window.location.href = '/user/cash/create.html?need=' + need;
+        } else {
+            window.showMsg('请填写提现金额');
+        }
+    });
+</script>
+</body>
+</html>

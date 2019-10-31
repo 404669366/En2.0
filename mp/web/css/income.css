@@ -1,0 +1,69 @@
+body {
+    background: #ebebeb;
+}
+
+.all {
+    box-sizing: border-box;
+    padding: 0.2rem;
+    margin-top: 1.5rem;
+}
+
+.all > div {
+    float: left;
+    background: white;
+    width: 3.06666rem;
+    height: 1.8rem;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    margin-right: 0.2rem;
+    border-radius: 0.06rem;
+}
+
+.all > div:last-child {
+    margin: 0;
+}
+
+.all > div > label {
+    height: 0.4rem;
+    line-height: 0.4rem;
+    font-size: 0.36rem;
+}
+
+.all > div > p {
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.5rem;
+    text-align: center;
+    color: #ff5436;
+}
+
+.echarts {
+    margin: 0 auto 0.2rem auto;
+    border-radius: 0.06rem;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    width: 9.6rem;
+    background: white;
+}
+
+.echarts > h3 {
+    height: 0.6rem;
+    line-height: 0.6rem;
+    font-size: 0.36rem;
+}
+
+.echarts > h3 > select {
+    float: right;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    border-radius: 0.06rem;
+    border: 1px solid silver;
+    box-sizing: border-box;
+}
+
+.echarts > div {
+    width: 100%;
+    height: 4rem;
+}
+

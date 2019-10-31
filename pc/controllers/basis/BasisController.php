@@ -28,10 +28,10 @@ class BasisController extends Controller
                 'id' => $params['user']->id,
                 'tel' => $params['user']->tel,
                 'money' => $params['user']->money ?: 0,
-                'points' => $params['user']->points ?: 0
             ];
         }
         $params['friends'] = Constant::friends();
+        ob_start();
         echo '<script>var global = JSON.parse(`' . json_encode($params, JSON_UNESCAPED_UNICODE) . '`)</script>';
         return parent::render($view, $params);
     }
@@ -92,13 +92,5 @@ class BasisController extends Controller
     public function actionError()
     {
         return $this->render('error.html');
-    }
-
-    /**
-     * 记录用户中心访问路由
-     */
-    public function rUCenterUrl()
-    {
-        setcookie('user-show', \Yii::$app->request->url, time() + 3600, '/');
     }
 }

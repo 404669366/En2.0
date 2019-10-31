@@ -1,0 +1,256 @@
+.list {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+}
+
+.list > div {
+    width: 100%;
+    border-bottom: 1px solid #e4e6f0;
+    padding: 0.2rem 0;
+    box-sizing: border-box;
+}
+
+.field-list > div > img {
+    float: left;
+    width: 3.2rem;
+    height: 2.4rem;
+}
+
+.field-list > div > .info {
+    float: right;
+    width: 6.2rem;
+    height: 2.4rem;
+}
+
+.field-list > div > .info > h3 {
+    height: 0.7rem;
+    line-height: 0.7rem;
+    font-size: 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.field-list > div > .info > p {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.field-list > div > .info > .price {
+    height: 0.7rem;
+    line-height: 0.7rem;
+    color: #fa5741;
+    font-size: 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.field-list > div > .info > .price > a {
+    float: right;
+    display: inline-block;
+    width: 1.5rem;
+    text-align: center;
+    height: 0.7rem;
+    line-height: 0.7rem;
+    font-size: 0.3rem;
+    color: #f3f3f3;
+    background: #3072F3;
+    border-radius: 0.06rem;
+}
+
+.intention-list > div > h3 {
+    margin-bottom: 0.2rem;
+    height: 0.7rem;
+    line-height: 0.7rem;
+    font-size: 0.4rem;
+    border-bottom: 1px solid #e4e6f0;
+}
+
+.intention-list > div > h3 > span {
+    float: right;
+    margin-top: 0.15rem;
+    height: 0.55rem;
+    line-height: 0.55rem;
+    font-size: 0.3rem;
+    font-weight: 400;
+}
+
+.intention-list > div > .info > h3 {
+    height: 0.7rem;
+    line-height: 0.7rem;
+    font-size: 0.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.intention-list > div > .info > p {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.intention-list > div > .info > p > a {
+    color: #333333;
+    text-decoration: underline;
+}
+
+.intention-list > div > .info > p > .pay, .intention-list > div > .info > p > .return {
+    float: right;
+    display: inline-block;
+    padding: 0 0.28rem;
+    box-sizing: border-box;
+    text-align: center;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.3rem;
+    color: #f3f3f3;
+    background: #3072F3;
+    border-radius: 0.05rem;
+    text-decoration: none;
+    border: none;
+}
+
+.intention-list > div > .info > p > .return {
+    background: #ff3029;
+}
+
+.intention-list > div > .info > p > span {
+    float: right;
+    text-align: right;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.4rem;
+    color: #ff5436;
+}
+
+.intention-list > div > .info > span {
+    line-height: 0.5rem;
+    font-size: 0.3rem;
+}
+
+.cash-list {
+    margin-bottom: 1.61rem;
+}
+
+.btnBox {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.6rem;
+    text-align: center;
+    padding: 0.3rem 0.4rem;
+    box-sizing: border-box;
+    border-top: 0.01rem solid #E4E6F0;
+    background: white;
+}
+
+.btnBox > span {
+    float: left;
+    font-size: 0.42rem;
+    height: 1rem;
+    line-height: 1rem;
+}
+
+.btnBox > span > .price {
+    color: #ff5436;
+}
+
+.btnBox > .btn {
+    float: right;
+    margin: 0.1rem 0;
+    display: inline-block;
+    padding: 0 0.28rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    font-size: 0.36rem;
+    text-align: center;
+    border: none;
+    border-radius: 0.06rem;
+    color: #f3f3f3;
+    background: #3072F3;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.modal > div {
+    position: absolute;
+    width: 6rem;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -10%);
+    -o-transform: translate(-50%, -10%);
+    -moz-transform: translate(-50%, -10%);
+    transform: translate(-50%, -10%);
+    border: 1px solid silver;
+    border-radius: 0.06rem;
+    background: white;
+}
+
+.modal > div > h3 {
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.42rem;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid silver;
+}
+
+.modal > div > h3 > i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.46rem;
+    text-align: center;
+}
+
+.modal > div > input {
+    width: 100%;
+    border-bottom: 1px solid silver;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.4rem;
+    text-align: center;
+}
+
+.modal > div > .sure {
+    display: block;
+    margin: 0.1rem auto;
+    padding: 0 0.28rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    font-size: 0.36rem;
+    text-align: center;
+    border: none;
+    border-radius: 0.06rem;
+    color: #f3f3f3;
+    background: #3072F3;
+}
+
+
+
+

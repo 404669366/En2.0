@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能建站-股权支付</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/pay.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<script>
+    window.load(function () {
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            global.jsParams,
+            function (res) {
+                var msg = '';
+                if (res.err_msg === "get_brand_wcpay_request:ok") {
+                    msg = '支付成功';
+                }
+                if (res.err_msg === "get_brand_wcpay_request:cancel") {
+                    msg = '支付取消';
+                }
+                if (res.err_msg === "get_brand_wcpay_request:fail") {
+                    msg = '支付失败';
+                }
+                window.showMsgDo(msg, 2, function () {
+                    window.location.href = '/user/intention/list.html';
+                });
+            }
+        );
+    });
+</script>
+</body>
+</html>

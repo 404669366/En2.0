@@ -14,7 +14,6 @@
 
     .box {
         padding: 1rem;
-        height: 100%;
     }
 
     .box > h4 {
@@ -41,14 +40,13 @@
 </style>
 <div id="map"></div>
 <div class="html" style="display: none">
-
 </div>
 <script>
     var local = new qq.maps.Geolocation("LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO", "en-charge");
     local.getLocation(function (point) {
 
         var map = new TMap.Map("map", {
-            zoom: 5,
+            zoom: 7,
             center: new TMap.LatLng(point.lat, point.lng),
             mapStyleId: "style1"
         });
@@ -76,7 +74,6 @@
                     var content =
                         '<div class="box gray-bg">\n' +
                         '        <h4>' + field.name + '</h4>\n' +
-                        '        <p><i class="fa fa-phone" aria-hidden="true"></i>' + field.local + '</p>\n' +
                         '        <p><i class="fa fa-map-marker"></i>' + field.address + '</p>\n' +
                         '        <div class="row">\n' +
                         '            <div class="col-sm-3">\n' +
@@ -124,7 +121,7 @@
                     window.modal1({
                         title: '电站信息',
                         width: '80rem',
-                        height: '40rem',
+                        height: 'auto',
                         content: content,
                         onLoad: function () {
                             $(".chart").peity("line", {

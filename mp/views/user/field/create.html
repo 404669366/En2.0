@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能建站-发布场站</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/center.css">
+    <link rel="stylesheet" href="/css/create.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/js/wx.js"></script>
+    <script src="/js/oss/oss.js"></script>
+    <script src="https://map.qq.com/api/js?v=2.exp&key=NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2" type="text/javascript"
+            charset='utf-8'></script>
+</head>
+<body>
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<div class="map">
+    <div id="map"></div>
+</div>
+<form class="post" method="post">
+    <input type="hidden" name="_csrf" value="">
+    <input type="hidden" name="lat" value="">
+    <input type="hidden" name="lng" value="">
+    <input type="hidden" name="images" value="">
+    <input type="text" name="address" value="">
+    <input type="file" data-i="0" class="upload"/>
+    <div class="images clear">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <textarea name="remark" rows="5" placeholder="备注信息"></textarea>
+    <div class="btnBox">
+        <button type="submit">确认提交</button>
+    </div>
+</form>
+<script>
+    var lat = $('[name="lat"]');
+    var lng = $('[name="lng"]');
+    var images = $('[name="images"]');
+    $('[name="_csrf"]').val(global._csrf);
+    wx.config({
+        appId: global.jsApi.appId,
+        timestamp: global.jsApi.time,
+        nonceStr: global.jsApi.nonceStr,
+        signature: global.jsApi.signature,
+        jsApiList: ['getLocation']
+    });
+    wx.ready(function () {
+        wx.getLocation({
+            type: 'gcj02',
+            success: function (re) {
+                lat.val(re.latitude);
+                lng.val(re.longitude);
+                var point = new qq.maps.LatLng(re.latitude, re.longitude);
+                var map = new qq.maps.Map(document.getElementById("map"), {
+                    center: point,
+                    zoom: 14,
+                    panControl: false,
+                    zoomControl: false,
+                    scaleControl: false
+                });
+
+                var geocoder = new qq.maps.Geocoder();
+
+                geocoder.setComplete(function (result) {
+                    result = result.detail.addressComponents;
+                    var address = result.province + result.city + result.district + (result.streetNumber || result.street);
+                    $('[name="address"]').val(address);
+                });
+
+                var marker = new qq.maps.Marker({map: map, animation: qq.maps.MarkerAnimation.BOUNCE});
+                marker.setPosition(point);
+                geocoder.getAddress(point);
+
+                qq.maps.event.addListener(map, 'click', function (event) {
+                    geocoder.getAddress(event.latLng);
+                    marker.setMap(map);
+                    marker.setPosition(event.latLng);
+                    lat.val(event.latLng.getLat());
+                    lng.val(event.latLng.getLng());
+                });
+            },
+            cancel: function (re) {
+                window.showMsgDo('授权取消', 2, function () {
+                    window.history.go(-1);
+                });
+            },
+            fail: function (re) {
+                window.showMsgDo('授权错误', 2, function () {
+                    window.history.go(-1);
+                });
+            }
+        });
+        $('.post')
+            .on('click', '.images>div', function () {
+                $('.upload').val(null).data('i', $(this).index()).click();
+            })
+            .on('change', '.upload', function () {
+                window.oss.upload($(this)[0].files[0], function (file) {
+                    var now = 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/' + file.name;
+                    $('.images>*').eq($('.upload').data('i')).replaceWith('<img data-name="' + file.name + '" src="' + now + '"/>');
+                    images.val(function (i, v) {
+                        if (v) {
+                            return v + ',' + now;
+                        }
+                        return now;
+                    })
+                })
+            })
+            .on('click', '.images>img', function () {
+                var img = $(this);
+                window.oss.remove(img.data('name'), function (re) {
+                    if (re.type) {
+                        img.replaceWith('<div></div>');
+                        var now = 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/' + img.data('name');
+                        images.val(function (i, v) {
+                            v = v.split(',');
+                            $.each(v, function (k, va) {
+                                if (va === now) {
+                                    v.splice(k, 1);
+                                }
+                            });
+                            return v.join(',');
+                        });
+                        window.showMsg('删除成功');
+                    } else {
+                        window.showMsg('删除失败');
+                    }
+                });
+            });
+    });
+    wx.error(function (re) {
+        window.showMsgDo('系统错误', 2, function () {
+            window.history.go(-1);
+        });
+    });
+</script>
+</body>
+</html>

@@ -36,6 +36,6 @@ class StepController extends AuthController
      */
     public function actionGuns()
     {
-        return $this->rJson(EnField::getStep(\Yii::$app->request->post('nos', [])));
+        return $this->rJson(EnField::getStepInfo(\Yii::$app->request->post('nos', [])));
     }
 }

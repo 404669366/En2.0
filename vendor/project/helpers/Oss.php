@@ -35,17 +35,14 @@ class Oss
     /**
      * 阿里云OSS删除文件
      * @param $name
-     * @return bool
+     * @return bool|null
      */
     public static function aliDelete($name)
     {
         try {
-            if ($name) {
-                $ossConfig = \Yii::$app->params['AliOss'];
-                $ossClient = new OssClient($ossConfig['accessKeyId'], $ossConfig['accessKeySecret'], $ossConfig['endPoint']);
-                $ossClient->deleteObject($ossConfig['bucket'], str_replace(\Yii::$app->params['AliOss']['url'], '', $name));
-            }
-            return true;
+            $ossConfig = \Yii::$app->params['AliOss'];
+            $ossClient = new OssClient($ossConfig['accessKeyId'], $ossConfig['accessKeySecret'], $ossConfig['endPoint']);
+            return $ossClient->deleteObject($ossConfig['bucket'], $name);
         } catch (OssException $e) {
             return false;
         }

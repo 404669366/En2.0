@@ -1,72 +1,126 @@
+body {
+    background: #F9F9F9;
+}
+
 .head {
     background: #23252a !important;
 }
 
-.center {
-    margin-top: 4rem;
-    padding: 3rem 0;
+.user {
+    width: 60rem;
+    margin: 6rem auto 0 auto;
+    background: #fff;
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
-.center > .box {
-    zoom: 1;
-    width: 54rem;
-    margin: 0 auto;
-    -webkit-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
-    -o-box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 12px 3px rgba(0, 0, 0, 0.1);
-}
-
-.center > .box:after {
-    clear: both;
-    display: block;
-    content: "";
-    visibility: hidden;
-    height: 0;
-}
-
-.center > .box > .menu {
-    width: calc(14rem - 1px);
+.user > img {
+    width: 12rem;
+    height: 12rem;
+    padding: 1rem;
+    box-sizing: border-box;
     float: left;
 }
 
-.menu > li {
+.user > .info {
+    width: 44rem;
+    color: #4A4A4A;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    float: right;
+}
+
+.user > .info > p {
+    font-size: 1.1rem;
     height: 3rem;
     line-height: 3rem;
+}
+
+.user > .info > .welcome {
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #a5a5a5;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.user > .info > .moneys {
+    width: 100%;
+}
+
+.user > .info > .moneys > li {
+    float: left;
+    width: 33.3333%;
+    height: 3rem;
+    line-height: 3rem;
+}
+
+.user > .info > .moneys > li > span {
+    color: #ff5436;
+}
+
+.record {
+    width: 60rem;
+    margin: 1rem auto auto auto;
     font-size: 1.1rem;
+}
+
+.record > .menu1 {
+    float: left;
+    width: 12rem;
+    background: #fff;
+}
+
+.record > .menu1 > li {
+    height: 3rem;
+    line-height: 3rem;
     text-align: center;
-    color: #4a4a4a;
+    color: #4A4A4A;
     cursor: pointer;
 }
 
-.menu > li:not(.active):hover {
-    background: #EEEEEE;
+.record > .menu1 > li:not(.active):hover {
+    color: #56abe4;
 }
 
-.menu > .active {
-    background: #DDDDDD;
+.record > .menu1 > .active {
+    color: #3072F3;
 }
 
-.center > .box > .detail {
+.record > .menu2 {
     float: right;
-    width: calc(40rem + 1px);
-    padding: 1rem;
-    border-left: 1px solid #f4f3fd;
-    box-sizing: border-box;
-    min-height: 24rem;
+    width: 47rem;
+    background: #fff;
 }
 
-.none {
-    width: 100%;
-    height: 24rem;
-    display: table;
-}
-
-.none > span {
-    display: table-cell;
-    vertical-align: middle;
+.record > .menu2 > li {
+    float: left;
+    width: 25%;
+    height: 3rem;
+    line-height: 3rem;
+    border-bottom: solid #f2f2f2 0.05rem;
+    cursor: pointer;
     text-align: center;
-    line-height: 24rem;
-    font-size: 1.2rem;
-    color: #4a4a4a;
+    box-sizing: border-box;
+}
+
+.record > .menu2 > li:hover {
+    color: #56abe4;
+    border-bottom: solid #56abe4 0.05rem;
+}
+
+.record > .menu2 > .active {
+    color: #3072F3;
+    border-bottom: solid #3072F3 0.05rem;
+}
+
+.record > .data {
+    float: right;
+    width: 47rem;
+    background: #fff;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.footer {
+    margin-top: 2rem;
 }

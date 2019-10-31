@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/swiper/swiper.min.css">
     <script type="text/javascript" src="/js/common.js"></script>
     <script src="/swiper/swiper.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/js/map.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://map.qq.com/api/js?v=2.exp&key=NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2" type="text/javascript"
+            charset="utf-8"></script>
     <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
     <script type="text/x-dot-template" id="bannerTpl">
         {{~it:v}}
@@ -17,30 +18,30 @@
         {{~}}
     </script>
     <script type="text/x-dot-template" id="infoTpl">
-        <div class="title">{{=it.field.title}}</div>
+        <div class="title">{{=it.title}}</div>
         <div class="base">
-            <div><span><p>{{=it.field.budget_amount}}￥</p>总额</span></div>
-            <div><span><p>{{=it.field.lowest_amount}}￥</p>起投</span></div>
-            <div><span><p>{{=it.field.present_amount}}￥</p>现投</span></div>
+            <div><span><p>{{=it.all}}￥</p>总额</span></div>
+            <div><span><p>{{=it.univalence}}￥</p>起投</span></div>
+            <div><span><p>{{=it.now}}￥</p>现投</span></div>
         </div>
-        <div class="skill" style="background-size: {{=it.field.present_amount/it.field.budget_amount*100}}% auto">
-            项目进度: {{=it.field.present_amount/it.field.budget_amount*100}}%
+        <div class="skill" style="background-size: {{=it.stock}}% auto">
+            项目进度: {{=it.stock}}%
         </div>
         <div class="detail borderTop">
             <span>项目信息</span>
             <ul class="clear">
-                <li class="fl w100">场站编号 : {{=it.field.no}}</li>
+                <li class="fl w100">场站编号 : {{=it.no}}</li>
                 <li class="fl w50">发改备案 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></li>
                 <li class="fl w50">电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></li>
             </ul>
         </div>
         <div class="detail">
             <span>项目特色</span>
-            <div class="txt">{{=it.field.trait}}</div>
+            <div class="txt">{{=it.trait}}</div>
         </div>
         <div class="detail">
             <span>项目配置</span>
-            <div class="txt">{{=it.field.field_configure}}</div>
+            <div class="txt">{{=it.config}}</div>
         </div>
         <div class="detail">
             <span>项目介绍</span>
@@ -48,21 +49,21 @@
         </div>
         <div class="detail">
             <span>项目收益</span>
-            <div class="txt">{{=it.investInfo}}</div>
+            <div class="txt">&emsp;项目总共拆分100股，收益以整站充电运营服务费收益并根据各股东拥有股份参与分成。每月根据充电记录进行收益对账，对账完成进行收益发放。</div>
         </div>
         <div class="detail">
             <span>项目位置</span>
-            <div class="p">{{=it.field.address}}</div>
+            <div class="p">{{=it.address}}</div>
             <div class="map" id="map"></div>
         </div>
     </script>
     <script type="text/x-dot-template" id="brokerTpl">
-        <div class="head" data-url="/field/field/commissioner.html?id={{=it.field.commissioner_id}}">
-            <span><img src="/img/agent_none.png"/><br>{{=it.field.tel}}</span>
+        <div class="head" data-url="/field/field/commissioner.html?id={{=it.commissioner_id}}">
+            <span><img src="/img/agent_none.png"/><br>{{=it.commissioner}}</span>
         </div>
         <div class="btns">
-            <div class="btn fl have">有意向</div>
-            <div class="btn fr call" style="background: #3072F6">打电话</div>
+            <div class="btn fl call" style="background: #3072F6">电话咨询</div>
+            <div class="btn fr have">买入股权</div>
         </div>
     </script>
 </head>
@@ -81,7 +82,7 @@
 <div class="help">
     <span>
         空闲场地如何处理？我们可以帮到你
-        <div data-url="/user/field/add.html">发布我的场站</div>
+        <div data-url="/user/field/create.html">发布我的场站</div>
     </span>
 </div>
 <div class="broker" id="broker"></div>
@@ -101,23 +102,32 @@
     <span>蜀ICP备19002778号-1 Copyright © 2019 en.ink.<br>四川亿能天成科技有限公司</span>
 </div>
 <script>
-    window.html('banner', 'bannerTpl', global.images);
-    window.html('info', 'infoTpl', global);
-    window.html('broker', 'brokerTpl', global);
+    window.html('banner', 'bannerTpl', global.detail.images);
+    window.html('info', 'infoTpl', global.detail);
+    window.html('broker', 'brokerTpl', global.detail);
+
     new Swiper('.swiper-container', {loop: true, grabCursor: true,});
-    var map = new BMap.Map('map');
-    var point = new BMap.Point(global.field.lng, global.field.lat);
-    map.centerAndZoom(point, 16);
-    map.addOverlay(new BMap.Marker(point));
-    map.disableDragging();
-    map.addControl(new BMap.NavigationControl({
-        anchor: BMAP_ANCHOR_TOP_RIGHT,
-        type: BMAP_NAVIGATION_CONTROL_SMALL
-    }));
+
+    var point = new qq.maps.LatLng(global.detail.lat, global.detail.lng);
+    var map = new qq.maps.Map(document.getElementById("map"), {
+        center: point,
+        zoom: 14,
+        scrollwheel: false,
+        disableDoubleClickZoom: false,
+        keyboardShortcuts: false,
+        zoomControl: false,
+        scaleControl: false
+    });
+    var marker = new qq.maps.Marker({
+        map: map,
+        animation: qq.maps.MarkerAnimation.BOUNCE,
+        position: map.getCenter()
+    });
+
     $('.broker').on('click', '.have', function () {
         window.modal.open('.modal');
     }).on('click', '.call', function () {
-        window.location.href = 'tel:' + global.field.tel;
+        window.location.href = 'tel:' + global.detail.commissioner;
     });
     $('.close').click(function () {
         window.modal.close('.modal');
@@ -125,7 +135,7 @@
     $('.click').click(function () {
         window.modal.close('.modal');
         window.wait.open();
-        window.location.href = '/user/intention/add.html?no=' + global.field.no;
+        window.location.href = '/field/intention/buy.html?no=' + global.detail.no;
     });
 </script>
 </body>

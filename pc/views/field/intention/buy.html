@@ -46,47 +46,40 @@
     <script type="text/x-dot-template" id="postTpl">
         <div class="form">
             <div class="infoBox">
-                <img src="{{=it.images}}" alt="亿能天成新能源场站-{{=it.detail.no}}图片">
+                <img src="{{=it.images[0]}}" alt="亿能天成新能源场站-{{=it.no}}图片">
                 <div class="info">
-                    <h5>场站 : {{=it.detail.no}}</h5>
+                    <h5>{{=it.name}}</h5>
                     <p>
-                        场站类型 :
-                        {{=it.business_type}}
+                        {{=it.status}}
                         <span>|</span>
-                        {{=it.invest_type}}
+                        {{=it.abridge}}
                     </p>
-                    <p></p>
-                    <p></p>
-                    <p>
-                        项目总额/已投 :
-                        {{=it.detail.budget_amount}}
-                        <span>|</span>
-                        {{=it.detail.present_amount}}
-                    </p>
+                    <p>项目编号 : {{=it.no}}</p>
+                    <p>项目总额 : &yen;{{=it.all}}</p>
+                    <p>项目已投 : &yen;{{=it.now}}</p>
                 </div>
                 <div class="price">
-                    起投 : <span>{{=it.detail.lowest_amount}}</span>
+                    股权单价 : <span>&yen;{{=it.univalence}}</span>
                 </div>
             </div>
             <div class="buyCount">
                 <div class="one">
-                    <label>认购金额 :</label>
+                    <label>买入股权 :</label>
                     <div class="val">
                         <button class="cut doAmount" type="button"><i class="fa fa-minus"></i></button>
-                        <input type="text" name="purchase_amount" readonly autocomplete="off">
+                        <input type="text" class="num" value="1" readonly autocomplete="off">
                         <button class="add doAmount" type="button"><i class="fa fa-plus" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
                 <div class="one">
-                    <label>定金金额 :</label>
-                    <div class="val order_amount"></div>
+                    <label>订单总额 :</label>
+                    <div class="val amount">&yen;<span>{{=it.univalence}}</span></div>
                 </div>
             </div>
         </div>
         <div class="btnBox">
-            <input type="hidden" name="_csrf" value="{{=it._csrf}}">
-            <button type="submit" class="btn">确认提交</button>
+            <button type="button" class="btn sure">确认提交</button>
         </div>
     </script>
 </head>
@@ -102,8 +95,8 @@
     <div class="intention">
         <h1>Subscribe</h1>
         <h3>认购</h3>
-        <form id="post" method="post"></form>
-        <script>window.html('post', 'postTpl', global);</script>
+        <div id="post"></div>
+        <script>window.html('post', 'postTpl', global.data);</script>
     </div>
 </div>
 <div class="footer">
@@ -136,6 +129,7 @@
     <script>window.html('friend', 'friendTpl', global.friends);</script>
     <div class="icp">四川亿能天成科技有限公司 蜀ICP备19002778号-1 Copyright © 2019 en.ink 市场有风险 投资需谨慎</div>
 </div>
+<div class="loading"><img src="/img/loading.gif"></div>
 <script>
     $('.nav').hover(
         function () {
@@ -162,34 +156,28 @@
         }
     );
 
-    var min = global.detail.lowest_amount;
-    var max = global.detail.budget_amount - global.detail.present_amount;
-    var ratio = global.ratio;
-    $('[name="purchase_amount"]').val(min);
-    $('.order_amount').text(window.format(min * ratio, 1));
     $('.doAmount').click(function () {
-        if ($(this).hasClass('add')) {
-            $('[name="purchase_amount"]').val(function (i, v) {
-                if (v >= parseInt(max)) {
-                    window.showMsg('最高认购金额' + max);
-                    return v;
-                }
-                var purchase_amount = parseInt(v) + parseInt(min);
-                $('.order_amount').text(window.format(purchase_amount * ratio, 1));
-                return purchase_amount;
-            });
-        }
+        var num = parseInt($('.num').val());
         if ($(this).hasClass('cut')) {
-            $('[name="purchase_amount"]').val(function (i, v) {
-                if (v <= parseInt(min)) {
-                    window.showMsg('最低认购金额' + min);
-                    return v;
-                }
-                var purchase_amount = parseInt(v) - parseInt(min);
-                $('.order_amount').text(window.format(purchase_amount * ratio, 1));
-                return purchase_amount;
-            });
+            if (num > 1) {
+                num = num - 1;
+            }
         }
+        if ($(this).hasClass('add')) {
+            if (num < global.data.max) {
+                num = num + 1;
+            } else {
+                window.showMsg('剩余最多可买入' + global.data.max + '股');
+            }
+        }
+        $('.num').val(num);
+        $('.amount>span').text((num * global.data.univalence).toFixed(2));
+    });
+
+    $('.sure').click(function () {
+        window.location.href = '/field/intention/add.html?no=' + global.data.no + '&num=' + $('.num').val();
+        $('.loading').show();
+        document.body.style.overflowY = 'hidden';
     });
 </script>
 </body>

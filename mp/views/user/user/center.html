@@ -19,7 +19,7 @@
 </div>
 <div class="userInfo" id="user"></div>
 <div class="menuList">
-    <div class="menu" data-url="/user/field/add.html">
+    <div class="menu" data-url="/user/field/create.html">
         <i class="fa fa-pencil-square fl" aria-hidden="true" style="color:#F7B086;"></i>
         <div class="name">发布场站</div>
         <i class="fa fa-angle-right fr" aria-hidden="true"></i>
@@ -30,13 +30,23 @@
         <i class="fa fa-angle-right fr" aria-hidden="true"></i>
     </div>
     <div class="menu" data-url="/user/intention/list.html">
+        <i class="fa fa-building fl" aria-hidden="true" style="color:#ffce00;"></i>
+        <div class="name">我的意向</div>
+        <i class="fa fa-angle-right fr" aria-hidden="true"></i>
+    </div>
+    <div class="menu" data-url="/user/stock/list.html">
         <i class="fa fa-thumb-tack fl" aria-hidden="true" style="color:#7FD1CC;"></i>
-        <div class="name">我的参与</div>
+        <div class="name">我的股权</div>
         <i class="fa fa-angle-right fr" aria-hidden="true"></i>
     </div>
     <div class="menu" data-url="/user/income/list.html">
         <i class="fa fa-money fl" aria-hidden="true" style="color:#6DB8F7;"></i>
         <div class="name">我的收益</div>
+        <i class="fa fa-angle-right fr" aria-hidden="true"></i>
+    </div>
+    <div class="menu" data-url="/user/cash/list.html">
+        <i class="fa fa-superpowers fl" aria-hidden="true" style="color:#6DB8F7;"></i>
+        <div class="name">我的提现</div>
         <i class="fa fa-angle-right fr" aria-hidden="true"></i>
     </div>
     <div class="menu service">
@@ -49,7 +59,7 @@
 <script>
     window.html('user', 'userTpl', global.user);
     $('.service').click(function () {
-        window.location.href = 'tel:' + global.user.tel;
+        window.location.href = 'tel:' + global.serviceTel;
     });
 </script>
 </body>

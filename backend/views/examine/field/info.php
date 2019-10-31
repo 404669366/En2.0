@@ -2,9 +2,18 @@
 <?php $this->registerCssFile('@web/css/summernote-bs4.css', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote-zh-CN.js', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/map.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<?php $this->registerJsFile('https://map.qq.com/api/js?v=2.exp&key=NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/upload.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/imgPreview.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<style>
+    table {
+        width: 100%;
+        line-height: 3rem;
+        font-size: 1.4rem;
+        text-align: center;
+        border-color: silver;
+        margin-bottom: 1rem;
+    }
+</style>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
@@ -26,92 +35,87 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">场站标题</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= $model->title ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
                         <label class="col-sm-4 control-label">场站特色</label>
                         <div class="col-sm-5">
-                            <textarea class="form-control" rows="6" readonly><?= $model->trait ?></textarea>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">场站配置</label>
-                        <div class="col-sm-5">
-                            <textarea class="form-control" readonly
-                                      rows="6"><?= str_replace('<br>', "\r\n", $model->field_configure) ?></textarea>
+                            <textarea class="form-control" readonly rows="6"><?= $model->getTrait() ?></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">业务类型</label>
+                        <label class="col-sm-3 control-label">场站标题</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= \vendor\project\helpers\Constant::businessType()[$model->business_type] ?>">
+                            <input type="text" class="form-control" readonly placeholder="<?= $model->title ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">投资类型</label>
+                        <label class="col-sm-3 control-label">股权单价</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= \vendor\project\helpers\Constant::investType()[$model->invest_type] ?>">
+                            <input type="text" class="form-control" readonly value="<?= $model->univalence ?>">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">预算金额</label>
+                        <label class="col-sm-3 control-label">场站配置</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= $model->budget_amount ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">起投金额</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= $model->lowest_amount ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">场地用户</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= $model->local ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">场地分成占比</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= $model->field_ratio ?>">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">投资分成占比</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" readonly placeholder="<?= $model->invest_ratio ?>">
+                            <textarea class="form-control" readonly rows="6"><?= $model->getConfig() ?></textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">场站位置</label>
+                <label class="col-sm-2 control-label">股权分配</label>
                 <div class="col-sm-8">
-                    <div class="myMap"></div>
+                    <table class="gunTable" border="1">
+                        <thead>
+                        <tr>
+                            <td>股权编号</td>
+                            <td>股权类型</td>
+                            <td>股权用户</td>
+                            <td>股权数量</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($stock as $v): ?>
+                            <tr>
+                                <td><?= $v['no'] ?></td>
+                                <td><?= $v['type'] ?></td>
+                                <td><?= $v['key'] ?></td>
+                                <td><?= $v['num'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <small>* 项目股权总数为100股；此处分配剩余股权为本次项目平台融资股权；未配置此项表示平台融资100股；此项配置满100股审核过后场站状态自动变成融资完成且不进行平台融资；</small>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">场站标点</label>
+                <div class="col-sm-8">
+                    <div id="map" style="height:30rem;"></div>
                 </div>
                 <script>
-                    map({
-                        element: 'myMap',
-                        default: {address: '<?=$model->address?>', lng: '<?=$model->lng?>', lat: '<?=$model->lat?>'},
-                        readOnly: true,
+                    var map = new qq.maps.Map(document.getElementById("map"), {
+                        center: new qq.maps.LatLng('<?=$model->lat?>', '<?=$model->lng?>'),
+                        zoom: 14
+                    });
+                    var marker = new qq.maps.Marker({
+                        map: map,
+                        animation: qq.maps.MarkerAnimation.BOUNCE,
+                        position: map.getCenter()
                     });
                 </script>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">场站地址</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" readonly placeholder="<?= $model->address ?>">
+                </div>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
@@ -120,7 +124,7 @@
                     <div class="images"></div>
                 </div>
                 <script>
-                    uploadImg('.images', 'images', '<?=$model->images?>', true, 5);
+                    uploadImg('.images', 'images', '<?=$model->getImages()?>', true, 5);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -139,69 +143,28 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">备案文件</label>
                 <div class="col-sm-8">
-                    <div class="record_file"></div>
+                    <div class="record"></div>
                 </div>
                 <script>
-                    uploadFile('.record_file', 'record_file', '<?=$model->record_file?>',true);
+                    uploadFile('.record', 'record', '<?=$model->record?>', true);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">场地合同</label>
+                <label class="col-sm-2 control-label">电力答复</label>
                 <div class="col-sm-8">
-                    <div class="field_contract"></div>
+                    <div class="reply"></div>
                 </div>
                 <script>
-                    uploadImg('.field_contract', 'field_contract', '<?=$model->field_contract?>', true);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">场站证明</label>
-                <div class="col-sm-8">
-                    <div class="field_prove"></div>
-                </div>
-                <script>
-                    uploadImg('.field_prove', 'field_prove', '<?=$model->field_prove?>', true);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">施工图纸</label>
-                <div class="col-sm-8">
-                    <div class="field_drawing"></div>
-                </div>
-                <script>
-                    uploadImg('.field_drawing', 'field_drawing', '<?=$model->field_drawing?>', true);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">变压器图纸</label>
-                <div class="col-sm-8">
-                    <div class="transformer_drawing"></div>
-                </div>
-                <script>
-                    uploadImg('.transformer_drawing', 'transformer_drawing', '<?=$model->transformer_drawing?>', true);
-                </script>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">电力合同</label>
-                <div class="col-sm-8">
-                    <div class="power_contract"></div>
-                </div>
-                <script>
-                    uploadImg('.power_contract', 'power_contract', '<?=$model->power_contract?>', true);
+                    uploadImg('.reply', 'reply', '<?=$model->reply?>', true, 3);
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-8">
-                    <textarea
-                            class="form-control" <?= in_array($model->status, [3, 4, 5]) ? 'readonly' : 'name="remark"' ?>
-                            rows="10"><?= $model->remark ?></textarea>
+                    <textarea class="form-control" <?= $model->status == 2 ? 'name="remark"' : 'readonly' ?>
+                              rows="10"><?= $model->getRemark() ?></textarea>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -209,7 +172,8 @@
                 <div class="col-sm-5 col-sm-offset-2">
                     <?php if ($model->status == 2): ?>
                         <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
-                        <input type="hidden" name="status" value="4">
+                        <input type="hidden" class="stock" value="<?= $model->getStock() ?>">
+                        <input type="hidden" name="status" data-status="<?= $model->status ?>" value="">
                         <button type="submit" class="btn btn-info pass">通过</button>
                         &emsp;
                         <button type="submit" class="btn btn-info noPass">驳回</button>
@@ -223,11 +187,15 @@
 </div>
 <script>
     $('.pass').click(function () {
-        $('[name="status"]').val(4);
+        if ($('.stock').val() < 100) {
+            $('[name="status"]').val(3);
+        } else {
+            $('[name="status"]').val(4);
+        }
     });
     $('.noPass').click(function () {
         if ($('[name="remark"]').val()) {
-            $('[name="status"]').val(3);
+            $('[name="status"]').val(1);
             return true;
         }
         showMsg('请填写备注');

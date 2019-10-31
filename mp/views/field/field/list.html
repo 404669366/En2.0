@@ -14,8 +14,8 @@
             <div class="oneInfo">
                 <div class="title">{{=v.title}}</div>
                 <div class="info">{{=v.address}}</div>
-                <div class="info">{{=v.business_type}}&emsp;{{=v.invest_type}}</div>
-                <div class="price">{{=v.budget_amount}}￥ / {{=v.lowest_amount}}￥ / {{=v.present_amount}}￥</div>
+                <div class="info">{{=v.statusName}}&emsp;{{=v.abridge}}</div>
+                <div class="price">￥{{=v.all}}/￥{{=v.univalence}}</div>
             </div>
         </div>
         {{~}}
@@ -29,7 +29,7 @@
 </div>
 <div class="searchBox">
     <div class="searchInput">
-        <input type="text" class="searchKey fl" placeholder="请输入小区或商圈名称">
+        <input type="text" class="searchKey fl" placeholder="场站搜索">
         <i class="fa fa-search fr" aria-hidden="true"></i>
     </div>
     <div class="searchBtn">

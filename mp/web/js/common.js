@@ -8,6 +8,22 @@ document.write("<script src='/js/jquery.cookie.js' type='text/javascript' charse
 document.write("<script src='/js/layer/layer.min.js' type='text/javascript' charset='utf-8'></script>");
 document.write("<script src='/js/dot.min.js' type='text/javascript' charset='utf-8'></script>");
 
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};
+
 window.load = function (func) {
     var oldLoad = window.onload;
     if (typeof window.onload !== 'function') {
@@ -65,6 +81,21 @@ window.showMsg = function (data, size) {
             layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>');
         } else {
             layer.msg(data);
+        }
+    }
+};
+
+window.showMsgDo = function (data, time, func, size) {
+    if (data) {
+        var messageSize = size || ($.cookie('message-size') || '1rem');
+        if (messageSize) {
+            layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>', {time: time * 1000}, function () {
+                func();
+            });
+        } else {
+            layer.msg(data, {time: time * 1000}, function () {
+                func();
+            });
         }
     }
 };

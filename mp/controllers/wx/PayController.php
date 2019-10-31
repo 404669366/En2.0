@@ -9,9 +9,7 @@
 namespace app\controllers\wx;
 
 
-use vendor\project\base\EnInvest;
-use vendor\project\base\EnUser;
-use vendor\project\helpers\Helper;
+use vendor\project\base\EnIntention;
 use yii\web\Controller;
 
 class PayController extends Controller
@@ -19,23 +17,45 @@ class PayController extends Controller
     public $enableCsrfValidation = false;
 
     /**
+     * 返回xml数据
+     * @param array $data
+     * @return string
+     */
+    public function rXml($data = [])
+    {
+        $xml = '<xml>';
+        foreach ($data as $k => $v) {
+            $xml .= "<$k>$v</$k>";
+        }
+        $xml .= '</xml>';
+        echo $xml;
+        exit();
+    }
+
+    /**
+     * 获取xml
+     * @return array
+     */
+    public function getXml()
+    {
+        return (array)simplexml_load_string(file_get_contents("php://input"), 'SimpleXMLElement', LIBXML_NOCDATA);
+    }
+
+    /**
      * 支付回调
      * @return string
      */
     public function actionBack()
     {
-        $data = Helper::getXml();
-        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            if ($model = EnInvest::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
-                if (EnUser::addMoney($model->uid, $model->money)) {
-                    $model->status = 1;
-                    $model->save();
-                    return Helper::spliceXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
+        $data = $this->getXml();
+        if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+            if ($model = EnIntention::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
+                $model->status = 1;
+                if ($model->save()) {
+                    return $this->rXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);
                 }
-                $model->status = 2;
-                $model->save();
             }
         }
-        return Helper::spliceXml(['return_code' => 'FAIL', 'return_msg' => '充值失败']);
+        return $this->rXml(['return_code' => 'FAIL', 'return_msg' => '支付失败,请稍后重试']);
     }
 }

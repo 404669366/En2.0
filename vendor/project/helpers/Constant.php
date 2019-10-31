@@ -48,8 +48,7 @@ class Constant
      */
     public static function amountCount()
     {
-        $have = EnField::find()->select(['sum(present_amount) as all_amount'])->asArray()->one();
-        return 3 + ceil($have['all_amount'] / 100000000);
+        return 3 + ceil(EnField::find()->sum('univalence') * 100 / 100000000);
     }
 
     /**
@@ -66,69 +65,84 @@ class Constant
     }
 
     /**
-     * 业务类型
-     * @return array
-     */
-    public static function businessType()
-    {
-        return [
-            1 => '新建场站',
-            2 => '转手场站',
-        ];
-    }
-
-    /**
-     * 投资类型
-     * @return array
-     */
-    public static function investType()
-    {
-        return [
-            1 => '托管运营',
-            2 => '保底运营',
-            3 => '保底回购',
-            4 => '其他类型',
-        ];
-    }
-
-    /**
-     * 场站类型
+     * 场站状态
      * @return array
      */
     public static function fieldStatus()
     {
         return [
-            0 => '待处理',
-            1 => '挂起',
-            2 => '审核中',
-            3 => '审核不通过',
-            4 => '正在融资',
-            5 => '融资完成',
-            6 => '用户删除',
+            0 => '等待处理',
+            1 => '正在处理',
+            2 => '平台审核',
+            3 => '正在融资',
+            4 => '融资完成',
         ];
     }
 
     /**
-     * 场站来源
-     * @return array
-     */
-    public static function fieldSource()
-    {
-        return [
-            1 => '用户',
-            2 => '平台',
-        ];
-    }
-
-    /**
-     * 场站上线
+     * 场站上线状态
      * @return array
      */
     public static function fieldOnline()
     {
         return [
-            1 => '未上线',
-            2 => '已上线'
+            0 => '未上线',
+            1 => '已上线'
+        ];
+    }
+
+    /**
+     * 股权类型
+     * @return array
+     */
+    public static function stockType()
+    {
+        return [
+            1 => '平台',
+            2 => '企业',
+            3 => '场地',
+            4 => '投资'
+        ];
+    }
+
+    /**
+     * 收益类型
+     * @return array
+     */
+    public static function incomeType()
+    {
+        return [
+            1 => '平台收益',
+            2 => '企业收益',
+            3 => '场地收益',
+            4 => '投资收益'
+        ];
+    }
+
+    /**
+     * 提现类型
+     * @return array
+     */
+    public static function cashType()
+    {
+        return [
+            1 => '企业提现',
+            2 => '用户提现',
+            3 => '余额提现',
+        ];
+    }
+
+    /**
+     * 提现状态
+     * @return array
+     */
+    public static function cashStatus()
+    {
+        return [
+            0 => '等待审核',
+            1 => '审核通过',
+            2 => '确认打款',
+            3 => '驳回审核',
         ];
     }
 
@@ -139,37 +153,10 @@ class Constant
     public static function intentionStatus()
     {
         return [
-            1 => '等待沟通',
-            2 => '合同签署',
-            3 => '合同审核',
-            4 => '等待打款',
-            5 => '打款审核',
-            6 => '审核通过',
-            7 => '用户违约',
-        ];
-    }
-
-    /**
-     * 场站意向删除状态
-     * @return array
-     */
-    public static function intentionDelete()
-    {
-        return [
-            1 => '未删除',
-            2 => '已删除',
-        ];
-    }
-
-    /**
-     * 场站意向来源
-     * @return array
-     */
-    public static function intentionSource()
-    {
-        return [
-            1 => '用户',
-            2 => '平台',
+            0 => '等待支付',
+            1 => '支付成功',
+            2 => '申请退款',
+            3 => '退款通过',
         ];
     }
 

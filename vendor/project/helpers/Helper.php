@@ -108,7 +108,7 @@ class Helper
      * 补全图片
      * @param string $img
      * @param int $length
-     * @return array|string
+     * @return array
      */
     public static function completionImg($img = '', $length = 5)
     {

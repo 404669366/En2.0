@@ -17,9 +17,7 @@ class Msg
      */
     public static function set($msg = '', $size = '')
     {
-        if ($msg) {
-            setcookie('message-data', $msg, time() + 60, '/');
-        }
+        setcookie('message-data', $msg, time() + 60, '/');
         if ($size) {
             setcookie('message-size', $size, -1, '/');
         }

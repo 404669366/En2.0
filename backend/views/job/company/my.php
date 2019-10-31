@@ -12,7 +12,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">入驻时间</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" readonly placeholder="<?= date('Y-m-d H:i:s',$model->created_at) ?>">
+                    <input type="text" class="form-control" readonly
+                           placeholder="<?= date('Y-m-d H:i:s', $model->created_at) ?>">
                 </div>
             </div>
             <div class="hr-line-dashed"></div>

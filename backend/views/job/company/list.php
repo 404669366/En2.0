@@ -2,7 +2,7 @@
     <div class="ibox-content">
         <div class="dataTables_wrapper form-inline">
             <div class="row tableSearchBox">
-                <div class="col-sm-10">
+                <div class="col-sm-11">
                     <span class="tableSpan">
                         综合搜索: <input class="searchField" type="text" value="" name="key" placeholder="名称/简称/法人/管理员">
                     </span>
@@ -11,7 +11,7 @@
                         <button class="tableReload">重置</button>
                     </span>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <a class="btn btn-sm btn-info" href="/job/company/edit">添加</a>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             {"data": "admin"},
             {
                 "data": "powers", "render": function (data, type, row) {
-                return linFeed(data.join(','));
+                return linFeed(data.join(','), 40);
             }
             },
             {

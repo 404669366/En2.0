@@ -17,13 +17,14 @@ class IndexController extends BasisController
 {
     /**
      * 首页
+     * @param int $type
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($type = 1)
     {
         return $this->render('index.html', [
             'banner' => Constant::bannerImg(),
-            'fields' => EnField::listDataByMp(\Yii::$app->request->get('type', 1), '', 4),
+            'fields' => EnField::recommendDataByMp($type, 4),
             'serviceTel' => Constant::serviceTel()
         ]);
     }

@@ -34,10 +34,10 @@ class BasisController extends Controller
                 'id' => $params['user']->id,
                 'tel' => $params['user']->tel,
                 'money' => $params['user']->money ?: 0,
-                'points' => $params['user']->points ?: 0
             ];
         }
         $params['sysTime'] = time();
+        ob_start();
         echo '<script>var global = JSON.parse(`' . json_encode($params, JSON_UNESCAPED_UNICODE) . '`)</script>';
         return parent::render($view, $params);
     }

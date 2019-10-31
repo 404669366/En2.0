@@ -25,7 +25,7 @@ class PayController extends Controller
     public function actionBack()
     {
         $data = Helper::getXml();
-        if (isset($data['return_code']) && $data['return_code'] == 'SUCCESS' && isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
+        if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             if ($model = EnInvest::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
                 if (EnUser::addMoney($model->uid, $model->money)) {
                     $model->status = 1;

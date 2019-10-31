@@ -79,8 +79,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">归属电站</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="field"
-                                   value="<?= $model->local ? $model->local->no : '' ?>">
+                            <input type="text" class="form-control" name="field" value="<?= $model->field ?>">
                         </div>
                     </div>
                 </div>
@@ -126,7 +125,7 @@
                                 &emsp;
                                 <button type="submit" class="btn btn-success save">保存</button>
                                 &emsp;
-                                <a class="btn btn-white jump" href="/oam/pile/list">返回</a>
+                                <a class="btn btn-white" href="/oam/pile/list">返回</a>
                                 &emsp;
                                 <button type="button" class="btn btn-info" onclick="location.reload()">刷新</button>
                             </div>

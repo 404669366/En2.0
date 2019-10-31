@@ -2,7 +2,7 @@ window.remSize = document.documentElement.getBoundingClientRect().width * 0.01;
 document.documentElement.style.fontSize = window.remSize + 'px';
 
 document.write("<link href='/css/common.css' rel='stylesheet'>");
-document.write("<link href='/css/font-awesome.min.css' rel='stylesheet'>");
+document.write("<link href='/font/css/font-awesome.min.css' rel='stylesheet'>");
 document.write("<script src='/js/jquery-3.3.1.min.js' type='text/javascript' charset='utf-8'></script>");
 document.write("<script src='/js/jquery.cookie.js' type='text/javascript' charset='utf-8'></script>");
 document.write("<script src='/js/layer/layer.min.js' type='text/javascript' charset='utf-8'></script>");
@@ -69,6 +69,21 @@ window.showMsg = function (data, size) {
             );
         } else {
             layer.msg(data, {offset: (height - 160) / 2 + 'px'});
+        }
+    }
+};
+
+window.showMsgDo = function (data, time, func, size) {
+    if (data) {
+        var messageSize = size || ($.cookie('message-size') || '1rem');
+        if (messageSize) {
+            layer.msg('<span style="font-size:' + messageSize + ';height:100%;line-height:100%">' + data + '</span>', {time: time * 1000}, function () {
+                func();
+            });
+        } else {
+            layer.msg(data, {time: time * 1000}, function () {
+                func();
+            });
         }
     }
 };

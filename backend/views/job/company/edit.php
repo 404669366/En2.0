@@ -132,6 +132,13 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
+                <label class="col-sm-2 control-label">备注</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" name="remark"><?= $model->remark ?></textarea>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-2">
                     <button class="btn btn-primary" type="submit">保存内容</button>
                     <button class="btn btn-white back">返回</button>

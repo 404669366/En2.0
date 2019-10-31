@@ -2,9 +2,39 @@
 <html lang="zh-Hans">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>亿能建站-我的场站</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/center-list.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="listTpl">
+        {{~it:v}}
+        <div class="clear">
+            <img src="{{=v.images}}" alt="{{=v.title}}">
+            <div class="info">
+                <h3>{{=v.title}}</h3>
+                <p>{{=v.address}}</p>
+                <p>{{=v.statusName}} | {{=v.abridge}}</p>
+                <p class="price">
+                    ￥{{=v.all}}/￥{{=v.univalence}}
+                    {{? v.status==3 || v.status==4}}
+                    <a href="/field/field/detail.html?no={{=v.no}}">查看</a>
+                    {{?}}
+                </p>
+            </div>
+        </div>
+        {{~}}
+    </script>
 </head>
 <body>
-
+<div class="header">
+    <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
+    <img class="fl back" src="/img/logo.png"/>
+    <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
+</div>
+<div class="list field-list" id="list"></div>
+<script>
+    window.html('list', 'listTpl', global.data);
+</script>
 </body>
 </html>

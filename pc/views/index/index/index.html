@@ -91,22 +91,17 @@
             </div>
             <h3>{{=v.title}}</h3>
             <p>
-                {{=v.business_type}}
+                {{=v.statusName}}
                 &emsp;|&emsp;
-                {{=v.invest_type}}
+                {{=v.abridge}}
             </p>
             <div class="intro">
                 {{=v.trait}}
             </div>
             <div class="progress">
-                <div>项目总额: {{=v.budget_amount}}</div>
-                {{?v.status==1 || v.status==2 || v.status==3 || v.status==5}}
-                <div>认购进度: <span>100%</span></div>
-                <div style="background-size: 100% auto"></div>
-                {{??}}
-                <div>认购进度: <span>{{=v.present_amount / v.budget_amount * 100}}%</span></div>
-                <div style="background-size: {{=v.present_amount / v.budget_amount * 100}}% auto"></div>
-                {{?}}
+                <div>项目总额: {{=v.all}}</div>
+                <div>认购进度: <span>{{=v.stock}}%</span></div>
+                <div style="background-size: {{=v.stock}}% auto"></div>
             </div>
         </li>
         {{~}}

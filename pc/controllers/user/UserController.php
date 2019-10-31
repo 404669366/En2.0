@@ -10,18 +10,27 @@ namespace app\controllers\user;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\base\EnField;
+use vendor\project\base\EnIncome;
+use vendor\project\helpers\Constant;
 
 class UserController extends AuthController
 {
+    public function render($view, $params = [])
+    {
+        $params['all'] = EnIncome::getAll([3, 4], \Yii::$app->user->id);
+        $params['out'] = EnIncome::getOut(2, \Yii::$app->user->id);
+        $params['surplus'] = EnIncome::getSurplus([3, 4], 2, \Yii::$app->user->id);
+        $params['serviceTel'] = Constant::serviceTel();
+        return parent::render($view, $params);
+    }
+
     /**
      * 个人中心
      * @return string
      */
     public function actionCenter()
     {
-        if (isset($_COOKIE['user-show']) && $_COOKIE['user-show']) {
-            return $this->redirect($_COOKIE['user-show']);
-        }
-        return $this->redirect(['user/intention/list']);
+        return $this->render('center.html', ['data' => EnField::listDataByCenter()]);
     }
 }

@@ -43,31 +43,6 @@
         </span>
         {{~}}
     </script>
-    <script type="text/x-dot-template" id="searchTpl">
-        <div class="select" onselectstart="return false">
-            项目类型:
-            <span><span class="now">全部</span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
-            <ul>
-                <li data-key="business_type" data-val="">全部</li>
-                {{~it.businessType:v:k}}
-                <li data-key="business_type" data-val="{{=v.k}}">{{=v.v}}</li>
-                {{~}}
-            </ul>
-        </div>
-        <div class="select" onselectstart="return false">
-            投资类型:
-            <span><span class="now">全部</span><i class="fa fa-caret-down" aria-hidden="true"></i></span>
-            <ul>
-                <li data-key="invest_type" data-val="">全部</li>
-                {{~it.investType:v:k}}
-                <li data-key="invest_type" data-val="{{=v.k}}">{{=v.v}}</li>
-                {{~}}
-            </ul>
-        </div>
-        <div class="searchBtn" onselectstart="return false" data-url="">
-            <i class="fa fa-search" aria-hidden="true"></i>
-        </div>
-    </script>
     <script type="text/x-dot-template" id="dataTpl">
         {{?it.length}}
         {{~it:v:k}}
@@ -77,28 +52,23 @@
             </div>
             <h3>{{=v.title}}</h3>
             <p>
-                {{=v.business_type}}
+                {{=v.statusName}}
                 &emsp;|&emsp;
-                {{=v.invest_type}}
+                {{=v.abridge}}
             </p>
             <div class="intro">
                 {{=v.trait}}
             </div>
             <div class="progress">
-                <div>项目总额: {{=v.budget_amount}}</div>
-                {{?v.status==1 || v.status==2 || v.status==3 ||v.status==5}}
-                <div>认购进度: <span>100%</span></div>
-                <div style="background-size: 100% auto"></div>
-                {{??}}
-                <div>认购进度: <span>{{=v.present_amount / v.budget_amount * 100}}%</span></div>
-                <div style="background-size: {{=v.present_amount / v.budget_amount * 100}}% auto"></div>
-                {{?}}
+                <div>项目总额: {{=v.all}}</div>
+                <div>认购进度: <span>{{=v.stock}}%</span></div>
+                <div style="background-size: {{=v.stock}}% auto"></div>
             </div>
             <a class="hide" href="/field/field/detail.html?no={{=v.no}}">{{=v.title}}</a>
         </li>
         {{~}}
         {{??}}
-        <li class="no-data">暂时没有该类项目</li>
+        <li class="no-data">没有更多项目了</li>
         {{?}}
     </script>
 </head>
@@ -116,8 +86,12 @@
             <h2>Investment</h2>
             <p>投资美好生活</p>
         </div>
-        <div class="search" id="search"></div>
-        <script>window.html('search', 'searchTpl', global);</script>
+        <div class="searchBox">
+            <input type="text" class="keywords" placeholder="场站搜索" autofocus="autofocus">
+            <div class="searchBtn">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+        </div>
         <ul class="data" id="data"></ul>
         <script>window.html('data', 'dataTpl', global.data);</script>
         <ul class="page">
@@ -158,6 +132,8 @@
     <div class="icp">四川亿能天成科技有限公司 蜀ICP备19002778号-1 Copyright © 2019 en.ink 市场有风险 投资需谨慎</div>
 </div>
 <script>
+    $('.keywords').val(window.getParams('keywords', ''));
+
     $('.nav').hover(
         function () {
             $(this).find('ul').slideToggle(200);
@@ -194,59 +170,37 @@
         }
     );
 
-    var business_type = window.getParams('business_type', '');
-    $('.select').find('[data-key="business_type"]').each(function (k, v) {
-        if ($(v).data('val') == business_type) {
-            $(v).parents('.select').find('.now').text($(v).text());
+    $(document).keyup(function (event) {
+        if (event.keyCode === 13) {
+            doUrl();
         }
     });
 
-    var invest_type = window.getParams('invest_type', '');
-    $('.select').find('[data-key="invest_type"]').each(function (k, v) {
-        if ($(v).data('val') == invest_type) {
-            $(v).parents('.select').find('.now').text($(v).text());
-        }
+    $('.searchBtn').click(function () {
+        doUrl();
     });
 
-    $('.select>span').click(function () {
-        $(this).next().slideToggle(200);
-        var i = $(this).find('i');
-        if (i.hasClass("rotate180")) {
-            i.removeClass("rotate180");
-            i.addClass("rotate0");
-        } else {
-            i.removeClass("rotate0");
-            i.addClass("rotate180");
-        }
-    });
-
-    $('.select>ul>li').on('click', function () {
-        $(this).parent().slideToggle(200);
-        var i = $(this).parents('.select').find('i');
-        if (i.hasClass("rotate180")) {
-            i.removeClass("rotate180");
-            i.addClass("rotate0");
-        } else {
-            i.removeClass("rotate0");
-            i.addClass("rotate180");
-        }
-        $(this).parents('.select').find('.now').text($(this).text());
+    function doUrl() {
         var url = window.location.href;
-        var key = $(this).data('key');
-        var val = $(this).data('val');
-        var last = window.getParams(key);
-        if (last !== null) {
-            window.location.href = url.replace(key + '=' + last, key + '=' + val);
-        } else {
-            var mark = window.location.search ? '&' : '?';
-            window.location.href = url + mark + key + '=' + val;
+        if (window.in_string(url, 'page')) {
+            url = url.replace('page=' + window.getParams('page', ''), 'page=1');
         }
-    });
+        if (window.in_string(url, 'keywords')) {
+            window.location.href = decodeURI(url).replace('keywords=' + window.getParams('keywords', ''), 'keywords=' + $('.keywords').val());
+            return;
+        }
+        if (window.in_string(url, '?')) {
+            window.location.href = url + '&keywords=' + $('.keywords').val();
+            return;
+        }
+        window.location.href = url + '?keywords=' + $('.keywords').val();
+        return;
+    }
+
 
     $('.page>li').click(function () {
         var url = window.location.href;
-        var key = 'pageNum';
-        var last = window.getParams(key, 1);
+        var last = window.getParams('page', 1);
         var val = 1;
         switch ($(this).data('do')) {
             case 'first':
@@ -265,15 +219,15 @@
                 }
                 break;
         }
-        if (window.in_string(url, key)) {
-            window.location.href = url.replace(key + '=' + last, key + '=' + val);
+        if (window.in_string(url, 'page')) {
+            window.location.href = url.replace('page=' + last, 'page=' + val);
             return;
         }
         if (window.in_string(url, '?')) {
-            window.location.href = url + '&' + key + '=' + val;
+            window.location.href = url + '&page=' + val;
             return;
         }
-        window.location.href = url + '?' + key + '=' + val;
+        window.location.href = url + '?page=' + val;
         return;
     });
 </script>

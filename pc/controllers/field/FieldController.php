@@ -24,31 +24,18 @@ class FieldController extends BasisController
     {
         return $this->render('list.html', [
             'data' => EnField::listDataByPc(),
-            'businessType' => Helper::arrayKeyToV(Constant::businessType()),
-            'investType' => Helper::arrayKeyToV(Constant::investType()),
         ]);
     }
 
     /**
      * 项目详情
      * @param string $no
-     * @param string $r
      * @return string|\yii\web\Response
      */
-    public function actionDetail($no = '', $r = '')
+    public function actionDetail($no = '')
     {
-        if ($detail = EnField::find()->where(['no' => $no, 'status' => [1, 2, 3, 4, 5]])->asArray()->one()) {
-            if ($r) {
-                setcookie('field-r-' . $detail['id'], $r, time() + 3600 * 24 * 30, '/');
-            }
-            return $this->render('detail.html', [
-                'detail' => $detail,
-                'images' => Helper::completionImg($detail['images']),
-                'intro' => \Yii::$app->cache->get('FieldIntro-' . $detail['id']),
-                'investInfo' => \Yii::$app->cache->get('InvestInfo-' . $detail['invest_type']) ?: '',
-                'business_type' => Constant::businessType()[$detail['business_type']],
-                'invest_type' => Constant::investType()[$detail['invest_type']],
-            ]);
+        if ($detail = EnField::detailData($no)) {
+            return $this->render('detail.html', ['detail' => $detail,]);
         }
         return $this->redirect(['basis/basis/error']);
     }

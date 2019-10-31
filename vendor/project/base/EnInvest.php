@@ -99,7 +99,7 @@ class EnInvest extends \yii\db\ActiveRecord
         $model->created_at = time();
         if ($model->save()) {
             if ($way == 1) {
-                if ($data = Wechat::jsPay($model->no, $money)) {
+                if ($data = Wechat::jsPay('亿能充电-余额充值', $model->no, $money, '/wx/pay/back.html')) {
                     return $data;
                 }
             }

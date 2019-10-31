@@ -14,14 +14,11 @@ use Yii;
  * @property int count 场站ID
  * @property int online 在线状态 0离线1在线
  * @property string $rules 计费规则
- * @property int $field_id 场站ID
  * @property string $field 场站编号
  * @property int $model_id 电桩型号
  */
 class EnPile extends \yii\db\ActiveRecord
 {
-    public $field;
-
     /**
      * {@inheritdoc}
      */
@@ -39,18 +36,17 @@ class EnPile extends \yii\db\ActiveRecord
             [['no'], 'unique'],
             [['no', 'model_id', 'field', 'rules'], 'required'],
             [['field'], 'validateField'],
-            [['field_id', 'model_id', 'count', 'online'], 'integer'],
-            [['no'], 'string', 'max' => 32],
+            [['model_id', 'count', 'online'], 'integer'],
+            [['no', 'field'], 'string', 'max' => 32],
             [['rules'], 'string', 'max' => 1000],
         ];
     }
 
     public function validateField()
     {
-        if ($model = EnField::findOne(['no' => $this->field])) {
-            $this->field_id = $model->id;
-        } else {
-            $this->addError('field', '场站不存在');
+        $model = EnField::findOne(['no' => $this->field, 'status' => 4]);
+        if (!$model) {
+            $this->addError('field', '场站不存在或状态有误');
         }
     }
 
@@ -64,7 +60,6 @@ class EnPile extends \yii\db\ActiveRecord
             'count' => '枪口数量',
             'online' => '在线状态 0离线1在线',
             'rules' => '计费规则',
-            'field_id' => '场站ID',
             'field' => '场站编号',
             'model_id' => '电桩型号',
         ];
@@ -76,26 +71,30 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public function getLocal()
     {
-        return $this->hasOne(EnField::class, ['id' => 'field_id']);
+        return $this->hasOne(EnField::class, ['no' => 'field']);
     }
 
     /**
      * 分页数据
-     * @return mixed
+     * @param string $no
+     * @return $this|mixed
      */
-    public static function getPageData()
+    public static function getPageData($no = '')
     {
         $data = self::find()->alias('p')
-            ->leftJoin(EnField::tableName() . ' f', 'p.field_id=f.id')
-            ->leftJoin(EnModel::tableName() . ' m', 'p.model_id=m.id')
-            ->select(['p.*', 'f.no as fno', 'f.name', 'f.address', 'f.local', 'm.name as model'])
+            ->leftJoin(EnField::tableName() . ' f', 'p.field=f.no')
+            ->leftJoin(EnModel::tableName() . ' m', 'p.model_id=m.id');
+        if ($no) {
+            $data->where(['p.field' => $no]);
+        }
+        $data = $data->select(['p.*', 'f.no as fno', 'f.name', 'f.address', 'm.name as model'])
             ->page([
                 'keywords' => ['like', 'p.no', 'f.no', 'f.name', 'f.address', 'f.local', 'm.name'],
                 'online' => ['=', 'p.online'],
             ]);
         foreach ($data['data'] as &$v) {
             $v['online'] = Constant::pileOnline()[$v['online']];
-            $v['fieldInfo'] = "场站业主: {$v['local']}<br>场站编号: {$v['fno']}<br>场站名称: {$v['name']}<br>场站地址: {$v['address']}";
+            $v['fieldInfo'] = "场站编号: {$v['fno']}<br>场站名称: {$v['name']}<br>场站地址: {$v['address']}";
         }
         return $data;
     }
@@ -119,7 +118,8 @@ class EnPile extends \yii\db\ActiveRecord
         if (EnUser::getMoney() > 5) {
             $no = explode('-', $no);
             if (count($no) == 2) {
-                if ($pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
+                $pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one();
+                if ($pile) {
                     $order = EnOrder::findOne(['pile' => $no[0], 'gun' => $no[1], 'status' => [0, 1]]);
                     if (!$order) {
                         $order = new EnOrder();
@@ -144,7 +144,7 @@ class EnPile extends \yii\db\ActiveRecord
                     return false;
                 }
             }
-            Msg::set('未查询到该电桩信息,请检查电桩编号');
+            Msg::set('电桩不存在或已下线');
             return false;
         }
         Msg::set('您的余额不足,请前往充值');
@@ -159,19 +159,34 @@ class EnPile extends \yii\db\ActiveRecord
     public static function getPilesByField($no = '')
     {
         $data = self::find()->alias('p')
-            ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
             ->leftJoin(EnModel::tableName() . ' m', 'm.id=p.model_id')
-            ->where(['f.no' => $no])
+            ->where(['p.field' => $no])
             ->select(['p.no', 'p.rules', 'm.*'])
             ->orderBy('p.no desc')
             ->asArray()->all();
         foreach ($data as &$v) {
-            $images = explode(',', $v['images']);
+            $images = explode(',', Yii::$app->cache->get('EnField-images-' . $no));
             $v['image'] = $images[array_rand($images)];
             $v['standard'] = Constant::pileStandard()[$v['standard']];
             $v['rules'] = self::getNowRule($v['rules']);
         }
         return $data;
+    }
+
+    /**
+     * 查询枪口信息
+     * @param string $no
+     * @return array
+     */
+    public static function getGunsInfoByField($no = '')
+    {
+        $guns = ['count' => 0, 'used' => 0];
+        $piles = self::find()->where(['field' => $no])->select(['no', 'count'])->asArray()->all();
+        foreach ($piles as $v) {
+            $guns['count'] += $v['count'];
+            $guns['used'] += EnOrder::find()->where(['pile' => $v['no'], 'status' => [0, 1]])->count();
+        }
+        return $guns;
     }
 
     /**

@@ -19,7 +19,6 @@
                     <th>ID</th>
                     <th>手机号</th>
                     <th>账号余额</th>
-                    <th>账号积分</th>
                     <th>创建时间</th>
                 </tr>
                 </thead>
@@ -37,11 +36,6 @@
             {"data": "tel"},
             {
                 "data": "money", "render": function (data, type, row) {
-                return data ? data: 0;
-            }
-            },
-            {
-                "data": "points", "render": function (data, type, row) {
                 return data ? data: 0;
             }
             },

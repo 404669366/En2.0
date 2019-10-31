@@ -7,7 +7,8 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link href="/css/field.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
-    <script src="/js/map.js" type="text/javascript" charset='utf-8'></script>
+    <script src="https://map.qq.com/api/js?v=2.exp&key=NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2" type="text/javascript"
+            charset='utf-8'></script>
     <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
     <script type="text/x-dot-template" id="headMenuTpl">
         <li><a href="/index/index/index.html">首页<span></span></a></li>
@@ -49,7 +50,7 @@
             <h1 class="title">{{=it.detail.title}}</h1>
             <div class="details">
                 <div class="slider">
-                    {{~it.images:v}}
+                    {{~it.detail.images:v}}
                     <img src="{{=v}}" alt="亿能天成新能源场站-{{=it.detail.no}}图片"/>
                     {{~}}
                 </div>
@@ -60,11 +61,11 @@
                     <span class="w50">电力审核 : <i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
                 </div>
                 <p>项目配置</p>
-                <div class="intro">{{=it.detail.field_configure}}</div>
+                <div class="intro">{{=it.detail.config}}</div>
                 <p>项目介绍</p>
-                <div class="intro">{{=it.intro}}</div>
+                <div class="intro">{{=it.detail.intro}}</div>
                 <p>项目收益</p>
-                <div class="intro">{{=it.investInfo}}</div>
+                <div class="intro">&emsp;&emsp;项目总共拆分100股，收益以整站充电运营服务费收益并根据各股东拥有股份参与分成。每月根据充电记录进行收益对账，对账完成进行收益发放。</div>
                 <p>项目位置</p>
                 <div class="address">{{=it.detail.address}}</div>
                 <div class="map">
@@ -75,33 +76,33 @@
             <div class="fixed">
                 <h2 class="name">{{=it.detail.name}}</h2>
                 <div class="type">
-                    {{=it.business_type}}
+                    {{=it.detail.statusName}}
                     <span> | </span>
-                    {{=it.invest_type}}
+                    {{=it.detail.abridge}}
                 </div>
                 <div class="trait">{{=it.detail.trait}}</div>
-                {{?it.detail.status==1 || it.detail.status==2 || it.detail.status==3 ||it.detail.status==5}}
+                {{?it.detail.status==4}}
                 <div class="progress">
-                    <div>项目总额: {{=it.detail.budget_amount}}</div>
+                    <div>项目总额: {{=it.detail.all}}</div>
                     <div>认购进度: <span>100%</span></div>
                     <div style="background-size: 100% auto"></div>
                 </div>
                 <div class="info">
-                    <div>{{=it.detail.budget_amount}}<p>项目总额</p></div>
-                    <div>{{=it.detail.budget_amount}}<p>已认购</p></div>
-                    <div>{{=it.detail.lowest_amount}}<p>起投金额</p></div>
+                    <div>{{=it.detail.all}}<p>项目总额</p></div>
+                    <div>{{=it.detail.now}}<p>已认购</p></div>
+                    <div>{{=it.detail.univalence}}<p>起投金额</p></div>
                 </div>
                 <div class="notBtn">融资完成</div>
                 {{??}}
                 <div class="progress">
-                    <div>项目总额: {{=it.detail.budget_amount}}</div>
-                    <div>认购进度: <span>{{=it.detail.present_amount / it.detail.budget_amount * 100}}%</span></div>
-                    <div style="background-size: {{=it.detail.present_amount / it.detail.budget_amount * 100}}% auto"></div>
+                    <div>项目总额: {{=it.detail.all}}</div>
+                    <div>认购进度: <span>{{=it.detail.stock}}%</span></div>
+                    <div style="background-size: {{=it.detail.stock}}% auto"></div>
                 </div>
                 <div class="info">
-                    <div>{{=it.detail.budget_amount}}<p>项目总额</p></div>
-                    <div>{{=it.detail.present_amount}}<p>已认购</p></div>
-                    <div>{{=it.detail.lowest_amount}}<p>起投金额</p></div>
+                    <div>{{=it.detail.all}}<p>项目总额</p></div>
+                    <div>{{=it.detail.now}}<p>已认购</p></div>
+                    <div>{{=it.detail.univalence}}<p>起投金额</p></div>
                 </div>
                 <div class="btn">我要投资</div>
                 <div class="model model1">
@@ -229,17 +230,24 @@
         $(window).scroll();
     });
 
-    var map = new BMap.Map('map');
-    var point = new BMap.Point(global.detail.lng || 116.404, global.detail.lat || 39.915);
-    map.centerAndZoom(point, 16);
-    map.addOverlay(new BMap.Marker(point));
-    map.addControl(new BMap.NavigationControl({
-        anchor: BMAP_ANCHOR_TOP_RIGHT,
-        type: BMAP_NAVIGATION_CONTROL_SMALL
-    }));
+    var point = new qq.maps.LatLng(global.detail.lat, global.detail.lng);
+    var map = new qq.maps.Map(document.getElementById("map"), {
+        center: point,
+        zoom: 14,
+        scrollwheel: false,
+        disableDoubleClickZoom: false,
+        keyboardShortcuts: false,
+        zoomControl: false,
+        scaleControl: false
+    });
+    var marker = new qq.maps.Marker({
+        map: map,
+        animation: qq.maps.MarkerAnimation.BOUNCE,
+        position: map.getCenter()
+    });
 
     $('.back').click(function () {
-        map.centerAndZoom(point, 16);
+        map.setCenter(point);
     });
     $('.btn').click(function () {
         window.modal.open('.model1');
@@ -249,7 +257,7 @@
     });
     $('.modelBtn1').click(function () {
         window.modal.close('.model1');
-        window.location.href = '/field/intention/add.html?no=' + global.detail.no;
+        window.location.href = '/field/intention/buy.html?no=' + global.detail.no;
         $('.loading').show();
         document.body.style.overflowY = 'hidden';
     });

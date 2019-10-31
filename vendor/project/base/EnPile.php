@@ -120,7 +120,7 @@ class EnPile extends \yii\db\ActiveRecord
             if (count($no) == 2) {
                 $pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one();
                 if ($pile) {
-                    $order = EnOrder::findOne(['pile' => $no[0], 'gun' => $no[1], 'status' => [0, 1]]);
+                    $order = EnOrder::findOne(['pile' => $no[0], 'gun' => $no[1], 'status' => [0, 1, 2]]);
                     if (!$order) {
                         $order = new EnOrder();
                         $order->no = Helper::createNo('O');

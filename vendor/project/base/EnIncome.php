@@ -141,8 +141,8 @@ class EnIncome extends \yii\db\ActiveRecord
     public static function incomeByCenter()
     {
         $user_id = Yii::$app->user->id;
-        $all = self::find()->where(['type' => [3, 4], 'key' => $user_id])->sum('money');
-        $field = self::find()->where(['type' => 3, 'key' => $user_id])->sum('money');
+        $all = self::find()->where(['type' => [3, 4], 'key' => $user_id])->sum('money') ?: 0;
+        $field = self::find()->where(['type' => 3, 'key' => $user_id])->sum('money') ?: 0;
         $beginYear = self::find()->where(['type' => [3, 4], 'key' => $user_id])->min('created_at') ?: time();
         $endYear = self::find()->where(['type' => [3, 4], 'key' => $user_id])->max('created_at') ?: time();
         $data = [

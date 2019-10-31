@@ -113,10 +113,10 @@ class EnStock extends \yii\db\ActiveRecord
     public static function getStockByFieldToStr($no = '')
     {
         $data = self::find()->alias('s')
-            ->leftJoin(EnMember::tableName() . ' m3', 'm3.id=s.key')
-            ->leftJoin(EnMember::tableName() . ' m4', 'm4.id=s.key')
+            ->leftJoin(EnUser::tableName() . ' u3', 'u3.id=s.key')
+            ->leftJoin(EnUser::tableName() . ' u4', 'u4.id=s.key')
             ->where(['s.field' => $no])
-            ->select(['s.type', 's.num', 'm3.tel as local', 'm4.tel as invest'])
+            ->select(['s.type', 's.num', 'u3.tel as local', 'u4.tel as invest'])
             ->orderBy(['s.type' => 'asc'])
             ->asArray()->all();
         $stock = '';
@@ -147,10 +147,10 @@ class EnStock extends \yii\db\ActiveRecord
     public static function getStockByFieldToArr($no = '')
     {
         $data = self::find()->alias('s')
-            ->leftJoin(EnMember::tableName() . ' m3', 'm3.id=s.key')
-            ->leftJoin(EnMember::tableName() . ' m4', 'm4.id=s.key')
+            ->leftJoin(EnUser::tableName() . ' u3', 'u3.id=s.key')
+            ->leftJoin(EnUser::tableName() . ' u4', 'u4.id=s.key')
             ->where(['s.field' => $no])
-            ->select(['s.*', 'm3.tel as local', 'm4.tel as invest'])
+            ->select(['s.*', 'u3.tel as local', 'u4.tel as invest'])
             ->orderBy(['s.type' => 'asc'])
             ->asArray()->all();
         foreach ($data as &$v) {

@@ -106,7 +106,7 @@ class EnIncome extends \yii\db\ActiveRecord
      */
     public static function getAll($type = 0, $key = 0)
     {
-        return self::find()->where(['type' => $type, 'key' => $key])->sum('money');
+        return self::find()->where(['type' => $type, 'key' => $key])->sum('money') ?: 0;
     }
 
     /**
@@ -118,8 +118,8 @@ class EnIncome extends \yii\db\ActiveRecord
      */
     public static function getSurplus($iType = 0, $cType = 0, $key = 0)
     {
-        $all = self::find()->where(['type' => $iType, 'key' => $key])->sum('money');
-        $cash = EnCash::find()->where(['type' => $cType, 'key' => $key, 'status' => [1, 2]])->sum('money');
+        $all = self::find()->where(['type' => $iType, 'key' => $key])->sum('money') ?: 0;
+        $cash = EnCash::find()->where(['type' => $cType, 'key' => $key, 'status' => [1, 2]])->sum('money') ?: 0;
         return $all - $cash;
     }
 
@@ -131,7 +131,7 @@ class EnIncome extends \yii\db\ActiveRecord
      */
     public static function getOut($type = 0, $key = 0)
     {
-        return EnCash::find()->where(['type' => $type, 'key' => $key, 'status' => [1, 2]])->sum('money');
+        return EnCash::find()->where(['type' => $type, 'key' => $key, 'status' => [1, 2]])->sum('money') ?: 0;
     }
 
     /**

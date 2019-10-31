@@ -24,7 +24,7 @@ class IntentionController extends CommonController
      */
     public function actionList()
     {
-        return $this->render('list', ['count' => EnIntention::getRobCount()]);
+        return $this->render('list', ['count' => 0]);
     }
 
     /**
@@ -33,6 +33,6 @@ class IntentionController extends CommonController
      */
     public function actionData()
     {
-        return $this->rTableData(EnIntention::getPageData(\Yii::$app->user->id));
+        return $this->rTableData(['data' => [], 'total' => 0]);
     }
 }

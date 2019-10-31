@@ -57,6 +57,10 @@ class CController extends AuthController
      */
     public function actionC($n = '')
     {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => 2])) {
+            Msg::set('您有订单未支付');
+            return $this->redirect(['order/charge/pay', 'no' => $order['no']]);
+        }
         if ($info = EnPile::chargeInfo($n)) {
             return $this->render('charge.html', [
                 'info' => $info,

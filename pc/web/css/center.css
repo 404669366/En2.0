@@ -8,7 +8,7 @@ body {
 
 .user {
     width: 60rem;
-    margin: 6rem auto 0 auto;
+    margin: 5rem auto 0 auto;
     background: #fff;
     padding: 2rem;
     box-sizing: border-box;
@@ -122,5 +122,5 @@ body {
 }
 
 .footer {
-    margin-top: 2rem;
+    margin-top: 1rem;
 }

@@ -8,6 +8,7 @@
     <link href="/css/center.css" rel="stylesheet">
     <link href="/css/center-list.css" rel="stylesheet">
     <script src="/js/common.js" type="text/javascript" charset='utf-8'></script>
+    <script type="text/javascript" src="/js/echarts.min.js"></script>
     <script type="text/x-dot-template" id="headMenuTpl">
         <li><a href="/index/index/index.html">首页<span></span></a></li>
         <li><a href="/field/field/list.html">项目<span></span></a></li>
@@ -46,12 +47,10 @@
             <li>剩余收益: <span>&yen;{{=it.surplus}}</span></li>
         </ul>
     </script>
-    <script type="text/x-dot-template" id="dataTpl">
-        <form class="form cash" method="post">
-            <input type="hidden" name="_csrf" value="{{=it.csrf}}">
-            <input type="text" name="need" placeholder="请填写提现金额" autofocus="autofocus">
-            <button type="submit" class="btn">确认提交</button>
-        </form>
+    <script type="text/x-dot-template" id="sTpl">
+        {{~it:v}}
+        <option value="{{=v}}">{{=v}}年</option>
+        {{~}}
     </script>
 </head>
 <body>
@@ -99,11 +98,6 @@
             发布场站
             <i class="fa fa-angle-right" aria-hidden="true"></i>
         </li>
-        <li class="service">
-            <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-            客服电话
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-        </li>
     </ul>
     <ul class="menu2 clear">
         <li data-url="/user/income/list.html">我的收益</li>
@@ -111,8 +105,13 @@
         <li data-url="/user/income/invest.html">投资收益</li>
         <li class="active" data-url="/user/income/field.html">场地收益</li>
     </ul>
-    <div class="data stock" id="data"></div>
-    <script>window.html('data', 'dataTpl', global);</script>
+    <div class="data stock">
+        <div class="echarts">
+            <h3>场地收益<select id="s"></select></h3>
+            <div id="e"></div>
+        </div>
+    </div>
+    <script>window.html('s', 'sTpl', global.years);</script>
 </div>
 <div class="footer">
     <div class="info">
@@ -169,9 +168,36 @@
             }
         }
     );
-    $('.service').click(function () {
-        window.location.href = 'tel:' + global.serviceTel;
-    })
+    var e = echarts.init(document.getElementById('e'));
+    var option = {
+        grid: {
+            left: 'center',
+            top: 'middle',
+            width: '65%',
+            height: '70%',
+        },
+        yAxis: {
+            type: 'value',
+        },
+        xAxis: {
+            type: 'category',
+            data: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+        },
+        series: [{
+            data: global.data,
+            type: 'line',
+        }]
+    };
+    e.setOption(option);
+    $('#e').on('change', function () {
+        var now = $(this);
+        $.getJSON('/user/income/data.html', {type: 3, year: now.val()}, function (re) {
+            if (re.type) {
+                option.series[0].data = re.data;
+                e.setOption(option);
+            }
+        })
+    });
 </script>
 </body>
 </html>

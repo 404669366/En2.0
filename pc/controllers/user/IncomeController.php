@@ -28,7 +28,12 @@ class IncomeController extends UserController
      */
     public function actionAll()
     {
-        return $this->render('all.html', EnIncome::incomeByCenter());
+        $beginYear = EnIncome::find()->where(['type' => [3, 4], 'key' => \Yii::$app->user->id])->min('created_at') ?: time();
+        $endYear = EnIncome::find()->where(['type' => [3, 4], 'key' => \Yii::$app->user->id])->max('created_at') ?: time();
+        return $this->render('all.html', [
+            'years' => range(date('Y', $endYear), date('Y', $beginYear), 1),
+            'data' => EnIncome::incomeDataByCenter()
+        ]);
     }
 
     /**
@@ -37,7 +42,12 @@ class IncomeController extends UserController
      */
     public function actionInvest()
     {
-        return $this->render('invest.html', EnIncome::incomeByCenter());
+        $beginYear = EnIncome::find()->where(['type' => [3, 4], 'key' => \Yii::$app->user->id])->min('created_at') ?: time();
+        $endYear = EnIncome::find()->where(['type' => [3, 4], 'key' => \Yii::$app->user->id])->max('created_at') ?: time();
+        return $this->render('invest.html', [
+            'years' => range(date('Y', $endYear), date('Y', $beginYear), 1),
+            'data' => EnIncome::incomeDataByCenter(4)
+        ]);
     }
 
     /**
@@ -46,7 +56,12 @@ class IncomeController extends UserController
      */
     public function actionField()
     {
-        return $this->render('field.html', EnIncome::incomeByCenter());
+        $beginYear = EnIncome::find()->where(['type' => [3, 4], 'key' => \Yii::$app->user->id])->min('created_at') ?: time();
+        $endYear = EnIncome::find()->where(['type' => [3, 4], 'key' => \Yii::$app->user->id])->max('created_at') ?: time();
+        return $this->render('field.html', [
+            'years' => range(date('Y', $endYear), date('Y', $beginYear), 1),
+            'data' => EnIncome::incomeDataByCenter(3)
+        ]);
     }
 
     /**

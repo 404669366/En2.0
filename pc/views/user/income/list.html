@@ -50,7 +50,7 @@
         {{?it.length}}
         {{~it:v}}
         <li class="clear">
-            <h3>{{=v.no}}<span>{{=v.created}}</span></h3>
+            <h3>{{=v.order}}<span>{{=v.created}}</span></h3>
             <p>
                 收益类型: {{=v.typeName}}
                 <span>&plus;&yen;{{=v.money}}</span>
@@ -107,11 +107,6 @@
         <li data-url="/user/field/create.html">
             <i class="fa fa-pencil-square" aria-hidden="true"></i>
             发布场站
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-        </li>
-        <li class="service">
-            <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-            客服电话
             <i class="fa fa-angle-right" aria-hidden="true"></i>
         </li>
     </ul>
@@ -179,9 +174,6 @@
             }
         }
     );
-    $('.service').click(function () {
-        window.location.href = 'tel:' + global.serviceTel;
-    })
 </script>
 </body>
 </html>

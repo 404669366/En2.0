@@ -21,7 +21,6 @@ class UserController extends AuthController
         $params['all'] = EnIncome::getAll([3, 4], \Yii::$app->user->id);
         $params['out'] = EnIncome::getOut(2, \Yii::$app->user->id);
         $params['surplus'] = EnIncome::getSurplus([3, 4], 2, \Yii::$app->user->id);
-        $params['serviceTel'] = Constant::serviceTel();
         return parent::render($view, $params);
     }
 

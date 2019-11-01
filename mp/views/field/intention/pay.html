@@ -16,8 +16,9 @@
     <img class="fl back" src="/img/logo.png"/>
     <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
 </div>
+<div class="cl" style="width: 100%;height: 5rem;background: orange"></div>
 <script>
-    window.load(function () {
+    $('.cl').click(function () {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
             global.jsParams,

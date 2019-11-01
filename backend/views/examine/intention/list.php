@@ -61,7 +61,7 @@
             {"data": "tel"},
             {"data": "num"},
             {"data": "amount"},
-            {"data": "status"},
+            {"data": "statusName"},
             {"data": "created_at"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {

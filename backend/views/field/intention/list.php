@@ -60,7 +60,7 @@
             {"data": "tel"},
             {"data": "num"},
             {"data": "amount"},
-            {"data": "status"},
+            {"data": "statusName"},
             {"data": "created_at"},
         ],
         default_order: [6, 'desc']

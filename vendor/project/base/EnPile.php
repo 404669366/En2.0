@@ -106,45 +106,30 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public static function chargeInfo($no = '')
     {
-        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1]])) {
-            Msg::set('您有订单进行中');
-            return [
-                'do' => 'seeCharge',
-                'pile' => $order->pile,
-                'gun' => $order->gun,
-                'fieldName' => $order->pileInfo->local->name,
-            ];
-        }
         if (EnUser::getMoney() > 5) {
             $no = explode('-', $no);
             if (count($no) == 2) {
-                $pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one();
-                if ($pile) {
-                    $order = EnOrder::findOne(['pile' => $no[0], 'gun' => $no[1], 'status' => [0, 1, 2]]);
-                    if (!$order) {
-                        $order = new EnOrder();
-                        $order->no = Helper::createNo('O');
-                        $order->pile = $no[0];
-                        $order->gun = $no[1];
-                        $order->uid = Yii::$app->user->id;
-                        $order->created_at = time();
-                        if ($order->save()) {
-                            return [
-                                'do' => 'beginCharge',
-                                'orderNo' => $order->no,
-                                'pile' => $no[0],
-                                'gun' => $no[1],
-                                'fieldName' => $pile->local->name,
-                            ];
-                        }
-                        Msg::set('创建订单失败,请稍后再试');
-                        return false;
+                if ($pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
+                    $order = new EnOrder();
+                    $order->no = Helper::createNo('O');
+                    $order->pile = $no[0];
+                    $order->gun = $no[1];
+                    $order->uid = Yii::$app->user->id;
+                    $order->created_at = time();
+                    if ($order->save()) {
+                        return [
+                            'do' => 'beginCharge',
+                            'orderNo' => $order->no,
+                            'pile' => $no[0],
+                            'gun' => $no[1],
+                            'fieldName' => $pile->local->name,
+                        ];
                     }
-                    Msg::set('枪口已占用,请稍后再试');
+                    Msg::set('创建订单失败,请稍后再试');
                     return false;
                 }
             }
-            Msg::set('电桩不存在或已下线');
+            Msg::set('编码输入有误,请检查');
             return false;
         }
         Msg::set('您的余额不足,请前往充值');

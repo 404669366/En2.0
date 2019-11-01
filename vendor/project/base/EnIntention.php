@@ -51,10 +51,7 @@ class EnIntention extends \yii\db\ActiveRecord
             if ($this->local->canInvestByNum($this->num)) {
                 $stock = EnStock::findOne(['type' => 4, 'field' => $this->field, 'key' => $this->user_id]);
                 if ($stock) {
-                    var_dump($stock->num);
                     $stock->num += $this->num;
-                    var_dump($stock->num);
-                    exit();
                 } else {
                     $stock = new EnStock();
                     $stock->no = Helper::createNo('S');
@@ -63,8 +60,8 @@ class EnIntention extends \yii\db\ActiveRecord
                     $stock->key = $this->user_id;
                     $stock->created_at = time();
                     $stock->num = $this->num;
-                    $stock->save(false);
                 }
+                $stock->save(false);
             } else {
                 $this->addError('status', '该场站已完成融资');
             }

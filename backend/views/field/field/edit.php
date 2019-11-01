@@ -45,7 +45,9 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">场站编号</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" placeholder="<?= $model->no ?>" readonly>
+                            <input type="text" class="form-control"
+                                   placeholder="<?= $model->no ?: \vendor\project\helpers\Helper::createNo('F') ?>"
+                                   readonly>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>

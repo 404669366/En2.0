@@ -51,7 +51,6 @@ class FieldController extends CommonController
         $model = EnField::findOne(['no' => $no]);
         if (!$model) {
             $model = new EnField();
-            $model->no = Helper::createNo('F');
             $model->company_id = \Yii::$app->user->identity->company_id;
             $model->commissioner_id = \Yii::$app->user->id;
             $model->created_at = time();

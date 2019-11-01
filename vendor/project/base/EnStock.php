@@ -64,7 +64,7 @@ class EnStock extends \yii\db\ActiveRecord
             }
             $this->key = Yii::$app->user->identity->company_id;
         }
-        
+
         if ($this->type == 3 || $this->type == 4) {
             $user = EnUser::findOne(['tel' => $this->key]);
             if (!$user) {

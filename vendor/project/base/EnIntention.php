@@ -128,7 +128,7 @@ class EnIntention extends \yii\db\ActiveRecord
         $data = $data->page([
             'keywords' => ['like', 'i.no', 'i.field', 'f.name', 'u.tel'],
             'status' => ['=', 'i.status'],
-            'fStatus' => ['=', 'f.fStatus'],
+            'fStatus' => ['=', 'f.status'],
         ]);
         foreach ($data['data'] as &$v) {
             $v['fieldInfo'] = '场站编号:' . $v['field'] . '<br>场站名称:' . $v['name'] . '<br>场站状态:' . Constant::fieldStatus()[$v['fStatus']];

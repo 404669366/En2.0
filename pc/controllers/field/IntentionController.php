@@ -44,6 +44,7 @@ class IntentionController extends AuthController
             if ($field->canInvestByNum($num)) {
                 $model = new EnIntention();
                 $model->no = Helper::createNo('I');
+                $model->pno = Helper::createNo('P');
                 $model->field = $no;
                 $model->user_id = \Yii::$app->user->id;
                 $model->num = $num;

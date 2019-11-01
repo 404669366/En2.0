@@ -174,7 +174,6 @@ class Wechat
             'trade_type' => 'MWEB',
         ];
         $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
-        var_dump($data);exit();
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             return $data['mweb_url'] . '&redirect_url=' . Helper::spliceUrl($redirect);
         }
@@ -205,7 +204,6 @@ class Wechat
             'trade_type' => 'JSAPI',
         ];
         $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
-        var_dump($data);exit();
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             $data = [
                 'appId' => $data['appid'],

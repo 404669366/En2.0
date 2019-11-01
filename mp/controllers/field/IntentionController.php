@@ -72,8 +72,11 @@ class IntentionController extends AuthController
             $msg = '该场站已完成融资';
             if ($model->local->status == 3) {
                 $msg = '拉取支付信息失败';
-                if ($url = $model->getPayDataByMp()) {
-                    return $this->redirect($url)->send();
+                $model->no = Helper::createNo('I');
+                if ($model->save()) {
+                    if ($params = $model->getPayDataByMp()) {
+                        return $this->render('pay.html', ['jsParams' => $params]);
+                    }
                 }
             }
         }

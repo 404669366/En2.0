@@ -43,7 +43,7 @@ class EnCompany extends \yii\db\ActiveRecord
     {
         return [
             [['abridge', 'name', 'address', 'admin'], 'unique'],
-            [['abridge', 'name', 'address', 'mch_id', 'mch_secret', 'account', 'bank', 'logo', 'license', 'legal', 'legal_card', 'admin', 'admin_card', 'intro'], 'required'],
+            [['abridge', 'name', 'address', 'account', 'bank', 'logo', 'license', 'legal', 'legal_card', 'admin', 'admin_card', 'intro'], 'required'],
             [['legal', 'admin'], 'match', 'pattern' => '/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/', 'message' => '手机号格式不正确'],
             [['created_at'], 'integer'],
             [['name'], 'string', 'max' => 50],

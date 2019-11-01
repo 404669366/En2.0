@@ -363,14 +363,16 @@ class EnField extends \yii\db\ActiveRecord
     {
         $model = EnOrder::find()->alias('o')
             ->leftJoin(EnPile::tableName() . ' p', 'p.`no`=o.pile')
-            ->leftJoin(EnField::tableName() . ' f', 'f.`no`=p.field')
-            ->where(['f.no' => $no]);
+            ->where(['p.field' => $no]);
         $month = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
         foreach ($month as &$v) {
             $model0 = $model;
             $v = $model0->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y') . $v])->count();
         }
-        $model1 = $model2 = $model3 = $model4 = $model;
+        $model1 = $model;
+        $model2 = $model;
+        $model3 = $model;
+        $model4 = $model;
         $data = [
             'allCharge' => round($model1->andWhere(['o.status' => [2, 3]])->sum('o.e'), 2),
             'allUse' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),

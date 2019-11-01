@@ -125,6 +125,7 @@ class EnIntention extends \yii\db\ActiveRecord
         if ($need && Yii::$app->user->identity->job_id) {
             $data->andWhere(['f.commissioner_id' => Yii::$app->user->id]);
         }
+        var_dump($data->createCommand()->getSql());exit();
         $data = $data->page([
             'keywords' => ['like', 'i.no', 'i.field', 'f.name', 'u.tel'],
             'status' => ['=', 'i.status'],

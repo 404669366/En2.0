@@ -15,8 +15,7 @@
         }
 
         .sure {
-            margin-top: 1.5rem;
-            height: calc(100% - 1.5rem);
+            height: 100%;
             display: table;
             width: 100%;
         }
@@ -32,6 +31,7 @@
             height: 0.8rem;
             line-height: 0.8rem;
             font-size: 0.4rem;
+            margin-bottom: 0.4rem;
         }
 
         .btn {
@@ -60,7 +60,7 @@
     </span>
 </div>
 <script>
-    $('.price').text(global.amount);
+    $('.price').html('&yen;' + global.amount);
     $('.btn').click(function () {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',

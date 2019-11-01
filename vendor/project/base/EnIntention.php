@@ -185,7 +185,8 @@ class EnIntention extends \yii\db\ActiveRecord
      */
     public function getPayDataByMp()
     {
-        return Wechat::h5Pay('亿能建站-股权买入', $this->no, $this->amount, '/wx/pay/back.html', '/user/intention/list.html');
+        return Wechat::jsPay('亿能建站-股权买入', $this->no, $this->amount, '/wx/pay/back.html');
+        //return Wechat::h5Pay('亿能建站-股权买入', $this->no, $this->amount, '/wx/pay/back.html', '/user/intention/list.html');
     }
 
     /**

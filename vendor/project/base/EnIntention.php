@@ -60,9 +60,7 @@ class EnIntention extends \yii\db\ActiveRecord
                     $stock->key = $this->user_id;
                     $stock->created_at = time();
                     $stock->num = $this->num;
-                }
-                if (!$stock->save()) {
-                    $this->addError('status', $stock->errors());
+                    $stock->save(false);
                 }
             } else {
                 $this->addError('status', '该场站已完成融资');

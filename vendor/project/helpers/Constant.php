@@ -270,7 +270,7 @@ class Constant
     }
 
     /**
-     * 在线状态
+     * 电桩在线状态
      * @return array
      */
     public static function pileOnline()
@@ -278,6 +278,18 @@ class Constant
         return [
             0 => '离线',
             1 => '在线',
+        ];
+    }
+
+    /**
+     * 电桩绑定状态
+     * @return array
+     */
+    public static function pileBind()
+    {
+        return [
+            0 => '未绑定',
+            1 => '已绑定',
         ];
     }
 

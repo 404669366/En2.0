@@ -16,6 +16,14 @@
                             </select>
                     </span>
                     <span class="tableSpan">
+                        绑定状态: <select class="searchField" name="bind">
+                                <option value="">----</option>
+                            <?php foreach ($bind as $k => $v): ?>
+                                <option value="<?= $k ?>"><?= $v ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                    </span>
+                    <span class="tableSpan">
                         <button class="tableSearch">搜索</button>
                         <button class="tableReload">重置</button>
                     </span>
@@ -27,6 +35,7 @@
                     <th>NO</th>
                     <th>枪口数量</th>
                     <th>在线状态</th>
+                    <th>绑定状态</th>
                     <th>电桩类型</th>
                     <th>场站信息</th>
                     <th>操作</th>
@@ -45,6 +54,7 @@
             {"data": "no"},
             {"data": "count"},
             {"data": "online"},
+            {"data": "bind"},
             {"data": "model"},
             {"data": "fieldInfo"},
             {

@@ -23,7 +23,10 @@ class PileController extends CommonController
      */
     public function actionList()
     {
-        return $this->render('list', ['online' => Constant::pileOnline()]);
+        return $this->render('list', [
+            'online' => Constant::pileOnline(),
+            'bind' => Constant::pileBind(),
+        ]);
     }
 
     /**

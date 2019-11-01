@@ -51,7 +51,10 @@ class EnIntention extends \yii\db\ActiveRecord
             if ($this->local->canInvestByNum($this->num)) {
                 $stock = EnStock::findOne(['type' => 4, 'field' => $this->field, 'key' => $this->user_id]);
                 if ($stock) {
+                    var_dump($stock->num);
                     $stock->num += $this->num;
+                    var_dump($stock->num);
+                    exit();
                 } else {
                     $stock = new EnStock();
                     $stock->no = Helper::createNo('S');

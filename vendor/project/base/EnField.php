@@ -341,9 +341,9 @@ class EnField extends \yii\db\ActiveRecord
      */
     public static function getMapData()
     {
-        $data = self::find()->where(['online' => 1]);
+        $data = self::find();
         if ($company_id = Yii::$app->user->identity->company_id) {
-            $data = $data->andWhere(['company_id' => $company_id]);
+            $data = $data->where(['company_id' => $company_id]);
         }
         $data = $data->select(['no', 'lat', 'lng', 'name', 'address'])->asArray()->all();
         foreach ($data as &$v) {
@@ -365,19 +365,16 @@ class EnField extends \yii\db\ActiveRecord
             ->leftJoin(EnPile::tableName() . ' p', 'p.`no`=o.pile')
             ->leftJoin(EnField::tableName() . ' f', 'f.`no`=p.field')
             ->where(['f.no' => $no]);
-        if ($company_id = Yii::$app->user->identity->company_id) {
-            $model = $model->andWhere(['f.company_id' => $company_id]);
-        }
         $month = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
         foreach ($month as &$v) {
-            $model0 = clone $model;
+            $model0 = $model;
             $v = $model0->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y') . $v])->count();
         }
-        $model1 = $model2 = $model3 = $model4 = clone $model;
+        $model1 = $model2 = $model3 = $model4 = $model;
         $data = [
             'allCharge' => round($model1->andWhere(['o.status' => [2, 3]])->sum('o.e'), 2),
             'allUse' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
-            'useCount' => $model3->andWhere(['o.status' => [2, 3]])->count(),
+            'useCount' => $model3->andWhere(['o.status' => [1, 2, 3]])->count(),
             'allCount' => $model4->count(),
             'chart' => implode(',', $month)
         ];

@@ -95,8 +95,8 @@
                         '            <div class="col-sm-3">\n' +
                         '                <div class="ibox">\n' +
                         '                    <div class="ibox-content">\n' +
-                        '                        <h5>累计订单</h5>\n' +
-                        '                        <h1 class="no-margins">' + re.data.useCount + '单</h1>\n' +
+                        '                        <h5>成功充电</h5>\n' +
+                        '                        <h1 class="no-margins">' + re.data.useCount + '次</h1>\n' +
                         '                    </div>\n' +
                         '                </div>\n' +
                         '            </div>\n' +

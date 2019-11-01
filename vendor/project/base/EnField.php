@@ -608,9 +608,9 @@ class EnField extends \yii\db\ActiveRecord
         if ($detail) {
             $detail['abridge'] = $detail['abridge'] ?: '平台场站';
             $detail['images'] = Helper::completionImg(\Yii::$app->cache->get('EnField-images-' . $detail['no']));
-            $detail['trait'] = \Yii::$app->cache->get('EnField-trait-' . $detail['no']) ?: '';
-            $detail['config'] = \Yii::$app->cache->get('EnField-config-' . $detail['no']) ?: '';
-            $detail['intro'] = \Yii::$app->cache->get('EnField-intro-' . $detail['no']) ?: '';
+            $detail['trait'] = Helper::handleStr(\Yii::$app->cache->get('EnField-trait-' . $detail['no']));
+            $detail['config'] = Helper::handleStr(\Yii::$app->cache->get('EnField-config-' . $detail['no']));
+            $detail['intro'] = Helper::handleStr(\Yii::$app->cache->get('EnField-intro-' . $detail['no']));
             $detail['all'] = $detail['univalence'] * 100;
             if (in_array($detail['status'], [1, 2, 4])) {
                 $detail['status'] = 4;

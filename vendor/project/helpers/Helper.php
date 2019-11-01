@@ -12,6 +12,22 @@ namespace vendor\project\helpers;
 class Helper
 {
     /**
+     * 处理特殊字符
+     * @param string $str
+     * @return mixed|string
+     */
+    public static function handleStr($str = '')
+    {
+        if ($str) {
+            $str = str_replace('\'', '&#39;', $str);
+            $str = str_replace('"', '&quot;', $str);
+            $str = str_replace("\r\n", '<br/>', $str);
+            return $str;
+        }
+        return '';
+    }
+
+    /**
      * 获取指定时间对应周所有日期
      * @param int $time
      * @return array

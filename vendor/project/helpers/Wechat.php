@@ -155,9 +155,10 @@ class Wechat
      * @param string $order
      * @param int $money
      * @param string $backUrl
-     * @return array|bool|mixed
+     * @param string $redirect
+     * @return bool|string
      */
-    public static function h5Pay($body = '', $order = '', $money = 0, $backUrl = '')
+    public static function h5Pay($body = '', $order = '', $money = 0, $backUrl = '', $redirect = '')
     {
 
         $params = [
@@ -174,7 +175,7 @@ class Wechat
         ];
         $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            return $data;
+            return $data['mweb_url'] . '&redirect_url=' . Helper::spliceUrl($redirect);
         }
         return false;
     }

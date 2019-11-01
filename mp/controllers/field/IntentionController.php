@@ -44,6 +44,7 @@ class IntentionController extends AuthController
             if ($field->canInvestByNum($num)) {
                 $model = new EnIntention();
                 $model->no = Helper::createNo('I');
+                $model->pno = Helper::createNo('P');
                 $model->field = $no;
                 $model->user_id = \Yii::$app->user->id;
                 $model->num = $num;
@@ -72,7 +73,7 @@ class IntentionController extends AuthController
             $msg = '该场站已完成融资';
             if ($model->local->status == 3) {
                 $msg = '拉取支付信息失败';
-                $model->no = Helper::createNo('I');
+                $model->pno = Helper::createNo('P');
                 if ($model->save()) {
                     if ($params = $model->getPayDataByMp()) {
                         return $this->render('pay.html', ['jsParams' => $params, 'amount' => $model->amount]);

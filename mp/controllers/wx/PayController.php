@@ -49,7 +49,7 @@ class PayController extends Controller
     {
         $data = $this->getXml();
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            if ($model = EnIntention::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
+            if ($model = EnIntention::findOne(['pno' => $data['out_trade_no'], 'status' => 0])) {
                 $model->status = 1;
                 if ($model->save()) {
                     return $this->rXml(['return_code' => 'SUCCESS', 'return_msg' => 'OK']);

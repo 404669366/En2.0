@@ -26,7 +26,7 @@ class PayController extends BasisController
         $data = $this->getXml();
         $msg = '系统错误';
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            if ($model = EnIntention::findOne(['no' => $data['out_trade_no'], 'status' => 0])) {
+            if ($model = EnIntention::findOne(['pno' => $data['out_trade_no'], 'status' => 0])) {
                 $model->status = 1;
                 if ($model->save()) {
                     Helper::curlPost(

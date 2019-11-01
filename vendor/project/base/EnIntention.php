@@ -11,6 +11,7 @@ use Yii;
  * This is the model class for table "en_intention".
  *
  * @property string $no 意向编号
+ * @property string $pno 支付编号
  * @property string $field 场站编号
  * @property string $user_id 用户ID
  * @property string $num 股权数量
@@ -35,11 +36,11 @@ class EnIntention extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no'], 'required'],
-            [['no'], 'unique'],
+            [['no', 'pno'], 'required'],
+            [['no', 'pno'], 'unique'],
             [['user_id', 'num', 'status', 'created_at'], 'integer'],
             [['status'], 'validateStatus'],
-            [['no', 'field'], 'string', 'max' => 32],
+            [['no', 'pno', 'field'], 'string', 'max' => 32],
             [['amount'], 'number'],
             [['remark'], 'string', 'max' => 255],
         ];
@@ -86,6 +87,7 @@ class EnIntention extends \yii\db\ActiveRecord
     {
         return [
             'no' => '意向编号',
+            'pno' => '支付编号',
             'field' => '场站编号',
             'user_id' => '用户ID',
             'num' => '股权数量',
@@ -169,14 +171,7 @@ class EnIntention extends \yii\db\ActiveRecord
      */
     public function getPayDataByPc()
     {
-        if ($url = \Yii::$app->cache->get('EnIntention-url-' . $this->no)) {
-            return $url;
-        }
-        if ($data = Wechat::nativePay('亿能建站-股权买入', $this->no, $this->amount, '/wx/pay/back.html')) {
-            Yii::$app->cache->set('EnIntention-url-' . $this->no, $data['code_url'], 60 * 60 * 2);
-            return $data['code_url'];
-        }
-        return '';
+        return Wechat::nativePay('亿能建站-股权买入', $this->pno, $this->amount, '/wx/pay/back.html');
     }
 
     /**
@@ -185,7 +180,7 @@ class EnIntention extends \yii\db\ActiveRecord
      */
     public function getPayDataByMp()
     {
-        return Wechat::jsPay('亿能建站-股权买入', $this->no, $this->amount, '/wx/pay/back.html');
+        return Wechat::jsPay('亿能建站-股权买入', $this->pno, $this->amount, '/wx/pay/back.html');
     }
 
     /**

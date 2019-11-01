@@ -144,7 +144,7 @@ class Wechat
         ];
         $data = Helper::curlXml('https://api.mch.weixin.qq.com/pay/unifiedorder', self::addSign($params, self::MCH_SECRET));
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
-            return $data;
+            return $data['code_url'];
         }
         return false;
     }

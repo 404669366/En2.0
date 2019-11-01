@@ -67,20 +67,22 @@ class IntentionController extends AuthController
      */
     public function actionPay($no = '')
     {
-        Msg::set('错误操作');
+        $msg = '错误操作';
         if ($model = EnIntention::findOne(['status' => 0, 'no' => $no])) {
-            Msg::set('该场站已完成融资');
+            $msg = '该场站已完成融资';
             if ($model->local->status == 3) {
-                Msg::set('拉取支付信息失败');
-                if ($url = $model->getPayDataByPc()) {
-                    Msg::set('');
-                    return $this->render('pay.html', [
-                        'no' => $model->no,
-                        'url' => $url
-                    ]);
+                $msg = '拉取支付信息失败';
+                $model->pno = Helper::createNo('P');
+                if ($model->save()) {
+                    if ($url = $model->getPayDataByPc()) {
+                        return $this->render('pay.html', [
+                            'no' => $model->no,
+                            'url' => $url
+                        ]);
+                    }
                 }
             }
         }
-        return $this->goBack();
+        return $this->goBack($msg);
     }
 }

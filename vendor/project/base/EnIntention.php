@@ -103,8 +103,44 @@ class EnIntention extends \yii\db\ActiveRecord
         return $this->hasOne(EnField::class, ['no' => 'field']);
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(EnUser::class, ['id' => 'user_id']);
+    }
+
     /**
-     * 获取购页数据
+     * 分页数据
+     * @param bool $need
+     * @return $this|mixed
+     */
+    public static function getPageData($need = true)
+    {
+        $data = self::find()->alias('i')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.user_id')
+            ->select(['i.*', 'u.tel', 'f.name', 'f.status as fStatus']);
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $data->andWhere(['f.company_id' => $company_id]);
+        }
+        if ($need && Yii::$app->user->identity->job_id) {
+            $data->andWhere(['f.commissioner_id' => Yii::$app->user->id]);
+        }
+        $data = $data->page([
+            'keywords' => ['like', 'i.no', 'i.field', 'f.name', 'u.tel'],
+            'status' => ['=', 'i.status'],
+            'fStatus' => ['=', 'f.fStatus'],
+        ]);
+        foreach ($data['data'] as &$v) {
+            $v['fieldInfo'] = '场站编号:' . $v['field'] . '<br>场站名称:' . $v['name'] . '<br>场站状态:' . Constant::fieldStatus()[$v['fStatus']];
+            $v['stock'] = EnStock::getStockByFieldToStr($v['field']);
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['statusName'] = Constant::intentionStatus()[$v['status']];
+        }
+        return $data;
+    }
+
+    /**
+     * 获取购买页数据
      * @param string $no
      * @return array
      */

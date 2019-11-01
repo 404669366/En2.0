@@ -42,6 +42,7 @@
                     <th>意向金额</th>
                     <th>意向状态</th>
                     <th>创建时间</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
             </table>
@@ -62,6 +63,14 @@
             {"data": "amount"},
             {"data": "status"},
             {"data": "created_at"},
+            {
+                "data": "no", "orderable": false, "render": function (data, type, row) {
+                if (row.status == 2) {
+                    return '<a class="btn btn-sm btn-warning" href="/examine/intention/info?no=' + data + '">审核</a>';
+                }
+                return '';
+            }
+            },
         ],
         default_order: [6, 'desc']
     });

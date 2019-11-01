@@ -369,15 +369,12 @@ class EnField extends \yii\db\ActiveRecord
             $model0 = clone $model;
             $v = $model0->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y') . $v])->count();
         }
-        $model1 = clone $model;
-        $model2 = clone $model;
-        $model3 = clone $model;
-        $model4 = clone $model;
+        $model1 = $model2 = $model3 = $model4 = clone $model;
         $data = [
             'allCharge' => round($model1->andWhere(['o.status' => [2, 3]])->sum('o.e'), 2),
             'allUse' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
             'useCount' => $model3->andWhere(['o.status' => [2, 3]])->count(),
-            'allCount' => $model4->count(),
+            'allCount' => $model4->andWhere(['o.status' => [2, 3, 4]])->count(),
             'chart' => implode(',', $month)
         ];
         return $data;

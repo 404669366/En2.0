@@ -10,29 +10,29 @@ namespace app\controllers\field;
 
 
 use app\controllers\basis\CommonController;
-use vendor\project\base\EnField;
 use vendor\project\base\EnIntention;
-use vendor\project\base\EnMember;
-use vendor\project\helpers\Helper;
-use vendor\project\helpers\Msg;
+use vendor\project\helpers\Constant;
 
 class IntentionController extends CommonController
 {
     /**
-     * 列表页
+     * 意向列表页
      * @return string
      */
     public function actionList()
     {
-        return $this->render('list', ['count' => 0]);
+        return $this->render('list', [
+            'status' => Constant::intentionStatus(),
+            'fStatus' => Constant::fieldStatus(),
+        ]);
     }
 
     /**
-     * 列表数据
+     * 意向列表数据
      * @return string
      */
     public function actionData()
     {
-        return $this->rTableData(['data' => [], 'total' => 0]);
+        return $this->rTableData(EnIntention::getPageData());
     }
 }

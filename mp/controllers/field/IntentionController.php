@@ -75,7 +75,7 @@ class IntentionController extends AuthController
                 $model->no = Helper::createNo('I');
                 if ($model->save()) {
                     if ($params = $model->getPayDataByMp()) {
-                        return $this->render('pay.html', ['jsParams' => $params]);
+                        return $this->render('pay.html', ['jsParams' => $params, 'amount' => $model->amount]);
                     }
                 }
             }

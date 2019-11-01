@@ -9,16 +9,57 @@
     <script type="text/javascript" src="/js/common.js"></script>
     <script src="/js/modal.js" type="text/javascript" charset='utf-8'></script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        body {
+            height: 100%;
+        }
+
+        .sure {
+            margin-top: 1.5rem;
+            height: calc(100% - 1.5rem);
+            display: table;
+        }
+
+        .sure > span {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .price {
+            color: #fa5741;
+            height: 0.8rem;
+            line-height: 0.8rem;
+            font-size: 0.4rem;
+        }
+
+        .btn {
+            width: 2.4rem;
+            height: 0.84rem;
+            line-height: 0.84rem;
+            text-align: center;
+            border-radius: 0.1rem;
+            background: #3072F6;
+            font-size: 0.36rem;
+            color: white;
+        }
+    </style>
 </head>
-<body>
+<body style="height: 100%">
 <div class="header">
     <i class="fa fa-angle-left fl back" aria-hidden="true"></i>
     <img class="fl back" src="/img/logo.png"/>
     <i class="fa fa-user-o fr" data-url="/user/user/center.html" aria-hidden="true"></i>
 </div>
-<div class="cl"></div>
+<div class="sure">
+    <span>
+        <h3 class="price"></h3>
+        <button type="button" class="btn">确认支付</button>
+    </span>
+</div>
 <script>
-    $('.cl').click(function () {
+    $('.price').text(global.amount);
+    $('.btn').click(function () {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
             global.jsParams,
@@ -38,7 +79,7 @@
                 });
             }
         );
-    }).click();
+    });
 </script>
 </body>
 </html>

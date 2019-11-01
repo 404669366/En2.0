@@ -36,7 +36,7 @@ class FieldController extends CommonController
      */
     public function actionData()
     {
-        return $this->rTableData(EnField::getPageData(4));
+        return $this->rTableData(EnField::getPageData(4, false));
     }
 
     /**

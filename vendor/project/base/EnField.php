@@ -269,9 +269,10 @@ class EnField extends \yii\db\ActiveRecord
     /**
      * 分页数据
      * @param array $status
+     * @param bool $need
      * @return $this|mixed
      */
-    public static function getPageData($status = [])
+    public static function getPageData($status = [], $need = true)
     {
         $data = self::find()->alias('f')
             ->leftJoin(EnCompany::tableName() . ' c', 'c.id=f.company_id')
@@ -283,7 +284,7 @@ class EnField extends \yii\db\ActiveRecord
         if ($company_id = Yii::$app->user->identity->company_id) {
             $data->andWhere(['f.company_id' => $company_id]);
         }
-        if (Yii::$app->user->identity->job_id) {
+        if ($need && Yii::$app->user->identity->job_id) {
             $data->andWhere(['f.commissioner_id' => Yii::$app->user->id]);
         }
         $data = $data->select(['f.*', 'c.name as cName', 'm.tel as cTel', 'u.tel as uTel'])->page([

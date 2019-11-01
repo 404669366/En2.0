@@ -111,7 +111,7 @@ class EnOrder extends \yii\db\ActiveRecord
     {
         $orders = self::find()->alias('o')
             ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-            ->leftJoin(EnField::tableName() . ' f', 'f.id=p.field_id')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=p.field')
             ->where(['o.uid' => Yii::$app->user->id])
             ->select(['o.*', 'f.name'])
             ->orderBy('o.created_at desc')

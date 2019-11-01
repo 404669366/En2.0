@@ -46,13 +46,4 @@ class FinanceController extends CommonController
     {
         return $this->rJson(EnOrder::reportData($year));
     }
-
-    /**
-     * 对账管理
-     * @return string
-     */
-    public function actionReply()
-    {
-        return $this->render('reply', ['status' => []]);
-    }
 }

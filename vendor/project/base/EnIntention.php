@@ -71,7 +71,7 @@ class EnIntention extends \yii\db\ActiveRecord
         if ($this->status == 3) {
             $stock = EnStock::findOne(['type' => 4, 'field' => $this->field, 'key' => $this->user_id]);
             $stock->num -= $this->num;
-            if ($stock->num == 0) {
+            if ($stock->num <= 0) {
                 $stock->delete();
             } else {
                 if (!$stock->save()) {

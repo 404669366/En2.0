@@ -61,9 +61,8 @@ class EnIncome extends \yii\db\ActiveRecord
     public static function count($field = '', $order = '', $money = '')
     {
         $stock = EnStock::find()->alias('s')
-            ->leftJoin(EnField::tableName() . ' f', 'f.no=s.field')
             ->where(['s.field' => $field])
-            ->select(['s.type', 's.key', 's.num', 'f.company_id'])
+            ->select(['s.type', 's.key', 's.num'])
             ->asArray()->all();
         foreach ($stock as &$v) {
             $v = [
@@ -89,7 +88,7 @@ class EnIncome extends \yii\db\ActiveRecord
             ->leftJoin(EnField::tableName() . ' f', 'f.no=p.field')
             ->where(['type' => [3, 4], 'key' => Yii::$app->user->id])
             ->select(['i.*', 'o.sm', 'o.e', 'o.pile', 'f.name'])
-            ->orderBy(['i.created_at' => 'desc'])
+            ->orderBy('i.created_at desc')
             ->asArray()->all();
         foreach ($data as &$v) {
             $v['typeName'] = Constant::IncomeType()[$v['type']];

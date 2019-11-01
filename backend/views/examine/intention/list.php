@@ -52,7 +52,7 @@
 <script>
     myTable.load({
         table: '#table',
-        url: '/field/intention/data',
+        url: '/examine/intention/data',
         length: 10,
         columns: [
             {"data": "no"},

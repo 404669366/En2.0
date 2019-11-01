@@ -15,6 +15,8 @@ use vendor\project\helpers\Helper;
 
 class PayController extends BasisController
 {
+    public $enableCsrfValidation = false;
+
     /**
      * 支付回调
      * @return string

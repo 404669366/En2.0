@@ -62,7 +62,7 @@ class EnIntention extends \yii\db\ActiveRecord
                     $stock->num = $this->num;
                 }
                 if (!$stock->save()) {
-                    $this->addError('status', '股权同步失败');
+                    $this->addError('status', $stock->errors());
                 }
             } else {
                 $this->addError('status', '该场站已完成融资');

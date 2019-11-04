@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">枪口数量 :</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control num" placeholder="请填写枪口数量" value="">
+                            <input type="number" class="form-control num" placeholder="请填写枪口数量" value="0">
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
             window.showMsg('请填写电桩编号');
             return false;
         }
-        if (!num) {
+        if (num > 0) {
             window.showMsg('请填写枪口数量');
             return false;
         }

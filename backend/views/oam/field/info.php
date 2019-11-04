@@ -95,7 +95,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">电桩类型</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="<?= $models[$model->model_id] ?>" readonly>
+                            <input type="text" class="form-control" placeholder="<?= $models[$model->model_id] ?>"
+                                   readonly>
                         </div>
                     </div>
                 </div>
@@ -120,7 +121,7 @@
                                 &emsp;
                                 <button type="submit" class="btn btn-success save">保存</button>
                                 &emsp;
-                                <a class="btn btn-white" href="/oam/field/pile?no=<?=$model->field?>">返回</a>
+                                <a class="btn btn-white" href="/oam/field/pile?no=<?= $model->field ?>">返回</a>
                                 &emsp;
                                 <button type="button" class="btn btn-info" onclick="location.reload()">刷新</button>
                             </div>
@@ -153,6 +154,9 @@
     socket.onopen = function () {
         var no = $('.no').val();
         socket.send(JSON.stringify({do: 'seePile', pile: no}));
+        setInterval(function () {
+            socket.send(JSON.stringify({do: 'seePile', pile: no}));
+        }, 5000);
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             if (data.code === 600) {

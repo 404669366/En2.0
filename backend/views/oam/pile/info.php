@@ -1,4 +1,3 @@
-<?php $this->registerJsFile('/js/qrCode.js', ['depends' => 'app\assets\ModelAsset']); ?>
 <?php $this->registerJsFile('@web/js/modal.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <style>
     .gunBox > div {
@@ -40,14 +39,6 @@
         text-align: center;
         border-color: silver;
         margin-bottom: 1rem;
-    }
-
-    .qrCode > canvas {
-        margin: 10px auto;
-        display: table-cell;
-        vertical-align: middle;
-        width: 60px;
-        height: 62px;
     }
 
 </style>
@@ -158,14 +149,16 @@
     socket.onopen = function () {
         var no = $('.no').val();
         socket.send(JSON.stringify({do: 'seePile', pile: no}));
+        setInterval(function () {
+            socket.send(JSON.stringify({do: 'seePile', pile: no}));
+        }, 5000);
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             if (data.code === 600) {
                 $('.gunTable').html('<tr><td>枪口编码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
                 $.each(data.data.status || [], function (k, v) {
                     var str = '<tr>';
-                    str += '<td class="qrCode" id="qrCode' + k + '" title="鼠标右键保存图片">';
-                    str += '</td>';
+                    str += '<td>' + no + '-' + k + '</td>';
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     if (v.workStatus === 2 && v.linkStatus) {
@@ -175,16 +168,6 @@
                     }
                     str += '</tr>';
                     $('.gunTable').append(str);
-                    $('#qrCode' + k).qrcode({
-                        width: 320,
-                        height: 320,
-                        text: 'http://c.en.ink/c/c/c.html?n=' + no + '-' + k,
-                        src: '/img/logo.jpg',
-                        imgWidth: 80,
-                        imgHeight: 80,
-                        content: 'NO: ' + no + '-' + k,
-                        contentSize: 18
-                    });
                 });
             } else {
                 window.showMsg(code[data.code]);

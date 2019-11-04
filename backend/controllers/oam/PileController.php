@@ -62,4 +62,13 @@ class PileController extends CommonController
             'link' => json_encode(Constant::linkStatus()),
         ]);
     }
+
+    /**
+     * 制作二维码
+     * @return string
+     */
+    public function actionQrcode()
+    {
+        return $this->render('qrcode');
+    }
 }

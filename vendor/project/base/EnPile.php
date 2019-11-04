@@ -105,44 +105,6 @@ class EnPile extends \yii\db\ActiveRecord
     }
 
     /**
-     * 创建充电信息
-     * @param string $no
-     * @return array|bool
-     */
-    public static function chargeInfo($no = '')
-    {
-        if (EnUser::getMoney() > 5) {
-            $no = explode('-', $no);
-            if (count($no) == 2) {
-                if ($pile = self::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
-                    $order = new EnOrder();
-                    $order->no = Helper::createNo('O');
-                    $order->pile = $no[0];
-                    $order->gun = $no[1];
-                    $order->uid = Yii::$app->user->id;
-                    $order->status = 0;
-                    $order->created_at = time();
-                    if ($order->save()) {
-                        return [
-                            'do' => 'beginCharge',
-                            'orderNo' => $order->no,
-                            'pile' => $no[0],
-                            'gun' => $no[1],
-                            'fieldName' => $pile->local->name,
-                        ];
-                    }
-                    Msg::set('创建订单失败,请稍后再试');
-                    return false;
-                }
-            }
-            Msg::set('编码输入有误,请检查');
-            return false;
-        }
-        Msg::set('您的余额不足,请前往充值');
-        return false;
-    }
-
-    /**
      * 查询电桩归属桩信息
      * @param string $no
      * @return array

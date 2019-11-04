@@ -12,7 +12,9 @@ namespace app\controllers\c;
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnOrder;
 use vendor\project\base\EnPile;
+use vendor\project\base\EnUser;
 use vendor\project\helpers\Constant;
+use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 use vendor\project\helpers\Wechat;
 
@@ -65,12 +67,36 @@ class CController extends AuthController
      */
     public function actionC($n = '')
     {
-        if ($info = EnPile::chargeInfo($n)) {
-            return $this->render('charge.html', [
-                'info' => $info,
-                'code' => Constant::serverCode(),
-            ]);
+        if (EnUser::getMoney() > 5) {
+            $no = explode('-', $n);
+            if (count($no) == 2) {
+                if ($pile = EnPile::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
+                    $order = new EnOrder();
+                    $order->no = Helper::createNo('O');
+                    $order->pile = $no[0];
+                    $order->gun = $no[1];
+                    $order->uid = \Yii::$app->user->id;
+                    $order->status = 0;
+                    $order->created_at = time();
+                    if ($order->save()) {
+                        return $this->render('charge.html', [
+                            'info' => [
+                                'do' => 'beginCharge',
+                                'orderNo' => $order->no,
+                                'pile' => $order->pile,
+                                'gun' => $order->gun,
+                                'fieldName' => $pile->local->name
+                            ],
+                            'code' => Constant::serverCode(),
+                        ]);
+                    }
+                    return $this->goBack('创建订单失败,请稍后再试');
+                }
+            }
+            return $this->goBack('编码有误,请检查');
         }
-        return $this->redirect(['user/user/center']);
+        Msg::set('余额不足,请先充值');
+        return $this->redirect(['order/invest/invest']);
+
     }
 }

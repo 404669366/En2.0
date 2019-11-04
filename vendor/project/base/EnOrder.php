@@ -68,6 +68,11 @@ class EnOrder extends \yii\db\ActiveRecord
 
     public function validateStatus()
     {
+        if ($this->status == 0) {
+            if (self::findOne(['pile' => $this->pile, 'gun' => $this->gun, 'status' => [0, 1]])) {
+                $this->addError('status', '枪口已占用,请稍后再试');
+            }
+        }
         if ($this->status == 3) {
             EnIncome::count($this->pileInfo->local->no, $this->no, $this->sm);
         }

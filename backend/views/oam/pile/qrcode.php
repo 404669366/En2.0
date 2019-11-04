@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">枪口数量 :</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control num" placeholder="请填写枪口数量" value="0">
+                            <input type="number" class="form-control num" placeholder="请填写枪口数量" value="0" min="0">
                         </div>
                     </div>
                 </div>

@@ -59,7 +59,7 @@
             window.showMsg('请填写电桩编号');
             return false;
         }
-        if (num > 0) {
+        if (num <= 0) {
             window.showMsg('请填写枪口数量');
             return false;
         }

@@ -20,26 +20,28 @@ use vendor\project\helpers\Wechat;
 
 class CController extends AuthController
 {
-    public function beforeAction($action)
-    {
-        $re = parent::beforeAction($action);
-        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1, 2]])) {
-            if ($order['status'] == 2) {
-                Msg::set('您有订单需要支付');
-                return $this->redirect(['order/charge/pay', 'no' => $order['no']])->send();
-            }
-            Msg::set('您有订单正在进行');
-            return $this->redirect(['see', 'pile' => $order->pile, 'gun' => $order->gun, 'name' => $order->pileInfo->local->name])->send();
-        }
-        return $re;
-    }
-
     /**
      * 扫码页
      * @return string
      */
     public function actionScan()
     {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1, 2]])) {
+            if ($order['status'] == 2) {
+                Msg::set('您有订单需要支付');
+                return $this->redirect(['order/charge/pay', 'no' => $order['no']])->send();
+            }
+            Msg::set('您有订单正在进行');
+            return $this->render('charge.html', [
+                'info' => [
+                    'do' => 'seeCharge',
+                    'pile' => $order->pile,
+                    'gun' => $order->gun,
+                    'fieldName' => $order->pileInfo->local->name,
+                ],
+                'code' => Constant::serverCode(),
+            ]);
+        }
         return $this->render('scan.html', Wechat::getJsApiParams());
     }
 
@@ -49,27 +51,23 @@ class CController extends AuthController
      */
     public function actionHand()
     {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1, 2]])) {
+            if ($order['status'] == 2) {
+                Msg::set('您有订单需要支付');
+                return $this->redirect(['order/charge/pay', 'no' => $order['no']])->send();
+            }
+            Msg::set('您有订单正在进行');
+            return $this->render('charge.html', [
+                'info' => [
+                    'do' => 'seeCharge',
+                    'pile' => $order->pile,
+                    'gun' => $order->gun,
+                    'fieldName' => $order->pileInfo->local->name,
+                ],
+                'code' => Constant::serverCode(),
+            ]);
+        }
         return $this->render('hand.html');
-    }
-
-    /**
-     * 查看充电
-     * @param $pile
-     * @param $gun
-     * @param $name
-     * @return string
-     */
-    public function actionSee($pile, $gun, $name)
-    {
-        return $this->render('charge.html', [
-            'info' => [
-                'do' => 'seeCharge',
-                'pile' => $pile,
-                'gun' => $gun,
-                'fieldName' => $name,
-            ],
-            'code' => Constant::serverCode(),
-        ]);
     }
 
     /**
@@ -79,6 +77,22 @@ class CController extends AuthController
      */
     public function actionC($n = '')
     {
+        if ($order = EnOrder::findOne(['uid' => \Yii::$app->user->id, 'status' => [0, 1, 2]])) {
+            if ($order['status'] == 2) {
+                Msg::set('您有订单需要支付');
+                return $this->redirect(['order/charge/pay', 'no' => $order['no']])->send();
+            }
+            Msg::set('您有订单正在进行');
+            return $this->render('charge.html', [
+                'info' => [
+                    'do' => 'seeCharge',
+                    'pile' => $order->pile,
+                    'gun' => $order->gun,
+                    'fieldName' => $order->pileInfo->local->name,
+                ],
+                'code' => Constant::serverCode(),
+            ]);
+        }
         if (EnUser::getMoney() > 5) {
             $no = explode('-', $n);
             if (count($no) == 2) {
@@ -102,12 +116,13 @@ class CController extends AuthController
                             'code' => Constant::serverCode(),
                         ]);
                     }
-                    return $this->goBack($order->errors());
+                    return $this->goBack('创建订单失败,请稍后再试');
                 }
             }
             return $this->goBack('编码有误,请检查');
         }
         Msg::set('余额不足,请先充值');
         return $this->redirect(['order/invest/invest']);
+
     }
 }

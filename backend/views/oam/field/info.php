@@ -147,7 +147,7 @@
         socket.send(JSON.stringify({do: 'seePile', pile: no}));
         setInterval(function () {
             socket.send(JSON.stringify({do: 'seePile', pile: no}));
-        }, 5000);
+        }, 2000);
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             if (data.code === 600) {

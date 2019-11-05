@@ -167,6 +167,9 @@
                                 lat.val(event.latLng.getLat());
                                 lng.val(event.latLng.getLng());
                             });
+                        },
+                        error: function (evt) {
+                            window.showMsg('获取当前定位失败');
                         }
                     });
                     local.searchLocalCity();

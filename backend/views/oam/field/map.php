@@ -44,7 +44,7 @@
 
             var map = new qq.maps.Map(document.getElementById("map"), {
                 center: result.detail.latLng,
-                zoom: 9
+                zoom: 7
             });
 
             var cluster = new qq.maps.MarkerCluster({map: map, markers: makeMarkers(JSON.parse(`<?=$data?>`))});
@@ -129,5 +129,5 @@
             window.showMsg('获取当前定位失败');
         }
     });
-    local.searchLocalCity();
+    local.searchCityByName('四川');
 </script>

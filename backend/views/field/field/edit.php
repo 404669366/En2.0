@@ -172,7 +172,7 @@
                             window.showMsg('获取当前定位失败');
                         }
                     });
-                    local.searchLocalCity();
+                    local.searchCityByName('四川');
                 </script>
             </div>
             <div class="hr-line-dashed"></div>

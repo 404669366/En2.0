@@ -29,15 +29,7 @@ class CController extends AuthController
                 return $this->redirect(['order/charge/pay', 'no' => $order['no']])->send();
             }
             Msg::set('您有订单正在进行');
-            return $this->render('charge.html', [
-                'info' => [
-                    'do' => 'seeCharge',
-                    'pile' => $order->pile,
-                    'gun' => $order->gun,
-                    'fieldName' => $order->pileInfo->local->name,
-                ],
-                'code' => Constant::serverCode(),
-            ]);
+            return $this->redirect(['see', 'pile' => $order->pile, 'gun' => $order->gun, 'name' => $order->pileInfo->local->name])->send();
         }
         return $re;
     }
@@ -58,6 +50,26 @@ class CController extends AuthController
     public function actionHand()
     {
         return $this->render('hand.html');
+    }
+
+    /**
+     * 查看充电
+     * @param $pile
+     * @param $gun
+     * @param $name
+     * @return string
+     */
+    public function actionSee($pile, $gun, $name)
+    {
+        return $this->render('charge.html', [
+            'info' => [
+                'do' => 'seeCharge',
+                'pile' => $pile,
+                'gun' => $gun,
+                'fieldName' => $name,
+            ],
+            'code' => Constant::serverCode(),
+        ]);
     }
 
     /**
@@ -97,6 +109,5 @@ class CController extends AuthController
         }
         Msg::set('余额不足,请先充值');
         return $this->redirect(['order/invest/invest']);
-
     }
 }

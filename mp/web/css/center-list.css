@@ -12,6 +12,15 @@
     box-sizing: border-box;
 }
 
+.list > .none {
+    height: 1.4rem;
+    line-height: 1.4rem;
+    text-align: center;
+    font-size: 0.4rem;
+    color: #909090;
+    padding: 0;
+}
+
 .field-list > div > img {
     float: left;
     width: 3.2rem;

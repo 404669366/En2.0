@@ -1,0 +1,93 @@
+.problem {
+    width: 9.5rem;
+    margin: 1.5rem auto 0 auto;
+}
+
+.problem > li {
+    font-size: 0.4rem;
+    font-family: "微软雅黑 Light";
+    margin-top: 0.4rem;
+}
+
+.problem > li:last-child {
+    margin-bottom: 0.5rem;
+}
+
+.problem > li > h3 {
+    line-height: 1rem;
+    text-align: center;
+}
+
+.problem > li > .q {
+    margin-bottom: 0.4rem;
+}
+
+.problem > li > .q > .head {
+    float: left;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    background: #00A8EC;
+    border-radius: 0.5rem;
+    color: #FFFFFF;
+}
+
+.problem > li > .q > .msg {
+    float: right;
+    display: inline-block;
+    width: 7rem;
+    padding: 0.15rem;
+    line-height: 0.7rem;
+    background: #00A8EC;
+    position: relative;
+    color: #FFFFFF;
+    margin-right: 0.6rem;
+}
+
+.problem > li > .q > .msg:after {
+    position: absolute;
+    left: -0.5rem;
+    top: 0;
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 0.5rem solid #00A8EC;
+    border-left: 0.5rem solid transparent;
+}
+
+.problem > li > .a > .head {
+    float: right;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    background: #F5F5F5;
+    border-radius: 0.5rem;
+}
+
+.problem > li > .a > .msg {
+    float: left;
+    display: inline-block;
+    width: 7rem;
+    padding: 0.15rem;
+    line-height: 0.7rem;
+    background: #F5F5F5;
+    position: relative;
+    margin-left: 0.6rem;
+}
+
+.problem > li > .a > .msg:after {
+    position: absolute;
+    right: -0.5rem;
+    top: 0;
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 0.5rem solid #F5F5F5;
+    border-right: 0.5rem solid transparent;
+}

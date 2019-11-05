@@ -18,6 +18,7 @@
     <i class="fa fa-home fr" data-url="/index/index/index.html" aria-hidden="true"></i>
 </div>
 <div class="userInfo" id="user"></div>
+<script>window.html('user', 'userTpl', global.user);</script>
 <div class="menuList">
     <div class="menu" data-url="/user/field/create.html">
         <i class="fa fa-pencil-square fl" aria-hidden="true" style="color:#F7B086;"></i>
@@ -49,18 +50,12 @@
         <div class="name">我的提现</div>
         <i class="fa fa-angle-right fr" aria-hidden="true"></i>
     </div>
-    <div class="menu service">
-        <i class="fa fa-volume-control-phone fl" aria-hidden="true" style="color: #4371FB;"></i>
-        <div class="name">客服电话</div>
+    <div class="menu" data-url="/problem/problem/problem.html">
+        <i class="fa fa-question-circle fl" aria-hidden="true" style="color: #4371FB;"></i>
+        <div class="name">常见问题</div>
         <i class="fa fa-angle-right fr" aria-hidden="true"></i>
     </div>
 </div>
 <div class="logout" data-url="/user/login/logout.html">退出登录</div>
-<script>
-    window.html('user', 'userTpl', global.user);
-    $('.service').click(function () {
-        window.location.href = 'tel:' + global.serviceTel;
-    });
-</script>
 </body>
 </html>

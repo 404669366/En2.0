@@ -9,10 +9,10 @@
 namespace app\controllers\problem;
 
 
-use app\controllers\basis\BasisController;
+use app\controllers\basis\AuthController;
 use vendor\project\helpers\Constant;
 
-class ProblemController extends BasisController
+class ProblemController extends AuthController
 {
     /**
      * 常见问题

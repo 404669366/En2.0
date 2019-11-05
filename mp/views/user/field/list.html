@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/center-list.css">
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/x-dot-template" id="listTpl">
+        {{?it.length}}
         {{~it:v}}
         <div class="clear">
             <img src="{{=v.images}}" alt="{{=v.title}}">
@@ -24,6 +25,9 @@
             </div>
         </div>
         {{~}}
+        {{??}}
+        <div class="none">未查询到您的信息</div>
+        {{?}}
     </script>
 </head>
 <body>

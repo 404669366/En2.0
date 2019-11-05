@@ -90,7 +90,7 @@ class CController extends AuthController
                             'code' => Constant::serverCode(),
                         ]);
                     }
-                    return $this->goBack('创建订单失败,请稍后再试');
+                    return $this->goBack($order->errors());
                 }
             }
             return $this->goBack('编码有误,请检查');

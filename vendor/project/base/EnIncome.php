@@ -53,6 +53,32 @@ class EnIncome extends \yii\db\ActiveRecord
     }
 
     /**
+     * 分页数据
+     * @return $this|mixed
+     */
+    public static function getPageData()
+    {
+        $data = self::find()->alias('i')
+            ->leftJoin(EnOrder::tableName() . ' o', 'o.no=i.order')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=p.field');
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $data->where(['i.type' => 2, 'i.key' => $company_id]);
+        } else {
+            $data->where(['i.type' => 1]);
+        }
+        $data = $data->select(['i.*', 'o.e', 'o.sm', 'o.pile', 'p.field'])->page([
+            'keywords' => ['like', 'i.order', 'o.pile', 'p.field', 'f.name']
+        ]);
+        foreach ($data['data'] as &$v) {
+            $v['info1'] = '充电电量:' . $v['2'] . 'kwh<br>服务电费:' . $v['sm'];
+            $v['info2'] = '电站编号:' . $v['field'] . '<br>电桩编号:' . $v['pile'];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+        }
+        return $data;
+    }
+
+    /**
      * 计算分成
      * @param string $field
      * @param string $order
@@ -172,5 +198,55 @@ class EnIncome extends \yii\db\ActiveRecord
             $v = $model->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v])->sum('money') ?: 0;
         }
         return $month;
+    }
+
+    /**
+     * 报表数据
+     * @return array
+     */
+    public static function reportInfo()
+    {
+        $model = self::find();
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $model->where(['type' => 2, 'key' => $company_id]);
+        } else {
+            $model->where(['type' => 1]);
+        }
+        $model0 = clone $model;
+        $model1 = clone $model;
+        $model2 = clone $model;
+        $model3 = clone $model;
+        $model4 = clone $model;
+        $minYear = $model0->min("FROM_UNIXTIME(created_at,'%Y')") ?: date('Y');
+        $data = [
+            'allIncome' => round($model1->sum('money'), 2),
+            'yearIncome' => round($model2->andWhere(["FROM_UNIXTIME(created_at,'%Y')" => date('Y')])->sum('money'), 2),
+            'monthIncome' => round($model3->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m')])->sum('money'), 2),
+            'dayIncome' => round($model4->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d')])->sum('money'), 2),
+            'years' => array_reverse(range($minYear, date('Y'))),
+        ];
+        return $data;
+    }
+
+    /**
+     * 报表数据
+     * @param string $year
+     * @return array
+     */
+    public static function reportData($year = '')
+    {
+        $model = self::find();
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $model->where(['type' => 2, 'key' => $company_id]);
+        } else {
+            $model->where(['type' => 1]);
+        }
+        $year = $year ?: date('Y');
+        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        foreach ($data as &$v) {
+            $now = clone $model;
+            $v = round($now->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v])->sum('money'), 2);
+        }
+        return $data;
     }
 }

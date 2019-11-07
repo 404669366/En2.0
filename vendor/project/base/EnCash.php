@@ -36,7 +36,7 @@ class EnCash extends \yii\db\ActiveRecord
             [['no'], 'required'],
             [['type', 'key', 'status', 'created_at'], 'integer'],
             [['no'], 'string', 'max' => 32],
-            [['money'], 'string', 'max' => 10],
+            [['money'], 'number'],
             [['remark'], 'string', 'max' => 255],
             [['no'], 'unique'],
         ];
@@ -86,6 +86,25 @@ class EnCash extends \yii\db\ActiveRecord
         foreach ($data['data'] as &$v) {
             $v['typeName'] = Constant::cashType()[$v['type']];
             $v['user'] = $v['type'] == 1 ? $v['cName'] : $v['uTel'];
+            $v['statusName'] = Constant::cashStatus()[$v['status']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+        }
+        return $data;
+    }
+
+    /**
+     * 后台分页数据
+     * @return mixed
+     */
+    public static function getPageDataByCompany()
+    {
+        $data = self::find()
+            ->where(['type' => 1, 'key' => Yii::$app->user->identity->company_id])
+            ->page([
+                'keywords' => ['like', 'no'],
+                'status' => ['=', 'status']
+            ]);
+        foreach ($data['data'] as &$v) {
             $v['statusName'] = Constant::cashStatus()[$v['status']];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }

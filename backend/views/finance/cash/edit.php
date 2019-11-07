@@ -20,7 +20,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">提现金额</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" name="money" value="<?= $model->money ?>">
+                    <input type="text" class="form-control" <?= $model->status ? 'readonly' : 'name="money"' ?>
+                           value="<?= $model->money ?>">
                 </div>
             </div>
             <?php if ($model->status == 3): ?>

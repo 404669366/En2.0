@@ -71,7 +71,7 @@ class EnIncome extends \yii\db\ActiveRecord
             'keywords' => ['like', 'i.order', 'o.pile', 'p.field', 'f.name']
         ]);
         foreach ($data['data'] as &$v) {
-            $v['info1'] = '充电电量:' . $v['2'] . 'kwh<br>服务电费:' . $v['sm'];
+            $v['info1'] = '充电电量:' . $v['e'] . 'kwh<br>服务电费:' . $v['sm'];
             $v['info2'] = '电站编号:' . $v['field'] . '<br>电桩编号:' . $v['pile'];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }

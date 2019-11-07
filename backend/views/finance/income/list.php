@@ -41,7 +41,7 @@
             {"data": "money"},
             {"data": "created_at"},
         ],
-        default_order: [4, 'desc']
+        default_order: [5, 'desc']
     });
     myTable.search();
 </script>

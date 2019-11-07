@@ -343,7 +343,7 @@ class EnField extends \yii\db\ActiveRecord
     {
         $data = self::find();
         if ($company_id = Yii::$app->user->identity->company_id) {
-            $data = $data->where(['company_id' => $company_id]);
+            $data = $data->where(['company_id' => $company_id, 'online' => 1]);
         }
         $data = $data->select(['no', 'lat', 'lng', 'name', 'address'])->asArray()->all();
         foreach ($data as &$v) {

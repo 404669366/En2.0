@@ -73,6 +73,7 @@ class EnIncome extends \yii\db\ActiveRecord
         foreach ($data['data'] as &$v) {
             $v['info1'] = '充电电量:' . $v['e'] . 'kwh<br>服务电费:' . $v['sm'];
             $v['info2'] = '电站编号:' . $v['field'] . '<br>电桩编号:' . $v['pile'];
+            $v['info3'] = EnStock::getStockByFieldToStr($v['field']);;
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return $data;

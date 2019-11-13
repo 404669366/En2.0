@@ -104,19 +104,19 @@
                 });
                 return;
             }
-            if (data.code === 205 || data.code === 206 || data.code === 207) {
+            if (data.code === 205 || data.code === 206 || data.code === 207 || data.code === 208) {
                 data.data.fieldName = global.info.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
-                if (data.code === 206 || data.code === 207) {
+                if (data.code === 206 || data.code === 207 || data.code === 208) {
                     window.showMsgDo(global.code[data.code], 3, function () {
                         window.wait().open();
                     });
                 }
                 return;
             }
-            if (data.code === 208) {
+            if (data.code === 209) {
                 window.showMsgDo(global.code[data.code], 3, function () {
                     window.location.href = '/order/charge/pay.html?no=' + global.info.orderNo;
                 });

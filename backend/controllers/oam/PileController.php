@@ -11,6 +11,7 @@ namespace app\controllers\oam;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnModel;
+use vendor\project\base\EnOrder;
 use vendor\project\base\EnPile;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
@@ -61,6 +62,29 @@ class PileController extends CommonController
             'work' => json_encode(Constant::workStatus()),
             'link' => json_encode(Constant::linkStatus()),
         ]);
+    }
+
+    /**
+     * 监控
+     * @param string $pile
+     * @param string $gun
+     * @return string
+     */
+    public function actionLook($pile = '', $gun = '')
+    {
+        if ($order = EnOrder::findOne(['pile' => $pile, 'gun' => $gun, 'status' => [0, 1]])) {
+            return $this->render('look', [
+                'info' => json_encode([
+                    'do' => 'seeCharge',
+                    'pile' => $order->pile,
+                    'gun' => $order->gun,
+                    'fieldName' => $order->pileInfo->local->name,
+                ]),
+                'code' => json_encode(Constant::serverCode()),
+            ]);
+        }
+        Msg::set('充电不存在或已结束');
+        return $this->goBack();
     }
 
     /**

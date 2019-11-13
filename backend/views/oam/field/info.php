@@ -159,7 +159,8 @@
                     str += '<td>' + link[v.linkStatus] + '</td>';
                     str += '<td>' + work[v.workStatus] + '</td>';
                     if (v.workStatus === 2 && v.linkStatus) {
-                        str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
+                        str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button>&emsp;';
+                        str += '<a class="btn btn-sm btn-info" href="/oam/pile/look?pile=' + no + '&gun=' + k + '">查看充电</a></td>';
                     } else {
                         str += '<td>----</td>';
                     }

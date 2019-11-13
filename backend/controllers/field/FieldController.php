@@ -56,7 +56,8 @@ class FieldController extends CommonController
             $model->created_at = time();
         }
         if (\Yii::$app->request->isPost) {
-            if ($model->load(['EnField' => \Yii::$app->request->post()]) && $model->save()) {
+            $model->load(['EnField' => \Yii::$app->request->post()]);
+            if ($model->save()) {
                 Msg::set('操作成功');
                 return $this->redirect(['list']);
             }
@@ -66,7 +67,7 @@ class FieldController extends CommonController
             'model' => $model,
             'status' => Constant::fieldStatus(),
             'online' => Constant::fieldOnline(),
-            'stock' => EnStock::getStockByFieldToArr($no),
+            'stock' => EnStock::getStockByFieldToArr($model->no),
             'stockType' => Constant::stockType()
         ]);
     }

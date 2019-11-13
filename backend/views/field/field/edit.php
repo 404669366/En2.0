@@ -45,9 +45,12 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">场站编号</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   placeholder="<?= $model->no ?: \vendor\project\helpers\Helper::createNo('F') ?>"
-                                   readonly>
+                            <?php if ($model->no): ?>
+                                <input type="text" class="form-control no" name="no" value="<?= $model->no ?>" readonly>
+                            <?php else: ?>
+                                <input type="text" class="form-control no" name="no"
+                                       value="<?= \vendor\project\helpers\Helper::createNo('F') ?>" readonly>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -237,7 +240,7 @@
                     &emsp;
                     <button class="btn btn-primary toExamine" type="submit">提交审核</button>
                     &emsp;
-                    <button class="btn btn-white back">返回</button>
+                    <a class="btn btn-white" href="/field/field/list">返回</a>
                 </div>
             </div>
         </form>
@@ -248,7 +251,7 @@
         $('[name="status"]').val(2);
     });
     $('.addStock').on('click', function () {
-        var content = '<input type="hidden" name="field" value="<?=$model->no?>"/>';
+        var content = '<input type="hidden" name="field" value="' + $('.no').val() + '"/>';
         content += '<select name="type" class="stockInput">';
         <?php foreach ($stockType as $k=>$v):?>
         content += '<option value="<?=$k?>"><?=$v?></option>';

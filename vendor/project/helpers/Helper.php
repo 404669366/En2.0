@@ -747,18 +747,46 @@ class Helper
      * 发送xml
      * @param string $url
      * @param string $xmlData
-     * @param int $second
      * @return array|bool|mixed
      */
-    public static function curlXml($url = '', $xmlData = '', $second = 10)
+    public static function curlXml($url = '', $xmlData = '')
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_TIMEOUT, $second);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        if ($result) {
+            $result = (array)simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+        }
+        return $result;
+    }
+
+    /**
+     * 发送xml(ssl)
+     * @param string $url
+     * @param string $xmlData
+     * @param string $certPath
+     * @param string $keyPath
+     * @return array|mixed
+     */
+    public static function curlXmlSsl($url = '', $xmlData = '', $certPath = '', $keyPath = '')
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSLCERT, $certPath);
+        curl_setopt($ch, CURLOPT_SSLKEY, $keyPath);
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
         $result = curl_exec($ch);

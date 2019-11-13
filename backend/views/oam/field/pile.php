@@ -1,6 +1,6 @@
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
-        <h3 style="text-align: center">电桩列表页<a class="btn btn-white" href="/oam/field/list" style="float: right">返回</a></h3>
+        <h3 style="text-align: center">电桩列表页<a class="btn btn-white" href="<?= $back ?>" style="float: right">返回</a></h3>
         <div class="dataTables_wrapper form-inline">
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
                 <thead>

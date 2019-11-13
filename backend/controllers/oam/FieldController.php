@@ -42,11 +42,12 @@ class FieldController extends CommonController
     /**
      * 场站电桩页
      * @param string $no
+     * @param string $back
      * @return string
      */
-    public function actionPile($no = '')
+    public function actionPile($no = '', $back = '/oam/field/list')
     {
-        return $this->render('pile', ['no' => $no]);
+        return $this->render('pile', ['no' => $no, 'back' => $back]);
     }
 
     /**

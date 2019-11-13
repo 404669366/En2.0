@@ -59,7 +59,7 @@
                         $.getJSON('/oam/field/map-info', {no: field.no}, function (re) {
                             var content =
                                 '<div class="box gray-bg">\n' +
-                                '        <h4>' + field.name + '</h4>\n' +
+                                '        <h4>' + field.name + ' <a href="/oam/field/pile?no=' + field.no + '&back=/oam/field/map">>></a></h4>\n' +
                                 '        <p><i class="fa fa-map-marker"></i>' + field.address + '</p>\n' +
                                 '        <div class="row">\n' +
                                 '            <div class="col-sm-3">\n' +

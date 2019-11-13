@@ -102,6 +102,7 @@ class CController extends AuthController
                     $order->pile = $no[0];
                     $order->gun = $no[1];
                     $order->uid = \Yii::$app->user->id;
+                    $order->rules = $pile->rules;
                     $order->status = 0;
                     $order->created_at = time();
                     if ($order->save()) {

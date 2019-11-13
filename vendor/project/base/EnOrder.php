@@ -19,6 +19,7 @@ use yii\db\Exception;
  * @property string $bm 基础电费
  * @property string $sm 服务电费
  * @property string $duration 充电时长
+ * @property string $rules 计费规则
  * @property int $status 订单状态 0启动中1充电中2充电结束3完成支付4启动失败
  * @property string $created_at 创建时间
  */
@@ -44,6 +45,7 @@ class EnOrder extends \yii\db\ActiveRecord
             [['status'], 'validateStatus'],
             [['no', 'pile'], 'string', 'max' => 32],
             [['e', 'bm', 'sm'], 'number'],
+            [['rules'], 'string', 'max' => 300],
         ];
     }
 
@@ -61,6 +63,7 @@ class EnOrder extends \yii\db\ActiveRecord
             'bm' => '基础电费',
             'sm' => '服务电费',
             'duration' => '充电时长',
+            'rules' => '计费规则',
             'status' => '订单状态',
             'created_at' => '创建时间',
         ];

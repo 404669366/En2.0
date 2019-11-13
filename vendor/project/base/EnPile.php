@@ -39,7 +39,7 @@ class EnPile extends \yii\db\ActiveRecord
             [['field'], 'validateField'],
             [['model_id', 'count', 'online', 'bind'], 'integer'],
             [['no', 'field'], 'string', 'max' => 32],
-            [['rules'], 'string', 'max' => 1000],
+            [['rules'], 'string', 'max' => 300],
         ];
     }
 

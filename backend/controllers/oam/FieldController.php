@@ -62,10 +62,11 @@ class FieldController extends CommonController
 
     /**
      * 场站电桩详情页
-     * @param string $no
+     * @param $no
+     * @param string $back
      * @return string
      */
-    public function actionPileInfo($no)
+    public function actionPileInfo($no, $back = '')
     {
         $model = EnPile::findOne(['no' => $no]);
         if (\Yii::$app->request->isPost) {
@@ -82,6 +83,7 @@ class FieldController extends CommonController
             'code' => json_encode(Constant::serverCode()),
             'work' => json_encode(Constant::workStatus()),
             'link' => json_encode(Constant::linkStatus()),
+            'back' => $back,
         ]);
     }
 

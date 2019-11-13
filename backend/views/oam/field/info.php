@@ -112,7 +112,8 @@
                                 &emsp;
                                 <button type="submit" class="btn btn-success save">保存</button>
                                 &emsp;
-                                <a class="btn btn-white" href="/oam/field/pile?no=<?= $model->field ?>">返回</a>
+                                <a class="btn btn-white"
+                                   href="/oam/field/pile?back=<?= $back ?>&no=<?= $model->field ?>">返回</a>
                                 &emsp;
                                 <button type="button" class="btn btn-info" onclick="location.reload()">刷新</button>
                             </div>

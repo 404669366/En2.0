@@ -1,6 +1,7 @@
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
-        <h3 style="text-align: center">电桩列表页<a class="btn btn-white" href="<?= $back ?>" style="float: right">返回</a></h3>
+        <h3 style="text-align: center">电桩列表页<a class="btn btn-white" href="<?= $back ?>" style="float: right">返回</a>
+        </h3>
         <div class="dataTables_wrapper form-inline">
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
                 <thead>
@@ -18,6 +19,7 @@
     </div>
 </div>
 <script>
+    var back = '<?= $back ?>';
     myTable.load({
         table: '#table',
         url: '/oam/field/pile-data?no=<?=$no?>',
@@ -30,7 +32,7 @@
             {"data": "fieldInfo"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-                return '<a class="btn btn-sm btn-info" href="/oam/field/pile-info?no=' + data + '">详情</a>';
+                return '<a class="btn btn-sm btn-info" href="/oam/field/pile-info?back=' + back + '&no=' + data + '">详情</a>';
             }
             }
         ],

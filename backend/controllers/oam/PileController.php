@@ -83,8 +83,7 @@ class PileController extends CommonController
                 'code' => json_encode(Constant::serverCode()),
             ]);
         }
-        Msg::set('充电不存在或已结束');
-        return $this->goBack();
+        return $this->goBack('充电不存在或已结束');
     }
 
     /**

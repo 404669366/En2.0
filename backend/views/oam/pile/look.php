@@ -10,7 +10,7 @@
         socket.send('<?=$info?>');
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-
+            console.log(data);
         };
     };
 </script>

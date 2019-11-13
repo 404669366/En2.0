@@ -9,6 +9,7 @@
 namespace app\controllers\basis;
 
 
+use vendor\project\helpers\Msg;
 use yii\web\Controller;
 
 class BasisController extends Controller
@@ -35,5 +36,16 @@ class BasisController extends Controller
     {
         echo json_encode(['total' => $data['total'], 'data' => $data['data']], JSON_UNESCAPED_UNICODE);
         exit();
+    }
+
+    /**
+     * 重写goBack
+     * @param string $msg
+     * @return \yii\web\Response
+     */
+    public function goBack($msg = '')
+    {
+        Msg::set($msg);
+        return parent::goBack(\Yii::$app->request->getReferrer());
     }
 }

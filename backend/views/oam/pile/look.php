@@ -1,7 +1,5 @@
 <div class="wrapper wrapper-content animated">
-    <div class="ibox-content">
-
-    </div>
+    <div class="ibox-content text"></div>
 </div>
 <script>
     var code = JSON.parse('<?=$code?>');
@@ -10,6 +8,7 @@
         socket.send('<?=$info?>');
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
+            $('.text').append('<p>' + event.data + '</p>');
             console.log(data);
         };
     };

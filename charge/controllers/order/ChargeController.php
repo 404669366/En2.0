@@ -41,6 +41,7 @@ class ChargeController extends AuthController
                     return $this->redirect(['list']);
                 }
             }
+            $order->rules = '';
             return $this->render('pay.html', ['order' => $order->toArray()]);
         }
         Msg::set('订单不见啦');

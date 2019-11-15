@@ -129,6 +129,7 @@ class EnOrder extends \yii\db\ActiveRecord
             $v['money'] = $v['bm'] + $v['sm'];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
             $v['status'] = Constant::orderStatus()[$v['status']];
+            $v['rules'] = '';
         }
         return $orders;
     }

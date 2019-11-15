@@ -17,9 +17,9 @@
                 <thead>
                 <tr role="row">
                     <th>订单编号</th>
-                    <th>消费信息</th>
                     <th>场站信息</th>
                     <th>股权信息</th>
+                    <th>消费信息</th>
                     <th>结算金额</th>
                     <th>创建时间</th>
                 </tr>
@@ -35,9 +35,9 @@
         length: 10,
         columns: [
             {"data": "order"},
-            {"data": "info1"},
             {"data": "info2"},
             {"data": "info3"},
+            {"data": "info1"},
             {"data": "money"},
             {"data": "created_at"},
         ],

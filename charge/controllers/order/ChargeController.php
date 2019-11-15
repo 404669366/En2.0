@@ -35,7 +35,7 @@ class ChargeController extends AuthController
      */
     public function actionPay($no = '', $pay = 0)
     {
-        if ($order = EnOrder::findOne(['no' => $no, 'status' => 2])) {
+        if ($order = EnOrder::findOne(['no' => $no, 'status' => 2, 'uid' => \Yii::$app->user->id])) {
             if ($pay) {
                 if (EnOrder::deduct($no)) {
                     return $this->redirect(['list']);

@@ -16,7 +16,7 @@
                         </select>
                     </span>
                     <span class="tableSpan">
-                        提现类型: <select class="searchField" name="status">
+                        提现状态: <select class="searchField" name="status">
                                 <option value="">----</option>
                             <?php foreach ($status as $k => $type): ?>
                                 <option value="<?= $k ?>"><?= $type ?></option>

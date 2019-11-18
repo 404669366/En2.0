@@ -136,10 +136,12 @@
     color: #101D37;
 }
 
-.toolsBox > .tools > div > span > img {
+.toolsBox > .tools > div > span > img, .toolsBox > .tools > div > span > i {
     margin-bottom: 0.04rem;
     width: 1.26rem;
     height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: 1rem;
 }
 
 .recommend {

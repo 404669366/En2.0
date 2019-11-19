@@ -2,7 +2,13 @@
     .btns {
         width: 100%;
         margin: 10px auto;
-        text-align: right;
+        border-bottom: 1.4px solid #000000;
+        padding: 6px 0;
+    }
+
+    .btns > .btn {
+        float: right;
+        margin-left: 18px;
     }
 
     p {
@@ -21,9 +27,10 @@
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <div class="btns">
-            <button type="button" class="btn btn-sm btn-info begin">开始</button>
-            &emsp;
+            <button type="button" class="btn btn-sm btn-danger clear">清空</button>
             <button type="button" class="btn btn-sm btn-warning stop">暂停</button>
+            <button type="button" class="btn btn-sm btn-info begin">开始</button>
+            <div style="clear: both"></div>
         </div>
         <div class="text"></div>
     </div>
@@ -37,15 +44,23 @@
         $('.stop').click(function () {
             socket.send(JSON.stringify({do: 'leaveServer'}));
         });
+        $('.clear').click(function () {
+            $('.text').html('');
+        });
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            console.log(data);
-            var str = '<p>' + data.time + '</p><div class="info">';
-            $.each(data.msg, function (k, v) {
-                str += k + ':' + decodeURI(v) + '; ';
-            });
-            str += '</div>';
-            $('.text').prepend(str);
+            if (!isString(data.msg)) {
+                var str = '<p>' + data.time + '</p><div class="info">';
+                $.each(data.msg, function (k, v) {
+                    str += k + ':' + decodeURI(v) + '; ';
+                });
+                str += '</div>';
+                $('.text').prepend(str);
+            }
         };
     };
+
+    function isString(str) {
+        return (typeof str == 'string') && str.constructor == String;
+    }
 </script>

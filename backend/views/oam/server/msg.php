@@ -9,7 +9,7 @@
             var data = JSON.parse(event.data);
             var str = '<p>';
             $.each(data, function (k, v) {
-                v = v === '' ? 'null' : v;
+                v = v.length ? v : 'null';
                 str += k + ':' + v + '; ';
             });
             str += '</p>';

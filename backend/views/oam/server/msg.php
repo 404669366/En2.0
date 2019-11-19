@@ -1,3 +1,13 @@
+<style>
+    p {
+        line-height: 12px;
+    }
+
+    .info {
+        line-height: 16px;
+        border-bottom: 1px solid silver;
+    }
+</style>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content text"></div>
 </div>
@@ -8,11 +18,11 @@
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             console.log(data);
-            var str = '<p>' + data.time + '</p><p>';
+            var str = '<p>' + data.time + '</p><div class="info">';
             $.each(data.msg, function (k, v) {
                 str += k + ':' + decodeURI(v) + '; ';
             });
-            str += '</p>';
+            str += '</div>';
             $('.text').prepend(str);
         };
     };

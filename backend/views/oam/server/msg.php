@@ -9,7 +9,9 @@
             var data = JSON.parse(event.data);
             var str = '<p>';
             $.each(data, function (k, v) {
-                v = v.length ? v : 'null';
+                if (!isNum(v)) {
+                    v = v.length ? v : 'null';
+                }
                 str += k + ':' + v + '; ';
             });
             str += '</p>';
@@ -17,4 +19,14 @@
             console.log(data);
         };
     };
+
+    function isNum(val) {
+        if (val === "" || val === null) {
+            return false;
+        }
+        if (!isNaN(val)) {
+            return true;
+        }
+        return false;
+    }
 </script>

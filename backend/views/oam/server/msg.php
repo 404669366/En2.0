@@ -4,10 +4,15 @@
 <script>
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
-        socket.send(JSON.stringify({do:'seeServer'}));
+        socket.send(JSON.stringify({do: 'seeServer'}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            $('.text').append('<p>' + data + '</p>');
+            var str = '<p>';
+            $.each(data, function (k, v) {
+                str += k + ':' + v + '; ';
+            });
+            str += '</p>';
+            $('.text').append(str);
             console.log(data);
         };
     };

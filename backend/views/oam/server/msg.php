@@ -7,7 +7,7 @@
         socket.send(JSON.stringify({do:'seeServer'}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            $('.text').append('<p>' + event.data + '</p>');
+            $('.text').append('<p>' + data + '</p>');
             console.log(data);
         };
     };

@@ -1,4 +1,10 @@
 <style>
+    .btns {
+        width: 100%;
+        margin: 10px auto;
+        text-align: right;
+    }
+
     p {
         line-height: 12px;
         margin: 0;
@@ -13,12 +19,24 @@
     }
 </style>
 <div class="wrapper wrapper-content animated">
-    <div class="ibox-content text"></div>
+    <div class="ibox-content">
+        <div class="btns">
+            <button type="button" class="btn btn-sm btn-info begin">开始</button>
+            &emsp;
+            <button type="button" class="btn btn-sm btn-warning stop">暂停</button>
+        </div>
+        <div class="text"></div>
+    </div>
 </div>
 <script>
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
-        socket.send(JSON.stringify({do: 'seeServer'}));
+        $('.begin').click(function () {
+            socket.send(JSON.stringify({do: 'joinServer'}));
+        });
+        $('.stop').click(function () {
+            socket.send(JSON.stringify({do: 'leaveServer'}));
+        });
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             console.log(data);

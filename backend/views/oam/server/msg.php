@@ -1,6 +1,7 @@
 <style>
     p {
         line-height: 12px;
+        margin: 0;
     }
 
     .info {

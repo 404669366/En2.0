@@ -5,8 +5,9 @@
     }
 
     .info {
-        line-height: 16px;
+        line-height: 18px;
         border-bottom: 1px solid silver;
+        margin: 4px 0;
     }
 </style>
 <div class="wrapper wrapper-content animated">

@@ -5,9 +5,11 @@
     }
 
     .info {
+        width: 100%;
         line-height: 18px;
         border-bottom: 1px solid silver;
-        margin: 4px 0;
+        padding: 2px;
+        margin: 4px auto 6px auto;
     }
 </style>
 <div class="wrapper wrapper-content animated">

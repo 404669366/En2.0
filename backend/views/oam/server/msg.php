@@ -13,7 +13,7 @@
                 str += k + ':' + decodeURI(v) + '; ';
             });
             str += '</p>';
-            $('.text').append(str);
+            $('.text').prepend(str);
         };
     };
 </script>

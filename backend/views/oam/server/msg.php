@@ -7,8 +7,8 @@
         socket.send(JSON.stringify({do: 'seeServer'}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            var str = '<p>';
-            $.each(data, function (k, v) {
+            var str = '<p>' + data.time + '</p><p>';
+            $.each(data.msg, function (k, v) {
                 str += k + ':' + decodeURI(v) + '; ';
             });
             str += '</p>';

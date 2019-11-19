@@ -9,24 +9,11 @@
             var data = JSON.parse(event.data);
             var str = '<p>';
             $.each(data, function (k, v) {
-                if (!isNum(v)) {
-                    v = v.length ? v : 'null';
-                }
-                str += k + ':' + v + '; ';
+                str += k + ':' + decodeURI(v) + '; ';
             });
             str += '</p>';
             $('.text').append(str);
             console.log(data);
         };
     };
-
-    function isNum(val) {
-        if (val === "" || val === null) {
-            return false;
-        }
-        if (!isNaN(val)) {
-            return true;
-        }
-        return false;
-    }
 </script>

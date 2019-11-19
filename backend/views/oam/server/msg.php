@@ -49,18 +49,12 @@
         });
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            if (!isString(data.msg)) {
-                var str = '<p>' + data.time + '</p><div class="info">';
-                $.each(data.msg, function (k, v) {
-                    str += k + ':' + decodeURI(v) + '; ';
-                });
-                str += '</div>';
-                $('.text').prepend(str);
-            }
+            var str = '<p>' + data.time + '</p><div class="info">';
+            $.each(data.msg, function (k, v) {
+                str += k + ':' + decodeURI(v) + '; ';
+            });
+            str += '</div>';
+            $('.text').prepend(str);
         };
     };
-
-    function isString(str) {
-        return (typeof str == 'string') && str.constructor == String;
-    }
 </script>

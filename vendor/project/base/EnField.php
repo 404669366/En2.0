@@ -341,9 +341,9 @@ class EnField extends \yii\db\ActiveRecord
      */
     public static function getMapData()
     {
-        $data = self::find();
+        $data = self::find()->where(['online' => 1]);
         if ($company_id = Yii::$app->user->identity->company_id) {
-            $data = $data->where(['company_id' => $company_id, 'online' => 1]);
+            $data = $data->andWhere(['company_id' => $company_id]);
         }
         $data = $data->select(['no', 'lat', 'lng', 'name', 'address'])->asArray()->all();
         foreach ($data as &$v) {

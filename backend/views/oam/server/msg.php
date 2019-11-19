@@ -8,8 +8,8 @@
         width: 100%;
         line-height: 18px;
         border-bottom: 1px solid silver;
-        padding: 2px;
-        margin: 4px auto 6px auto;
+        padding: 2px 0;
+        margin: 0 auto 6px auto;
     }
 </style>
 <div class="wrapper wrapper-content animated">

@@ -46,8 +46,8 @@
         });
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            var str = '<p>' + data.time + '</p><div class="info">';
-            $.each(data.msg, function (k, v) {
+            var str = '<p>' + data.code + '</p><div class="info">';
+            $.each(data.data, function (k, v) {
                 str += k + ':' + decodeURI(v) + '; ';
             });
             str += '</div>';

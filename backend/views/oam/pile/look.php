@@ -29,22 +29,18 @@
         <div class="btns">
             <button type="button" class="btn btn-sm btn-white back">返回</button>
             <button type="button" class="btn btn-sm btn-danger clear">清空</button>
-            <button type="button" class="btn btn-sm btn-info begin">开始</button>
             <div style="clear: both"></div>
         </div>
         <div class="text"></div>
     </div>
 </div>
 <script>
-    var cmd = '<?=$info?>';
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
-        $('.begin').click(function () {
-            socket.send(cmd);
-        });
         $('.clear').click(function () {
             $('.text').html('');
         });
+        socket.send('<?=$info?>');
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             var str = '<p>' + data.code + '</p><div class="info">';

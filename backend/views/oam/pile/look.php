@@ -27,6 +27,7 @@
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <div class="btns">
+            <button type="button" class="btn btn-sm btn-white back">返回</button>
             <button type="button" class="btn btn-sm btn-danger clear">清空</button>
             <button type="button" class="btn btn-sm btn-info begin">开始</button>
             <div style="clear: both"></div>

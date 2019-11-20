@@ -78,7 +78,6 @@ class PileController extends CommonController
                     'do' => 'seeCharge',
                     'pile' => $order->pile,
                     'gun' => $order->gun,
-                    'fieldName' => $order->pileInfo->local->name,
                 ]),
             ]);
         }

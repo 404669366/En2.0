@@ -80,7 +80,6 @@ class PileController extends CommonController
                     'gun' => $order->gun,
                     'fieldName' => $order->pileInfo->local->name,
                 ]),
-                'code' => json_encode(Constant::serverCode()),
             ]);
         }
         return $this->goBack('充电不存在或已结束');

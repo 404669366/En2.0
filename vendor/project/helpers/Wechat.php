@@ -208,7 +208,7 @@ class Wechat
                 'nonceStr' => $data['nonce_str'],
                 'package' => "prepay_id={$data['prepay_id']}",
                 'signType' => 'MD5',
-                'timeStamp' => time() . '',
+                'timeStamp' => (string)time(),
             ];
             $str = '';
             foreach ($data as $k => $v) {

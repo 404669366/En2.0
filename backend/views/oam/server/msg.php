@@ -14,6 +14,8 @@
     p {
         line-height: 12px;
         margin: 0;
+        background: #338FFF;
+        color: #FFFFFF;
     }
 
     .info {
@@ -22,6 +24,8 @@
         border-bottom: 1px solid silver;
         padding: 2px 0;
         margin: 0 auto 6px auto;
+        background: #338FFF;
+        color: #FFFFFF;
     }
 </style>
 <div class="wrapper wrapper-content animated">

@@ -14,13 +14,6 @@
     p {
         line-height: 12px;
         margin: 0;
-        color: #FFFFFF;
-    }
-
-    .text {
-        padding: 12px;
-        background: #338fff;
-        box-sizing: border-box;
     }
 
     .info {
@@ -29,11 +22,6 @@
         border-bottom: 1px solid silver;
         padding: 2px 0;
         margin: 0 auto 6px auto;
-        color: #FFFFFF;
-    }
-
-    .info:last-child {
-        margin: 0 auto;
     }
 </style>
 <div class="wrapper wrapper-content animated">

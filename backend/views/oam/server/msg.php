@@ -18,7 +18,9 @@
     }
 
     .text {
+        padding: 12px;
         background: #338fff;
+        box-sizing: border-box;
     }
 
     .info {

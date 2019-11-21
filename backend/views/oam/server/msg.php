@@ -31,6 +31,10 @@
         margin: 0 auto 6px auto;
         color: #FFFFFF;
     }
+
+    .info:last-child {
+        margin: 0 auto;
+    }
 </style>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">

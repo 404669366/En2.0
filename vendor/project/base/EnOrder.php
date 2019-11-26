@@ -4,6 +4,7 @@ namespace vendor\project\base;
 
 use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
+use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 use Yii;
 use yii\db\Exception;
@@ -104,10 +105,13 @@ class EnOrder extends \yii\db\ActiveRecord
                 'status' => ['=', 'o.status']
             ]);
         foreach ($data['data'] as &$v) {
+            $v['statusV'] = $v['status'];
             $v['status'] = Constant::orderStatus()[$v['status']];
+            $v['created'] = $v['created_at'];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
             $v['info'] = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
         }
+        $data['data'] = Helper::arraySort($data['data'], 'created', SORT_DESC, 'statusV', SORT_ASC);
         return $data;
     }
 

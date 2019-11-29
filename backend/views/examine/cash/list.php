@@ -60,7 +60,11 @@
             {"data": "statusName"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-                return '<a class="btn btn-sm btn-info" href="/examine/cash/info?no=' + data + '">详情</a>';
+                var str = '<a class="btn btn-sm btn-info" href="/examine/cash/info?no=' + data + '">详情</a>';
+                if (row.status == 1) {
+                    str += '&emsp;<a class="btn btn-sm btn-primary" href="/examine/cash/sure?no=' + data + '">确认打款</a>';
+                }
+                return str;
             }
             }
         ],

@@ -60,4 +60,23 @@ class CashController extends CommonController
             'status' => Constant::cashStatus(),
         ]);
     }
+
+    /**
+     * 确认打款
+     * @param $no
+     * @return string
+     */
+    public function actionSure($no)
+    {
+        Msg::set('非法操作');
+        if ($model = EnCash::findOne(['no' => $no, 'status' => 1])) {
+            $model->status = 2;
+            if ($model->save()) {
+                Msg::set('操作成功');
+            } else {
+                Msg::set($model->errors());
+            }
+        }
+        return $this->redirect(['list']);
+    }
 }

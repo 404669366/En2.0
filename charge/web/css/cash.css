@@ -1,0 +1,66 @@
+body {
+    background: #f0f4f7;
+    height: 100%;
+    padding: 0.8rem 0.6rem;
+    box-sizing: border-box;
+}
+
+.box {
+    margin: 4.6rem 0;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 0.06rem;
+    padding-bottom: 0.4rem;
+}
+
+.box > h4 {
+    background: #F9f9f9;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: 0.45rem;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+}
+
+.box > h4 > a {
+    color: #3072F3;
+    float: right;
+    font-size: 0.36rem;
+    font-weight: 400;
+}
+
+.box > .input {
+    margin: 0.4rem 0;
+}
+
+.box > .input > p, .box > .input > input {
+    height: 1.4rem;
+    line-height: 1.4rem;
+    width: 1.5rem;
+    text-align: center;
+    font-size: 0.45rem;
+}
+
+.box > .input > input {
+    width: calc(100% - 3rem);
+}
+
+.box > .input > .all {
+    font-size: 0.4rem;
+    color: #3072F3;
+}
+
+.box > .sub {
+    display: block;
+    width: 4rem;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.36rem;
+    text-align: center;
+    border: none;
+    border-radius: 0.06rem;
+    color: #f3f3f3;
+    background: #3072F3;
+    margin: 0 auto;
+}
+

@@ -4,6 +4,7 @@ namespace vendor\project\base;
 
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
+use vendor\project\helpers\Msg;
 use Yii;
 
 /**
@@ -35,11 +36,21 @@ class EnCash extends \yii\db\ActiveRecord
         return [
             [['no'], 'required'],
             [['type', 'key', 'status', 'created_at'], 'integer'],
+            [['status'], 'validateStatus'],
             [['no'], 'string', 'max' => 32],
             [['money'], 'number'],
             [['remark'], 'string', 'max' => 255],
             [['no'], 'unique'],
         ];
+    }
+
+    public function validateStatus()
+    {
+        if ($this->status == 1 && $this->type == 3) {
+            if (!EnUser::cutMoney($this->key, $this->money)) {
+                $this->addError('status', '扣除用户余额错误');
+            }
+        }
     }
 
     /**
@@ -53,7 +64,7 @@ class EnCash extends \yii\db\ActiveRecord
             'key' => '关联键(type=? 1企业ID2用户ID3用户ID)',
             'money' => '提现金额',
             'remark' => '备注',
-            'status' => '提现状态 0等待审核1审核通过2确认打款3驳回审核',
+            'status' => '提现状态',
             'created_at' => 'Created At',
         ];
     }
@@ -113,11 +124,12 @@ class EnCash extends \yii\db\ActiveRecord
 
     /**
      * 我的提现
+     * @param int $type [2,3]
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function listDataByCenter()
+    public static function listDataByCenter($type = 2)
     {
-        $data = self::find()->where(['type' => 2, 'key' => Yii::$app->user->id])
+        $data = self::find()->where(['type' => $type, 'key' => Yii::$app->user->id])
             ->orderBy('created_at desc')
             ->asArray()->all();
         foreach ($data as &$v) {
@@ -155,5 +167,42 @@ class EnCash extends \yii\db\ActiveRecord
             return $model->errors();
         }
         return '提现申请成功';
+    }
+
+    /**
+     * 用户提现
+     * @param $need
+     * @return string
+     */
+    public static function createBy3($need)
+    {
+        if ($need <= 0) {
+            Msg::set('提现金额小于零');
+            return false;
+        }
+        if ($need > EnUser::getMoney()) {
+            Msg::set('提现金额大于余额');
+            return false;
+        }
+        if (self::findOne(['type' => 3, 'key' => Yii::$app->user->id, 'status' => 0])) {
+            Msg::set('您已有提现进行中');
+            return false;
+        }
+        if (EnOrder::findOne(['uid' => Yii::$app->user->id, 'status' => 2])) {
+            Msg::set('您有未支付订单');
+            return false;
+        }
+        $model = new self();
+        $model->no = Helper::createNo('C');
+        $model->type = 3;
+        $model->key = Yii::$app->user->id;
+        $model->money = $need;
+        $model->created_at = time();
+        if (!$model->save()) {
+            Msg::set($model->errors());
+            return false;
+        }
+        Msg::set('提现申请成功');
+        return true;
     }
 }

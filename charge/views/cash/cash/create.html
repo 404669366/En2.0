@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-提现申请</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/cash.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="boxTpl">
+        <input type="hidden" name="_csrf" value="{{=it.csrf}}">
+        <h4>当前剩余可提余额: &yen;{{=it.have}} <a href="/cash/cash/list.html">提现记录</a></h4>
+        <div class="input clear">
+            <p class="fl">&yen;</p>
+            <input type="text" class="fl money" name="money" value="{{=it.money}}"/>
+            <p class="fr all">全部</p>
+        </div>
+        <button class="sub" type="submit">确认提现</button>
+    </script>
+</head>
+<body>
+<form method="post" class="box" id="box"></form>
+<script>
+    window.html('box', 'boxTpl', global);
+    $('.money').focus().val(function (i, v) {
+        return v;
+    });
+    $('.all').click(function () {
+        $('.money').val(global.have);
+    });
+    $('.sub').click(function () {
+        var money = $('.money').val();
+        if (money <= 0) {
+            window.showMsg('提现金额必须大于零');
+            return false;
+        }
+        if (money > global.have) {
+            window.showMsg('提现金额必须小于余额');
+            return false;
+        }
+        return true;
+    });
+</script>
+</body>
+</html>

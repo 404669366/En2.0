@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-提现记录</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/order.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/x-dot-template" id="orderTpl">
+        {{?it.data.length}}
+        {{~it.data:v}}
+        <li>
+            <p>{{=v.created}}</p>
+            <ul>
+                <li class="status">{{=v.statusName}}</li>
+                <li><label>提现编号 : </label>{{=v.no}}</li>
+                <li><label>提现金额 : </label>{{=v.money}}元</li>
+                {{?v.status==3}}
+                <li><label>驳回说明 : </label>{{=v.remark}}</li>
+                {{?}}
+            </ul>
+        </li>
+        {{~}}
+        {{??}}
+        <li class="none">
+            <p>{{=it.now}}</p>
+            <div>
+                未查询到您的提现记录
+            </div>
+        </li>
+        {{?}}
+    </script>
+</head>
+<body>
+<ul class="orders" id="order"></ul>
+<script>window.html('order', 'orderTpl', global);</script>
+</body>
+</html>

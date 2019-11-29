@@ -110,6 +110,26 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
         return false;
     }
 
+    /**
+     * 扣除用户余额
+     * @param int $uid
+     * @param int $money
+     * @return bool
+     */
+    public static function cutMoney($uid = 0, $money = 0)
+    {
+        if ($uid && $money) {
+            $model = self::findOne(['id' => $uid]);
+            if ($money <= $model->money) {
+                $model->money -= $money;
+                if ($model->save()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //todo**********************  登录接口实现  ***************************
 
     public static function findIdentity($id)

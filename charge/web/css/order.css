@@ -37,7 +37,6 @@ body {
 }
 
 .orders > li > ul > li {
-    height: 0.7rem;
     line-height: 0.7rem;
 }
 

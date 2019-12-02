@@ -45,13 +45,6 @@
             </h3>
             <div class="data"></div>
         </div>
-        <div class="108 info">
-            <h3>
-                108报文
-                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
-            </h3>
-            <div class="data"></div>
-        </div>
         <div class="do info">
             <h3>
                 操作报文
@@ -76,15 +69,40 @@
             $(this).parents('.info').find('.data').html('');
         });
         socket.onmessage = function (event) {
+            var cla = '';
+            var last;
             var data = JSON.parse(event.data);
             if (data.msg.cmd) {
-
+                var str = '';
+                if (data.msg.cmd == 104) {
+                    cla = data.msg.no + data.msg.gun;
+                    last = $('.104>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.104>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
+                if (data.msg.cmd == 202) {
+                    cla = data.msg.orderNo;
+                    last = $('.202>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.202>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
             } else {
-                var cla = '';
                 $.each(data.msg, function (k, v) {
                     cla += v;
                 });
-                var last = $('.do>.data').find('.' + cla);
+                last = $('.do>.data').find('.' + cla);
                 if (last.length) {
                     last.text(JSON.stringify(data));
                 } else {

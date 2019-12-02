@@ -31,30 +31,16 @@
             <button type="button" class="btn btn-sm btn-info begin">开始</button>
             <div style="clear: both"></div>
         </div>
-        <div class="104 info">
-            <h3>
-                104报文
-                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
-            </h3>
-            <div class="data"></div>
-        </div>
-        <div class="202 info">
-            <h3>
-                202报文
-                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
-            </h3>
-            <div class="data"></div>
-        </div>
-        <div class="do info">
-            <h3>
-                操作报文
-                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
-            </h3>
-            <div class="data"></div>
-        </div>
         <div class="102 info">
             <h3>
                 102报文
+                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
+            </h3>
+            <div class="data"></div>
+        </div>
+        <div class="104 info">
+            <h3>
+                104报文
                 <button type="button" class="btn btn-sm btn-danger clear">清空</button>
             </h3>
             <div class="data"></div>
@@ -69,6 +55,20 @@
         <div class="108 info">
             <h3>
                 108报文
+                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
+            </h3>
+            <div class="data"></div>
+        </div>
+        <div class="202 info">
+            <h3>
+                202报文
+                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
+            </h3>
+            <div class="data"></div>
+        </div>
+        <div class="do info">
+            <h3>
+                操作报文
                 <button type="button" class="btn btn-sm btn-danger clear">清空</button>
             </h3>
             <div class="data"></div>
@@ -95,30 +95,6 @@
             var data = JSON.parse(event.data);
             if (data.msg.cmd) {
                 var str = '';
-                if (data.msg.cmd == 104) {
-                    cla = data.msg.no + data.msg.gun;
-                    last = $('.104>.data').find('.' + cla);
-                    $.each(data.msg, function (k, v) {
-                        str += k + ':' + decodeURI(v) + '; ';
-                    });
-                    if (last.length) {
-                        last.text(str);
-                    } else {
-                        $('.104>.data').prepend('<p class="' + cla + '">' + str + '</p>');
-                    }
-                }
-                if (data.msg.cmd == 202) {
-                    cla = data.msg.orderNo;
-                    last = $('.202>.data').find('.' + cla);
-                    $.each(data.msg, function (k, v) {
-                        str += k + ':' + decodeURI(v) + '; ';
-                    });
-                    if (last.length) {
-                        last.text(str);
-                    } else {
-                        $('.202>.data').prepend('<p class="' + cla + '">' + str + '</p>');
-                    }
-                }
                 if (data.msg.cmd == 102) {
                     cla = data.msg.no;
                     last = $('.102>.data').find('.' + cla);
@@ -129,6 +105,18 @@
                         last.text(str);
                     } else {
                         $('.102>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
+                if (data.msg.cmd == 104) {
+                    cla = data.msg.no + data.msg.gun;
+                    last = $('.104>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.104>.data').prepend('<p class="' + cla + '">' + str + '</p>');
                     }
                 }
                 if (data.msg.cmd == 106) {
@@ -153,6 +141,18 @@
                         last.text(str);
                     } else {
                         $('.108>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
+                if (data.msg.cmd == 202) {
+                    cla = data.msg.orderNo;
+                    last = $('.202>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.202>.data').prepend('<p class="' + cla + '">' + str + '</p>');
                     }
                 }
             } else {

@@ -24,6 +24,12 @@
         margin: 1rem 0;
         width: 100%;
     }
+
+    .info > .data > p {
+        width: 100%;
+        line-height: 12px;
+        margin: 0;
+    }
 </style>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">

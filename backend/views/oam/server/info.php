@@ -22,6 +22,7 @@
 
     .info > .data {
         margin: 1rem 0;
+        width: 100%;
     }
 </style>
 <div class="wrapper wrapper-content animated">

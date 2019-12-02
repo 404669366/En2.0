@@ -13,6 +13,7 @@ use app\controllers\basis\CommonController;
 use vendor\project\base\EnCompany;
 use vendor\project\base\EnPower;
 use vendor\project\helpers\Msg;
+use yii\db\Exception;
 
 class CompanyController extends CommonController
 {
@@ -48,11 +49,22 @@ class CompanyController extends CommonController
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
-            if ($model->load(['EnCompany' => $post]) && $model->save()) {
-                Msg::set('保存成功');
-                return $this->redirect(['list']);
+            $transaction = \Yii::$app->db->beginTransaction();
+            try {
+                if ($model->load(['EnCompany' => $post]) && $model->save()) {
+                    $re = $model->saveAdmin();
+                    if ($re['re']) {
+                        Msg::set('保存成功');
+                        $transaction->commit();
+                        return $this->redirect(['list']);
+                    }
+                    throw new Exception($re['msg']);
+                }
+                throw new Exception($model->errors());
+            } catch (Exception $e) {
+                Msg::set($e->getMessage());
+                $transaction->rollBack();
             }
-            Msg::set($model->errors());
         }
         return $this->render('edit', [
             'model' => $model,

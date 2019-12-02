@@ -45,7 +45,6 @@ class EnCompany extends \yii\db\ActiveRecord
             [['abridge', 'name', 'address', 'legal'], 'unique'],
             [['abridge', 'name', 'address', 'account', 'bank', 'logo', 'license', 'legal', 'legal_card', 'admin', 'admin_card', 'intro'], 'required'],
             [['legal', 'admin'], 'match', 'pattern' => '/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/', 'message' => '手机号格式不正确'],
-            [['admin'], 'validateAdmin'],
             [['created_at'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['abridge'], 'string', 'max' => 10],
@@ -84,54 +83,6 @@ class EnCompany extends \yii\db\ActiveRecord
         ];
     }
 
-    public function validateAdmin()
-    {
-        $old1 = EnMember::findOne(['tel' => $this->admin]);
-        $old2 = EnMember::findOne(['company_id' => $this->id, 'job_id' => 0]);
-        if ($old1 && $old2) {
-            if ($old1->tel != $old2->tel) {
-                if ($old1->job_id == 0) {
-                    $this->addError('admin', $this->admin . '已是其他企业管理员');
-                } else {
-                    $old2->delete();
-                    $old1->company_id = $this->id;
-                    $old1->job_id = 0;
-                    if (!$old1->save()) {
-                        $this->addError('admin', '数据同步错误1');
-                    }
-                }
-            }
-        }
-        if ($old1 && !$old2) {
-            if ($old1->job_id == 0) {
-                $this->addError('admin', $this->admin . '已是其他企业管理员');
-            } else {
-                $old1->company_id = $this->id;
-                $old1->job_id = 0;
-                if (!$old1->save()) {
-                    $this->addError('admin', '数据同步错误2');
-                }
-            }
-        }
-        if (!$old1 && $old2) {
-            $old2->tel = $this->admin;
-            $old2->password = Yii::$app->security->generatePasswordHash(substr($this->admin, -6, 6));
-            if (!$old2->save()) {
-                $this->addError('admin', '数据同步错误3');
-            }
-        }
-        if (!$old1 && !$old2) {
-            $user = new EnMember();
-            $user->tel = $this->admin;
-            $user->password = Yii::$app->security->generatePasswordHash(substr($this->admin, -6, 6));
-            $user->company_id = $this->id;
-            $user->job_id = 0;
-            if (!$user->save()) {
-                $this->addError('admin', '数据同步错误4');
-            }
-        }
-    }
-
     public function afterSave($insert, $changedAttributes)
     {
         Yii::$app->cache->set('CompanyIntro_' . $this->id, $this->intro);
@@ -147,6 +98,60 @@ class EnCompany extends \yii\db\ActiveRecord
                 }
             }
         }
+    }
+
+    /**
+     * 保存管理员
+     * @return array
+     */
+    public function saveAdmin()
+    {
+        $old1 = EnMember::findOne(['tel' => $this->admin]);
+        $old2 = EnMember::findOne(['company_id' => $this->id, 'job_id' => 0]);
+        if ($old1 && $old2) {
+            if ($old1->tel != $old2->tel) {
+                if ($old1->job_id == 0) {
+                    $this->addError('admin', $this->admin . '已是其他企业管理员');
+                    return ['re' => false, 'msg' => $this->admin . '已是其他企业管理员'];
+                } else {
+                    $old2->delete();
+                    $old1->company_id = $this->id;
+                    $old1->job_id = 0;
+                    if (!$old1->save()) {
+                        return ['re' => false, 'msg' => '数据同步错误1'];
+                    }
+                }
+            }
+        }
+        if ($old1 && !$old2) {
+            if ($old1->job_id == 0) {
+                return ['re' => false, 'msg' => $this->admin . '已是其他企业管理员'];
+            } else {
+                $old1->company_id = $this->id;
+                $old1->job_id = 0;
+                if (!$old1->save()) {
+                    return ['re' => false, 'msg' => '数据同步错误2'];
+                }
+            }
+        }
+        if (!$old1 && $old2) {
+            $old2->tel = $this->admin;
+            $old2->password = Yii::$app->security->generatePasswordHash(substr($this->admin, -6, 6));
+            if (!$old2->save()) {
+                return ['re' => false, 'msg' => '数据同步错误3'];
+            }
+        }
+        if (!$old1 && !$old2) {
+            $user = new EnMember();
+            $user->tel = $this->admin;
+            $user->password = Yii::$app->security->generatePasswordHash(substr($this->admin, -6, 6));
+            $user->company_id = $this->id;
+            $user->job_id = 0;
+            if (!$user->save()) {
+                return ['re' => false, 'msg' => '数据同步错误4'];
+            }
+        }
+        return ['re' => true, 'msg' => 'ok'];
     }
 
     /**

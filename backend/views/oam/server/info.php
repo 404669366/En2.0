@@ -29,6 +29,7 @@
         width: 100%;
         line-height: 16px;
         margin: 0;
+        word-wrap:break-word
     }
 </style>
 <div class="wrapper wrapper-content animated">

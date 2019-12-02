@@ -27,7 +27,7 @@
 
     .info > .data > p {
         width: 100%;
-        line-height: 12px;
+        line-height: 16px;
         margin: 0;
     }
 </style>

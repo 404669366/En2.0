@@ -52,6 +52,27 @@
             </h3>
             <div class="data"></div>
         </div>
+        <div class="102 info">
+            <h3>
+                102报文
+                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
+            </h3>
+            <div class="data"></div>
+        </div>
+        <div class="106 info">
+            <h3>
+                106报文
+                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
+            </h3>
+            <div class="data"></div>
+        </div>
+        <div class="108 info">
+            <h3>
+                108报文
+                <button type="button" class="btn btn-sm btn-danger clear">清空</button>
+            </h3>
+            <div class="data"></div>
+        </div>
     </div>
 </div>
 <script>
@@ -96,6 +117,42 @@
                         last.text(str);
                     } else {
                         $('.202>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
+                if (data.msg.cmd == 102) {
+                    cla = data.msg.no;
+                    last = $('.102>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.102>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
+                if (data.msg.cmd == 106) {
+                    cla = data.msg.no;
+                    last = $('.106>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.106>.data').prepend('<p class="' + cla + '">' + str + '</p>');
+                    }
+                }
+                if (data.msg.cmd == 108) {
+                    cla = data.msg.no;
+                    last = $('.108>.data').find('.' + cla);
+                    $.each(data.msg, function (k, v) {
+                        str += k + ':' + decodeURI(v) + '; ';
+                    });
+                    if (last.length) {
+                        last.text(str);
+                    } else {
+                        $('.108>.data').prepend('<p class="' + cla + '">' + str + '</p>');
                     }
                 }
             } else {

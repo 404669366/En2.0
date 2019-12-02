@@ -127,7 +127,7 @@ class EnCompany extends \yii\db\ActiveRecord
             $user->company_id = $this->id;
             $user->job_id = 0;
             if (!$user->save()) {
-                $this->addError('admin', '数据同步错误4');
+                $this->addError('admin', $user->errors());
             }
         }
     }

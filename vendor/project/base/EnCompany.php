@@ -124,10 +124,10 @@ class EnCompany extends \yii\db\ActiveRecord
             $user = new EnMember();
             $user->tel = $this->admin;
             $user->password = Yii::$app->security->generatePasswordHash(substr($this->admin, -6, 6));
-            $user->company_id = $this->id;
+            $user->company_id = 3;
             $user->job_id = 0;
             if (!$user->save()) {
-                $this->addError('admin', $user->errors());
+                $this->addError('admin', '数据同步错误4');
             }
         }
     }

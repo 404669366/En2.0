@@ -48,7 +48,7 @@ class CompanyController extends CommonController
         }
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
-            if ($model->load(['EnCompany' => $post]) && $model->validate() && $model->save()) {
+            if ($model->load(['EnCompany' => $post]) && $model->save()) {
                 Msg::set('保存成功');
                 return $this->redirect(['list']);
             }

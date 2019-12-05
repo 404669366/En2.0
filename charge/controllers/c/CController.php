@@ -97,33 +97,35 @@ class CController extends AuthController
             $no = explode('-', $n);
             if (count($no) == 2) {
                 if ($pile = EnPile::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
-                    $order = new EnOrder();
-                    $order->no = Helper::createNo('O');
-                    $order->pile = $no[0];
-                    $order->gun = $no[1];
-                    $order->uid = \Yii::$app->user->id;
-                    $order->rules = $pile->rules;
-                    $order->status = 0;
-                    $order->created_at = time();
-                    if ($order->save()) {
-                        return $this->render('charge.html', [
-                            'info' => [
-                                'do' => 'beginCharge',
-                                'orderNo' => $order->no,
-                                'pile' => $order->pile,
-                                'gun' => $order->gun,
-                                'fieldName' => $pile->local->name
-                            ],
-                            'code' => Constant::serverCode(),
-                        ]);
+                    if ($pile->online == 1) {
+                        $order = new EnOrder();
+                        $order->no = Helper::createNo('O');
+                        $order->pile = $no[0];
+                        $order->gun = $no[1];
+                        $order->uid = \Yii::$app->user->id;
+                        $order->rules = $pile->rules;
+                        $order->status = 0;
+                        $order->created_at = time();
+                        if ($order->save()) {
+                            return $this->render('charge.html', [
+                                'info' => [
+                                    'do' => 'beginCharge',
+                                    'orderNo' => $order->no,
+                                    'pile' => $order->pile,
+                                    'gun' => $order->gun,
+                                    'fieldName' => $pile->local->name
+                                ],
+                                'code' => Constant::serverCode(),
+                            ]);
+                        }
+                        return $this->goBack('创建订单失败,请稍后再试');
                     }
-                    return $this->goBack('创建订单失败,请稍后再试');
+                    return $this->goBack('电桩离线,请稍后再试');
                 }
             }
             return $this->goBack('编码有误,请检查');
         }
         Msg::set('余额不足,请先充值');
         return $this->redirect(['order/invest/invest']);
-
     }
 }

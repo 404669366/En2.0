@@ -256,10 +256,10 @@
                         });
                     });
                     $('.recordBox').on('click', '.look', function () {
-                        if (record.indexOf('.pdf') >= 0) {
-                            window.open(record);
-                        } else {
+                        if (record.indexOf('.doc') >= 0 || record.indexOf('.docx') >= 0) {
                             window.open('https://view.officeapps.live.com/op/embed.aspx?src=' + record);
+                        } else {
+                            window.open(record);
                         }
                     });
                     $('.recordBox').on('click', '.del', function () {

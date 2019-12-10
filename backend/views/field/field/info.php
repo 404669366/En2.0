@@ -146,10 +146,10 @@
                 </div>
                 <script>
                     $('.look').click(function () {
-                        if ($(this).data('src').indexOf('.pdf') >= 0) {
-                            window.open($(this).data('src'));
-                        } else {
+                        if ($(this).data('src').indexOf('.doc') >= 0 || $(this).data('src').indexOf('.docx') >= 0) {
                             window.open('https://view.officeapps.live.com/op/embed.aspx?src=' + $(this).data('src'));
+                        } else {
+                            window.open($(this).data('src'));
                         }
                     });
                 </script>

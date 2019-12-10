@@ -2,7 +2,7 @@
 <?php $this->registerCssFile('@web/css/summernote-bs4.css', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote-zh-CN.js', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/upload.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<?php $this->registerJsFile('@web/js/oss.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
         <form method="post" class="form-horizontal">
@@ -44,10 +44,29 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">封面图片</label>
                 <div class="col-sm-8">
-                    <div class="image"></div>
+                    <input type="file" class="form-control f" accept="image/*" style="margin-bottom: 1rem">
+                    <input type="hidden" name="image" value="<?= $model->image ?>">
+                    <div class="images image"></div>
                 </div>
                 <script>
-                    uploadImg('.image', 'image', '<?= $model->image ?>', false, 1);
+                    window.preview.make('.image', '<?=$model->image?>', 'uploadPre');
+                    $('.f').change(function () {
+                        if ($('[name="image"]').val() && $('[name="image"]').val().split(',').length >= 1) {
+                            window.showMsg('最多不超过1张');
+                            $('.f').val('');
+                            return;
+                        }
+                        window.oss.upload($(this)[0].files[0], function (src) {
+                            $('.image').append('<img class="uploadPre" data-input="image" src="' + src + '"/>');
+                            $('[name="image"]').val(function (i, v) {
+                                if (v) {
+                                    return v + ',' + src;
+                                }
+                                return src;
+                            });
+                            $('.f').val('');
+                        })
+                    });
                 </script>
             </div>
             <div class="hr-line-dashed"></div>

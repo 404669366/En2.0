@@ -7808,7 +7808,7 @@ document.write("<script src='/js/lrz/lrz.all.bundle.js' type='text/javascript' c
                 },
                 onImageUploadError: null,
                 onMediaDelete: function (target) {
-                    $.getJSON('/basis/file/delete', {src: target.context.currentSrc});
+                    $.getJSON('/basis/file/delete', {src: target.context.currentSrc.replace('https://ascasc.oss-cn-hangzhou.aliyuncs.com/', '')});
                 },
                 onInit: null,
                 onKeydown: null,

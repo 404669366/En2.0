@@ -3,7 +3,7 @@
 <?php $this->registerJsFile('@web/js/summernote.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote-zh-CN.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('https://map.qq.com/api/js?v=2.exp&key=NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/upload.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<?php $this->registerJsFile('@web/js/oss.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/modal.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <style>
     table {
@@ -18,7 +18,7 @@
     .stockInput {
         width: 100%;
         height: 4rem;
-        padding: 0 2%;
+        padding: 0 1%;
         line-height: 4rem;
         font-size: 1.6rem;
         text-align: center;
@@ -189,10 +189,29 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">场站图片</label>
                 <div class="col-sm-8">
-                    <div class="images"></div>
+                    <input type="file" class="form-control f" accept="image/*" style="margin-bottom: 1rem">
+                    <input type="hidden" name="images" value="<?= $model->getImages() ?>">
+                    <div class="images fre"></div>
                 </div>
                 <script>
-                    uploadImg('.images', 'images', '<?=$model->getImages()?>', false, 5);
+                    window.preview.make('.fre', '<?=$model->getImages()?>', 'uploadPre');
+                    $('.f').change(function () {
+                        if ($('[name="images"]').val().split(',').length >= 5) {
+                            $('.f').val('');
+                            window.showMsg('最多不超过5张');
+                            return;
+                        }
+                        window.oss.upload($(this)[0].files[0], function (src) {
+                            $('.fre').append('<img class="uploadPre" data-input="images" src="' + src + '"/>');
+                            $('[name="images"]').val(function (i, v) {
+                                if (v) {
+                                    return v + ',' + src;
+                                }
+                                return src;
+                            });
+                            $('.f').val('');
+                        })
+                    });
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -209,21 +228,77 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备案文件</label>
-                <div class="col-sm-8">
-                    <div class="record"></div>
+                <div class="col-sm-8 recordBox">
+                    <input type="file" class="form-control re"
+                           accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                           style="margin-bottom: 1rem">
+                    <div class="rebtns" style="display: none">
+                        <button type="button" class="btn btn-sm btn-info look">查看</button>&emsp;
+                        <button type="button" class="btn btn-sm btn-danger del">删除</button>
+                    </div>
+                    <input type="hidden" name="record" value="<?= $model->record ?>">
                 </div>
                 <script>
-                    uploadFile('.record', 'record', '<?=$model->record?>');
+                    var record = '<?=$model->record?>';
+                    if (record) {
+                        $('.rebtns').show();
+                        $('.re').hide();
+                    }
+                    $('.re').change(function () {
+                        window.oss.upload($(this)[0].files[0], function (src) {
+                            record = src;
+                            $('.rebtns').show();
+                            $('.re').val('').hide();
+                            $('[name="record"]').val(function (i, v) {
+                                window.oss.remove(v);
+                                return src;
+                            });
+                        });
+                    });
+                    $('.recordBox').on('click', '.look', function () {
+                        if (record.indexOf('.pdf') >= 0) {
+                            window.open(record);
+                        } else {
+                            window.open('https://view.officeapps.live.com/op/embed.aspx?src=' + record);
+                        }
+                    });
+                    $('.recordBox').on('click', '.del', function () {
+                        window.oss.remove(record);
+                        $('[name="record"]').val('');
+                        $('.rebtns').hide();
+                        $('.re').show();
+                        window.showMsg('删除成功');
+                        record = '';
+                    })
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">电力答复</label>
                 <div class="col-sm-8">
-                    <div class="reply"></div>
+                    <input type="file" class="form-control r" accept="image/*" style="margin-bottom: 1rem">
+                    <input type="hidden" name="reply" value="<?= $model->reply ?>">
+                    <div class="images reply"></div>
                 </div>
                 <script>
-                    uploadImg('.reply', 'reply', '<?=$model->reply?>', false, 3);
+                    window.preview.make('.reply', '<?=$model->reply?>', 'uploadPre');
+                    $('.r').change(function () {
+                        if ($('[name="reply"]').val().split(',').length >= 3) {
+                            $('.r').val('');
+                            window.showMsg('最多不超过3张');
+                            return;
+                        }
+                        window.oss.upload($(this)[0].files[0], function (src) {
+                            $('.reply').append('<img class="uploadPre" data-input="reply" src="' + src + '"/>');
+                            $('[name="reply"]').val(function (i, v) {
+                                if (v) {
+                                    return v + ',' + src;
+                                }
+                                return src;
+                            });
+                            $('.r').val('');
+                        })
+                    });
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -252,7 +327,7 @@
     });
     $('.addStock').on('click', function () {
         var content = '<input type="hidden" name="field" value="' + $('.no').val() + '"/>';
-        content += '<select name="type" class="stockInput">';
+        content += '<select name="type" class="stockInput" style="padding: 0 42.08%;box-sizing: border-box;">';
         <?php foreach ($stockType as $k=>$v):?>
         content += '<option value="<?=$k?>"><?=$v?></option>';
         <?php endforeach;?>

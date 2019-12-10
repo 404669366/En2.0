@@ -30,5 +30,6 @@ class ModelAsset extends AssetBundle
         '/js/layer/layer.min.js',
         '/js/msg.js',
         '/js/dataTables/MyDataTable.js',
+        '/js/imgPreview.js',
     ];
 }

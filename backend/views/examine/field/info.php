@@ -3,7 +3,6 @@
 <?php $this->registerJsFile('@web/js/summernote.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/summernote-zh-CN.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('https://map.qq.com/api/js?v=2.exp&key=NZ7BZ-VWQHX-2XV4F-75J2W-UDF42-Q2BM2', ['depends' => ['app\assets\ModelAsset']]) ?>
-<?php $this->registerJsFile('@web/js/upload.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <style>
     table {
         width: 100%;
@@ -121,10 +120,10 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">场站图片</label>
                 <div class="col-sm-8">
-                    <div class="images"></div>
+                    <div class="images f"></div>
                 </div>
                 <script>
-                    uploadImg('.images', 'images', '<?=$model->getImages()?>', true, 5);
+                    window.preview.make('.f', '<?=$model->getImages()?>');
                 </script>
             </div>
             <div class="hr-line-dashed"></div>
@@ -143,20 +142,19 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">备案文件</label>
                 <div class="col-sm-8">
-                    <div class="record"></div>
+                    <a class="btn btn-sm btn-info" href="https://view.officeapps.live.com/op/embed.aspx?src=<?=$model->record?>">查看</a>
+                    &emsp;
+                    <a class="btn btn-sm btn-info look" href="<?=$model->record?>">下载</a>
                 </div>
-                <script>
-                    uploadFile('.record', 'record', '<?=$model->record?>', true);
-                </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">电力答复</label>
                 <div class="col-sm-8">
-                    <div class="reply"></div>
+                    <div class="images reply"></div>
                 </div>
                 <script>
-                    uploadImg('.reply', 'reply', '<?=$model->reply?>', true, 3);
+                    window.preview.make('.reply', '<?=$model->reply?>');
                 </script>
             </div>
             <div class="hr-line-dashed"></div>

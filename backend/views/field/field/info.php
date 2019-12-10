@@ -142,10 +142,17 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">备案文件</label>
                 <div class="col-sm-8">
-                    <a class="btn btn-sm btn-info" href="https://view.officeapps.live.com/op/embed.aspx?src=<?=$model->record?>">查看</a>
-                    &emsp;
-                    <a class="btn btn-sm btn-info look" href="<?=$model->record?>">下载</a>
+                    <button type="button" class="btn btn-sm btn-info look" data-src="<?= $model->record ?>">查看</button>
                 </div>
+                <script>
+                    $('.look').click(function () {
+                        if ($(this).data('src').indexOf('.pdf') >= 0) {
+                            window.open($(this).data('src'));
+                        } else {
+                            window.open('https://view.officeapps.live.com/op/embed.aspx?src=' + $(this).data('src'));
+                        }
+                    });
+                </script>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">

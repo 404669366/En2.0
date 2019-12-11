@@ -111,7 +111,6 @@ class EnOrder extends \yii\db\ActiveRecord
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
             $v['info'] = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
         }
-        $data['data'] = Helper::arraySort($data['data'], 'statusV', SORT_ASC, 'created', SORT_DESC);
         return $data;
     }
 

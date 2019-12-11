@@ -66,6 +66,7 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
+            'GatewayWorker\\' => 14,
             'GatewayClient\\' => 14,
         ),
         'F' => 
@@ -192,6 +193,10 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GatewayWorker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/gateway-worker/src',
         ),
         'GatewayClient\\' => 
         array (

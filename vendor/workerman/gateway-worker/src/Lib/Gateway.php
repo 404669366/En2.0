@@ -138,7 +138,7 @@ class Gateway
      * 向某个client_id对应的连接发消息
      *
      * @param int    $client_id
-     * @param string $message
+     * @param string|array $message
      * @return void
      */
     public static function sendToClient($client_id, $message)
@@ -943,7 +943,7 @@ class Gateway
      * 向所有 uid 发送
      *
      * @param int|string|array $uid
-     * @param string           $message
+     * @param string|array           $message
      *
      * @return void
      */

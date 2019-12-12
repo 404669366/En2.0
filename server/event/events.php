@@ -236,7 +236,7 @@ class events
      * @param string $rules
      * @return array
      */
-    public static function getRule($rules = '')
+    private static function getRule($rules = '')
     {
         $now = time() - strtotime(date('Y-m-d'));
         $rules = json_decode($rules, true);
@@ -253,7 +253,7 @@ class events
      * @param int $timeStamp
      * @return string
      */
-    public static function getTime($timeStamp = 0)
+    private static function getTime($timeStamp = 0)
     {
         $timeStamp = $timeStamp ?: time();
         $timeArr = str_split(date('YmdHis', $timeStamp + 8 * 3600) . '00', 2);

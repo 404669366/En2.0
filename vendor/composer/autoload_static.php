@@ -37,6 +37,7 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         ),
         'W' => 
         array (
+            'Workerman\\MySQL\\' => 16,
             'Workerman\\' => 10,
             'Webmozart\\Assert\\' => 17,
         ),
@@ -125,6 +126,10 @@ class ComposerStaticInit57f21fa3b79eb91fb3379aecb1f74795
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'Workerman\\MySQL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/mysql/src',
         ),
         'Workerman\\' => 
         array (

@@ -1,0 +1,17 @@
+2019-12-12 02:32:13 pid:1 PDOException: SQLSTATE[HY000] [2002] 由于目标计算机积极拒绝，无法连接。
+ in D:\work\en2.0\vendor\workerman\mysql\src\Connection.php:1711
+Stack trace:
+#0 D:\work\en2.0\vendor\workerman\mysql\src\Connection.php(1711): PDO->__construct('mysql:dbname=en...', 'root', 'fi9^BRLHschX%V9...', Array)
+#1 D:\work\en2.0\vendor\workerman\mysql\src\Connection.php(1698): Workerman\MySQL\Connection->connect()
+#2 D:\work\en2.0\server\event\events.php(17): Workerman\MySQL\Connection->__construct('127.0.0.1', '3306', 'root', 'fi9^BRLHschX%V9...', 'en')
+#3 [internal function]: event\events::onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#4 D:\work\en2.0\vendor\workerman\gateway-worker\src\BusinessWorker.php(223): call_user_func('\\event\\events::...', Object(GatewayWorker\BusinessWorker))
+#5 [internal function]: GatewayWorker\BusinessWorker->onWorkerStart(Object(GatewayWorker\BusinessWorker))
+#6 D:\work\en2.0\vendor\workerman\workerman\Worker.php(2342): call_user_func(Array, Object(GatewayWorker\BusinessWorker))
+#7 D:\work\en2.0\vendor\workerman\gateway-worker\src\BusinessWorker.php(197): Workerman\Worker->run()
+#8 D:\work\en2.0\vendor\workerman\workerman\Worker.php(1351): GatewayWorker\BusinessWorker->run()
+#9 D:\work\en2.0\vendor\workerman\workerman\Worker.php(1294): Workerman\Worker::forkWorkersForWindows()
+#10 D:\work\en2.0\vendor\workerman\workerman\Worker.php(509): Workerman\Worker::forkWorkers()
+#11 D:\work\en2.0\server\startup\Worker.php(12): Workerman\Worker::runAll()
+#12 {main}
+2019-12-12 02:32:14 pid:1 Worker process terminated

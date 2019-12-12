@@ -39,7 +39,7 @@ class Gateway
      *
      * @var string|array
      */
-    public static $registerAddress = '127.0.0.1:1236';
+    public static $registerAddress = '47.99.36.149:20000';
 
     /**
      * 秘钥
@@ -62,7 +62,7 @@ class Gateway
     /**
      * 向所有客户端连接(或者 client_id_array 指定的客户端连接)广播消息
      *
-     * @param string $message 向客户端发送的消息
+     * @param string|array $message 向客户端发送的消息
      * @param array $client_id_array 客户端 id 数组
      * @param array $exclude_client_id 不给这些client_id发
      * @param bool $raw 是否发送原始数据（即不调用gateway的协议的encode方法）
@@ -143,7 +143,7 @@ class Gateway
      * 向某个client_id对应的连接发消息
      *
      * @param int $client_id
-     * @param string $message
+     * @param string|array $message
      * @return void
      */
     public static function sendToClient($client_id, $message)
@@ -920,7 +920,7 @@ class Gateway
      * 向所有 uid 发送
      *
      * @param int|string|array $uid
-     * @param string $message
+     * @param string|array $message
      *
      * @return void
      */
@@ -943,7 +943,7 @@ class Gateway
      * 向 group 发送
      *
      * @param int|string|array $group 组（不允许是 0 '0' false null array()等为空的值）
-     * @param string $message 消息
+     * @param string|array $message 消息
      * @param array $exclude_client_id 不给这些client_id发
      * @param bool $raw 发送原始数据（即不调用gateway的协议的encode方法）
      *

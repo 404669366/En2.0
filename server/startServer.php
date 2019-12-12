@@ -13,6 +13,7 @@ if (!extension_loaded('posix')) {
 }
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/event/events.php';
 
 foreach (glob(__DIR__ . '/startup/*.php') as $file) {
     require_once $file;

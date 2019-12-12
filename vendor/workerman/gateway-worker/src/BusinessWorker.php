@@ -49,7 +49,7 @@ class BusinessWorker extends Worker
      *
      * @var string
      */
-    public $eventHandler = 'Events';
+    public $eventHandler = 'events';
 
     /**
      * 业务超时时间，可用来定位程序卡在哪里

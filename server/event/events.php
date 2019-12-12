@@ -1,7 +1,5 @@
 <?php
 
-namespace event;
-
 use GatewayWorker\Lib\Gateway;
 use Workerman\MySQL\Connection;
 

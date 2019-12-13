@@ -39,7 +39,7 @@ class Gateway
      *
      * @var string|array
      */
-    public static $registerAddress = '47.99.36.149:20000';
+    public static $registerAddress = '127.0.0.1:20000';
 
     /**
      * 秘钥

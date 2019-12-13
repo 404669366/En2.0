@@ -10,7 +10,6 @@ namespace app\controllers\oam;
 
 
 use app\controllers\basis\CommonController;
-use GatewayClient\Gateway;
 use vendor\project\helpers\Constant;
 
 class ServerController extends CommonController
@@ -21,7 +20,6 @@ class ServerController extends CommonController
      */
     public function actionMsg()
     {
-        var_dump(Gateway::getSessionByUid('2019093001'));exit();
         return $this->render('msg');
     }
 

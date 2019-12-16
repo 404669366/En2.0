@@ -215,7 +215,7 @@ class events
 
     public static function onWorkerStop($businessWorker)
     {
-        self::$db->update('en_pile')->cols(['online' => 0])->query();
+        self::$db->update('en_pile')->cols(['online' => 0])->where("online=1")->query();
         self::$db->update('en_order')->cols(['status' => 2])->where("status in(0,1)")->query();
         Gateway::sendToAll(json_encode(['code' => 209]));
     }

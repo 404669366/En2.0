@@ -6,7 +6,7 @@
                 <div class="col-sm-12">
                     <span class="tableSpan">
                         综合搜索: <input class="searchField" type="text" value="" name="key"
-                                     placeholder="编号/名称/标题/地址/企业/专员/用户" style="width: 18rem">
+                                     placeholder="编号/名称/标题/地址/企业" style="width: 18rem">
                     </span>
                     <span class="tableSpan">
                         <button class="tableSearch">搜索</button>

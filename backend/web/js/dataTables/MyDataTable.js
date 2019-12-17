@@ -136,3 +136,48 @@ myTable.baseLoad = function (config) {
     });
     return true;
 };
+
+/**
+ * 基础渲染
+ * @param config
+ * @returns {boolean}
+ */
+myTable.baseShow = function (config) {
+    //验证是否已配置必要参数
+    var need = ['table', 'order', 'columns'];
+    var err = true;
+    $.each(need, function (k, v) {
+        if (eval('config.' + v) === undefined || eval('config.' + v) === 0 || eval('config.' + v) === {} || eval('config.' + v) === [] || eval('config.' + v) === '' || eval('config.' + v) === null) {
+            console.log('必须配置参数:' + v);
+            err = false;
+        }
+    });
+    if (!err) {
+        return false;
+    }
+    var lang = {
+        "sProcessing": "处理中...",
+        "sLengthMenu": "每页 _MENU_ 项",
+        "sZeroRecords": "没有匹配结果",
+        "sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项",
+        "sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+        "sInfoFiltered": ""
+    };
+    myTable.model = $(config.table).DataTable({
+        "language": lang,//提示信息
+        "order": config.order,
+        "columns": config.columns,
+        "data": []
+    });
+    myTable.model.loadData = function (data) {
+        var table = $(config.table).dataTable();
+        var oSettings = table.fnSettings(); //这里获取表格的配置
+        table.fnClearTable(this); //动态刷新关键部分语句，先清空数据
+        for (var i = 0, l = data.length; i < l; i++) {
+            table.oApi._fnAddData(oSettings, data[i]); //这里添加一行数据
+        }
+        oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+        table.fnDraw();//绘制表格
+    };
+    return myTable.model;
+};

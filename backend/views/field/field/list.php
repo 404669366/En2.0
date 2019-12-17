@@ -24,7 +24,6 @@
                             <?php endforeach; ?>
                         </select>
                     </span>
-                    <span>
                     <span class="tableSpan">
                         <button class="tableSearch">搜索</button>
                         <button class="tableReload">重置</button>

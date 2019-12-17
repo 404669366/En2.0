@@ -303,6 +303,107 @@ class EnField extends \yii\db\ActiveRecord
     }
 
     /**
+     * 场站统计列表数据
+     * @return $this|mixed
+     */
+    public static function getStatisticsData()
+    {
+        $data = self::find()->alias('f')
+            ->leftJoin(EnCompany::tableName() . ' c', 'c.id=f.company_id')
+            ->andWhere(['f.status' => 4]);
+        $data = $data->select(['f.*', 'c.name as cName'])->page([
+            'key' => ['like', 'f.no', 'f.name', 'f.title', 'f.address', 'c.name'],
+            'status' => ['=', 'f.status'],
+            'online' => ['=', 'f.online'],
+        ]);
+        foreach ($data['data'] as &$v) {
+            $v['created_at'] = '场站编号:' . $v['no'] . '<br>创建时间:' . date('Y-m-d H:i:s', $v['created_at']);
+            $v['data'] = '场站名称:' . $v['name'] . '<br>场站地址:' . $v['address'] . '<br>电桩数量:' . EnPile::find()->where(['field' => $v['no']])->count();
+            $v['statusInfo'] = '场站状态:' . Constant::fieldStatus()[$v['status']] . '<br>上线状态:' . Constant::fieldOnline()[$v['online']];
+            $v['stock'] = EnStock::getStockByFieldToStr($v['no']);
+        }
+        return $data;
+    }
+
+    /**
+     * 统计报表数据
+     * @param string $no
+     * @return array
+     */
+    public static function statisticsReportInfo($no = '')
+    {
+        $minYear = EnOrder::find()->alias('o')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->where(['p.field' => $no])
+            ->min("FROM_UNIXTIME(o.created_at,'%Y')") ?: date('Y');
+        $data = [
+            'all' => round(EnOrder::find()->alias('o')
+                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+                ->where(['p.field' => $no, 'o.status' => [2, 3]])
+                ->sum('o.bm+o.sm'), 2),
+            'year' => round(EnOrder::find()->alias('o')
+                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y')" => date('Y'), 'o.status' => [2, 3]])
+                ->sum('o.bm+o.sm'), 2),
+            'month' => round(EnOrder::find()->alias('o')
+                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y-m'), 'o.status' => [2, 3]])
+                ->sum('o.bm+o.sm'), 2),
+            'day' => round(EnOrder::find()->alias('o')
+                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m-%d')" => date('Y-m-d'), 'o.status' => [2, 3]])
+                ->sum('o.bm+o.sm'), 2),
+            'years' => array_reverse(range($minYear, date('Y'))),
+        ];
+        return $data;
+    }
+
+    /**
+     * 统计报表个月数据
+     * @param string $no
+     * @param string $year
+     * @return array
+     */
+    public static function statisticsReportData($no = '', $year = '')
+    {
+        $year = $year ?: date('Y');
+        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        foreach ($data as &$v) {
+            $v = round(EnOrder::find()->alias('o')
+                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => $year . $v, 'o.status' => [2, 3]])
+                ->sum('o.bm+o.sm'), 2);
+        }
+        return $data;
+    }
+
+    /**
+     * 统计报表单月数据
+     * @param string $no
+     * @param string $month
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function statisticsMonthData($no = '', $month = '')
+    {
+        $month = $month ?: date('Y-m');
+        $data = EnOrder::find()->alias('o')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid')
+            ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => $month, 'o.status' => [2, 3]])
+            ->select(['o.*', 'u.tel'])
+            ->orderBy('o.created_at desc')
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $v['statusV'] = $v['status'];
+            $v['status'] = Constant::orderStatus()[$v['status']];
+            $v['created'] = $v['created_at'];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['info'] = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
+        }
+        return $data;
+    }
+
+    /**
      * 抢单数
      * @return int|string
      */

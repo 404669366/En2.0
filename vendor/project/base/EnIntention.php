@@ -204,4 +204,79 @@ class EnIntention extends \yii\db\ActiveRecord
         }
         return Helper::arraySort($data, 'created_at', SORT_DESC, 'status', SORT_ASC);
     }
+
+    /**
+     * 统计报表数据
+     * @return array
+     */
+    public static function statisticsReportInfo()
+    {
+        $model = self::find()->alias('i')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.user_id')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
+            ->where(['i.status' => [1, 2]]);
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $model->andWhere(['f.company_id' => $company_id]);
+        }
+        $all = clone $model;
+        $year = clone $model;
+        $month = clone $model;
+        $day = clone $model;
+        $minYear = $model->min("FROM_UNIXTIME(i.created_at,'%Y')") ?: date('Y');
+        $data = [
+            'all' => round($all->sum('i.amount'), 2),
+            'year' => round($year->andWhere(["FROM_UNIXTIME(i.created_at,'%Y')" => date('Y')])->sum('i.amount'), 2),
+            'month' => round($month->andWhere(["FROM_UNIXTIME(i.created_at,'%Y-%m')" => date('Y-m')])->sum('i.amount'), 2),
+            'day' => round($day->andWhere(["FROM_UNIXTIME(i.created_at,'%Y-%m-%d')" => date('Y-m-d')])->sum('i.amount'), 2),
+            'years' => array_reverse(range($minYear, date('Y'))),
+        ];
+        return $data;
+    }
+
+    /**
+     * 统计报表各月数据
+     * @param string $year
+     * @return array
+     */
+    public static function statisticsReportData($year = '')
+    {
+        $year = $year ?: date('Y');
+        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        foreach ($data as &$v) {
+            $model = self::find()->alias('i')
+                ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.user_id')
+                ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
+                ->where(['i.status' => [1, 2]]);
+            if ($company_id = Yii::$app->user->identity->company_id) {
+                $model->andWhere(['f.company_id' => $company_id]);
+            }
+            $v = round($model->andWhere(["FROM_UNIXTIME(i.created_at,'%Y-%m')" => $year . $v])->sum('i.amount'), 2);
+        }
+        return $data;
+    }
+
+    /**
+     * 统计报表单月数据
+     * @param string $month
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function statisticsMonthData($month = '')
+    {
+        $month = $month ?: date('Y-m');
+        $data = self::find()->alias('i')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.user_id')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
+            ->where(['i.status' => [1, 2], "FROM_UNIXTIME(i.created_at,'%Y-%m')" => $month,]);
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $data->andWhere(['f.company_id' => $company_id]);
+        }
+        $data = $data->select(['i.*', 'u.tel'])
+            ->orderBy('i.created_at desc')
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $v['status'] = Constant::intentionStatus()[$v['status']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+        }
+        return $data;
+    }
 }

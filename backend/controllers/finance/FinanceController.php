@@ -11,11 +11,45 @@ namespace app\controllers\finance;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnIncome;
+use vendor\project\base\EnIntention;
 use vendor\project\base\EnInvest;
 use vendor\project\base\EnOrder;
 
 class FinanceController extends CommonController
 {
+    /**
+     * 融资统计
+     * @return string
+     */
+    public function actionInfo()
+    {
+        return $this->render('info', [
+            'month' => date('Y-m'),
+            'data' => EnIntention::statisticsReportInfo()
+        ]);
+    }
+
+    /**
+     * 融资统计各月报表数据
+     * @param $year
+     * @return string
+     */
+    public function actionInfoData($year)
+    {
+        return $this->rJson(EnIntention::statisticsReportData($year));
+    }
+
+    /**
+     * 融资统计单月报表数据
+     * @param $month
+     * @return string
+     */
+    public function actionMonthData($month)
+    {
+        return $this->rJson(EnIntention::statisticsMonthData($month));
+    }
+
+
     /**
      * 充值消费页
      * @return string

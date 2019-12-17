@@ -362,7 +362,7 @@ class EnField extends \yii\db\ActiveRecord
     }
 
     /**
-     * 统计报表个月数据
+     * 统计报表各月数据
      * @param string $no
      * @param string $year
      * @return array

@@ -310,7 +310,10 @@ class EnField extends \yii\db\ActiveRecord
     {
         $data = self::find()->alias('f')
             ->leftJoin(EnCompany::tableName() . ' c', 'c.id=f.company_id')
-            ->andWhere(['f.status' => 4]);
+            ->Where(['f.status' => 4]);
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $data->andWhere(['f.company_id' => $company_id]);
+        }
         $data = $data->select(['f.*', 'c.name as cName'])->page([
             'key' => ['like', 'f.no', 'f.name', 'f.title', 'f.address', 'c.name'],
             'status' => ['=', 'f.status'],

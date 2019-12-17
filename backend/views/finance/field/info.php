@@ -1,7 +1,7 @@
 <?php $this->registerJsFile('@web/js/echarts.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <div class="wrapper wrapper-content animated">
     <div class="row">
-        <h3 class="col-sm-12"><?= $no ?>电站消费统计</h3>
+        <h3 class="col-sm-12"><?= $no ?>电站消费统计 <a href="/finance/field/list" class="btn btn-sm btn-white">返回</a></h3>
         <div class="col-sm-3">
             <div class="ibox">
                 <div class="ibox-content">

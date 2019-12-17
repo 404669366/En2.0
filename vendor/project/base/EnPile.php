@@ -11,7 +11,7 @@ use Yii;
  * This is the model class for table "en_pile".
  *
  * @property string $no 电桩编号
- * @property int count 场站ID
+ * @property int count 枪口数量
  * @property int online 在线状态 0离线1在线
  * @property int bind 绑定状态 0未绑定1已绑定
  * @property string $rules 计费规则

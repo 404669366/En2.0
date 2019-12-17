@@ -320,8 +320,10 @@ class EnField extends \yii\db\ActiveRecord
             'online' => ['=', 'f.online'],
         ]);
         foreach ($data['data'] as &$v) {
+            $pileCount = EnPile::find()->where(['field' => $v['no']])->count();
+            $gunCount = EnPile::find()->where(['field' => $v['no']])->sum('count');
             $v['created_at'] = '场站编号:' . $v['no'] . '<br>创建时间:' . date('Y-m-d H:i:s', $v['created_at']);
-            $v['data'] = '场站名称:' . $v['name'] . '<br>场站地址:' . $v['address'] . '<br>电桩数量:' . EnPile::find()->where(['field' => $v['no']])->count();
+            $v['data'] = '场站名称:' . $v['name'] . '<br>场站地址:' . $v['address'] . '<br>电桩数量:' . $pileCount . '<br>枪口数量:' . $gunCount;
             $v['statusInfo'] = '场站状态:' . Constant::fieldStatus()[$v['status']] . '<br>上线状态:' . Constant::fieldOnline()[$v['online']];
             $v['stock'] = EnStock::getStockByFieldToStr($v['no']);
         }

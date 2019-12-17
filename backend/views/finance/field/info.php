@@ -116,7 +116,7 @@
     }
 
     function showMonth(month) {
-        $('.month-tit').text(month + '月订单列表');
+        $('.month-tit').text('月订单列表(' + month + ')');
         $.getJSON('/finance/field/month-data', {month: month, no: no}, function (re) {
             table.loadData(re.data);
         });

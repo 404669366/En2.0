@@ -58,7 +58,6 @@
                             <th>股权数量</th>
                             <th>意向金额</th>
                             <th>创建时间</th>
-                            <th>意向状态</th>
                         </tr>
                         </thead>
                     </table>
@@ -96,7 +95,6 @@
             {"data": "num"},
             {"data": "amount"},
             {"data": "created_at"},
-            {"data": "status"},
         ]
     });
 

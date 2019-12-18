@@ -274,7 +274,6 @@ class EnIntention extends \yii\db\ActiveRecord
             ->orderBy('i.created_at desc')
             ->asArray()->all();
         foreach ($data as &$v) {
-            $v['status'] = Constant::intentionStatus()[$v['status']];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return $data;

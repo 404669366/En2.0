@@ -99,7 +99,7 @@ class EnOrder extends \yii\db\ActiveRecord
     {
         $data = self::find()->alias('o')
             ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid')
-            ->select(['o.*', 'u.tel'])
+            ->select(['o.*', 'u.tel', 'u.money'])
             ->page([
                 'keywords' => ['like', 'o.no', 'o.pile', 'u.tel'],
                 'status' => ['=', 'o.status']
@@ -109,6 +109,7 @@ class EnOrder extends \yii\db\ActiveRecord
             $v['status'] = Constant::orderStatus()[$v['status']];
             $v['created'] = $v['created_at'];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['userInfo'] = '充电用户:' . $v['tel'] . '<br>账户余额:' . $v['money'];
             $v['info'] = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
         }
         return $data;

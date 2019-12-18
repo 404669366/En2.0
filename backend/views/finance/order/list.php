@@ -27,9 +27,9 @@
                     <th>订单编号</th>
                     <th>电桩编号</th>
                     <th>充电枪口</th>
-                    <th>充电用户</th>
                     <th>充电电量</th>
                     <th>费用信息</th>
+                    <th>用户信息</th>
                     <th>创建时间</th>
                     <th>订单状态</th>
                     <th>操作</th>
@@ -48,9 +48,9 @@
             {"data": "no"},
             {"data": "pile"},
             {"data": "gun"},
-            {"data": "tel"},
             {"data": "e"},
             {"data": "info"},
+            {"data": "userInfo"},
             {"data": "created_at"},
             {"data": "status"},
             {

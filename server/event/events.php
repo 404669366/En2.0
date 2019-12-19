@@ -135,7 +135,7 @@ class events
                         }
                         if ($data['workStatus'] == 4 && $data['linkStatus']) {
                             if ($order = self::$db->select('*')->from('en_order')->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status in(0,1)")->row()) {
-                                self::$db->update('en_order')->cols(['status' => 4])->where("no='{$order['no']}'")->query();
+                                self::$db->update('en_order')->cols(['status' => 4, 'e' => 0, 'bm' => 0, 'sm' => 0])->where("no='{$order['no']}'")->query();
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 200]));
                             }
                         }

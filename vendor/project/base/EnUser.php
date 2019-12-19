@@ -85,11 +85,13 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
 
     /**
      * 查询用户余额
+     * @param int $user_id
      * @return string
      */
-    public static function getMoney()
+    public static function getMoney($user_id = 0)
     {
-        return self::findOne(Yii::$app->user->id)->money;
+        $user_id = $user_id ?: Yii::$app->user->id;
+        return self::findOne($user_id)->money;
     }
 
     /**

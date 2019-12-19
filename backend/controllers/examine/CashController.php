@@ -50,9 +50,12 @@ class CashController extends CommonController
             $post = \Yii::$app->request->post();
             $model->remark = $post['remark'];
             $model->status = $post['status'];
-            $model->save();
-            Msg::set('操作成功');
-            return $this->redirect(['list']);
+            if ($model->save()) {
+                Msg::set('操作成功');
+                return $this->redirect(['list']);
+            } else {
+                Msg::set($model->errors());
+            }
         }
         return $this->render('info', [
             'model' => $model,

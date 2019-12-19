@@ -47,8 +47,13 @@ class EnCash extends \yii\db\ActiveRecord
     public function validateStatus()
     {
         if ($this->status == 1 && $this->type == 3) {
+            if (EnUser::getMoney($this->key) < $this->money) {
+                $this->addError('status', '账户余额不足');
+            }
+        }
+        if ($this->status == 2 && $this->type == 3) {
             if (!EnUser::cutMoney($this->key, $this->money)) {
-                $this->addError('status', '扣除用户余额错误');
+                $this->addError('status', '扣除余额错误');
             }
         }
     }
@@ -88,7 +93,7 @@ class EnCash extends \yii\db\ActiveRecord
         $data = self::find()->alias('c')
             ->leftJoin(EnCompany::tableName() . ' co', 'co.id=c.key')
             ->leftJoin(EnUser::tableName() . ' u', 'u.id=c.key')
-            ->select(['c.*', 'co.name as cName', 'u.tel as uTel'])
+            ->select(['c.*', 'co.name as cName', 'u.tel as uTel', 'u.money as haveMoney'])
             ->page([
                 'keywords' => ['like', 'c.no', 'co.name', 'u.tel'],
                 'type' => ['=', 'c.type'],

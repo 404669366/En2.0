@@ -42,6 +42,9 @@ class Tld
                     if ($data['code'] == 2) {
                         $data['cmd'] = 62;
                     }
+                    if ($data['code'] == 11) {
+                        $data['cmd'] = 611;
+                    }
                     break;
                 case 8:
                     $data['gun'] = unpack('Cv', substr($buffer, 36, 1))['v'];

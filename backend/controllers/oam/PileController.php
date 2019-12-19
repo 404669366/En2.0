@@ -97,6 +97,7 @@ class PileController extends CommonController
             $msg = '用户使用中';
             if (!EnOrder::findOne(['pile' => $no, 'status' => [0, 1]])) {
                 Gateway::sendToUid($no, ['cmd' => 5, 'gun' => 1, 'code' => 11, 'val' => 85]);
+                $msg = '命令发送成功';
             }
         }
         return $this->goBack($msg);

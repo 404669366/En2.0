@@ -59,7 +59,11 @@
             {"data": "fieldInfo"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-                return '<button class="btn btn-sm btn-info" data-url="/oam/pile/info?no=' + data + '">编辑</button>';
+                var str = '<a class="btn btn-sm btn-info" href="/oam/pile/info?no=' + data + '">详情</a>';
+                if (row.online == '在线') {
+                    str += '&emsp;<a class="btn btn-sm btn-warning" href="/oam/pile/restart?no=' + data + '">重启</a>';
+                }
+                return str;
             }
             }
         ],

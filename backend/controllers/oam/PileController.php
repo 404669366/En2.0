@@ -10,6 +10,7 @@ namespace app\controllers\oam;
 
 
 use app\controllers\basis\CommonController;
+use GatewayClient\Gateway;
 use vendor\project\base\EnModel;
 use vendor\project\base\EnOrder;
 use vendor\project\base\EnPile;
@@ -82,6 +83,24 @@ class PileController extends CommonController
             ]);
         }
         return $this->goBack('充电不存在或已结束');
+    }
+
+    /**
+     * 重启设备
+     * @param string $no
+     * @return \yii\web\Response
+     */
+    public function actionRestart($no = '')
+    {
+        $msg = '操作错误';
+        if (EnPile::findOne(['no' => $no, 'online' => 1])) {
+            $msg = '用户使用中';
+            if (!EnOrder::findOne(['pile' => $no, 'status' => [0, 1]])) {
+                Gateway::sendToUid($no, ['cmd' => 5, 'gun' => 1, 'code' => 11, 'val' => 85]);
+                $msg = '命令发送成功';
+            }
+        }
+        return $this->goBack($msg);
     }
 
     /**

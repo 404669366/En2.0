@@ -103,10 +103,10 @@ class EnCash extends \yii\db\ActiveRecord
             $v['user'] = $v['uTel'];
             if ($v['type'] == 1) {
                 $v['user'] = $v['cName'];
-                $v['haveMoney'] = EnIncome::getSurplus(2, 1, $v['key']);
+                $v['haveMoney'] = (string)EnIncome::getSurplus(2, 1, $v['key']);
             }
             if ($v['type'] == 2) {
-                $v['haveMoney'] = EnIncome::getSurplus([3, 4], 2, $v['key']);
+                $v['haveMoney'] = (string)EnIncome::getSurplus([3, 4], 2, $v['key']);
             }
             $v['typeName'] = Constant::cashType()[$v['type']];
             $v['statusName'] = Constant::cashStatus()[$v['status']];

@@ -178,7 +178,7 @@ class Constant
     public static function friends()
     {
         return [
-            0 => ['name' => '亿能充电<br/>合作伙伴', 'logo' => 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190625091604sehen6sqg.png', 'url' => 'http://charge.en.ink'],
+            0 => ['name' => '亿能充电<br/>合作伙伴', 'logo' => 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190625091604sehen6sqg.png', 'url' => 'http://c.en.ink'],
             1 => ['name' => '亿能建站<br/>合作伙伴', 'logo' => 'https://ascasc.oss-cn-hangzhou.aliyuncs.com/20190625091604sehen6sqg.png', 'url' => 'http://www.en.ink'],
         ];
     }

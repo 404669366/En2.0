@@ -35,6 +35,14 @@ class OrderController extends CommonController
     }
 
     /**
+     * 列表导出
+     */
+    public function actionExport()
+    {
+        EnOrder::export();
+    }
+
+    /**
      * 订单扣款
      * @param string $no
      * @return \yii\web\Response

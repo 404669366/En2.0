@@ -20,6 +20,9 @@
                         <button class="tableReload">重置</button>
                     </span>
                 </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-sm btn-info export" data-go="/finance/order/export">导出</button>
+                </div>
             </div>
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
                 <thead>
@@ -68,4 +71,5 @@
         default_order: [6, 'desc']
     });
     myTable.search();
+    myTable.export();
 </script>

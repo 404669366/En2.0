@@ -35,7 +35,7 @@ myTable.search = function () {
  */
 myTable.export = function () {
     $('body').on('click', '.export', function () {
-        var url = $(this).attr('go') + '?';
+        var url = $(this).data('go') + '?';
         $('.tableSearchBox').find('.searchField').each(function (k, v) {
             url += $(v).attr('name') + '=' + $(v).val() + '&';
         });

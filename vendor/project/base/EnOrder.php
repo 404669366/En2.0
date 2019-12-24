@@ -116,6 +116,33 @@ class EnOrder extends \yii\db\ActiveRecord
     }
 
     /**
+     * 订单导出
+     */
+    public static function export()
+    {
+        $get = Yii::$app->request->get();
+        $orders = self::find()->alias('o')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid')
+            ->select(['o.*', 'u.tel', 'u.money']);
+        if (isset($get['keywords'])) {
+            $orders->andFilterWhere(['or', ['like', 'o.no', $get['keywords']], ['like', 'o.pile', $get['keywords']], ['like', 'u.tel', $get['keywords']]]);
+        }
+        if (isset($get['status'])) {
+            $orders->andFilterWhere(['=', 'o.status', $get['status']]);
+        }
+        $orders = $orders->asArray()->all();
+        $data = [];
+        foreach ($orders as $v) {
+            $info = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
+            $userInfo = '充电用户:' . $v['tel'] . '<br>账户余额:' . $v['money'];
+            $created_at = date('Y-m-d H:i:s');
+            $status = Constant::orderStatus()[$v['status']];
+            array_push($data, [$v['no'], $v['pile'], $v['gun'], $v['e'], $info, $userInfo, $created_at, $status]);
+        }
+        Helper::excel(['订单编号', '电桩编号', '充电枪口', '充电电量', '费用信息', '用户信息', '创建时间', '订单状态'], $data, '充电订单');
+    }
+
+    /**
      * 获取当前用户订单
      * @return array|\yii\db\ActiveRecord[]
      */

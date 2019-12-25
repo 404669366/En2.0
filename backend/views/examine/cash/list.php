@@ -36,8 +36,8 @@
                     <th>NO</th>
                     <th>提现类型</th>
                     <th>提现账户</th>
-                    <th>账户余额</th>
                     <th>提现金额</th>
+                    <th>账户余额</th>
                     <th>创建时间</th>
                     <th>提现状态</th>
                     <th>操作</th>
@@ -56,8 +56,8 @@
             {"data": "no"},
             {"data": "typeName"},
             {"data": "user"},
-            {"data": "haveMoney"},
             {"data": "money"},
+            {"data": "haveMoney"},
             {"data": "created_at"},
             {"data": "statusName"},
             {

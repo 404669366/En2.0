@@ -103,7 +103,7 @@ class events
                                     $order['e'] = $data['e'];
                                     self::$db->update('en_order')->cols($order)->where("no='{$order['no']}'")->query();
                                     $userMoney = self::$db->select('money')->from('en_user')->where("id={$order['uid']}")->row()['money'];
-                                    if (($order['bm'] + $order['sm']) >= ($userMoney - 5)) {
+                                    if (($order['bm'] + $order['sm']) >= ($userMoney - 1)) {
                                         $code = 207;
                                         Gateway::sendToClient($client_id, ['cmd' => 5, 'gun' => $data['gun'], 'code' => 2, 'val' => 85]);
                                     }

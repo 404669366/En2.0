@@ -93,7 +93,7 @@ class CController extends AuthController
                 'code' => Constant::serverCode(),
             ]);
         }
-        if (EnUser::getMoney() > 5) {
+        if (EnUser::getMoney() > 1) {
             $no = explode('-', $n);
             if (count($no) == 2) {
                 if ($pile = EnPile::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {

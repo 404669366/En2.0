@@ -84,6 +84,14 @@ window.showMsgDo = function (data, time, func, size) {
     }
 };
 
+window.goLast = function (def) {
+    if (window.history.length > 1) {
+        window.history.go(-1);
+    } else {
+        window.location.href = def || '/user/user/center.html';
+    }
+};
+
 window.format = function (num, length) {
     return Math.round(num * Math.pow(10, length)) / Math.pow(10, length);
 };

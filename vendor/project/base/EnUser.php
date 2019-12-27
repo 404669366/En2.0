@@ -132,6 +132,17 @@ class EnUser extends \yii\db\ActiveRecord implements IdentityInterface
         return false;
     }
 
+    /**
+     * 余额是否足够
+     * @param int $uid
+     * @param int $limit
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function ampleMoney($uid = 0, $limit = 1)
+    {
+        return self::find()->where(['id' => $uid ?: Yii::$app->user->id])->andWhere(['>', 'money', $limit])->one();
+    }
+
     //todo**********************  登录接口实现  ***************************
 
     public static function findIdentity($id)

@@ -82,30 +82,28 @@
     </li>
     <li></li>
 </ul>
-<div class="charge_end">
-    结束充电
-</div>
+<div class="charge_end">结束充电</div>
 </body>
 <script>
     window.wait().open();
-    $('.title').text(global.info.fieldName);
+    $('.title').text(global.fieldName);
     $('.demo').radialIndicator().data('radialIndicator').value(0);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
 
-        socket.send(JSON.stringify(global.info));
+        socket.send(JSON.stringify(global.cmd));
 
         socket.onmessage = function (event) {
             window.wait().close();
             var data = JSON.parse(event.data);
-            if (data.code === 204) {
+            if (data.code === 100 || data.code === 200 || data.code === 202 || data.code === 203) {
                 window.showMsgDo(global.code[data.code], 3, function () {
-                    window.wait().open();
+                    window.goLast();
                 });
                 return;
             }
             if (data.code === 205 || data.code === 206 || data.code === 207 || data.code === 208) {
-                data.data.fieldName = global.info.fieldName;
+                data.data.fieldName = global.fieldName;
                 data.data.duration = timeToStr(data.data.duration);
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
@@ -118,39 +116,24 @@
             }
             if (data.code === 209) {
                 window.showMsgDo(global.code[data.code], 3, function () {
-                    window.location.href = '/order/charge/pay.html?no=' + global.info.orderNo;
+                    window.location.href = '/order/charge/pay.html?no=' + global.no;
                 });
-                return;
-            }
-            if (data.code === 100 || data.code === 200 || data.code === 202 || data.code === 203) {
-                window.showMsgDo(global.code[data.code], 3, function () {
-                    if (window.history.length > 1) {
-                        window.history.go(-1);
-                    } else {
-                        window.location.href = '/user/user/center.html';
-                    }
-                });
-                return;
-            }
-            if (data.code === 301) {
-                window.showMsg(global.code[data.code]);
                 return;
             }
         };
 
         $('body').on('click', '.charge_end', function () {
             window.wait().open();
-            socket.send(JSON.stringify({do: 'endCharge', pile: global.info.pile, gun: global.info.gun}));
+            $.getJSON('/c/s/end.html', {no: global.no}, function (re) {
+                window.wait().close();
+                window.showMsg(re.msg);
+            });
         });
     };
     socket.onerror = function () {
         window.wait().close();
         window.showMsgDo('链接服务器错误,请稍后再试', 3, function () {
-            if (window.history.length > 1) {
-                window.history.go(-1);
-            } else {
-                window.location.href = '/user/user/center.html';
-            }
+            window.goLast();
         });
     };
 

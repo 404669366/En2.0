@@ -1040,7 +1040,7 @@ class Model extends Component implements StaticInstanceInterface, IteratorAggreg
     }
 
     /**
-     * 返回所有错误信息
+     * 返回所有字段及错误信息
      * @return string
      */
     public function errors()
@@ -1053,5 +1053,14 @@ class Model extends Component implements StaticInstanceInterface, IteratorAggreg
             $str .= $k . ' : ' . end($v) . '<br>';
         }
         return $str;
+    }
+
+    /**
+     * 返回所有错误信息
+     * @return string
+     */
+    public function errorsInfo()
+    {
+        return implode('<br>', $this->getErrors());
     }
 }

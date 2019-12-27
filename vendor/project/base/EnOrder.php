@@ -2,6 +2,7 @@
 
 namespace vendor\project\base;
 
+use GatewayClient\Gateway;
 use vendor\project\helpers\client;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
@@ -73,6 +74,13 @@ class EnOrder extends \yii\db\ActiveRecord
     public function validateStatus()
     {
         if ($this->status == 0) {
+            $session = Gateway::getSessionByUid($this->pile);
+            if ($session['status'][$this->gun]['workStatus']) {
+                $this->addError('status', '枪口故障中,请稍后再试');
+            }
+            if (!$session['status'][$this->gun]['linkStatus']) {
+                $this->addError('status', '枪口未连接,请检查电枪');
+            }
             if (self::findOne(['pile' => $this->pile, 'gun' => $this->gun, 'status' => [0, 1]])) {
                 $this->addError('status', '枪口已占用,请稍后再试');
             }

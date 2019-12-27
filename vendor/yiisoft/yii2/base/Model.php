@@ -1061,6 +1061,11 @@ class Model extends Component implements StaticInstanceInterface, IteratorAggreg
      */
     public function errorsInfo()
     {
-        return implode('<br>', $this->getErrors());
+        $errors = $this->getErrors();
+        $str = '';
+        foreach ($errors as $v) {
+            $str .= end($v) . '<br>';
+        }
+        return $str;
     }
 }

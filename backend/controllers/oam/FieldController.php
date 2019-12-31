@@ -19,35 +19,70 @@ use vendor\project\helpers\Msg;
 class FieldController extends CommonController
 {
     /**
-     * 场站上线管理列表
+     * 电站地图
+     * @param string $key
      * @return string
      */
-    public function actionList()
+    public function actionMap($key = '')
     {
-        return $this->render('list', [
-            'status' => Constant::fieldStatus(),
-            'online' => Constant::fieldOnline(),
+        return $this->render('map', [
+            'data' => json_encode(EnField::getMapData($key)),
+            'key' => $key
         ]);
     }
 
     /**
-     * 场站上线管理列表数据
+     * 电站地图信息
+     * @param string $no
      * @return string
      */
-    public function actionData()
+    public function actionMapInfo($no = '')
     {
-        return $this->rTableData(EnField::getPageData(4, false));
+        return $this->rJson(EnField::getMapInfo($no));
+    }
+
+    /**
+     * 上线操作
+     * @param string $no
+     * @return string
+     */
+    public function actionUp($no = '')
+    {
+        if ($model = EnField::findOne(['no' => $no, 'online' => 0, 'status' => 4])) {
+            $model->online = 1;
+            if ($model->save()) {
+                return $this->rJson([], true, '上线成功');
+            }
+            return $this->rJson([], false, $model->errors());
+        }
+        return $this->rJson([], false, '非法操作');
+    }
+
+    /**
+     * 下线操作
+     * @param string $no
+     * @return string
+     */
+    public function actionDown($no = '')
+    {
+        if ($model = EnField::findOne(['no' => $no, 'online' => 1, 'status' => 4])) {
+            $model->online = 0;
+            if ($model->save()) {
+                return $this->rJson([], true, '下线成功');
+            }
+            return $this->rJson([], false, $model->errors());
+        }
+        return $this->rJson([], false, '非法操作');
     }
 
     /**
      * 场站电桩页
      * @param string $no
-     * @param string $back
      * @return string
      */
-    public function actionPile($no = '', $back = '/oam/field/list')
+    public function actionPile($no = '')
     {
-        return $this->render('pile', ['no' => $no, 'back' => $back]);
+        return $this->render('pile', ['no' => $no]);
     }
 
     /**
@@ -63,10 +98,9 @@ class FieldController extends CommonController
     /**
      * 场站电桩详情页
      * @param $no
-     * @param string $back
      * @return string
      */
-    public function actionPileInfo($no, $back = '')
+    public function actionPileInfo($no)
     {
         $model = EnPile::findOne(['no' => $no]);
         if (\Yii::$app->request->isPost) {
@@ -83,62 +117,6 @@ class FieldController extends CommonController
             'code' => json_encode(Constant::serverCode()),
             'work' => json_encode(Constant::workStatus()),
             'link' => json_encode(Constant::linkStatus()),
-            'back' => $back,
         ]);
-    }
-
-    /**
-     * 上线操作
-     * @param string $no
-     * @return \yii\web\Response
-     */
-    public function actionUp($no = '')
-    {
-        Msg::set('非法操作');
-        if ($model = EnField::findOne(['no' => $no, 'online' => 0])) {
-            $model->online = 1;
-            Msg::set('上线成功');
-            if (!$model->save()) {
-                Msg::set($model->errors());
-            }
-        }
-        return $this->redirect(['list']);
-    }
-
-    /**
-     * 下线操作
-     * @param string $no
-     * @return \yii\web\Response
-     */
-    public function actionDown($no = '')
-    {
-        Msg::set('非法操作');
-        if ($model = EnField::findOne(['no' => $no, 'online' => 1])) {
-            $model->online = 0;
-            Msg::set('下线成功');
-            if (!$model->save()) {
-                Msg::set($model->errors());
-            }
-        }
-        return $this->redirect(['list']);
-    }
-
-    /**
-     * 电站地图
-     * @return string
-     */
-    public function actionMap()
-    {
-        return $this->render('map', ['data' => json_encode(EnField::getMapData())]);
-    }
-
-    /**
-     * 电站地图信息
-     * @param string $no
-     * @return string
-     */
-    public function actionMapInfo($no = '')
-    {
-        return $this->rJson(EnField::getMapInfo($no));
     }
 }

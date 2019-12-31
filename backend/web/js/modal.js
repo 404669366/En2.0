@@ -44,6 +44,7 @@ window.modal1 = function (config) {
     config = config || {};
     var node = config.node || 'modal';
     var nodeClass = '.' + node;
+    $(nodeClass).remove();
     var width = config.width || '40rem';
     var height = config.height || '20rem';
     var title = config.title || '';

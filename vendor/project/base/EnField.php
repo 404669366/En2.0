@@ -443,15 +443,21 @@ class EnField extends \yii\db\ActiveRecord
 
     /**
      * 地图数据
-     * @return array|\yii\db\ActiveRecord[]
+     * @param string $key
+     * @return $this|array|\yii\db\ActiveRecord[]
      */
-    public static function getMapData()
+    public static function getMapData($key = '')
     {
-        $data = self::find()->where(['online' => 1]);
+        $data = self::find()->alias('f')
+            ->leftJoin(EnCompany::tableName() . ' c', 'c.id=f.company_id')
+            ->where(['f.status' => 4]);
         if ($company_id = Yii::$app->user->identity->company_id) {
-            $data = $data->andWhere(['company_id' => $company_id]);
+            $data->andWhere(['f.company_id' => $company_id]);
         }
-        $data = $data->select(['no', 'lat', 'lng', 'name', 'address'])->asArray()->all();
+        if ($key) {
+            $data->andWhere(['or', ['like', 'f.no', $key], ['like', 'f.name', $key], ['like', 'f.address', $key], ['like', 'c.name', $key], ['like', 'c.abridge', $key]]);
+        }
+        $data = $data->select(['f.no', 'f.lat', 'f.lng', 'f.name', 'f.address', 'c.abridge'])->asArray()->all();
         foreach ($data as &$v) {
             $v['styleId'] = 'circle';
             $v['lat'] = (float)$v['lat'];
@@ -484,7 +490,8 @@ class EnField extends \yii\db\ActiveRecord
             'allUse' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
             'useCount' => $model3->andWhere(['o.status' => [2, 3]])->count(),
             'allCount' => $model4->andWhere(['o.status' => [2, 3, 4]])->count(),
-            'chart' => implode(',', $month)
+            'chart' => implode(',', $month),
+            'online' => EnField::findOne(['no' => $no])->online
         ];
         return $data;
     }

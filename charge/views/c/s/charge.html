@@ -133,7 +133,7 @@
     socket.onerror = function () {
         window.wait().close();
         window.showMsgDo('链接服务器错误,请稍后再试', 3, function () {
-            window.goLast();
+            window.location.reload();
         });
     };
 

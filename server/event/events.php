@@ -31,6 +31,9 @@ class events
                         break;
                     case 'joinPile':
                         Gateway::joinGroup($client_id, $data['pile']);
+                        if (Gateway::isUidOnline($data['pile'])) {
+                            Gateway::sendToClient($client_id, json_encode(self::getSessionByUid($data['pile'])));
+                        }
                         break;
                     case 'leavePile':
                         Gateway::leaveGroup($client_id, $data['pile']);

@@ -28,7 +28,7 @@ class SController extends AuthController
                 'no' => $order->no,
                 'fieldName' => $order->pileInfo->local->name,
                 'cmd' => [
-                    'do' => 'seeCharge',
+                    'do' => 'joinCharge',
                     'pile' => $order->pile,
                     'gun' => $order->gun,
                 ],

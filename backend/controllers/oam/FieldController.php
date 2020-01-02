@@ -114,7 +114,6 @@ class FieldController extends CommonController
         return $this->render('info', [
             'model' => $model,
             'models' => EnModel::getModels(),
-            'code' => json_encode(Constant::serverCode()),
             'work' => json_encode(Constant::workStatus()),
             'link' => json_encode(Constant::linkStatus()),
         ]);

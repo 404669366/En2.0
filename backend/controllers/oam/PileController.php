@@ -59,10 +59,21 @@ class PileController extends CommonController
         return $this->render('info', [
             'model' => $model,
             'models' => EnModel::getModels(),
-            'code' => json_encode(Constant::serverCode()),
             'work' => json_encode(Constant::workStatus()),
             'link' => json_encode(Constant::linkStatus()),
         ]);
+    }
+
+    /**
+     * 结束充电
+     * @param string $pile
+     * @param int $gun
+     * @return string
+     */
+    public function actionEnd($pile = '', $gun = 0)
+    {
+        Gateway::sendToUid($pile, ['cmd' => 5, 'gun' => $gun, 'code' => 2, 'val' => 85]);
+        return $this->rJson([], true, '充电结束中,请稍后');
     }
 
     /**
@@ -76,7 +87,7 @@ class PileController extends CommonController
         if ($order = EnOrder::findOne(['pile' => $pile, 'gun' => $gun, 'status' => [0, 1]])) {
             return $this->render('look', [
                 'info' => json_encode([
-                    'do' => 'seeCharge',
+                    'do' => 'joinCharge',
                     'pile' => $order->pile,
                     'gun' => $order->gun,
                 ]),

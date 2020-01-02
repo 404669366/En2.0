@@ -142,40 +142,34 @@
     </div>
 </div>
 <script>
-    var code = JSON.parse(`<?=$code?>`);
     var work = JSON.parse(`<?=$work?>`);
     var link = JSON.parse(`<?=$link?>`);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
         var no = $('.no').val();
-        socket.send(JSON.stringify({do: 'seePile', pile: no}));
-        setInterval(function () {
-            socket.send(JSON.stringify({do: 'seePile', pile: no}));
-        }, 2000);
+        socket.send(JSON.stringify({do: 'joinPile', pile: no}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            if (data.code === 600) {
-                $('.gunTable').html('<tr><td>枪口编码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
-                $.each(data.data.status || [], function (k, v) {
-                    var str = '<tr>';
-                    str += '<td>' + no + '-' + k + '</td>';
-                    str += '<td>' + link[v.linkStatus] + '</td>';
-                    str += '<td>' + work[v.workStatus] + '</td>';
-                    if (v.workStatus === 2 && v.linkStatus) {
-                        str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
-                    } else {
-                        str += '<td>----</td>';
-                    }
-                    str += '</tr>';
-                    $('.gunTable').append(str);
-                });
-            } else {
-                window.showMsg(code[data.code]);
-            }
+            $('.gunTable').html('<tr><td>枪口编码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
+            $.each(data.status || [], function (k, v) {
+                var str = '<tr>';
+                str += '<td>' + no + '-' + k + '</td>';
+                str += '<td>' + link[v.linkStatus] + '</td>';
+                str += '<td>' + work[v.workStatus] + '</td>';
+                if (v.workStatus === 2 && v.linkStatus) {
+                    str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button></td>';
+                } else {
+                    str += '<td>----</td>';
+                }
+                str += '</tr>';
+                $('.gunTable').append(str);
+            });
         };
 
         $('.gunTable').on('click', '.endCharge', function () {
-            socket.send(JSON.stringify({do: 'endCharge', pile: $(this).data('no'), gun: $(this).data('gun')}));
+            $.getJSON('/oam/pile/end', {pile: $(this).data('no'), gun: $(this).data('gun')}, function (re) {
+                window.showMsg(re.msg);
+            })
         })
 
     };

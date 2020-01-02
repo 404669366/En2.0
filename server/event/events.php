@@ -21,53 +21,25 @@ class events
             //todo 客户端
             case 20001:
                 $data = json_decode($data, true);
-                Gateway::sendToGroup('server', json_encode(['msg' => $data, 'time' => date('Y-m-d H:i:s')]));
+                Gateway::sendToGroup('server', json_encode(['type' => 'user', 'msg' => $data, 'time' => date('Y-m-d H:i:s')]));
                 switch ($data['do']) {
-                    case 'beginCharge':
-                        if (!Gateway::isUidOnline($data['pile'])) {
-                            Gateway::sendToClient($client_id, json_encode(['code' => 100]));
-                            self::$db->update('en_order')->cols(['status' => 4])->where("no='{$data['orderNo']}'")->query();
-                            break;
-                        }
-                        $status = self::getSessionByUid($data['pile'])['status'][$data['gun']];
-                        if ($status['workStatus']) {
-                            self::$db->update('en_order')->cols(['status' => 4])->where("no='{$data['orderNo']}'")->query();
-                            Gateway::sendToClient($client_id, json_encode(['code' => 203]));
-                            break;
-                        }
-                        if (!$status['linkStatus']) {
-                            self::$db->update('en_order')->cols(['status' => 4])->where("no='{$data['orderNo']}'")->query();
-                            Gateway::sendToClient($client_id, json_encode(['code' => 202]));
-                            break;
-                        }
-                        Gateway::sendToUid($data['pile'], ['cmd' => 7, 'gun' => $data['gun'], 'orderNo' => $data['orderNo']]);
-                        Gateway::joinGroup($client_id, $data['pile'] . $data['gun']);
-                        Gateway::sendToClient($client_id, json_encode(['code' => 204]));
-                        break;
-                    case 'seeCharge':
-                        Gateway::joinGroup($client_id, $data['pile'] . $data['gun']);
-                        break;
-                    case 'endCharge':
-                        if (Gateway::isUidOnline($data['pile'])) {
-                            Gateway::joinGroup($client_id, $data['pile'] . $data['gun']);
-                            Gateway::sendToUid($data['pile'], ['cmd' => 5, 'gun' => $data['gun'], 'code' => 2, 'val' => 85]);
-                            break;
-                        }
-                        Gateway::sendToClient($client_id, json_encode(['code' => 301]));
-                        break;
-                    case 'seePile':
-                        Gateway::joinGroup($client_id, $data['pile']);
-                        if (Gateway::isUidOnline($data['pile'])) {
-                            Gateway::sendToClient($client_id, json_encode(['code' => 600, 'data' => self::getSessionByUid($data['pile'])]));
-                            break;
-                        }
-                        Gateway::sendToClient($client_id, json_encode(['code' => 601]));
-                        break;
                     case 'joinServer':
                         Gateway::joinGroup($client_id, 'server');
                         break;
                     case 'leaveServer':
                         Gateway::leaveGroup($client_id, 'server');
+                        break;
+                    case 'joinPile':
+                        Gateway::joinGroup($client_id, $data['pile']);
+                        break;
+                    case 'leavePile':
+                        Gateway::leaveGroup($client_id, $data['pile']);
+                        break;
+                    case 'joinCharge':
+                        Gateway::joinGroup($client_id, $data['pile'] . $data['gun']);
+                        break;
+                    case 'leaveCharge':
+                        Gateway::leaveGroup($client_id, $data['pile'] . $data['gun']);
                         break;
                     default:
                         Gateway::sendToClient($client_id, json_encode(['code' => 100]));
@@ -76,7 +48,7 @@ class events
                 break;
             //todo 特来电电桩
             case 20002:
-                Gateway::sendToGroup('server', json_encode(['msg' => $data, 'time' => date('Y-m-d H:i:s')]));
+                Gateway::sendToGroup('server', json_encode(['type' => 'tld', 'msg' => $data, 'time' => date('Y-m-d H:i:s')]));
                 switch ($data['cmd']) {
                     case 62:
                         if ($data['result'] == 0) {
@@ -160,11 +132,11 @@ class events
                             }
                         }
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
+                        Gateway::sendToGroup($data['no'], $_SESSION);
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;
                     case 106:
                         $_SESSION['no'] = $data['no'];
-                        $_SESSION['count'] = $data['count'];
                         self::$db->query("INSERT INTO `en_pile` (`no`) VALUES ('{$data['no']}') ON DUPLICATE KEY UPDATE `online`=1,`count`={$data['count']}");
                         Gateway::sendToClient($client_id, ['cmd' => 105, 'random' => $data['random']]);
                         Gateway::sendToClient($client_id, ['cmd' => 3, 'type' => 1, 'code' => 2, 'val' => self::getTime()]);

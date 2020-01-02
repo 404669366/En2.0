@@ -132,7 +132,7 @@ class events
                             }
                         }
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
-                        Gateway::sendToGroup($data['no'], $_SESSION);
+                        Gateway::sendToGroup($data['no'], json_encode($_SESSION));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;
                     case 106:

@@ -146,13 +146,14 @@
     var link = JSON.parse(`<?=$link?>`);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
+        var no = $('.no').val();
         socket.send(JSON.stringify({do: 'joinPile', pile: no}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
             $('.gunTable').html('<tr><td>枪口编码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
             $.each(data.status || [], function (k, v) {
                 var str = '<tr>';
-                str += '<td>' + data.no + '-' + k + '</td>';
+                str += '<td>' + no + '-' + k + '</td>';
                 str += '<td>' + link[v.linkStatus] + '</td>';
                 str += '<td>' + work[v.workStatus] + '</td>';
                 if (v.workStatus === 2 && v.linkStatus) {

@@ -13,7 +13,7 @@
 
     .search {
         position: fixed;
-        top: 2rem;
+        top: 1.6rem;
         left: 50%;
         -webkit-transform: translate(-50%, 0);
         -o-transform: translate(-50%, 0);

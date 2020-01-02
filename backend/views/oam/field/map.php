@@ -19,7 +19,7 @@
         -o-transform: translate(-50%, 0);
         -moz-transform: translate(-50%, 0);
         transform: translate(-50%, 0);
-        width: 24rem;
+        width: 36rem;
         height: 3rem;
         z-index: 888;
         padding: 0 0.36rem;

@@ -23,8 +23,7 @@ class SController extends AuthController
      */
     public function actionS()
     {
-        if ($order = EnOrder::findOne(['no' => \Yii::$app->request->get('no',''), 'status' => [0, 1, 2]])) {
-            var_dump($order);exit();
+        if ($order = EnOrder::findOne(['no' => \Yii::$app->request->get('no', ''), 'status' => [0, 1, 2]])) {
             if ($order->status == 2) {
                 Msg::set('充电已结束!');
                 return $this->redirect(['order/charge/pay', 'no' => $order->no]);
@@ -40,7 +39,6 @@ class SController extends AuthController
                 'code' => Constant::serverCode(),
             ]);
         }
-        var_dump(111);exit();
         return $this->goBack('错误操作!');
     }
 

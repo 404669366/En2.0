@@ -126,7 +126,11 @@
             window.wait().open();
             $.getJSON('/c/s/end.html', {no: global.no}, function (re) {
                 window.wait().close();
-                window.showMsg(re.msg);
+                window.showMsgDo(re.msg, 3, function () {
+                    if (!re.type) {
+                        window.location.href = '/order/charge/list.html';
+                    }
+                });
             });
         });
     };

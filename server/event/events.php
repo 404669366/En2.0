@@ -168,9 +168,6 @@ class events
                             Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 209]));
                         }
                         Gateway::sendToClient($client_id, ['cmd' => 201, 'gun' => $data['gun'], 'cardNo' => $data['cardNo'], 'index' => $data['index']]);
-                        if ($data['gun'] == 6) {
-                            var_dump($data['orderNo'] . ' ' . date('Y-m-d H:i:s'));
-                        }
                         break;
                 }
                 break;

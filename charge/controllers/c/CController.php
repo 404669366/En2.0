@@ -14,7 +14,6 @@ use GatewayClient\Gateway;
 use vendor\project\base\EnOrder;
 use vendor\project\base\EnPile;
 use vendor\project\base\EnUser;
-use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 use vendor\project\helpers\Wechat;

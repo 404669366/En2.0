@@ -137,9 +137,6 @@ class events
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
                         Gateway::sendToGroup($data['no'], json_encode($_SESSION));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
-                        if ($data['gun'] == 6) {
-                            var_dump($data['workStatus'] . ' ' . $data['linkStatus'] . ' ' . date('Y-m-d H:i:s'));
-                        }
                         break;
                     case 106:
                         $_SESSION['no'] = $data['no'];
@@ -180,10 +177,11 @@ class events
             //todo 特来电电桩
             case 20002:
                 self::$db->update('en_pile')->cols(['online' => 0])->where("no='{$_SESSION['no']}'")->query();
-                /*self::$db->update('en_order')->cols(['status' => 2])->where("pile='{$_SESSION['no']}' AND status in(0,1)")->query();
+                self::$db->update('en_order')->cols(['status' => 2])->where("pile='{$_SESSION['no']}' AND status in(0,1)")->query();
                 for ($i = 1; $i <= $_SESSION['count']; $i++) {
                     Gateway::sendToGroup($_SESSION['no'] . $i, json_encode(['code' => 209]));
-                }*/
+                }
+                var_dump("{$_SESSION['no']}离线");
         }
     }
 

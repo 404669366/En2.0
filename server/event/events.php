@@ -60,6 +60,9 @@ class events
                         }
                         Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 301]));
                         break;
+                    case 8:
+                        var_dump($data);
+                        break;
                     case 102:
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
@@ -181,7 +184,6 @@ class events
                 for ($i = 1; $i <= $_SESSION['count']; $i++) {
                     Gateway::sendToGroup($_SESSION['no'] . $i, json_encode(['code' => 209]));
                 }
-                var_dump("{$_SESSION['no']}离线 " . date('Y-m-d H:i:s'));
         }
     }
 

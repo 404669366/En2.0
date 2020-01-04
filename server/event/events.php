@@ -181,7 +181,7 @@ class events
                 for ($i = 1; $i <= $_SESSION['count']; $i++) {
                     Gateway::sendToGroup($_SESSION['no'] . $i, json_encode(['code' => 209]));
                 }
-                var_dump("{$_SESSION['no']}离线");
+                var_dump("{$_SESSION['no']}离线 " . date('Y-m-d H:i:s'));
         }
     }
 

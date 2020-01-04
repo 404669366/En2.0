@@ -64,9 +64,6 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo'] + 1]);
                         break;
                     case 104:
-                        if ($data['gun'] == 6) {
-                            var_dump($data['workStatus'] . ' ' . $data['linkStatus'] . ' ' . date('Y-m-d H:i:s'));
-                        }
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 2 && $data['linkStatus']) {
                             if ($order = self::$db->select('*')->from('en_order')->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status in(0,1)")->row()) {
@@ -140,6 +137,9 @@ class events
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
                         Gateway::sendToGroup($data['no'], json_encode($_SESSION));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
+                        if ($data['gun'] == 6) {
+                            var_dump($data['workStatus'] . ' ' . $data['linkStatus'] . ' ' . date('Y-m-d H:i:s'));
+                        }
                         break;
                     case 106:
                         $_SESSION['no'] = $data['no'];

@@ -27,7 +27,7 @@ class SController extends AuthController
         if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
             if ($order['status'] == 2) {
                 Msg::set('充电已结束!');
-                return $this->redirect(['order/charge/pay', 'no' => $order->no);
+                return $this->redirect(['order/charge/pay', 'no' => $order->no]);
             }
             return $this->render('charge.html', [
                 'no' => $order->no,

@@ -24,7 +24,10 @@ class SController extends AuthController
      */
     public function actionS($no = '')
     {
-        var_dump(EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]]));exit();
+        var_dump($no);
+        var_dump(EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]]));
+        var_dump($order = null);
+        exit();
         if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
             if ($order->status == 2) {
                 Msg::set('充电已结束!');

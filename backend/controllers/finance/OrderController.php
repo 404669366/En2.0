@@ -63,13 +63,10 @@ class OrderController extends CommonController
     {
         Msg::set('操作错误');
         if ($model = EnOrder::findOne(['no' => $no, 'status' => 0])) {
-            $session = Gateway::getSessionByUid($model->pile);
-            if ($session['status'][$model->gun]['workStatus'] == 0) {
-                $model->status = 4;
-                if ($model->save()) {
-                    Gateway::sendToUid($model->pile, ['cmd' => 5, 'gun' => $model->gun, 'code' => 2, 'val' => 85]);
-                    Msg::set('关闭成功');
-                }
+            $model->status = 4;
+            if ($model->save()) {
+                Gateway::sendToUid($model->pile, ['cmd' => 5, 'gun' => $model->gun, 'code' => 2, 'val' => 85]);
+                Msg::set('关闭成功');
             }
         }
         return $this->redirect(['list']);

@@ -25,6 +25,8 @@ class SController extends AuthController
     public function actionS($no = '')
     {
         var_dump($no);
+        var_dump($_GET);
+        var_dump(\Yii::$app->request->get());
         if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
             var_dump($order);exit();
             if ($order->status == 2) {

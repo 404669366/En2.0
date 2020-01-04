@@ -62,7 +62,7 @@ class OrderController extends CommonController
     public function actionEnd($no = '')
     {
         Msg::set('操作错误');
-        if ($model = EnOrder::findOne(['no' => $no])) {
+        if ($model = EnOrder::findOne(['no' => $no, 'status' => [0, 1]])) {
             $model->status = 4;
             if ($model->save()) {
                 Gateway::sendToUid($model->pile, ['cmd' => 5, 'gun' => $model->gun, 'code' => 2, 'val' => 85]);

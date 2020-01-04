@@ -13,6 +13,7 @@ use app\controllers\basis\AuthController;
 use GatewayClient\Gateway;
 use vendor\project\base\EnOrder;
 use vendor\project\helpers\Constant;
+use vendor\project\helpers\Msg;
 
 class SController extends AuthController
 {
@@ -23,7 +24,11 @@ class SController extends AuthController
      */
     public function actionS($no = '')
     {
-        if ($order = EnOrder::findOne(['no' => $no, 'uid' => \Yii::$app->user->id, 'status' => [0, 1]])) {
+        if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
+            if ($order['status'] == 2) {
+                Msg::set('充电已结束!');
+                return $this->redirect(['order/charge/pay', 'no' => $order->no);
+            }
             return $this->render('charge.html', [
                 'no' => $order->no,
                 'fieldName' => $order->pileInfo->local->name,

@@ -65,7 +65,7 @@ class events
                         break;
                     case 104:
                         if ($data['gun'] == 6) {
-                            var_dump($data);
+                            var_dump($data['workStatus'] . ' ' . $data['linkStatus'] . ' ' . date('Y-m-d H:i:s'));
                         }
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 2 && $data['linkStatus']) {

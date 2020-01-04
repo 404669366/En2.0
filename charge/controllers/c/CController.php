@@ -65,20 +65,22 @@ class CController extends AuthController
                 $no = explode('-', $n);
                 if (count($no) == 2) {
                     if ($pile = EnPile::find()->where(['no' => $no[0], 'online' => 1])->andWhere(['>=', 'count', $no[1]])->one()) {
-                        $order = new EnOrder();
-                        $order->no = Helper::createNo('O');
-                        $order->pile = $no[0];
-                        $order->gun = $no[1];
-                        $order->uid = \Yii::$app->user->id;
-                        $order->rules = $pile->rules;
-                        $order->status = 0;
-                        $order->created_at = time();
-                        if ($order->save()) {
-                            Msg::set('充电启动中,请稍后');
-                            Gateway::sendToUid($order->pile, ['cmd' => 7, 'gun' => $order->gun, 'orderNo' => $order->no]);
-                            return $this->redirect(['c/s/c', 'no' => $order->no]);
+                        if (Gateway::isUidOnline($no[0])) {
+                            $order = new EnOrder();
+                            $order->no = Helper::createNo('O');
+                            $order->pile = $no[0];
+                            $order->gun = $no[1];
+                            $order->uid = \Yii::$app->user->id;
+                            $order->rules = $pile->rules;
+                            $order->status = 0;
+                            $order->created_at = time();
+                            if ($order->save()) {
+                                Msg::set('充电启动中,请稍后');
+                                Gateway::sendToUid($order->pile, ['cmd' => 7, 'gun' => $order->gun, 'orderNo' => $order->no]);
+                                return $this->redirect(['c/s/c', 'no' => $order->no]);
+                            }
+                            return $this->goBack($order->errorsInfo());
                         }
-                        return $this->goBack($order->errorsInfo());
                     }
                     return $this->goBack('电桩离线,请稍后再试');
                 }

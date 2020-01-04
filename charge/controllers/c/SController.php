@@ -40,7 +40,8 @@ class SController extends AuthController
                 'code' => Constant::serverCode(),
             ]);
         }
-        return $this->goBack('订单不见啦!');
+        Msg::set('订单不见啦!');
+        return $this->redirect(['user/user/center']);
     }
 
     /**

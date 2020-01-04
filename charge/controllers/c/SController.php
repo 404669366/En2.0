@@ -25,7 +25,6 @@ class SController extends AuthController
     {
         if ($order = EnOrder::findOne(['no' => \Yii::$app->request->get('no', ''), 'status' => [0, 1, 2]])) {
             if ($order->status == 2) {
-                var_dump(111);exit();
                 Msg::set('充电已结束!');
                 return $this->redirect(['order/charge/pay', 'no' => $order->no]);
             }

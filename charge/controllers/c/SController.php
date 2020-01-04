@@ -24,6 +24,7 @@ class SController extends AuthController
      */
     public function actionS($no = '')
     {
+        var_dump($no);
         if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
             var_dump($order);exit();
             if ($order->status == 2) {

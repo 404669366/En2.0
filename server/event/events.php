@@ -61,7 +61,7 @@ class events
                         Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 301]));
                         break;
                     case 102:
-                        Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo'] + 1]);
+                        Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:
                         Gateway::bindUid($client_id, $data['no']);

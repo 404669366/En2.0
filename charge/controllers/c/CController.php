@@ -30,7 +30,7 @@ class CController extends AuthController
                 return $this->redirect(['order/charge/pay', 'no' => $order['no']])->send();
             }
             Msg::set('您有订单正在进行');
-            return $this->redirect(['c/s/s', 'pile' => $order->pile, 'gun' => $order->gun, 'fieldName' => $order->pileInfo->local->name])->send();
+            return $this->redirect(['c/s/c', 'no' => $order->no])->send();
         }
         return $re;
     }
@@ -75,7 +75,7 @@ class CController extends AuthController
                     if ($order->save()) {
                         Msg::set('充电启动中,请稍后');
                         Gateway::sendToUid($order->pile, ['cmd' => 7, 'gun' => $order->gun, 'orderNo' => $order->no]);
-                        return $this->redirect(['c/s/s', 'no' => $order->no]);
+                        return $this->redirect(['c/s/c', 'no' => $order->no]);
                     }
                     return $this->goBack($order->errorsInfo());
                 }

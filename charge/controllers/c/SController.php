@@ -19,16 +19,16 @@ class SController extends AuthController
 {
     /**
      * 充电页
+     * @param string $no
      * @return string|\yii\web\Response
      */
-    public function actionS()
+    public function actionC($no = '')
     {
-        if ($order = EnOrder::findOne(['no' => \Yii::$app->request->get('no', ''), 'status' => [0, 1, 2]])) {
+        if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
             if ($order->status == 2) {
                 Msg::set('充电已结束!');
                 return $this->redirect(['order/charge/pay', 'no' => $order->no]);
             }
-            var_dump(222);exit();
             return $this->render('charge.html', [
                 'no' => $order->no,
                 'fieldName' => $order->pileInfo->local->name,

@@ -139,9 +139,6 @@ class events
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
                         Gateway::sendToGroup($data['no'], json_encode($_SESSION));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
-                        if ($data['gun'] == 6) {
-                            var_dump($data['workStatus'] . ' ' . $data['linkStatus'] . ' ' . date('Y-m-d H:i:s'));
-                        }
                         break;
                     case 106:
                         $_SESSION['no'] = $data['no'];

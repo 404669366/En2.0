@@ -19,15 +19,11 @@ class SController extends AuthController
 {
     /**
      * 充电页
-     * @param string $no
      * @return string|\yii\web\Response
      */
-    public function actionS($no = '')
+    public function actionS()
     {
-        var_dump($no);
-        var_dump($_GET);
-        var_dump(\Yii::$app->request->get());
-        if ($order = EnOrder::findOne(['no' => $no, 'status' => [0, 1, 2]])) {
+        if ($order = EnOrder::findOne(['no' => \Yii::$app->request->get('no',''), 'status' => [0, 1, 2]])) {
             var_dump($order);exit();
             if ($order->status == 2) {
                 Msg::set('充电已结束!');

@@ -183,10 +183,10 @@ class events
             //todo 特来电电桩
             case 20002:
                 self::$db->update('en_pile')->cols(['online' => 0])->where("no='{$_SESSION['no']}'")->query();
-                self::$db->update('en_order')->cols(['status' => 2])->where("pile='{$_SESSION['no']}' AND status in(0,1)")->query();
+                /*self::$db->update('en_order')->cols(['status' => 2])->where("pile='{$_SESSION['no']}' AND status in(0,1)")->query();
                 for ($i = 1; $i <= $_SESSION['count']; $i++) {
                     Gateway::sendToGroup($_SESSION['no'] . $i, json_encode(['code' => 209]));
-                }
+                }*/
         }
     }
 

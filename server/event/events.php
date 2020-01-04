@@ -64,6 +64,9 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo'] + 1]);
                         break;
                     case 104:
+                        if ($data['gun'] == 6) {
+                            var_dump($data);
+                        }
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 2 && $data['linkStatus']) {
                             if ($order = self::$db->select('*')->from('en_order')->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status in(0,1)")->row()) {

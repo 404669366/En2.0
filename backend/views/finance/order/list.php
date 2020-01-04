@@ -58,7 +58,7 @@
             {"data": "status"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-                if (row.status === '启动中') {
+                if (row.status === '启动中' || row.status === '充电中') {
                     return '<a href="/finance/order/end?no=' + data + '" class="btn btn-sm btn-danger">关闭订单</a>'
                 }
                 if (row.status === '充电结束') {

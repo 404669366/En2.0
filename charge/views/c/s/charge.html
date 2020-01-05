@@ -120,12 +120,6 @@
                 });
                 return;
             }
-            if (data.code === 300) {
-                window.showMsgDo('充电结束', 3, function () {
-                    window.location.href = '/order/charge/list.html';
-                });
-                return;
-            }
         };
 
         $('body').on('click', '.charge_end', function () {

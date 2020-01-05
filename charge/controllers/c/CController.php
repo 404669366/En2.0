@@ -75,18 +75,18 @@ class CController extends AuthController
                             $order->status = 0;
                             $order->created_at = time();
                             if ($order->save()) {
-                                Msg::set('充电启动中,请稍后');
+                                Msg::set('充电启动中');
                                 Gateway::sendToUid($order->pile, ['cmd' => 7, 'gun' => $order->gun, 'orderNo' => $order->no]);
                                 return $this->redirect(['c/s/c', 'no' => $order->no]);
                             }
                             return $this->goBack($order->errorsInfo());
                         }
                     }
-                    return $this->goBack('电桩离线,请稍后再试');
+                    return $this->goBack('电桩离线');
                 }
-                return $this->goBack('编码有误,请检查');
+                return $this->goBack('编码有误');
             }
-            Msg::set('余额不足,请先充值');
+            Msg::set('余额不足<br>请先充值');
             return $this->redirect(['order/invest/invest']);
         }
         return $this->redirect(['user/user/center']);

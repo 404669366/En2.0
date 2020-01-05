@@ -10,10 +10,8 @@ namespace app\controllers\finance;
 
 
 use app\controllers\basis\CommonController;
-use GatewayClient\Gateway;
 use vendor\project\base\EnOrder;
 use vendor\project\helpers\Constant;
-use vendor\project\helpers\Msg;
 
 class OrderController extends CommonController
 {
@@ -51,24 +49,6 @@ class OrderController extends CommonController
     public function actionDeduct($no = '')
     {
         EnOrder::deduct($no);
-        return $this->redirect(['list']);
-    }
-
-    /**
-     * 关闭订单
-     * @param string $no
-     * @return \yii\web\Response
-     */
-    public function actionEnd($no = '')
-    {
-        Msg::set('操作错误');
-        if ($model = EnOrder::findOne(['no' => $no, 'status' => [0, 1]])) {
-            $model->status = 4;
-            if ($model->save()) {
-                Gateway::sendToUid($model->pile, ['cmd' => 5, 'gun' => $model->gun, 'code' => 2, 'val' => 85]);
-                Msg::set('关闭成功');
-            }
-        }
         return $this->redirect(['list']);
     }
 }

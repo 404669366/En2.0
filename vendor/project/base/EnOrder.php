@@ -76,13 +76,13 @@ class EnOrder extends \yii\db\ActiveRecord
         if ($this->status == 0) {
             $session = Gateway::getSessionByUid($this->pile);
             if ($session['status'][$this->gun]['workStatus']) {
-                $this->addError('status', '枪口故障中,请稍后再试');
+                $this->addError('status', '枪口故障中');
             }
             if (!$session['status'][$this->gun]['linkStatus']) {
-                $this->addError('status', '枪口未连接,请检查电枪');
+                $this->addError('status', '枪口未连接');
             }
             if (self::findOne(['pile' => $this->pile, 'gun' => $this->gun, 'status' => [0, 1]])) {
-                $this->addError('status', '枪口已占用,请稍后再试');
+                $this->addError('status', '枪口已占用');
             }
         }
         if ($this->status == 3) {

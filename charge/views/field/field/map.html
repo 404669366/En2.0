@@ -59,11 +59,11 @@
                     success: function (re) {
                         if (re.status === 0) {
                             point.city = re.result.address_component.city;
-                            $('.city').html('当前城市：' + '达州市');
+                            $('.city').html('当前城市：' + point.city);
                             $.ajax({
                                 url: 'https://apis.map.qq.com/place_cloud/search/region',
                                 data: {
-                                    'region': '达州市',
+                                    'region': point.city,
                                     'table_id': '5d490255d31eea5b7b36b922',
                                     'key': 'LF3BZ-KUMCJ-RGZFW-F6HVB-AUIEJ-45BIO',
                                     'output': 'jsonp'

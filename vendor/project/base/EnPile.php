@@ -133,13 +133,10 @@ class EnPile extends \yii\db\ActiveRecord
      */
     public static function getGunsInfoByField($no = '')
     {
-        $guns = ['count' => 0, 'used' => 0];
-        $piles = self::find()->where(['field' => $no])->select(['no', 'count'])->asArray()->all();
-        foreach ($piles as $v) {
-            $guns['count'] += $v['count'];
-            $guns['used'] += EnOrder::find()->where(['pile' => $v['no'], 'status' => [0, 1]])->count();
-        }
-        return $guns;
+        return [
+            'count' => self::find()->where(['field' => $no])->sum('count'),
+            'used' => EnOrder::find()->alias('o')->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')->where(['p.field' => $no, 'o.status' => [0, 1]])->count()
+        ];
     }
 
     /**

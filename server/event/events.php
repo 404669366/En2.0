@@ -148,6 +148,7 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;
                     case 106:
+                        var_dump($data);
                         $_SESSION['no'] = $data['no'];
                         $_SESSION['count'] = $data['count'];
                         self::$db->query("INSERT INTO `en_pile` (`no`) VALUES ('{$data['no']}') ON DUPLICATE KEY UPDATE `online`=1,`count`={$data['count']}");

@@ -94,7 +94,6 @@ class events
                                     }
                                 }
                                 $order['rule'] = $rule;
-                                $order['vin'] = '';
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => $code, 'data' => $order]));

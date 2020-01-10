@@ -66,6 +66,9 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:
+                        if ($data['no'] == 2020011001 && $data['gun'] == 7) {
+                            var_dump($data);
+                        }
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 0 && $data['linkStatus']) {
                             $time = time() - 120;

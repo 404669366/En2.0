@@ -66,9 +66,6 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:
-                        if ($data['no'] == 2020011001 && $data['gun'] == 7) {
-                            var_dump($data);
-                        }
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 0 && $data['linkStatus']) {
                             $time = time() - 120;
@@ -97,7 +94,7 @@ class events
                                     }
                                 }
                                 $order['rule'] = $rule;
-                                $order['vin'] = $data['vin'];
+                                $order['vin'] = '';
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => $code, 'data' => $order]));

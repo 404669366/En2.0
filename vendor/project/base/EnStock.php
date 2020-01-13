@@ -149,15 +149,20 @@ class EnStock extends \yii\db\ActiveRecord
     public static function getStockByFieldToArr($no = '')
     {
         $data = self::find()->alias('s')
+            ->leftJoin(EnCompany::tableName() . 'c1', 'c1.id=s.key')
+            ->leftJoin(EnCompany::tableName() . 'c2', 'c2.id=s.key')
             ->leftJoin(EnUser::tableName() . ' u3', 'u3.id=s.key')
             ->leftJoin(EnUser::tableName() . ' u4', 'u4.id=s.key')
             ->where(['s.field' => $no])
-            ->select(['s.*', 'u3.tel as local', 'u4.tel as invest'])
+            ->select(['s.*', 'c1.abridge as c1a', 'c2.abridge as c2a', 'u3.tel as local', 'u4.tel as invest'])
             ->orderBy(['s.type' => 'asc'])
             ->asArray()->all();
         foreach ($data as &$v) {
-            if ($v['type'] == 1 || $v['type'] == 2) {
-                $v['key'] = '----';
+            if ($v['type'] == 1) {
+                $v['key'] = $v['c1a'];
+            }
+            if ($v['type'] == 2) {
+                $v['key'] = $v['c2a'];
             }
             if ($v['type'] == 3) {
                 $v['key'] = $v['local'];

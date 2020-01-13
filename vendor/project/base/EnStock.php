@@ -62,7 +62,7 @@ class EnStock extends \yii\db\ActiveRecord
                 $this->addError('type', '已存在该类股权');
                 return false;
             }
-            $this->key = Yii::$app->user->identity->company_id;
+            $this->key = EnField::findOne(['no' => $this->field])->company_id;
         }
 
         if ($this->type == 3 || $this->type == 4) {

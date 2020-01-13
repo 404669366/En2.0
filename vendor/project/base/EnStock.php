@@ -149,7 +149,7 @@ class EnStock extends \yii\db\ActiveRecord
     public static function getStockByFieldToArr($no = '')
     {
         $data = self::find()->alias('s')
-            ->leftJoin(EnCompany::tableName() . 'c2', 'c2.id=s.key')
+            ->leftJoin(EnCompany::tableName() . ' c2', 'c2.id=s.key')
             ->leftJoin(EnUser::tableName() . ' u3', 'u3.id=s.key')
             ->leftJoin(EnUser::tableName() . ' u4', 'u4.id=s.key')
             ->where(['s.field' => $no])

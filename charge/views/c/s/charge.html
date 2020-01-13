@@ -94,9 +94,9 @@
         socket.send(JSON.stringify(global.cmd));
 
         socket.onmessage = function (event) {
-            window.wait().close();
             var data = JSON.parse(event.data);
             if (data.code === 100 || data.code === 200 || data.code === 202 || data.code === 203) {
+                window.wait().close();
                 window.showMsgDo(global.code[data.code], 3, function () {
                     window.goLast();
                 });
@@ -108,6 +108,7 @@
                 window.html('body', 'bodyTpl', data.data);
                 $('.demo').radialIndicator().data('radialIndicator').value(data.data.soc);
                 if (data.code === 206 || data.code === 207 || data.code === 208) {
+                    window.wait().close();
                     window.showMsgDo(global.code[data.code], 3, function () {
                         window.wait().open();
                     });
@@ -115,6 +116,7 @@
                 return;
             }
             if (data.code === 209) {
+                window.wait().close();
                 window.showMsgDo(global.code[data.code], 3, function () {
                     window.location.href = '/order/charge/pay.html?no=' + global.no;
                 });

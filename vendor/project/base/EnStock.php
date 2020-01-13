@@ -74,8 +74,8 @@ class EnStock extends \yii\db\ActiveRecord
                 $user->created_at = time();
                 if (!$user->save()) {
                     $this->addError('key', '创建用户账号失败');
+                    return false;
                 }
-                return false;
             }
             if (self::findOne(['field' => $this->field, 'type' => $this->type, 'key' => $user->id])) {
                 $this->addError('key', '该用户已存在该类股权');

@@ -68,7 +68,13 @@ class EnStock extends \yii\db\ActiveRecord
         if ($this->type == 3 || $this->type == 4) {
             $user = EnUser::findOne(['tel' => $this->key]);
             if (!$user) {
-                $this->addError('key', '该用户不存在,请检查手机号');
+                $user = new EnUser();
+                $user->tel = $this->key;
+                $user->token = \Yii::$app->security->generatePasswordHash($this->key);
+                $user->created_at = time();
+                if (!$user->save()) {
+                    $this->addError('key', '创建用户账号失败');
+                }
                 return false;
             }
             if (self::findOne(['field' => $this->field, 'type' => $this->type, 'key' => $user->id])) {

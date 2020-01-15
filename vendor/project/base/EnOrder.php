@@ -159,16 +159,14 @@ class EnOrder extends \yii\db\ActiveRecord
         $orders = self::find()->alias('o')
             ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
             ->leftJoin(EnField::tableName() . ' f', 'f.no=p.field')
-            ->leftJoin(EnCompany::tableName() . ' c', 'c.id=f.company_id')
             ->where(['o.uid' => Yii::$app->user->id])
-            ->select(['o.*', 'f.name', 'c.abridge'])
+            ->select(['o.*', 'f.name'])
             ->orderBy('o.created_at desc')
             ->asArray()->all();
         foreach ($orders as &$v) {
             $v['e'] = (float)$v['e'];
             $v['money'] = $v['bm'] + $v['sm'];
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
-            $v['name'] = $v['name'] . '(' . $v['abridge'] . ')';
             $v['status'] = Constant::orderStatus()[$v['status']];
             $v['rules'] = '';
         }

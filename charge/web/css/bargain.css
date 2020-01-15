@@ -7,7 +7,7 @@
 }
 
 .orderBody > .info {
-    margin: 0 auto 0.4rem auto;
+    margin: 0 auto 0.6rem auto;
     width: 9.2rem;
     background: #fff9eb;
     border-radius: 0.2rem;
@@ -161,8 +161,8 @@
     margin: 0 auto 0.8rem auto;
     box-sizing: border-box;
     width: 9.2rem;
-    height: 1rem;
-    line-height: 1rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
     border-radius: 0.2rem;
     color: #af100e;
     text-align: center;

@@ -84,7 +84,6 @@ class EnBargainRecord extends \yii\db\ActiveRecord
         if ($bargain->price <= $nowPrice) {
             return ['type' => false, 'msg' => '砍价已经完成', 'data' => ''];
         }
-        $price = 0;
         $nowCount = self::find()->where(['b_id' => $id])->count() + 1;
         if ($nowCount == 1) {
             $price = self::randFloat($bargain->price * 0.4, $bargain->price * 0.6);

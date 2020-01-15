@@ -84,16 +84,16 @@
         }
         $('.orderBody')
             .on('click', '.do', function () {
-                $.getJSON('/active/bargain/do.html', {id: global.bargain.id}, function (re) {
+                $.getJSON('/a/b/do.html', {id: global.bargain.id}, function (re) {
                     if (re.type) {
-                        $('.modal>div>p').text('这一刀砍了'+re.data+'元');
+                        $('.modal>div>p').text('这一刀砍了' + re.data + '元');
                         window.modal.open('.modal');
                         if (global.isSelf) {
                             $('.btn').text('邀请好友帮砍').removeClass('do').addClass('invite');
                         } else {
                             $('.btn').text('我也要免单').removeClass('do').data('url', '/order/charge/list.html');
                         }
-                    }else {
+                    } else {
                         window.showMsg(re.msg);
                     }
                 })
@@ -101,7 +101,7 @@
             .on('click', '.invite', function () {
                 const input = document.createElement("input");
                 input.readOnly = 'readonly';
-                input.value = '我有一个充电订单想要免单，快来帮我砍一下吧~\\(^o^)/~ <a href="http://c.en.ink/active/bargain/info.html?id='+global.bargain.id+'">>>戳我<<</a>';
+                input.value = '我有一个充电订单想要免单，快来帮我砍一下吧~\\(^o^)/~\r\nhttp://c.en.ink/a/b/i.html?id=' + global.bargain.id;
                 document.body.appendChild(input);
                 input.select();
                 input.setSelectionRange(0, input.value.length);

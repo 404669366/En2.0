@@ -6,7 +6,7 @@
  * Time: 11:33
  */
 
-namespace app\controllers\active;
+namespace app\controllers\a;
 
 
 use app\controllers\basis\AuthController;
@@ -16,7 +16,7 @@ use vendor\project\base\EnOrder;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
 
-class BargainController extends AuthController
+class BController extends AuthController
 {
     /**
      * 创建砍价
@@ -38,12 +38,12 @@ class BargainController extends AuthController
                 $model->count = Constant::bargainRule($model->price);
                 $model->created_at = time();
                 $model->save();
-                return $this->redirect(['info', 'id' => $model->id]);
+                return $this->redirect(['i', 'id' => $model->id]);
             }
             Msg::set('参与免单的订单价格必须大于0元');
             return $this->redirect(['order/charge/list']);
         }
-        return $this->redirect(['info', 'id' => $model->id]);
+        return $this->redirect(['i', 'id' => $model->id]);
     }
 
     /**
@@ -51,7 +51,7 @@ class BargainController extends AuthController
      * @param int $id
      * @return string
      */
-    public function actionInfo($id = 0)
+    public function actionI($id = 0)
     {
         return $this->render('info.html', EnBargain::getOrderBargain($id));
     }

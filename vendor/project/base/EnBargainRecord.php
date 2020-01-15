@@ -74,15 +74,15 @@ class EnBargainRecord extends \yii\db\ActiveRecord
     public static function bargain($id = 0)
     {
         if (self::findOne(['user_id' => Yii::$app->user->id, 'b_id' => $id])) {
-            return ['type' => false, 'msg' => '您已经砍过啦'];
+            return ['type' => false, 'msg' => '您已经砍过啦', 'data' => ''];
         }
         $bargain = EnBargain::find()->where(['id' => $id])->andWhere(['>', 'created_at', time() - Constant::bargainTime()])->one();
         if (!$bargain) {
-            return ['type' => false, 'msg' => '砍价已经结束'];
+            return ['type' => false, 'msg' => '砍价已经结束', 'data' => ''];
         }
         $nowPrice = self::find()->where(['b_id' => $id])->sum('price');
         if ($bargain->price <= $nowPrice) {
-            return ['type' => false, 'msg' => '砍价已经完成'];
+            return ['type' => false, 'msg' => '砍价已经完成', 'data' => ''];
         }
         $price = 0;
         $nowCount = self::find()->where(['b_id' => $id])->count() + 1;
@@ -116,7 +116,7 @@ class EnBargainRecord extends \yii\db\ActiveRecord
             return ['type' => true, 'msg' => 'ok', 'data' => $price];
         } catch (Exception $e) {
             $transaction->rollBack();
-            return ['type' => false, 'msg' => $e->getMessage()];
+            return ['type' => false, 'msg' => $e->getMessage(), 'data' => ''];
         }
     }
 

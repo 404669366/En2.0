@@ -12,6 +12,29 @@ namespace vendor\project\helpers;
 class Helper
 {
     /**
+     * 二分查找范围
+     * @param int $key
+     * @param array $arr
+     * @return array
+     */
+    public static function binSearch($key = 0, $arr = [])
+    {
+        $c = count($arr);
+        $low = 0;
+        $high = $c - 1;
+        while ($low <= $high) {
+            $middle = intval(($low + $high) / 2);
+            if ($arr[$middle] > $key) {
+                $high = $middle - 1;
+            }
+            if ($arr[$middle] <= $key) {
+                $low = $middle + 1;
+            }
+        }
+        return ['low' => $arr[$high], 'high' => $arr[$low]];
+    }
+
+    /**
      * 处理特殊字符
      * @param string $str
      * @return mixed|string

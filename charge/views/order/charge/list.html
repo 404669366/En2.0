@@ -25,8 +25,16 @@
                     <i class="fa fa-angle-double-right" aria-hidden="true"
                        data-url="/order/charge/pay.html?no={{=v.no}}"></i>
                 </li>
+                {{??v.status=='完成支付'}}
+                <li class="status">
+                    {{=v.status}}
+                    <i class="fa fa-angle-double-right-after" aria-hidden="true"
+                       data-url="/active/bargain/create.html?no={{=v.no}}">砍价免单 </i>
+                </li>
                 {{??}}
-                <li class="status">{{=v.status}}</li>
+                <li class="status">
+                    {{=v.status}}
+                </li>
                 {{?}}
                 <li><label>订单编号 : </label>{{=v.no}}</li>
                 <li><label>充电电量 : </label>{{=v.e.toFixed(2)}}kwh</li>

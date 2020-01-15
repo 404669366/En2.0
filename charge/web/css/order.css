@@ -50,11 +50,19 @@ body {
 
 .orders > li > ul > .status > i {
     float: right;
-    font-size: 0.5rem;
-    width: 2rem;
+    font-size: 0.42rem;
     height: 1rem;
     line-height: 1rem;
     text-align: right;
+    min-width: 1.2rem;
+}
+
+.fa-angle-double-right-after {
+    font-size: 0.36rem !important;
+}
+
+.fa-angle-double-right-after:after {
+    content: "\f101";
 }
 
 .orders > li > ul > li > label {

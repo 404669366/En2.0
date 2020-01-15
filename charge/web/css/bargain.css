@@ -114,9 +114,9 @@
     position: absolute;
     width: 0;
     height: 0;
-    border-left: 0.12rem solid transparent;
-    border-right: 0.12rem solid transparent;
-    border-top: 0.24rem solid #fabf2d;
+    border-left: 0.11rem solid transparent;
+    border-right: 0.11rem solid transparent;
+    border-top: 0.22rem solid #fabf2d;
     top: 100%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);

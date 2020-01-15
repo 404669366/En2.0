@@ -40,7 +40,7 @@ class BController extends AuthController
                 $model->save();
                 return $this->redirect(['i', 'id' => $model->id]);
             }
-            Msg::set('参与免单的订单价格必须大于0元');
+            Msg::set('参与免单订单价格必须大于0元');
             return $this->redirect(['order/charge/list']);
         }
         return $this->redirect(['i', 'id' => $model->id]);

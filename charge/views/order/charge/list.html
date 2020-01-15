@@ -55,6 +55,10 @@
 </head>
 <body>
 <ul class="orders" id="order"></ul>
-<script>window.html('order', 'orderTpl', global);</script>
+<script>
+    window.load(function () {
+        window.html('order', 'orderTpl', global);
+    })
+</script>
 </body>
 </html>

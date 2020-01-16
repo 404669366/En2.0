@@ -35,7 +35,7 @@ $this->beginPage();
                             <?= $data['job'] ?>
                         </span>
                         <span class="text-muted text-xs block dropdown-toggle" data-toggle="dropdown">
-                            <strong class="font-bold"><?= $data['tel'] ?></strong>
+                            <strong class="font-bold"><?= substr_replace($data['tel'],'****',3,4); ?></strong>
                             <b class="caret"></b>
                         </span>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs updatePasswordBox">

@@ -11,6 +11,7 @@ namespace app\controllers\active;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnBargain;
+use vendor\project\base\EnBargainRecord;
 
 class BargainController extends CommonController
 {
@@ -30,5 +31,26 @@ class BargainController extends CommonController
     public function actionData()
     {
         return $this->rTableData(EnBargain::getPageData());
+    }
+
+    /**
+     * 砍价记录
+     * @param int $id
+     * @return string
+     */
+    public function actionRecord($id = 0)
+    {
+        return $this->render('record', ['id' => $id]);
+    }
+
+    /**
+     * 砍价记录数据
+     * @param int $id
+     * @return string
+     */
+    public function actionRecordData($id = 0)
+    {
+        $data = EnBargainRecord::getRecord($id);
+        return $this->rTableData(['data' => $data, 'total' => count($data)]);
     }
 }

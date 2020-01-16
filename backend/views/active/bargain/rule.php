@@ -110,7 +110,7 @@
                     var scrollHeight = $('body').prop("scrollHeight");
                     $('body').animate({scrollTop: scrollHeight}, 100);
                 } else {
-                    window.showMsg('配置必须大于0');
+                    window.showMsg('起始金额必须大于0且最少刀数必须是大于1的正整数');
                 }
             }
         });

@@ -56,6 +56,26 @@ class EnBargain extends \yii\db\ActiveRecord
     }
 
     /**
+     * 分页数据
+     * @param int $type
+     * @return mixed
+     */
+    public static function getPageData($type = 1)
+    {
+        $data = self::find()->alias('b')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=b.user_id')
+            ->where(['b.type' => $type])
+            ->select(['b.id', 'b.key as no', 'u.tel', 'b.price', 'b.count', 'b.created_at'])
+            ->page(['keywords' => ['like', 'b.key', 'u.tel']]);
+        foreach ($data['data'] as &$v) {
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['nowCount'] = EnBargainRecord::find()->where(['b_id' => $v['id']])->count();
+            $v['nowPrice'] = EnBargainRecord::find()->where(['b_id' => $v['id']])->sum('price');
+        }
+        return $data;
+    }
+
+    /**
      * 获取免单砍价信息
      * @param int $id
      * @return array

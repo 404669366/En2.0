@@ -69,6 +69,7 @@ class EnBargain extends \yii\db\ActiveRecord
             ->page(['keywords' => ['like', 'b.key', 'u.tel']]);
         foreach ($data['data'] as &$v) {
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['end_at'] = date('Y-m-d H:i:s', $v['created_at'] + Constant::bargainTime());
             $v['nowCount'] = EnBargainRecord::find()->where(['b_id' => $v['id']])->count();
             $v['nowPrice'] = (string)round(EnBargainRecord::find()->where(['b_id' => $v['id']])->sum('price'), 2);
         }

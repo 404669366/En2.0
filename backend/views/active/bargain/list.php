@@ -23,6 +23,7 @@
                     <th>当前砍价</th>
                     <th>当前刀数</th>
                     <th>创建时间</th>
+                    <th>截止时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -43,6 +44,7 @@
             {"data": "nowPrice"},
             {"data": "nowCount"},
             {"data": "created_at"},
+            {"data": "end_at"},
             {
                 "data": "id", "orderable": false, "render": function (data, type, row) {
                 return '<a class="btn btn-sm btn-info" href="/active/bargain/record?id=' + data + '">砍价记录</a>';

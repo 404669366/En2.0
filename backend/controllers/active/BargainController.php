@@ -61,24 +61,7 @@ class BargainController extends CommonController
      */
     public function actionRule()
     {
-        $rule = \Yii::$app->cache->get('BargainRule') ?: [
-            0 => 20,
-            5 => 40,
-            15 => 60,
-            30 => 80,
-            50 => 100,
-            75 => 120,
-            105 => 140,
-            140 => 160,
-            180 => 180,
-            225 => 210,
-            275 => 240,
-            330 => 300,
-            390 => 320,
-            455 => 350,
-            525 => 400,
-            610 => 500,
-        ];
+        $rule = \Yii::$app->cache->get('BargainRule') ?: [0 => 20];
         if (\Yii::$app->request->isPost) {
             $rule = \Yii::$app->request->post();
             unset($rule['_csrf']);

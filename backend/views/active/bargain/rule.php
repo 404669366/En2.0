@@ -105,7 +105,7 @@
                 if (begin > 0 && count > 0) {
                     $('tbody').append('  <tr>\n' +
                         '                    <td>' + begin + '</td>\n' +
-                        '                    <td>' + count + '</td>\n' +
+                        '                    <td class="c">' + count + '</td>\n' +
                         '                    <td class="do">\n' +
                         '                        <button type="button" class="btn btn-sm btn-danger del">删除</button>\n' +
                         '                    </td>\n' +

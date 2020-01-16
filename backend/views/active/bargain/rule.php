@@ -1,3 +1,4 @@
+<?php $this->registerJsFile('@web/js/modal.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <style>
     td {
         text-align: center;
@@ -8,6 +9,18 @@
 
     input {
         width: 50px;
+    }
+
+    .content {
+        text-align: center;
+    }
+
+    .content > input {
+        height: 3rem;
+        line-height: 3rem;
+        width: 12rem;
+        font-size: 1.4rem;
+        margin: 1rem 1rem 1rem auto;
     }
 </style>
 <div class="wrapper wrapper-content animated">
@@ -38,6 +51,7 @@
         </table>
     </div>
 </div>
+
 <script>
     $('tbody')
         .on('dblclick', 'td:not(.do)', function () {
@@ -72,5 +86,34 @@
             rule[$(v).children(':first').text()] = $(v).children(':nth-child(2)').text();
         });
         postCall('/active/bargain/rule', rule);
+    });
+    $('.add').on('click', function () {
+        var content = '<label>起始金额:</label><input class="begin"/>';
+        content += '<label>最少刀数:</label><input class="count"/>';
+        window.modal({
+            title: '添加配置',
+            width: '40rem',
+            height: '6rem',
+            content: content,
+            callback: function (event) {
+                var begin = event.find('.begin').val();
+                var count = event.find('.count').val();
+                console.log(begin,count);
+                if (begin > 0 && count > 0) {
+                    $('tbody').append('  <tr>\n' +
+                        '                    <td>' + begin + '</td>\n' +
+                        '                    <td>' + count + '</td>\n' +
+                        '                    <td class="do">\n' +
+                        '                        <button type="button" class="btn btn-sm btn-danger del">删除</button>\n' +
+                        '                    </td>\n' +
+                        '                </tr>');
+                    event.close();
+                    var scrollHeight = $('body').prop("scrollHeight");
+                    $('body').animate({scrollTop:scrollHeight}, 100);
+                } else {
+                    window.showMsg('配置必须大于0');
+                }
+            }
+        });
     })
 </script>

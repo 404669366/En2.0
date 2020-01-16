@@ -31,7 +31,7 @@ $this->beginPage();
     });
 
     $('body').on('click', '[data-url]', function () {
-        if($(this).data('url')){
+        if ($(this).data('url')) {
             window.location.href = $(this).data('url');
         }
     });
@@ -58,6 +58,24 @@ $this->beginPage();
             return str;
         }
         return str;
+    }
+
+    function postCall(url, params, target) {
+        var form = document.createElement("form");
+        form.style.display = "none";
+        form.action = url || '';
+        form.method = "post";
+        form.target = target || '_self';
+        var opt;
+        for (var x in params) {
+            opt = document.createElement("input");
+            opt.name = x;
+            opt.value = params[x];
+            form.appendChild(opt);
+        }
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
     }
 
 

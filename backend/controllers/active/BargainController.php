@@ -12,6 +12,7 @@ namespace app\controllers\active;
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnBargain;
 use vendor\project\base\EnBargainRecord;
+use vendor\project\helpers\Msg;
 
 class BargainController extends CommonController
 {
@@ -52,5 +53,39 @@ class BargainController extends CommonController
     {
         $data = EnBargainRecord::getRecord($id);
         return $this->rTableData(['data' => $data, 'total' => count($data)]);
+    }
+
+    /**
+     * 配置规则
+     * @return string
+     */
+    public function actionRule()
+    {
+        $rule = \Yii::$app->cache->get('BargainRule') ?: [
+            0 => 20,
+            5 => 40,
+            15 => 60,
+            30 => 80,
+            50 => 100,
+            75 => 120,
+            105 => 140,
+            140 => 160,
+            180 => 180,
+            225 => 210,
+            275 => 240,
+            330 => 300,
+            390 => 320,
+            455 => 350,
+            525 => 400,
+            610 => 500,
+        ];
+        if (\Yii::$app->request->isPost) {
+            $rule = \Yii::$app->request->post();
+            unset($rule['_csrf']);
+            ksort($rule);
+            \Yii::$app->cache->set('BargainRule', $rule);
+            Msg::set('设置成功');
+        }
+        return $this->render('rule', ['rule' => $rule]);
     }
 }

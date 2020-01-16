@@ -97,8 +97,7 @@
             content: content,
             callback: function (event) {
                 var begin = event.find('.begin').val();
-                var count = event.find('.count').val();
-                console.log(begin,count);
+                var count = Math.floor(event.find('.count').val());
                 if (begin > 0 && count > 0) {
                     $('tbody').append('  <tr>\n' +
                         '                    <td>' + begin + '</td>\n' +
@@ -109,7 +108,7 @@
                         '                </tr>');
                     event.close();
                     var scrollHeight = $('body').prop("scrollHeight");
-                    $('body').animate({scrollTop:scrollHeight}, 100);
+                    $('body').animate({scrollTop: scrollHeight}, 100);
                 } else {
                     window.showMsg('配置必须大于0');
                 }

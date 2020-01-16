@@ -41,7 +41,7 @@
             <?php foreach ($rule as $k => $v): ?>
                 <tr>
                     <td><?= $k ?></td>
-                    <td><?= $v ?></td>
+                    <td class="c"><?= $v ?></td>
                     <td class="do">
                         <button type="button" class="btn btn-sm btn-danger del">删除</button>
                     </td>
@@ -65,10 +65,14 @@
 
         })
         .on('blur', 'input', function () {
-            if ($(this).val() > 0) {
+            var v = $(this).val();
+            if ($(this).parent('td').hasClass('c')) {
+                v = Math.floor(v);
+            }
+            if (v > 0) {
                 $(this).parent('td').html($(this).val());
             } else {
-                window.showMsg('配置必须大于0');
+                window.showMsg('起始金额必须大于0且最少刀数必须是大于1的正整数');
                 $(this).parent('td').html($(this).data('old'));
             }
         })

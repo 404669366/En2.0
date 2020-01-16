@@ -70,7 +70,7 @@ class EnBargain extends \yii\db\ActiveRecord
         foreach ($data['data'] as &$v) {
             $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
             $v['nowCount'] = EnBargainRecord::find()->where(['b_id' => $v['id']])->count();
-            $v['nowPrice'] = EnBargainRecord::find()->where(['b_id' => $v['id']])->sum('price');
+            $v['nowPrice'] = (string)round(EnBargainRecord::find()->where(['b_id' => $v['id']])->sum('price'), 2);
         }
         return $data;
     }

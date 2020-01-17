@@ -10,6 +10,7 @@ namespace app\controllers\field;
 
 
 use app\controllers\basis\CommonController;
+use vendor\project\base\EnCompany;
 use vendor\project\base\EnField;
 use vendor\project\base\EnMember;
 use vendor\project\base\EnStock;
@@ -130,7 +131,18 @@ class FieldController extends CommonController
         $model->created_at = time();
         $key = \Yii::$app->request->get('key', '----');
         if ($model->load(['EnStock' => \Yii::$app->request->get()]) && $model->save()) {
-            $model->key = in_array($model->type, [3, 4]) ? $key : '----';
+            if ($model->type == 1) {
+                $model->key = '----';
+            }
+            if ($model->type == 2) {
+                $model->key = EnCompany::findOne($model->key)->abridge;
+            }
+            if ($model->type == 3) {
+                $model->key = $key;
+            }
+            if ($model->type == 4) {
+                $model->key = $key;
+            }
             $model->type = Constant::stockType()[$model->type];
             return $this->rJson($model->toArray());
         }

@@ -371,4 +371,29 @@ class Constant
             '/img/index1.jpg',
         ];
     }
+
+    /**
+     * 砍价周期
+     * @param string $key
+     * @return mixed
+     */
+    public static function bargainTime($key = 'order')
+    {
+        return [
+            'order' => 2 * 86400,
+            'goods' => 2 * 86400,
+        ][$key];
+    }
+
+    /**
+     * 获取价格对应最低刀数
+     * @param int $price
+     * @return mixed
+     */
+    public static function bargainRule($price = 0)
+    {
+        $rule = \Yii::$app->cache->get('BargainRule');
+        $range = Helper::binSearch($price, array_keys($rule));
+        return $rule[$range['low']];
+    }
 }

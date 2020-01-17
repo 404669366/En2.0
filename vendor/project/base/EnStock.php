@@ -62,14 +62,20 @@ class EnStock extends \yii\db\ActiveRecord
                 $this->addError('type', '已存在该类股权');
                 return false;
             }
-            $this->key = Yii::$app->user->identity->company_id;
+            $this->key = EnField::findOne(['no' => $this->field])->company_id;
         }
 
         if ($this->type == 3 || $this->type == 4) {
             $user = EnUser::findOne(['tel' => $this->key]);
             if (!$user) {
-                $this->addError('key', '该用户不存在,请检查手机号');
-                return false;
+                $user = new EnUser();
+                $user->tel = $this->key;
+                $user->token = \Yii::$app->security->generatePasswordHash($this->key);
+                $user->created_at = time();
+                if (!$user->save()) {
+                    $this->addError('key', '创建用户账号失败');
+                    return false;
+                }
             }
             if (self::findOne(['field' => $this->field, 'type' => $this->type, 'key' => $user->id])) {
                 $this->addError('key', '该用户已存在该类股权');
@@ -143,15 +149,19 @@ class EnStock extends \yii\db\ActiveRecord
     public static function getStockByFieldToArr($no = '')
     {
         $data = self::find()->alias('s')
+            ->leftJoin(EnCompany::tableName() . ' c2', 'c2.id=s.key')
             ->leftJoin(EnUser::tableName() . ' u3', 'u3.id=s.key')
             ->leftJoin(EnUser::tableName() . ' u4', 'u4.id=s.key')
             ->where(['s.field' => $no])
-            ->select(['s.*', 'u3.tel as local', 'u4.tel as invest'])
+            ->select(['s.*', 'c2.abridge as abridge', 'u3.tel as local', 'u4.tel as invest'])
             ->orderBy(['s.type' => 'asc'])
             ->asArray()->all();
         foreach ($data as &$v) {
-            if ($v['type'] == 1 || $v['type'] == 2) {
+            if ($v['type'] == 1) {
                 $v['key'] = '----';
+            }
+            if ($v['type'] == 2) {
+                $v['key'] = $v['abridge'];
             }
             if ($v['type'] == 3) {
                 $v['key'] = $v['local'];

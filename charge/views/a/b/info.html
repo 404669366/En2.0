@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>亿能充电-砍价免单</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/bargain.css">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/modal.js"></script>
+    <script type="text/x-dot-template" id="orderTpl">
+        <img src="/img/active1_charge.png">
+        <h3>{{=it.field}}-充电订单</h3>
+        <div class="price">&yen;<b>0</b><p>{{=it.bargain.price}}元</p></div>
+    </script>
+    <script type="text/x-dot-template" id="skillTpl">
+        <div class="label"><div></div>已砍{{=window.format(it.bargainPrice,2)}}元</div>
+        <div class="bar" style="width: {{=it.bargainPrice/it.bargain.price*100}}%"></div>
+    </script>
+    <script type="text/x-dot-template" id="lalTpl">
+        <p class="fl txt_f51217">原价{{=it.bargain.price}}元</p>
+        <p class="fr txt_b4b2b2">还剩{{=window.format(it.bargain.price-it.bargainPrice,2)}}元</p>
+    </script>
+    <script type="text/x-dot-template" id="listTpl">
+        <h3>砍价排行榜</h3>
+        {{?it.length}}
+        {{~it:v}}
+        <p>{{=v.tel.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}}<span>砍掉{{=window.format(v.price,2)}}元</span></p>
+        {{~}}
+        {{??}}
+        <p class="none">~ 还没有砍价信息 ~</p>
+        {{?}}
+    </script>
+</head>
+<body class="orderBody">
+    <div class="info">
+        <img src="/img/active1_head.gif" alt="头像">
+        <p>小伙伴们，我有一个充电订单</p>
+        <p>快来帮我砍价哦</p>
+        <div class="order clear" id="order"></div>
+        <div class="skill" id="skill"></div>
+        <div class="lal clear" id="lal"></div>
+        <div class="time"></div>
+    </div>
+    <div class="btn" data-url=""></div>
+    <div class="list" id="list"></div>
+    <h4>“本活动最终解释权归亿能充电所有”</h4>
+    <div class="modal">
+        <div><b>恭喜您</b><p></p></div>
+        <p class="close"><i class="fa fa-times" aria-hidden="true"></i></p>
+    </div>
+    <script>
+        window.html('order', 'orderTpl', global);
+        window.html('skill', 'skillTpl', global);
+        window.html('lal', 'lalTpl', global);
+        window.html('list', 'listTpl', global.record);
+        if (!global.isComplete) {
+            if (global.isSelf) {
+                if (global.isBargain) {
+                    $('.btn').text('邀请好友帮砍').addClass('invite');
+                } else {
+                    $('.btn').text('我先砍一刀').addClass('do');
+                }
+            } else {
+                if (global.isBargain) {
+                    $('.btn').text('我也要免单').data('url', '/order/charge/list.html');
+                } else {
+                    $('.btn').text('帮他砍一刀').addClass('do');
+                }
+            }
+            $('.time').text(window.toDate(global.haveTime) + '后砍价结束');
+            setInterval(function () {
+                var haveTime = global.haveTime--;
+                if (haveTime > 0) {
+                    $('.time').text(window.toDate(haveTime) + '后砍价结束');
+                } else {
+                    $('.time').text('砍价已结束');
+                    $('.btn').text('再砍砍其他订单').data('url', '/order/charge/list.html');
+                }
+            }, 1000)
+        } else {
+            $('.time').text('砍价已完成');
+            $('.btn').text('再砍砍其他订单').data('url', '/order/charge/list.html');
+        }
+        $('.orderBody')
+            .on('click', '.do', function () {
+                $.getJSON('/a/b/do.html', {id: global.bargain.id}, function (re) {
+                    if (re.type) {
+                        $('.modal>div>p').text('这一刀砍了' + re.data + '元');
+                        window.modal.open('.modal');
+                        if (global.isSelf) {
+                            $('.btn').text('邀请好友帮砍').removeClass('do').addClass('invite');
+                        } else {
+                            $('.btn').text('我也要免单').removeClass('do').data('url', '/order/charge/list.html');
+                        }
+                    } else {
+                        window.showMsg(re.msg);
+                    }
+                })
+            })
+            .on('click', '.invite', function () {
+                const input = document.createElement("input");
+                input.readOnly = 'readonly';
+                input.value = '我有一个充电订单想要免单，快来帮我砍一下吧~\\(^o^)/~  >>http://c.en.ink/i/'+global.bargain.id+'.html';
+                document.body.appendChild(input);
+                input.select();
+                input.setSelectionRange(0, input.value.length);
+                document.execCommand('Copy');
+                document.body.removeChild(input);
+                window.showMsg('链接复制成功<br>快去召唤好友吧');
+            })
+            .on('click', '.close', function () {
+                window.location.reload();
+            });
+        var all = $('.skill').width() - $('.label').width();
+        $('.label').css('left', global.bargainPrice / global.bargain.price * all + 'px');
+    </script>
+</body>
+</html>

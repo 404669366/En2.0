@@ -38,6 +38,7 @@ $config = [
             'showScriptName' => false,
             'suffix' => '.html',
             'rules' => [
+                'i/<id:.*>' => 'a/b/i',
             ],
         ],
         'errorHandler' => [

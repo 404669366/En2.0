@@ -22,7 +22,7 @@ class Dysms
      * @param string $signName
      * @return bool|\stdClass
      */
-    public static function sendSms($tel = '', $tpl = [], $templateCode = 'SMS_150490675', $signName = '四川彭旭')
+    public static function sendSms($tel = '', $tpl = [], $templateCode = 'SMS_150490675', $signName = '亿能充电')
     {
         $params["PhoneNumbers"] = $tel;
         $params["SignName"] = $signName;

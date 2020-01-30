@@ -60,10 +60,9 @@ class EnBargainRecord extends \yii\db\ActiveRecord
         return self::find()->alias('r')
             ->leftJoin(EnUser::tableName() . ' u', 'u.id=r.user_id')
             ->where(['b_id' => $bargain_id])
-            ->select(['u.tel', 'SUM(r.price) as price','r.created_at'])
+            ->select(['u.tel', 'SUM(r.price) as price', 'r.created_at'])
             ->groupBy('u.tel')
-            ->orderBy('price desc')
-            ->asArray()->all();
+            ->page();
     }
 
     /**

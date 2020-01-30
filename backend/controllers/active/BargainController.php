@@ -51,8 +51,7 @@ class BargainController extends CommonController
      */
     public function actionRecordData($id = 0)
     {
-        $data = EnBargainRecord::getRecord($id);
-        return $this->rTableData(['data' => $data, 'total' => count($data)]);
+        return $this->rTableData(EnBargainRecord::getRecord($id));
     }
 
     /**

@@ -26,6 +26,6 @@
                 return timeToDate(data);
             }},
         ],
-        default_order: [1, 'desc']
+        default_order: [2, 'desc']
     });
 </script>

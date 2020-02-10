@@ -18,6 +18,8 @@ use Yii;
  */
 class EnPile extends \yii\db\ActiveRecord
 {
+    public $online;
+
     /**
      * {@inheritdoc}
      */

@@ -64,21 +64,8 @@ class Jm
                     $data['power'] = unpack('Vv', substr($buffer, 153, 4))['v'];
                     break;
                 case 106:
-                    $data['sign'] = str_pad(base_convert(substr($buffer, 36, 1), 16, 2), 8, 0, STR_PAD_LEFT);
-                    $data['softwareEdition'] = unpack('Vv', substr($buffer, 37, 4))['v'];
-                    $data['project'] = unpack('vv', substr($buffer, 41, 2))['v'];
-                    $data['startTimes'] = unpack('Vv', substr($buffer, 43, 4))['v'];
-                    $data['uploadMode'] = unpack('Cv', substr($buffer, 47, 1))['v'];
-                    $data['checkInInterval'] = unpack('vv', substr($buffer, 48, 2))['v'];
-                    $data['internalVar'] = unpack('Cv', substr($buffer, 50, 1))['v'];
                     $data['count'] = unpack('Cv', substr($buffer, 51, 1))['v'];
-                    $data['reportingCycle'] = unpack('Cv', substr($buffer, 52, 1))['v'];
-                    $data['timeoutTimes'] = unpack('Cv', substr($buffer, 53, 1))['v'];
-                    $data['noteCount'] = unpack('Vv', substr($buffer, 54, 4))['v'];
-                    $data['time'] = self::parseTime(substr($buffer, 58, 8));
                     $data['random'] = unpack('Vv', substr($buffer, 90, 4))['v'];
-                    $data['communicationEdition'] = unpack('vv', substr($buffer, 94, 2))['v'];
-                    $data['whiteListEdition'] = unpack('vv', substr($buffer, 96, 4))['v'];
                     break;
                 case 108:
                     $data['alarmInfo'] = self::parseBin(substr($buffer, -32, 32));

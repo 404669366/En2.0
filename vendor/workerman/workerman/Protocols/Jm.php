@@ -94,7 +94,6 @@ class Jm
                     $data['cardNo'] = unpack('a32v', substr($buffer, 38, 32))['v'];
                     $data['duration'] = unpack('Vv', substr($buffer, 86, 4))['v'];
                     $data['e'] = round(unpack('Vv', substr($buffer, 96, 4))['v'] / 100, 2);
-                    $data['money'] = unpack('Vv', substr($buffer, 108, 4))['v'];
                     $data['index'] = unpack('Vv', substr($buffer, 112, 4))['v'];
                     $data['orderNo'] = substr(trim(unpack('a32v', substr($buffer, 253, 32))['v']), 1);
                     break;

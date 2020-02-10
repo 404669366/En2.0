@@ -48,6 +48,7 @@ class events
                         Gateway::sendToClient($client_id, json_encode(['code' => 100]));
                         break;
                 }
+                Gateway::joinGroup($client_id, 20001);
                 break;
             //todo 特来电电桩
             case 20002:
@@ -174,6 +175,7 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 201, 'gun' => $data['gun'], 'cardNo' => $data['cardNo'], 'index' => $data['index']]);
                         break;
                 }
+                Gateway::joinGroup($client_id, 20002);
                 break;
         }
     }
@@ -181,7 +183,7 @@ class events
     public static function onWorkerStop($businessWorker)
     {
         self::$db->update('en_order')->cols(['status' => 2])->where("status in(0,1)")->query();
-        Gateway::sendToAll(json_encode(['code' => 209]));
+        Gateway::sendToGroup(20001, json_encode(['code' => 209]));
     }
 
     /**

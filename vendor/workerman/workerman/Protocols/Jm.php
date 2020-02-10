@@ -231,18 +231,4 @@ class Jm
         $time .= bin2hex(substr($buffer, 6, 1));
         return $time;
     }
-
-    /**
-     * 解析各时段用电信息
-     * @param string $buffer
-     * @return array
-     */
-    public static function parseElectricInfo($buffer = '')
-    {
-        $bufferArr = str_split($buffer, 2);
-        foreach ($bufferArr as &$v) {
-            $v = unpack('vv', $v)['v'];
-        }
-        return $bufferArr;
-    }
 }

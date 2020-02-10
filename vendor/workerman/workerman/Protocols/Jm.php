@@ -91,9 +91,8 @@ class Jm
                     break;
                 case 202:
                     $data['gun'] = unpack('Cv', substr($buffer, 37, 1))['v'];
+                    $data['cardNo'] = unpack('a32v', substr($buffer, 38, 32))['v'];
                     $data['duration'] = unpack('Vv', substr($buffer, 86, 4))['v'];
-                    $data['beginSoc'] = unpack('Cv', substr($buffer, 90, 1))['v'];
-                    $data['endSoc'] = unpack('Cv', substr($buffer, 91, 1))['v'];
                     $data['e'] = round(unpack('Vv', substr($buffer, 96, 4))['v'] / 100, 2);
                     $data['money'] = unpack('Vv', substr($buffer, 108, 4))['v'];
                     $data['index'] = unpack('Vv', substr($buffer, 112, 4))['v'];

@@ -57,6 +57,8 @@ class Jm
                     $data['gunType'] = unpack('Cv', substr($buffer, 38, 1))['v'];
                     $data['workStatus'] = unpack('Cv', substr($buffer, 39, 1))['v'];
                     $data['soc'] = unpack('Cv', substr($buffer, 40, 1))['v'];
+                    $data['v'] = unpack('vv', substr($buffer, 59, 2))['v'];
+                    $data['i'] = unpack('vv', substr($buffer, 61, 2))['v'];
                     $data['linkStatus'] = unpack('Cv', substr($buffer, 45, 1))['v'];
                     $data['remainingTime'] = unpack('vv', substr($buffer, 79, 2))['v'];
                     $data['duration'] = unpack('Vv', substr($buffer, 81, 4))['v'];

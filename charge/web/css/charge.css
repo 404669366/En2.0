@@ -88,8 +88,8 @@
 .charge_time > li {
     width: 9rem;
     padding: 0 0.5rem;
-    height: 1.5rem;
-    line-height: 1.5rem;
+    height: 1.38rem;
+    line-height: 1.38rem;
     border-bottom: 1px solid #909090;
 }
 
@@ -99,16 +99,17 @@
 
 .charge_time > li > span:first-child {
     float: left;
-    height: 1.5rem;
-    line-height: 1.5rem;
+    height: 1.38rem;
+    line-height: 1.38rem;
 }
 
 .charge_time > li > span {
     float: right;
 }
 
-.charge_time > li > span > i {
-    width: 0.1rem;
+.charge_time > li > span > .is {
+    width: 0.6rem;
+    text-align: center;
 }
 
 .charge_end {

@@ -101,6 +101,8 @@ class events
                                 $order['rule'] = $rule;
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
+                                $order['v'] = $data['v'];
+                                $order['i'] = $data['i'];
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => $code, 'data' => $order]));
                             }
                         }
@@ -118,6 +120,8 @@ class events
                                 $order['rule'] = $rule;
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
+                                $order['v'] = $data['v'];
+                                $order['i'] = $data['i'];
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 206, 'data' => $order]));
                             }
                         }
@@ -142,6 +146,8 @@ class events
                                 $order['rule'] = $rule;
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
+                                $order['v'] = $data['v'];
+                                $order['i'] = $data['i'];
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 208, 'data' => $order]));
                                 Gateway::sendToClient($client_id, ['cmd' => 5, 'gun' => $data['gun'], 'code' => 2, 'val' => 85]);
                             }

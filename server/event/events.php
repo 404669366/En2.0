@@ -15,6 +15,11 @@ class events
         self::$db = new Connection('127.0.0.1', '3306', 'root', 'fi9^BRLHschX%V96', 'en');
     }
 
+    public static function onConnect($client_id)
+    {
+        Gateway::joinGroup($client_id, $_SERVER['GATEWAY_PORT']);
+    }
+
     public static function onMessage($client_id, $data)
     {
         switch ($_SERVER['GATEWAY_PORT']) {
@@ -48,7 +53,6 @@ class events
                         Gateway::sendToClient($client_id, json_encode(['code' => 100]));
                         break;
                 }
-                Gateway::joinGroup($client_id, 20001);
                 break;
             //todo 特来电电桩
             case 20002:
@@ -175,7 +179,6 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 201, 'gun' => $data['gun'], 'cardNo' => $data['cardNo'], 'index' => $data['index']]);
                         break;
                 }
-                Gateway::joinGroup($client_id, 20002);
                 break;
         }
     }

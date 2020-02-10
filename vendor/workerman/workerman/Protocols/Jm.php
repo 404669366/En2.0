@@ -8,7 +8,7 @@
 
 namespace Workerman\Protocols;
 
-class Tld
+class Jm
 {
     public static function input($buffer)
     {

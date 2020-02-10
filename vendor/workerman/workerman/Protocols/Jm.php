@@ -63,7 +63,6 @@ class Jm
                     $data['remainingTime'] = unpack('vv', substr($buffer, 79, 2))['v'];
                     $data['duration'] = unpack('Vv', substr($buffer, 81, 4))['v'];
                     $data['e'] = round(unpack('Vv', substr($buffer, 85, 4))['v'] / 100, 2);
-                    $data['cardNo'] = unpack('a32v', substr($buffer, 104, 32))['v'];
                     $data['power'] = unpack('Vv', substr($buffer, 153, 4))['v'];
                     break;
                 case 106:

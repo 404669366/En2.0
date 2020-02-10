@@ -2,9 +2,8 @@
 
 namespace vendor\project\base;
 
+use GatewayClient\Gateway;
 use vendor\project\helpers\Constant;
-use vendor\project\helpers\Helper;
-use vendor\project\helpers\Msg;
 use Yii;
 
 /**
@@ -12,7 +11,6 @@ use Yii;
  *
  * @property string $no 电桩编号
  * @property int count 枪口数量
- * @property int online 在线状态 0离线1在线
  * @property int bind 绑定状态 0未绑定1已绑定
  * @property string $rules 计费规则
  * @property string $field 场站编号
@@ -37,7 +35,7 @@ class EnPile extends \yii\db\ActiveRecord
             [['no'], 'unique'],
             [['no', 'model_id', 'field', 'rules'], 'required'],
             [['field'], 'validateField'],
-            [['model_id', 'count', 'online', 'bind'], 'integer'],
+            [['model_id', 'count', 'bind'], 'integer'],
             [['no', 'field'], 'string', 'max' => 32],
             [['rules'], 'string', 'max' => 300],
         ];
@@ -60,7 +58,6 @@ class EnPile extends \yii\db\ActiveRecord
         return [
             'no' => '电桩编号',
             'count' => '枪口数量',
-            'online' => '在线状态',
             'bind' => '绑定状态',
             'rules' => '计费规则',
             'field' => '场站编号',
@@ -93,11 +90,10 @@ class EnPile extends \yii\db\ActiveRecord
         $data = $data->select(['p.*', 'f.no as fno', 'f.name', 'f.address', 'm.name as model'])
             ->page([
                 'keywords' => ['like', 'p.no', 'f.no', 'f.name', 'f.address', 'f.local', 'm.name'],
-                'online' => ['=', 'p.online'],
                 'bind' => ['=', 'p.bind'],
             ]);
         foreach ($data['data'] as &$v) {
-            $v['online'] = Constant::pileOnline()[$v['online']];
+            $v['online'] = Constant::pileOnline()[Gateway::isUidOnline($v['no'])];
             $v['bind'] = Constant::pileBind()[$v['bind']];
             $v['fieldInfo'] = "场站编号: {$v['fno']}<br>场站名称: {$v['name']}<br>场站地址: {$v['address']}";
         }

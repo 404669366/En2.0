@@ -56,6 +56,7 @@ class PileController extends CommonController
                 Msg::set($model->errors());
             }
         }
+        $model->online = Gateway::isUidOnline($model->no);
         return $this->render('info', [
             'model' => $model,
             'models' => EnModel::getModels(),

@@ -26,7 +26,7 @@
             <p class="tit">{{=it.address}}</p>
             <p><label>开放时间：</label>24小时</p>
             <p><label>枪口数量：</label>[ <span class="txt_blue">{{=it.guns.count}}</span> ]</p>
-            <p><label>停 车 费：</label>----</p>
+            <p><label>停车收费：</label>----</p>
             <p><label>空闲枪口：</label>[ <span class="txt_green">{{=it.guns.count -it.guns.used}}</span> ]</p>
         </div>
     </script>
@@ -79,10 +79,6 @@
                 scale: 13,
             });
         });
-    });
-    wx.error(function (re) {
-        $.cookie('message-data', '系统错误', {path: '/'});
-        window.history.go(-1);
     });
 
     var last = $.cookie('step' + global.now) || '';

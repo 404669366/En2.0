@@ -8,14 +8,6 @@
                                      placeholder="编号/名称/地址/业主/类型">
                     </span>
                     <span class="tableSpan">
-                        在线状态: <select class="searchField" name="online">
-                                <option value="">----</option>
-                            <?php foreach ($online as $k => $v): ?>
-                                <option value="<?= $k ?>"><?= $v ?></option>
-                            <?php endforeach; ?>
-                            </select>
-                    </span>
-                    <span class="tableSpan">
                         绑定状态: <select class="searchField" name="bind">
                                 <option value="">----</option>
                             <?php foreach ($bind as $k => $v): ?>

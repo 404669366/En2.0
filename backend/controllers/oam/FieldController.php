@@ -10,6 +10,7 @@ namespace app\controllers\oam;
 
 
 use app\controllers\basis\CommonController;
+use GatewayClient\Gateway;
 use vendor\project\base\EnField;
 use vendor\project\base\EnModel;
 use vendor\project\base\EnPile;
@@ -111,6 +112,7 @@ class FieldController extends CommonController
                 Msg::set($model->errors());
             }
         }
+        $model->online = Gateway::isUidOnline($model->no);
         return $this->render('info', [
             'model' => $model,
             'models' => EnModel::getModels(),

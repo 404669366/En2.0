@@ -64,7 +64,6 @@ class events
                         break;
                     case 102:
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
-                        self::$db->update('en_pile')->cols(['online' => 1])->where("no='{$_SESSION['no']}'")->query();
                         break;
                     case 104:
                         Gateway::bindUid($client_id, $data['no']);
@@ -112,7 +111,6 @@ class events
                                     self::$db->update('en_order')->cols($order)->where("no='{$order['no']}'")->query();
                                 }
                                 $order['rule'] = $rule;
-                                $order['vin'] = $data['vin'];
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 206, 'data' => $order]));
@@ -137,7 +135,6 @@ class events
                                 $order['status'] = 2;
                                 self::$db->update('en_order')->cols($order)->where("no='{$order['no']}'")->query();
                                 $order['rule'] = $rule;
-                                $order['vin'] = $data['vin'];
                                 $order['soc'] = $data['soc'];
                                 $order['power'] = round($data['power'] / 10, 2);
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 208, 'data' => $order]));
@@ -151,7 +148,7 @@ class events
                     case 106:
                         $_SESSION['no'] = $data['no'];
                         $_SESSION['count'] = $data['count'];
-                        self::$db->query("INSERT INTO `en_pile` (`no`) VALUES ('{$data['no']}') ON DUPLICATE KEY UPDATE `online`=1,`count`={$data['count']}");
+                        self::$db->query("INSERT INTO `en_pile` (`no`) VALUES ('{$data['no']}') ON DUPLICATE KEY UPDATE `count`={$data['count']}");
                         Gateway::sendToClient($client_id, ['cmd' => 105, 'random' => $data['random']]);
                         Gateway::sendToClient($client_id, ['cmd' => 3, 'type' => 1, 'code' => 2, 'val' => self::getTime()]);
                         break;
@@ -181,18 +178,8 @@ class events
         }
     }
 
-    public static function onClose($client_id)
-    {
-        switch ($_SERVER['GATEWAY_PORT']) {
-            //todo 特来电电桩
-            case 20002:
-                self::$db->update('en_pile')->cols(['online' => 0])->where("no='{$_SESSION['no']}'")->query();
-        }
-    }
-
     public static function onWorkerStop($businessWorker)
     {
-        self::$db->update('en_pile')->cols(['online' => 0])->where("online=1")->query();
         self::$db->update('en_order')->cols(['status' => 2])->where("status in(0,1)")->query();
         Gateway::sendToAll(json_encode(['code' => 209]));
     }

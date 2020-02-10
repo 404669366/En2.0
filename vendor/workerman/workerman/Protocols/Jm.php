@@ -65,7 +65,6 @@ class Jm
                     $data['e'] = round(unpack('Vv', substr($buffer, 85, 4))['v'] / 100, 2);
                     $data['cardNo'] = unpack('a32v', substr($buffer, 104, 32))['v'];
                     $data['power'] = unpack('Vv', substr($buffer, 153, 4))['v'];
-                    $data['vin'] = unpack('a18v', substr($buffer, 172, 18))['v'];
                     break;
                 case 106:
                     $data['sign'] = str_pad(base_convert(substr($buffer, 36, 1), 16, 2), 8, 0, STR_PAD_LEFT);

@@ -50,7 +50,6 @@ class Jm
                     break;
                 case 102:
                     $data['heartNo'] = unpack('vv', substr($buffer, 36, 2))['v'];
-                    $data['gunStatus'] = self::parseBin(substr($buffer, -16, 16));
                     break;
                 case 104:
                     $data['gunCount'] = unpack('Cv', substr($buffer, 36, 1))['v'];

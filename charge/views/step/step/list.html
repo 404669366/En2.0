@@ -69,10 +69,6 @@
             }
         });
     });
-    wx.error(function (re) {
-        $.cookie('message-data', '系统错误', {path: '/'});
-        window.history.go(-1);
-    });
 
     $('#list').on('touchstart', 'li', function () {
         window.location.href = $(this).data('url');

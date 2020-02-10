@@ -84,7 +84,7 @@ class Jm
                     $data['duration'] = unpack('Vv', substr($buffer, 86, 4))['v'];
                     $data['e'] = round(unpack('Vv', substr($buffer, 96, 4))['v'] / 100, 2);
                     $data['index'] = unpack('Vv', substr($buffer, 112, 4))['v'];
-                    $data['orderNo'] = unpack('a32v', substr($buffer, 256, 32))['v'];
+                    $data['orderNo'] = trim(unpack('a32v', substr($buffer, 256, 32))['v']);
                     break;
             }
             return $data;

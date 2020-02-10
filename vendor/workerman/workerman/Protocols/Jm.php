@@ -76,7 +76,6 @@ class Jm
                     $data['gun'] = unpack('Cv', substr($buffer, 36, 1))['v'];
                     $data['failType'] = unpack('Vv', substr($buffer, 37, 4))['v'];
                     $data['sendType'] = unpack('vv', substr($buffer, 41, 2))['v'];
-                    $data['vin'] = unpack('a17v', substr($buffer, 79, 17))['v'];
                     break;
                 case 202:
                     $data['gun'] = unpack('Cv', substr($buffer, 37, 1))['v'];

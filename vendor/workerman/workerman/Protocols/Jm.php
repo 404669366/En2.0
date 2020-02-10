@@ -214,21 +214,4 @@ class Jm
         }
         return $timeStr . pack('C', 255);
     }
-
-    /**
-     * 解析时间
-     * @param string $buffer
-     * @return mixed
-     */
-    private static function parseTime($buffer = '')
-    {
-        $time = bin2hex(substr($buffer, 0, 1));
-        $time .= bin2hex(substr($buffer, 1, 1)) . '-';
-        $time .= bin2hex(substr($buffer, 2, 1)) . '-';
-        $time .= bin2hex(substr($buffer, 3, 1)) . ' ';
-        $time .= bin2hex(substr($buffer, 4, 1)) . ':';
-        $time .= bin2hex(substr($buffer, 5, 1)) . ':';
-        $time .= bin2hex(substr($buffer, 6, 1));
-        return $time;
-    }
 }

@@ -90,24 +90,14 @@ class Jm
                     $data['vin'] = unpack('a17v', substr($buffer, 79, 17))['v'];
                     break;
                 case 202:
-                    $data['type'] = unpack('Cv', substr($buffer, 36, 1))['v'];
                     $data['gun'] = unpack('Cv', substr($buffer, 37, 1))['v'];
-                    $data['cardNo'] = unpack('a32v', substr($buffer, 38, 32))['v'];
-                    $data['beginTime'] = strtotime(self::parseTime(substr($buffer, 70, 8)));
-                    $data['endTime'] = strtotime(self::parseTime(substr($buffer, 78, 8)));
                     $data['duration'] = unpack('Vv', substr($buffer, 86, 4))['v'];
                     $data['beginSoc'] = unpack('Cv', substr($buffer, 90, 1))['v'];
                     $data['endSoc'] = unpack('Cv', substr($buffer, 91, 1))['v'];
-                    $data['endType'] = unpack('Vv', substr($buffer, 92, 4))['v'];
                     $data['e'] = round(unpack('Vv', substr($buffer, 96, 4))['v'] / 100, 2);
                     $data['money'] = unpack('Vv', substr($buffer, 108, 4))['v'];
                     $data['index'] = unpack('Vv', substr($buffer, 112, 4))['v'];
-                    $data['vin'] = unpack('a17v', substr($buffer, 131, 17))['v'];
-                    $data['startType'] = unpack('Cv', substr($buffer, 252, 1))['v'];
-                    $data['orderNo'] = trim(unpack('a32v', substr($buffer, 253, 32))['v']);
-                    $arr = str_split($data['orderNo'], 1);
-                    unset($arr[0]);
-                    $data['orderNo'] = implode('', $arr);
+                    $data['orderNo'] = substr(trim(unpack('a32v', substr($buffer, 253, 32))['v']), 1);
                     break;
             }
             return $data;

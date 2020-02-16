@@ -189,12 +189,6 @@ class events
         }
     }
 
-    public static function onWorkerStop($businessWorker)
-    {
-        self::$db->update('en_order')->cols(['status' => 2])->where("status in(0,1)")->query();
-        Gateway::sendToGroup(20001, json_encode(['code' => 209]));
-    }
-
     /**
      * 根据uid获取session
      * @param string $uid

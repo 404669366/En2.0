@@ -111,41 +111,4 @@ class ConsumeController extends CommonController
     {
         return $this->render('order-detail', ['no' => $no]);
     }
-
-    /**
-     * 订单列表
-     * @return string
-     */
-    public function actionOrder()
-    {
-        return $this->render('order', ['status' => Constant::orderStatus()]);
-    }
-
-    /**
-     * 列表数据
-     * @return string
-     */
-    public function actionOrderData()
-    {
-        return $this->rTableData(EnOrder::getPageData());
-    }
-
-    /**
-     * 列表导出
-     */
-    public function actionOrderExport()
-    {
-        EnOrder::export();
-    }
-
-    /**
-     * 订单扣款
-     * @param string $no
-     * @return \yii\web\Response
-     */
-    public function actionOrderDeduct($no = '')
-    {
-        EnOrder::deduct($no);
-        return $this->redirect(['order']);
-    }
 }

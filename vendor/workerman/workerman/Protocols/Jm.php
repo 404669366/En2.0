@@ -54,12 +54,11 @@ class Jm
                 case 104:
                     $data['gunCount'] = unpack('Cv', substr($buffer, 36, 1))['v'];
                     $data['gun'] = unpack('Cv', substr($buffer, 37, 1))['v'];
-                    $data['gunType'] = unpack('Cv', substr($buffer, 38, 1))['v'];
                     $data['workStatus'] = unpack('Cv', substr($buffer, 39, 1))['v'];
                     $data['soc'] = unpack('Cv', substr($buffer, 40, 1))['v'];
-                    $data['v'] = unpack('vv', substr($buffer, 59, 2))['v'];
-                    $data['i'] = unpack('vv', substr($buffer, 61, 2))['v'];
                     $data['linkStatus'] = unpack('Cv', substr($buffer, 45, 1))['v'];
+                    $data['v'] = unpack('vv', substr($buffer, 58, 2))['v'];
+                    $data['i'] = unpack('vv', substr($buffer, 60, 2))['v'];
                     $data['remainingTime'] = unpack('vv', substr($buffer, 79, 2))['v'];
                     $data['duration'] = unpack('Vv', substr($buffer, 81, 4))['v'];
                     $data['e'] = round(unpack('Vv', substr($buffer, 85, 4))['v'] / 100, 2);

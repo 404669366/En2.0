@@ -61,28 +61,6 @@ class EnInvest extends \yii\db\ActiveRecord
     }
 
     /**
-     * 后台分页数据
-     * @return mixed
-     */
-    public static function getPageData()
-    {
-        $data = self::find()->alias('i')
-            ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.uid')
-            ->select(['i.*', 'u.tel'])
-            ->page([
-                'keywords' => ['like', 'i.no', 'u.tel'],
-                'status' => ['=', 'i.status'],
-                'source' => ['=', 'i.source'],
-            ]);
-        foreach ($data['data'] as &$v) {
-            $v['status'] = Constant::investStatus()[$v['status']];
-            $v['source'] = Constant::investSource()[$v['source']];
-            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
-        }
-        return $data;
-    }
-
-    /**
      * 发起充值
      * @param int $money
      * @param int $way
@@ -135,10 +113,10 @@ class EnInvest extends \yii\db\ActiveRecord
     {
         $minYear = self::find()->min("FROM_UNIXTIME(created_at,'%Y')") ?: date('Y');
         $data = [
-            'allInvest' => round(self::find()->where(['status' => 1])->sum('money'), 2),
-            'yearInvest' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => 1])->sum('money'), 2),
-            'monthInvest' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => 1])->sum('money'), 2),
-            'dayInvest' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => 1])->sum('money'), 2),
+            'all' => round(self::find()->where(['status' => 1])->sum('money'), 2),
+            'year' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => 1])->sum('money'), 2),
+            'month' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => 1])->sum('money'), 2),
+            'day' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => 1])->sum('money'), 2),
             'years' => array_reverse(range($minYear, date('Y'))),
         ];
         return $data;
@@ -155,6 +133,28 @@ class EnInvest extends \yii\db\ActiveRecord
         $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
         foreach ($data as &$v) {
             $v = round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v, 'status' => 1])->sum('money'), 2);
+        }
+        return $data;
+    }
+
+    /**
+     * 统计报表单月数据
+     * @param string $month
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function statisticsMonthData($month = '')
+    {
+        $month = $month ?: date('Y-m');
+        $data = self::find()->alias('i')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.uid')
+            ->where(["FROM_UNIXTIME(i.created_at,'%Y-%m')" => $month,])
+            ->select(['i.*', 'u.tel'])
+            ->orderBy('i.created_at desc')
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $v['status'] = Constant::investStatus()[$v['status']];
+            $v['source'] = Constant::investSource()[$v['source']];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
         }
         return $data;
     }

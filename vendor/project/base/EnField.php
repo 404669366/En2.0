@@ -384,17 +384,20 @@ class EnField extends \yii\db\ActiveRecord
 
     /**
      * 统计报表单月数据
-     * @param string $no
      * @param string $month
-     * @return array|\yii\db\ActiveRecord[]
+     * @param string $no
+     * @return $this|array|\yii\db\ActiveRecord[]
      */
-    public static function statisticsMonthData($no = '', $month = '')
+    public static function statisticsMonthData($month = '', $no = '')
     {
         $month = $month ?: date('Y-m');
         $data = EnOrder::find()->alias('o')
             ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid')
-            ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => $month, 'o.status' => [2, 3]])
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid');
+        if ($no) {
+            $data->where(['p.field' => $no]);
+        }
+        $data = $data->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => $month, 'o.status' => [2, 3]])
             ->select(['o.*', 'u.tel'])
             ->orderBy('o.created_at desc')
             ->asArray()->all();

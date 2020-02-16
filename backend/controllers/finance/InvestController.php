@@ -15,24 +15,35 @@ use vendor\project\helpers\Constant;
 
 class InvestController extends CommonController
 {
+
     /**
-     * 充值列表
+     * 充值页
      * @return string
      */
-    public function actionList()
+    public function actionReport()
     {
-        return $this->render('list', [
-            'status' => Constant::investStatus(),
-            'source' => Constant::investSource()
+        return $this->render('report', [
+            'month' => date('Y-m'),
+            'invest' => EnInvest::reportInfo(),
         ]);
+    }
+    /**
+     * 充值报表数据
+     * @param string $year
+     * @return string
+     */
+    public function actionReportData($year = '')
+    {
+        return $this->rJson(EnInvest::reportData($year));
     }
 
     /**
-     * 充值数据
+     *  充值单月报表数据
+     * @param $month
      * @return string
      */
-    public function actionData()
+    public function actionMonthData($month)
     {
-        return $this->rTableData(EnInvest::getPageData());
+        return $this->rJson(EnInvest::statisticsMonthData($month));
     }
 }

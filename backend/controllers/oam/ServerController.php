@@ -14,14 +14,6 @@ use vendor\project\helpers\Constant;
 
 class ServerController extends CommonController
 {
-    /**
-     * 报文监控
-     * @return string
-     */
-    public function actionMsg()
-    {
-        return $this->render('msg');
-    }
 
     /**
      * 系统监控

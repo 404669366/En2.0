@@ -1,36 +1,35 @@
 <?php $this->registerJsFile('@web/js/echarts.min.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <div class="wrapper wrapper-content animated">
     <div class="row">
-        <h3 class="col-sm-12">场站融资统计</h3>
         <div class="col-sm-3">
             <div class="ibox">
                 <div class="ibox-content">
-                    <h5>累计融资金额</h5>
-                    <h1 class="no-margins">&yen; <?= $data['all'] ?></h1>
+                    <h5>累计充电消费</h5>
+                    <h1 class="no-margins">&yen; <?= $order['all'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
                 <div class="ibox-content">
-                    <h5>本年融资金额</h5>
-                    <h1 class="no-margins">&yen; <?= $data['year'] ?></h1>
+                    <h5>本年充电消费</h5>
+                    <h1 class="no-margins">&yen; <?= $order['year'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
                 <div class="ibox-content">
-                    <h5>本月融资金额</h5>
-                    <h1 class="no-margins">&yen; <?= $data['month'] ?></h1>
+                    <h5>本月充电消费</h5>
+                    <h1 class="no-margins">&yen; <?= $order['month'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
                 <div class="ibox-content">
-                    <h5>本日融资金额</h5>
-                    <h1 class="no-margins">&yen; <?= $data['day'] ?></h1>
+                    <h5>本日充电消费</h5>
+                    <h1 class="no-margins">&yen; <?= $order['day'] ?></h1>
                 </div>
             </div>
         </div>
@@ -38,11 +37,11 @@
             <div class="ibox" style="position: relative">
                 <select class="form-control m-b year"
                         style="position: absolute;z-index: 999;width: 8%;right: 10px;top: 10px">
-                    <?php foreach ($data['years'] as $v): ?>
+                    <?php foreach ($order['years'] as $v): ?>
                         <option value="<?= $v ?>"><?= $v ?></option>
                     <?php endforeach; ?>
                 </select>
-                <div class="ibox-content" id="e" style="height: 480px"></div>
+                <div class="ibox-content" id="order" style="height: 480px"></div>
             </div>
         </div>
         <div class="col-sm-12">
@@ -52,12 +51,15 @@
                     <table class="table table-striped table-bordered table-hover dataTable" id="table">
                         <thead>
                         <tr role="row">
-                            <th>意向编号</th>
-                            <th>场站编号</th>
-                            <th>意向用户</th>
-                            <th>股权数量</th>
-                            <th>意向金额</th>
+                            <th>订单编号</th>
+                            <th>电桩编号</th>
+                            <th>充电枪口</th>
+                            <th>充电用户</th>
+                            <th>充电电量</th>
+                            <th>费用信息</th>
                             <th>创建时间</th>
+                            <th>订单状态</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                     </table>
@@ -67,9 +69,9 @@
     </div>
 </div>
 <script>
-    var e = window.echarts.init(document.getElementById('e'));
+    var e = window.echarts.init(document.getElementById('order'));
     e.setOption({
-        title: {text: '月融资统计'},
+        title: {text: '充电消费统计'},
         color: ['#3398DB'],
         tooltip: {},
         xAxis: {
@@ -83,37 +85,42 @@
         showMonth($('.year').val() + '-' + params.name.replace('月', ''));
     });
 
-    showE('');
+    showOrder('');
     showMonth('<?= $month ?>');
+
+    $('.year').change(function () {
+        showOrder($(this).val());
+    });
 
     var table = myTable.baseShow({
         table: '#table',
-        order: [5, 'desc'],
+        order: [6, 'desc'],
         columns: [
             {"data": "no"},
-            {"data": "field"},
+            {"data": "pile"},
+            {"data": "gun"},
             {"data": "tel"},
-            {"data": "num"},
-            {"data": "amount"},
+            {"data": "e"},
+            {"data": "info"},
             {"data": "created_at"},
+            {"data": "status"},
+            {"data": "no", "orderable": false, "render": function (data, type, row) {
+                return '<a class="btn btn-sm btn-info" href="/finance/consume/order-detail?no=' + data + '">详情</a>';
+            }},
         ]
     });
 
-    $('.year').change(function () {
-        showE($(this).val());
-    });
-
-    function showE(year) {
+    function showOrder(year) {
         e.showLoading();
-        $.getJSON('/finance/finance/report-data', {year: year}, function (re) {
+        $.getJSON('/finance/consume/report-data', {year: year}, function (re) {
             e.hideLoading();
             e.setOption({series: [{type: 'bar', data: re.data}]});
         });
     }
 
     function showMonth(month) {
-        $('.month-tit').text('月融资列表(' + month + ')');
-        $.getJSON('/finance/finance/month-data', {month: month}, function (re) {
+        $('.month-tit').text('月消费列表(' + month + ')');
+        $.getJSON('/finance/consume/month-data', {month: month}, function (re) {
             table.loadData(re.data);
         });
     }

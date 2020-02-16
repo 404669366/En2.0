@@ -32,7 +32,7 @@
 <script>
     myTable.load({
         table: '#table',
-        url: '/finance/field/data',
+        url: '/finance/consume/field-data',
         length: 10,
         columns: [
             {"data": "created_at"},
@@ -42,7 +42,7 @@
             {"data": "statusInfo"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-               return '<a class="btn btn-sm btn-info" href="/finance/field/info?no=' + data + '">详情</a>';
+               return '<a class="btn btn-sm btn-info" href="/finance/consume/field-report?no=' + data + '">统计</a>';
             }
             }
         ],

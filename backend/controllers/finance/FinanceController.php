@@ -21,9 +21,9 @@ class FinanceController extends CommonController
      * 融资统计
      * @return string
      */
-    public function actionInfo()
+    public function actionReport()
     {
-        return $this->render('info', [
+        return $this->render('report', [
             'month' => date('Y-m'),
             'data' => EnIntention::statisticsReportInfo()
         ]);
@@ -34,7 +34,7 @@ class FinanceController extends CommonController
      * @param $year
      * @return string
      */
-    public function actionInfoData($year)
+    public function actionReportData($year)
     {
         return $this->rJson(EnIntention::statisticsReportData($year));
     }
@@ -47,57 +47,5 @@ class FinanceController extends CommonController
     public function actionMonthData($month)
     {
         return $this->rJson(EnIntention::statisticsMonthData($month));
-    }
-
-
-    /**
-     * 充值消费页
-     * @return string
-     */
-    public function actionReport()
-    {
-        return $this->render('report', [
-            'invest' => EnInvest::reportInfo(),
-            'order' => EnOrder::reportInfo()
-        ]);
-    }
-
-    /**
-     * 充值报表数据
-     * @param string $year
-     * @return string
-     */
-    public function actionInvestData($year = '')
-    {
-        return $this->rJson(EnInvest::reportData($year));
-    }
-
-    /**
-     * 订单报表数据
-     * @param string $year
-     * @return string
-     */
-    public function actionOrderData($year = '')
-    {
-        return $this->rJson(EnOrder::reportData($year));
-    }
-
-    /**
-     * 收益报表页
-     * @return string
-     */
-    public function actionIncome()
-    {
-        return $this->render('income', ['income' => EnIncome::reportInfo(),]);
-    }
-
-    /**
-     * 收益报表数据
-     * @param string $year
-     * @return string
-     */
-    public function actionIncomeData($year = '')
-    {
-        return $this->rJson(EnIncome::reportData($year));
     }
 }

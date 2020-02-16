@@ -181,10 +181,10 @@ class EnOrder extends \yii\db\ActiveRecord
     {
         $minYear = self::find()->min("FROM_UNIXTIME(created_at,'%Y')") ?: date('Y');
         $data = [
-            'allOrder' => round(self::find()->where(['status' => [2, 3]])->sum('bm + sm'), 2),
-            'yearOrder' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => [2, 3]])->sum('bm + sm'), 2),
-            'monthOrder' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => [2, 3]])->sum('bm + sm'), 2),
-            'dayOrder' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'all' => round(self::find()->where(['status' => [2, 3]])->sum('bm + sm'), 2),
+            'year' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'month' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'day' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => [2, 3]])->sum('bm + sm'), 2),
             'years' => array_reverse(range($minYear, date('Y'))),
         ];
         return $data;

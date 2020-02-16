@@ -21,16 +21,16 @@ class OrderController extends CommonController
      * 订单列表
      * @return string
      */
-    public function actionOrder()
+    public function actionList()
     {
-        return $this->render('order', ['status' => Constant::orderStatus()]);
+        return $this->render('list', ['status' => Constant::orderStatus()]);
     }
 
     /**
      * 列表数据
      * @return string
      */
-    public function actionOrderData()
+    public function actionData()
     {
         return $this->rTableData(EnOrder::getPageData());
     }
@@ -38,7 +38,7 @@ class OrderController extends CommonController
     /**
      * 列表导出
      */
-    public function actionOrderExport()
+    public function actionExport()
     {
         EnOrder::export();
     }
@@ -48,9 +48,9 @@ class OrderController extends CommonController
      * @param string $no
      * @return \yii\web\Response
      */
-    public function actionOrderDeduct($no = '')
+    public function actionDeduct($no = '')
     {
         EnOrder::deduct($no);
-        return $this->redirect(['order']);
+        return $this->redirect(['list']);
     }
 }

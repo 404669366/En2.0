@@ -38,10 +38,8 @@
             <table class="table table-striped table-bordered table-hover dataTable" id="table">
                 <thead>
                 <tr role="row">
-                    <th>NO/创建时间</th>
-                    <th>归属专员</th>
-                    <th>归属用户</th>
                     <th>场站信息</th>
+                    <th>归属信息</th>
                     <th>股权情况</th>
                     <th>场站状态</th>
                     <th>操作</th>
@@ -57,10 +55,8 @@
         url: '/field/field/data',
         length: 10,
         columns: [
-            {"data": "info"},
-            {"data": "cTel"},
-            {"data": "uTel"},
             {"data": "data"},
+            {"data": "uInfo"},
             {"data": "stock"},
             {"data": "statusInfo"},
             {
@@ -73,7 +69,7 @@
             }
             }
         ],
-        default_order: [6, 'asc']
+        default_order: [4, 'asc']
     });
     myTable.search();
     $('#table').on('click', '.appoint', function () {

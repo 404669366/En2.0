@@ -39,7 +39,6 @@
                 <thead>
                 <tr role="row">
                     <th>NO/创建时间</th>
-                    <th>归属企业</th>
                     <th>归属专员</th>
                     <th>归属用户</th>
                     <th>场站信息</th>
@@ -59,7 +58,6 @@
         length: 10,
         columns: [
             {"data": "info"},
-            {"data": "cName"},
             {"data": "cTel"},
             {"data": "uTel"},
             {"data": "data"},

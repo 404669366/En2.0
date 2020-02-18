@@ -19,7 +19,6 @@
                 <tr role="row">
                     <th>NO/创建时间</th>
                     <th>场站信息</th>
-                    <th>归属企业</th>
                     <th>股权情况</th>
                     <th>场站状态</th>
                     <th>操作</th>

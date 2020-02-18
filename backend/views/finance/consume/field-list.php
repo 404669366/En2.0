@@ -37,7 +37,6 @@
         columns: [
             {"data": "created_at"},
             {"data": "data"},
-            {"data": "cName"},
             {"data": "stock"},
             {"data": "statusInfo"},
             {

@@ -73,7 +73,7 @@
             }
             }
         ],
-        default_order: [7, 'asc']
+        default_order: [6, 'asc']
     });
     myTable.search();
     $('#table').on('click', '.appoint', function () {

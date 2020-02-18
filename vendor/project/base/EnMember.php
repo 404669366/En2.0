@@ -99,7 +99,7 @@ class EnMember extends \yii\db\ActiveRecord implements IdentityInterface
             ->select(['m.*', 'j.name as job', 'c.name as company'])
             ->page([
                 'tel' => ['like', 'm.tel'],
-                'company_id' => ['=', 'j.company_id'],
+                'company' => ['=', 'm.company_id'],
             ]);
     }
 

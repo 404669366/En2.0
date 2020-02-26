@@ -234,39 +234,80 @@ class EnIntention extends \yii\db\ActiveRecord
     }
 
     /**
-     * 统计报表各月数据
+     * 年统计报表数据
      * @param string $year
      * @return array
      */
-    public static function statisticsReportData($year = '')
+    public static function statisticsYearData($year = '')
     {
         $year = $year ?: date('Y');
-        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        $res = self::find()->alias('i')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
+            ->where(["FROM_UNIXTIME(i.created_at,'%Y')" => $year, 'i.status' => [1, 2]]);
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $res->andWhere(['f.company_id' => $company_id]);
+        }
+        $res = $res->groupBy("month")
+            ->select(["FROM_UNIXTIME(i.created_at,'%m') month", 'SUM(i.amount) as amount'])
+            ->asArray()->all();
+        $res = array_column($res, 'amount', 'month');
+        $data = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         foreach ($data as &$v) {
-            $model = self::find()->alias('i')
-                ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.user_id')
-                ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
-                ->where(['i.status' => [1, 2]]);
-            if ($company_id = Yii::$app->user->identity->company_id) {
-                $model->andWhere(['f.company_id' => $company_id]);
+            if (isset($res[$v])) {
+                $v = round($res[$v], 2);
+            } else {
+                $v = 0;
             }
-            $v = round($model->andWhere(["FROM_UNIXTIME(i.created_at,'%Y-%m')" => $year . $v])->sum('i.amount'), 2);
         }
         return $data;
     }
 
     /**
-     * 统计报表单月数据
+     * 月报表数据
+     * @param string $year
      * @param string $month
+     * @return array
+     */
+    public static function statisticsMonthData($year = '', $month = '')
+    {
+        $year = $year ?: date('Y');
+        $month = $month ?: date('m');
+        $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $data = range(1, $days);
+        $days = [];
+        $res = self::find()->alias('i')
+            ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
+            ->where(["FROM_UNIXTIME(i.created_at,'%Y-%m')" => $year . '-' . $month, 'i.status' => [1, 2]]);
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $res->andWhere(['f.company_id' => $company_id]);
+        }
+        $res = $res->groupBy("days")
+            ->select(["FROM_UNIXTIME(i.created_at,'%d') days", 'SUM(i.amount) as amount'])
+            ->asArray()->all();
+        $res = array_column($res, 'amount', 'days');
+        foreach ($data as &$v) {
+            $day = str_pad($v, 2, "0", STR_PAD_LEFT);
+            array_push($days, $day);
+            $v = 0;
+            if (isset($res[$day])) {
+                $v = round($res[$day], 2);
+            }
+        }
+        return ['days' => $days, 'data' => $data];
+    }
+
+    /**
+     * 日统计报表数据
+     * @param string $date
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function statisticsMonthData($month = '')
+    public static function statisticsDayData($date = '')
     {
-        $month = $month ?: date('Y-m');
+        $date = $date ?: date('Y-m-d');
         $data = self::find()->alias('i')
             ->leftJoin(EnUser::tableName() . ' u', 'u.id=i.user_id')
             ->leftJoin(EnField::tableName() . ' f', 'f.no=i.field')
-            ->where(['i.status' => [1, 2], "FROM_UNIXTIME(i.created_at,'%Y-%m')" => $month,]);
+            ->where(['i.status' => [1, 2], "FROM_UNIXTIME(i.created_at,'%Y-%m-%d')" => $date]);
         if ($company_id = Yii::$app->user->identity->company_id) {
             $data->andWhere(['f.company_id' => $company_id]);
         }

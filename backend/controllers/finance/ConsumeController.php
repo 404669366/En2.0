@@ -12,7 +12,6 @@ namespace app\controllers\finance;
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnField;
 use vendor\project\base\EnOrder;
-use vendor\project\helpers\Constant;
 
 class ConsumeController extends CommonController
 {
@@ -23,29 +22,9 @@ class ConsumeController extends CommonController
     public function actionReport()
     {
         return $this->render('report', [
-            'month' => date('Y-m'),
-            'order' => EnOrder::reportInfo()
+            'order' => EnOrder::reportInfo(),
+            'data' => json_encode(EnOrder::yearData()),
         ]);
-    }
-
-    /**
-     * 订单报表数据
-     * @param string $year
-     * @return string
-     */
-    public function actionReportData($year = '')
-    {
-        return $this->rJson(EnOrder::reportData($year));
-    }
-
-    /**
-     * 场站单月报表数据
-     * @param $month
-     * @return string
-     */
-    public function actionMonthData($month)
-    {
-        return $this->rJson(EnField::statisticsMonthData($month));
     }
 
     /**
@@ -75,31 +54,43 @@ class ConsumeController extends CommonController
     {
         return $this->render('field-report', [
             'no' => $no,
-            'month' => date('Y-m'),
-            'data' => EnField::statisticsReportInfo($no)
+            'order' => EnOrder::reportInfo($no),
+            'data' => json_encode(EnOrder::yearData('', $no))
         ]);
     }
 
     /**
-     * 场站各月报表数据
-     * @param $no
-     * @param $year
+     * 年报表数据
+     * @param string $year
+     * @param string $no
      * @return string
      */
-    public function actionFieldReportData($no, $year)
+    public function actionYearData($year = '', $no = '')
     {
-        return $this->rJson(EnField::statisticsReportData($no, $year));
+        return $this->rJson(EnOrder::yearData($year, $no));
     }
 
     /**
-     * 场站单月报表数据
-     * @param $no
-     * @param $month
+     * 月报表数据
+     * @param string $year
+     * @param string $month
+     * @param string $no
      * @return string
      */
-    public function actionFieldMonthData($no, $month)
+    public function actionMonthData($year = '', $month = '', $no = '')
     {
-        return $this->rJson(EnField::statisticsMonthData($month, $no));
+        return $this->rJson(EnOrder::monthData($year, $month, $no));
+    }
+
+    /**
+     * 日报表数据
+     * @param string $date
+     * @param string $no
+     * @return string
+     */
+    public function actionDayData($date = '', $no = '')
+    {
+        return $this->rJson(EnOrder::statisticsDateData($date, $no));
     }
 
     /**

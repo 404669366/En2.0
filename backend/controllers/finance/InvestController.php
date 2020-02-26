@@ -11,7 +11,6 @@ namespace app\controllers\finance;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnInvest;
-use vendor\project\helpers\Constant;
 
 class InvestController extends CommonController
 {
@@ -23,27 +22,39 @@ class InvestController extends CommonController
     public function actionReport()
     {
         return $this->render('report', [
-            'month' => date('Y-m'),
             'invest' => EnInvest::reportInfo(),
+            'data' => json_encode(EnInvest::yearData()),
         ]);
-    }
-    /**
-     * 充值报表数据
-     * @param string $year
-     * @return string
-     */
-    public function actionReportData($year = '')
-    {
-        return $this->rJson(EnInvest::reportData($year));
     }
 
     /**
-     *  充值单月报表数据
+     * 年报表数据
+     * @param string $year
+     * @return string
+     */
+    public function actionYearData($year = '')
+    {
+        return $this->rJson(EnInvest::yearData($year));
+    }
+
+    /**
+     * 月报表数据
+     * @param string $year
      * @param $month
      * @return string
      */
-    public function actionMonthData($month)
+    public function actionMonthData($year = '', $month = '')
     {
-        return $this->rJson(EnInvest::statisticsMonthData($month));
+        return $this->rJson(EnInvest::monthData($year, $month));
+    }
+
+    /**
+     * 日报表数据
+     * @param $date
+     * @return string
+     */
+    public function actionDayData($date)
+    {
+        return $this->rJson(EnInvest::statisticsDateData($date));
     }
 }

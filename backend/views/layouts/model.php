@@ -78,6 +78,9 @@ $this->beginPage();
         document.body.removeChild(form);
     }
 
+    function getMonthDay(year, month) {
+        return (new Date(year, month, 0)).getDate();
+    }
 
 </script>
 <?= $content ?>

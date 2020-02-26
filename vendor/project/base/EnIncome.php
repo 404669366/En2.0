@@ -203,35 +203,78 @@ class EnIncome extends \yii\db\ActiveRecord
     }
 
     /**
-     * 报表数据
+     * 年报表数据
      * @param string $year
      * @return array
      */
-    public static function reportData($year = '')
+    public static function yearData($year = '')
     {
+        $year = $year ?: date('Y');
         $model = self::find();
         if ($company_id = Yii::$app->user->identity->company_id) {
             $model->where(['type' => 2, 'key' => $company_id]);
         } else {
             $model->where(['type' => 1]);
         }
-        $year = $year ?: date('Y');
-        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        $res = $model->andWhere(["FROM_UNIXTIME(created_at,'%Y')" => $year])
+            ->groupBy("month")
+            ->select(["FROM_UNIXTIME(created_at,'%m') month", 'SUM(money) as money'])
+            ->asArray()->all();
+        $res = array_column($res, 'money', 'month');
+        $data = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         foreach ($data as &$v) {
-            $now = clone $model;
-            $v = round($now->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v])->sum('money'), 2);
+            if (isset($res[$v])) {
+                $v = round($res[$v], 2);
+            } else {
+                $v = 0;
+            }
         }
         return $data;
     }
 
     /**
-     * 统计报表单月数据
+     * 月报表数据
+     * @param string $year
      * @param string $month
+     * @return array
+     */
+    public static function monthData($year = '', $month = '')
+    {
+        $year = $year ?: date('Y');
+        $month = $month ?: date('m');
+        $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $data = range(1, $days);
+        $days = [];
+        $model = self::find();
+        if ($company_id = Yii::$app->user->identity->company_id) {
+            $model->where(['type' => 2, 'key' => $company_id]);
+        } else {
+            $model->where(['type' => 1]);
+        }
+        $res = $model->andWhere(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . '-' . $month])
+            ->groupBy("days")
+            ->select(["FROM_UNIXTIME(created_at,'%d') days", 'SUM(money) as money'])
+            ->asArray()->all();
+        $res = array_column($res, 'money', 'days');
+        foreach ($data as &$v) {
+            $day = str_pad($v, 2, "0", STR_PAD_LEFT);
+            array_push($days, $day);
+            $v = 0;
+            if (isset($res[$day])) {
+                $v = round($res[$day], 2);
+            }
+        }
+        return ['days' => $days, 'data' => $data];
+    }
+
+    /**
+     * 统计报表日数据
+     * @param string $date
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function statisticsMonthData($month = '')
+    public static function statisticsDateData($date = '')
     {
-        $month = $month ?: date('Y-m');
+        $date = $date ?: date('Y-m-d');
         $data = self::find()->alias('i')
             ->leftJoin(EnOrder::tableName() . ' o', 'o.no=i.order')
             ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
@@ -241,7 +284,7 @@ class EnIncome extends \yii\db\ActiveRecord
         } else {
             $data->where(['i.type' => 1]);
         }
-        $data = $data->andWhere(["FROM_UNIXTIME(i.created_at,'%Y-%m')" => $month])
+        $data = $data->andWhere(["FROM_UNIXTIME(i.created_at,'%Y-%m-%d')" => $date])
             ->select(['i.*', 'o.e', 'o.sm', 'o.pile', 'p.field'])
             ->orderBy('i.created_at desc')
             ->asArray()->all();

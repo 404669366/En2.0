@@ -175,16 +175,26 @@ class EnOrder extends \yii\db\ActiveRecord
 
     /**
      * 报表数据
+     * @param string $no
      * @return array
      */
-    public static function reportInfo()
+    public static function reportInfo($no = '')
     {
-        $minYear = self::find()->min("FROM_UNIXTIME(created_at,'%Y')") ?: date('Y');
+        $model = EnOrder::find()->alias('o')->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile');
+        if ($no) {
+            $model->where(['p.field' => $no]);
+        }
+        $model1 = clone $model;
+        $model2 = clone $model;
+        $model3 = clone $model;
+        $model4 = clone $model;
+        $model5 = clone $model;
+        $minYear = $model1->min("FROM_UNIXTIME(o.created_at,'%Y')") ?: date('Y');
         $data = [
-            'all' => round(self::find()->where(['status' => [2, 3]])->sum('bm + sm'), 2),
-            'year' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y')" => date('Y'), 'status' => [2, 3]])->sum('bm + sm'), 2),
-            'month' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => date('Y-m'), 'status' => [2, 3]])->sum('bm + sm'), 2),
-            'day' => round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m-%d')" => date('Y-m-d'), 'status' => [2, 3]])->sum('bm + sm'), 2),
+            'all' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
+            'year' => round($model3->andWhere(["FROM_UNIXTIME(o.created_at,'%Y')" => date('Y'), 'o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
+            'month' => round($model4->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y-m'), 'o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
+            'day' => round($model5->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m-%d')" => date('Y-m-d'), 'o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
             'years' => array_reverse(range($minYear, date('Y'))),
         ];
         return $data;
@@ -193,14 +203,91 @@ class EnOrder extends \yii\db\ActiveRecord
     /**
      * 报表数据
      * @param string $year
+     * @param string $no
      * @return array
      */
-    public static function reportData($year = '')
+    public static function yearData($year = '', $no = '')
     {
         $year = $year ?: date('Y');
-        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        $res = self::find()->alias('o')->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile');
+        if ($no) {
+            $res->where(['p.field' => $no]);
+        }
+        $res = $res->andWhere(["FROM_UNIXTIME(o.created_at,'%Y')" => $year, 'o.status' => [2, 3]])
+            ->groupBy("month")
+            ->select(["FROM_UNIXTIME(o.created_at,'%m') month", 'SUM(o.bm + o.sm) as money'])
+            ->asArray()->all();
+        $res = array_column($res, 'money', 'month');
+        $data = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         foreach ($data as &$v) {
-            $v = round(self::find()->where(["FROM_UNIXTIME(created_at,'%Y-%m')" => $year . $v, 'status' => [2, 3]])->sum('bm + sm'), 2);
+            if (isset($res[$v])) {
+                $v = round($res[$v], 2);
+            } else {
+                $v = 0;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 月报表数据
+     * @param string $year
+     * @param string $month
+     * @param string $no
+     * @return array
+     */
+    public static function monthData($year = '', $month = '', $no = '')
+    {
+        $year = $year ?: date('Y');
+        $month = $month ?: date('m');
+        $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $data = range(1, $days);
+        $days = [];
+        $res = self::find()->alias('o')->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile');
+        if ($no) {
+            $res->where(['p.field' => $no]);
+        }
+        $res = $res->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => $year . '-' . $month, 'o.status' => [2, 3]])
+            ->groupBy("days")
+            ->select(["FROM_UNIXTIME(o.created_at,'%d') days", 'SUM(o.bm + o.sm) as money'])
+            ->asArray()->all();
+        $res = array_column($res, 'money', 'days');
+        foreach ($data as &$v) {
+            $day = str_pad($v, 2, "0", STR_PAD_LEFT);
+            array_push($days, $day);
+            $v = 0;
+            if (isset($res[$day])) {
+                $v = round($res[$day], 2);
+            }
+        }
+        return ['days' => $days, 'data' => $data];
+    }
+
+    /**
+     * 统计报表单月数据
+     * @param string $date
+     * @param string $no
+     * @return $this|array|\yii\db\ActiveRecord[]
+     */
+    public static function statisticsDateData($date = '', $no = '')
+    {
+        $date = $date ?: date('Y-m');
+        $data = self::find()->alias('o')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid');
+        if ($no) {
+            $data->where(['p.field' => $no]);
+        }
+        $data = $data->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m-%d')" => $date, 'o.status' => [2, 3]])
+            ->select(['o.*', 'u.tel'])
+            ->orderBy('o.created_at desc')
+            ->asArray()->all();
+        foreach ($data as &$v) {
+            $v['statusV'] = $v['status'];
+            $v['status'] = Constant::orderStatus()[$v['status']];
+            $v['created'] = $v['created_at'];
+            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
+            $v['info'] = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
         }
         return $data;
     }

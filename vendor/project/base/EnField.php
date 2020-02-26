@@ -331,39 +331,6 @@ class EnField extends \yii\db\ActiveRecord
     }
 
     /**
-     * 统计报表数据
-     * @param string $no
-     * @return array
-     */
-    public static function statisticsReportInfo($no = '')
-    {
-        $minYear = EnOrder::find()->alias('o')
-            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-            ->where(['p.field' => $no])
-            ->min("FROM_UNIXTIME(o.created_at,'%Y')") ?: date('Y');
-        $data = [
-            'all' => round(EnOrder::find()->alias('o')
-                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-                ->where(['p.field' => $no, 'o.status' => [2, 3]])
-                ->sum('o.bm+o.sm'), 2),
-            'year' => round(EnOrder::find()->alias('o')
-                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y')" => date('Y'), 'o.status' => [2, 3]])
-                ->sum('o.bm+o.sm'), 2),
-            'month' => round(EnOrder::find()->alias('o')
-                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y-m'), 'o.status' => [2, 3]])
-                ->sum('o.bm+o.sm'), 2),
-            'day' => round(EnOrder::find()->alias('o')
-                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m-%d')" => date('Y-m-d'), 'o.status' => [2, 3]])
-                ->sum('o.bm+o.sm'), 2),
-            'years' => array_reverse(range($minYear, date('Y'))),
-        ];
-        return $data;
-    }
-
-    /**
      * 统计报表各月数据
      * @param string $no
      * @param string $year
@@ -378,35 +345,6 @@ class EnField extends \yii\db\ActiveRecord
                 ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
                 ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => $year . $v, 'o.status' => [2, 3]])
                 ->sum('o.bm+o.sm'), 2);
-        }
-        return $data;
-    }
-
-    /**
-     * 统计报表单月数据
-     * @param string $month
-     * @param string $no
-     * @return $this|array|\yii\db\ActiveRecord[]
-     */
-    public static function statisticsMonthData($month = '', $no = '')
-    {
-        $month = $month ?: date('Y-m');
-        $data = EnOrder::find()->alias('o')
-            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-            ->leftJoin(EnUser::tableName() . ' u', 'u.id=o.uid');
-        if ($no) {
-            $data->where(['p.field' => $no]);
-        }
-        $data = $data->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => $month, 'o.status' => [2, 3]])
-            ->select(['o.*', 'u.tel'])
-            ->orderBy('o.created_at desc')
-            ->asArray()->all();
-        foreach ($data as &$v) {
-            $v['statusV'] = $v['status'];
-            $v['status'] = Constant::orderStatus()[$v['status']];
-            $v['created'] = $v['created_at'];
-            $v['created_at'] = date('Y-m-d H:i:s', $v['created_at']);
-            $v['info'] = '基础电费:' . $v['bm'] . '<br>服务电费:' . $v['sm'] . '<br>订单总额:' . round($v['bm'] + $v['sm'], 2);
         }
         return $data;
     }

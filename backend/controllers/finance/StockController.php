@@ -10,41 +10,42 @@ namespace app\controllers\finance;
 
 
 use app\controllers\basis\CommonController;
-use vendor\project\base\EnIntention;
+use vendor\project\base\EnInvest;
 
-class FinanceController extends CommonController
+class StockController extends CommonController
 {
+
     /**
-     * 融资统计
+     * 充值页
      * @return string
      */
     public function actionReport()
     {
         return $this->render('report', [
-            'finance' => EnIntention::statisticsReportInfo(),
-            'data' => json_encode(EnIntention::statisticsYearData()),
+            'invest' => EnInvest::reportInfo(),
+            'data' => json_encode(EnInvest::yearData()),
         ]);
     }
 
     /**
      * 年报表数据
-     * @param $year
+     * @param string $year
      * @return string
      */
-    public function actionYearData($year)
+    public function actionYearData($year = '')
     {
-        return $this->rJson(EnIntention::statisticsYearData($year));
+        return $this->rJson(EnInvest::yearData($year));
     }
 
     /**
      * 月报表数据
-     * @param $year
+     * @param string $year
      * @param $month
      * @return string
      */
-    public function actionMonthData($year, $month)
+    public function actionMonthData($year = '', $month = '')
     {
-        return $this->rJson(EnIntention::statisticsMonthData($year, $month));
+        return $this->rJson(EnInvest::monthData($year, $month));
     }
 
     /**
@@ -54,6 +55,6 @@ class FinanceController extends CommonController
      */
     public function actionDayData($date)
     {
-        return $this->rJson(EnIntention::statisticsDayData($date));
+        return $this->rJson(EnInvest::statisticsDateData($date));
     }
 }

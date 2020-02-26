@@ -41,13 +41,17 @@
                         <option value="<?= $v ?>"><?= $v ?></option>
                     <?php endforeach; ?>
                 </select>
-                <div class="ibox-content" id="invest" style="height: 480px"></div>
+                <div class="ibox-content" id="year" style="height: 480px"></div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="ibox" style="position: relative">
+                <div class="ibox-content" id="month" style="height: 480px"></div>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="ibox">
                 <div class="ibox-content">
-                    <h5 class="month-tit"></h5>
                     <table class="table table-striped table-bordered table-hover dataTable" id="table">
                         <thead>
                         <tr role="row">
@@ -67,9 +71,9 @@
     </div>
 </div>
 <script>
-    var e = window.echarts.init(document.getElementById('invest'));
-    e.setOption({
-        title: {text: '充值统计'},
+    var year = window.echarts.init(document.getElementById('year'));
+    year.setOption({
+        title: {text: '年充值统计'},
         color: ['#3398DB'],
         tooltip: {},
         xAxis: {
@@ -77,15 +81,14 @@
             data: ['01月', '02月', '03月', '04月', '05月', '06月', '07月', '08月', '09月', '10月', '11月', '12月']
         },
         yAxis: {type: 'value'},
-        series: []
+        series: [{type: 'bar', data: JSON.parse(`<?=$data?>`)}]
     });
-    e.on('click', function (params) {
-        showMonth($('.year').val() + '-' + params.name.replace('月', ''));
+    var month = window.echarts.init(document.getElementById('month'));
+    month.setOption({
+        title: {text: '月充值统计'},
+        color: ['#3398DB'],
+        tooltip: {},
     });
-
-    showInvest('');
-    showMonth('<?= $month ?>');
-
     var table = myTable.baseShow({
         table: '#table',
         order: [5, 'desc'],
@@ -101,21 +104,44 @@
     });
 
     $('.year').change(function () {
-        showInvest($(this).val());
+        month.setOption({
+            xAxis: {
+                type: 'category',
+                data: []
+            },
+            yAxis: {type: 'value'},
+            series: [{type: 'bar', data: []}]
+        });
+        table.loadData([]);
+        year.showLoading();
+        $.getJSON('/finance/invest/year-data', {year: $(this).val()}, function (re) {
+            year.hideLoading();
+            year.setOption({series: [{type: 'bar', data: re.data}]});
+        });
     });
 
-    function showInvest(year) {
-        e.showLoading();
-        $.getJSON('/finance/invest/report-data', {year: year}, function (re) {
-            e.hideLoading();
-            e.setOption({series: [{type: 'bar', data: re.data}]});
+    var monthTime = '';
+    year.on('click', function (params) {
+        table.loadData([]);
+        monthTime = params.name.replace('月', '');
+        month.showLoading();
+        $.getJSON('/finance/invest/month-data', {year: $('.year').val(), month: monthTime}, function (re) {
+            month.hideLoading();
+            month.setOption({
+                xAxis: {
+                    type: 'category',
+                    data: re.data.days
+                },
+                yAxis: {type: 'value'},
+                series: [{type: 'bar', data: re.data.data}]
+            });
         });
-    }
+    });
 
-    function showMonth(month) {
-        $('.month-tit').text('月充值列表(' + month + ')');
-        $.getJSON('/finance/invest/month-data', {month: month}, function (re) {
+    month.on('click', function (params) {
+        var date = $('.year').val() + '-' + monthTime + '-' + params.name;
+        $.getJSON('/finance/invest/day-data', {date: date}, function (re) {
             table.loadData(re.data);
         });
-    }
+    });
 </script>

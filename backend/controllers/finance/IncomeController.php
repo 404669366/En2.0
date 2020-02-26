@@ -25,29 +25,40 @@ class IncomeController extends CommonController
     public function actionReport()
     {
         return $this->render('report', [
-            'month' => date('Y-m'),
             'income' => EnIncome::reportInfo(),
+            'data' => json_encode(EnIncome::yearData()),
             ]);
     }
 
     /**
-     * 收益报表数据
+     * 年报表数据
      * @param string $year
      * @return string
      */
-    public function actionReportData($year = '')
+    public function actionYearData($year = '')
     {
-        return $this->rJson(EnIncome::reportData($year));
+        return $this->rJson(EnIncome::yearData($year));
     }
 
     /**
-     *  充值单月报表数据
+     * 月报表数据
+     * @param string $year
      * @param $month
      * @return string
      */
-    public function actionMonthData($month)
+    public function actionMonthData($year = '', $month = '')
     {
-        return $this->rJson(EnIncome::statisticsMonthData($month));
+        return $this->rJson(EnIncome::monthData($year, $month));
+    }
+
+    /**
+     * 日报表数据
+     * @param $date
+     * @return string
+     */
+    public function actionDayData($date)
+    {
+        return $this->rJson(EnIncome::statisticsDateData($date));
     }
 
 

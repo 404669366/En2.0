@@ -19,7 +19,6 @@
                 <tr role="row">
                     <th>NO/创建时间</th>
                     <th>场站信息</th>
-                    <th>股权情况</th>
                     <th>场站状态</th>
                     <th>操作</th>
                 </tr>
@@ -36,11 +35,10 @@
         columns: [
             {"data": "created_at"},
             {"data": "data"},
-            {"data": "stock"},
             {"data": "statusInfo"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-               return '<a class="btn btn-sm btn-info" href="/finance/stock/report?no=' + data + '">统计</a>';
+               return '<a class="btn btn-sm btn-info" href="/finance/stock/report?no=' + data + '">详情</a>';
             }
             }
         ],

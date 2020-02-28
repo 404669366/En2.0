@@ -325,7 +325,6 @@ class EnField extends \yii\db\ActiveRecord
             $v['created_at'] = '场站编号:' . $v['no'] . '<br>创建时间:' . date('Y-m-d H:i:s', $v['created_at']);
             $v['data'] = '电桩数量:' . $pileCount . '&emsp;&emsp;枪口数量:' . $gunCount . '<br>场站名称:' . $v['name'] . '<br>场站地址:' . $v['address'] . '<br>归属企业:' . $v['cName'];
             $v['statusInfo'] = '场站状态:' . Constant::fieldStatus()[$v['status']] . '<br>上线状态:' . Constant::fieldOnline()[$v['online']];
-            $v['stock'] = EnStock::getStockByFieldToStr($v['no']);
         }
         return $data;
     }

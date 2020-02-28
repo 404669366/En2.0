@@ -51,7 +51,10 @@
             {"data": "fieldInfo"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-                return '<a class="btn btn-sm btn-info" href="/oam/pile/info?no=' + data + '">详情</a>';
+                if (row.can) {
+                    return '<a class="btn btn-sm btn-info" href="/oam/pile/info?no=' + data + '">详情</a>';
+                }
+                return '';
             }
             }
         ],

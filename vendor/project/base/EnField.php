@@ -446,7 +446,7 @@ class EnField extends \yii\db\ActiveRecord
             'allCount' => $model4->andWhere(['o.status' => [2, 3, 4]])->count(),
             'chart' => implode(',', $month),
             'online' => EnField::findOne(['no' => $no])->online,
-            'can' => !Yii::$app->user->identity->job_id
+            'can' => EnPower::isMemberCan(Yii::$app->user->id, 'edit-pile')
         ];
         return $data;
     }

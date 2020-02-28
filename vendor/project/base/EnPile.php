@@ -98,6 +98,7 @@ class EnPile extends \yii\db\ActiveRecord
             $v['online'] = Constant::pileOnline()[Gateway::isUidOnline($v['no'])];
             $v['bind'] = Constant::pileBind()[$v['bind']];
             $v['fieldInfo'] = "场站编号: {$v['fno']}<br>场站名称: {$v['name']}<br>场站地址: {$v['address']}";
+            $v['can'] = EnPower::isMemberCan(Yii::$app->user->id, 'edit-pile');
         }
         return $data;
     }

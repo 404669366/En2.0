@@ -109,7 +109,7 @@
     function makeModal() {
         $.getJSON('/oam/field/map-info', {no: field.no}, function (re) {
             var btn = '';
-            if (re.data.can === 1) {
+            if (re.data.can == 1) {
                 btn = ' <a href="/oam/field/pile?no=' + field.no + '" title="详情">>></a>';
                 if (re.data.online === 0) {
                     btn += '<a style="float: right" class="btn btn-sm btn-info up" data-no="' + field.no + '">上线(待上线)</a>';

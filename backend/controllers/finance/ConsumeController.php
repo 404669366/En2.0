@@ -100,6 +100,10 @@ class ConsumeController extends CommonController
      */
     public function actionOrderDetail($no)
     {
-        return $this->render('order-detail', ['no' => $no]);
+        $order = EnOrder::findOne(['no' => $no]);
+        return $this->render('order-detail', [
+            'no' => $no,
+            'fno' => $order->pileInfo->field
+        ]);
     }
 }

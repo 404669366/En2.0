@@ -12,7 +12,6 @@ namespace app\controllers\finance;
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnField;
 use vendor\project\base\EnIncome;
-use vendor\project\base\EnInvest;
 
 class StockController extends CommonController
 {

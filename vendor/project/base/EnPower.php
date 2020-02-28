@@ -234,7 +234,7 @@ class EnPower extends \yii\db\ActiveRecord
             return (bool)EnMember::find()->alias('m')
                 ->leftJoin(EnJob::tableName() . ' j', 'j.id=m.job_id')
                 ->where(['m.id' => $uid])
-                ->andWhere('FIND_IN_SET(j.powers, ' . $power->id . ')')
+                ->andWhere('FIND_IN_SET(' . $power->id . ',j.powers)')
                 ->count();
         }
         return true;

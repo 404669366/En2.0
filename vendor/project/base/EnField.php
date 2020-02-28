@@ -331,22 +331,36 @@ class EnField extends \yii\db\ActiveRecord
     }
 
     /**
-     * 统计报表各月数据
-     * @param string $no
-     * @param string $year
-     * @return array
+     * 根据场站返回股权信息
+     * @param $no
+     * @return array|\yii\db\ActiveRecord[]
      */
-    public static function statisticsReportData($no = '', $year = '')
+    public static function getStockInfo($no)
     {
-        $year = $year ?: date('Y');
-        $data = ['-01', '-02', '-03', '-04', '-05', '-06', '-07', '-08', '-09', '-10', '-11', '-12'];
+        $data = EnStock::getStockByFieldToArr($no);
         foreach ($data as &$v) {
-            $v = round(EnOrder::find()->alias('o')
-                ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
-                ->where(['p.field' => $no, "FROM_UNIXTIME(o.created_at,'%Y-%m')" => $year . $v, 'o.status' => [2, 3]])
-                ->sum('o.bm+o.sm'), 2);
+            $v = [
+                'no' => $v['no'],
+                'value' => $v['num'],
+                'name' => $v['key'] . '(' . $v['type'] . ')'
+            ];
         }
         return $data;
+    }
+
+    /**
+     * 返回场站有收益年限
+     * @param string $no
+     * @return array
+     */
+    public static function getIncomeYears($no = '')
+    {
+        $min = EnIncome::find()->alias('i')
+            ->leftJoin(EnOrder::tableName() . ' o', 'o.no=i.order')
+            ->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile')
+            ->where(['p.field' => $no])
+            ->min("FROM_UNIXTIME(o.created_at,'%Y')") ?: date('Y');
+        return array_reverse(range($min, date('Y')));
     }
 
     /**

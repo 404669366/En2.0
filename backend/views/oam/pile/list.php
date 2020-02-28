@@ -51,7 +51,7 @@
             {"data": "fieldInfo"},
             {
                 "data": "no", "orderable": false, "render": function (data, type, row) {
-                if (row.can == 1) {
+                if (row.canx) {
                     return '<a class="btn btn-sm btn-info" href="/oam/pile/info?no=' + data + '">详情</a>';
                 }
                 return '';

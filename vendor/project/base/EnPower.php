@@ -228,15 +228,15 @@ class EnPower extends \yii\db\ActiveRecord
     {
         $user = EnMember::findOne($uid);
         if ($user->company_id = 0 && $user->job_id == 0) {
-            return true;
+            return 1;
         }
         if ($power = self::findOne(['url' => $url])) {
             return EnMember::find()->alias('m')
                 ->leftJoin(EnJob::tableName() . ' j', 'j.id=m.job_id')
                 ->where(['m.id' => $uid])
                 ->andWhere('FIND_IN_SET(j.powers, ' . $power->id . ')')
-                ->one();
+                ->count();
         }
-        return false;
+        return 0;
     }
 }

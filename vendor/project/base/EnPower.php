@@ -222,7 +222,7 @@ class EnPower extends \yii\db\ActiveRecord
      * 验证用户有没有当前权限
      * @param $uid
      * @param $url
-     * @return array|bool|null|\yii\db\ActiveRecord
+     * @return int|string
      */
     public static function isMemberCan($uid, $url)
     {

@@ -109,18 +109,19 @@
     function makeModal() {
         $.getJSON('/oam/field/map-info', {no: field.no}, function (re) {
             var btn = '';
-            if (re.data.online === 0) {
-                btn = '<a style="float: right" class="btn btn-sm btn-info up" data-no="' + field.no + '">上线(待上线)</a>';
-            }
-            if (re.data.online === 1) {
-                btn = '<a style="float: right" class="btn btn-sm btn-danger down" data-no="' + field.no + '">下线(已上线)</a>';
+            if (re.data.can) {
+                btn = ' <a href="/oam/field/pile?no=' + field.no + '" title="详情">>></a>';
+                if (re.data.online === 0) {
+                    btn += '<a style="float: right" class="btn btn-sm btn-info up" data-no="' + field.no + '">上线(待上线)</a>';
+                }
+                if (re.data.online === 1) {
+                    btn += '<a style="float: right" class="btn btn-sm btn-danger down" data-no="' + field.no + '">下线(已上线)</a>';
+                }
             }
             var content =
                 '<div class="box gray-bg">\n' +
                 '        <h4>' +
-                field.name + '(' + field.abridge + ')' +
-                ' <a href="/oam/field/pile?no=' + field.no + '" title="详情">>></a>' +
-                btn +
+                field.name + '(' + field.abridge + ')' + btn +
                 '        </h4>\n' +
                 '        <p><i class="fa fa-map-marker"></i>' + field.address + '</p>\n' +
                 '        <div class="row">\n' +

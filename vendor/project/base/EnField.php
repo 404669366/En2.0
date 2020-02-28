@@ -445,7 +445,8 @@ class EnField extends \yii\db\ActiveRecord
             'useCount' => $model3->andWhere(['o.status' => [2, 3]])->count(),
             'allCount' => $model4->andWhere(['o.status' => [2, 3, 4]])->count(),
             'chart' => implode(',', $month),
-            'online' => EnField::findOne(['no' => $no])->online
+            'online' => EnField::findOne(['no' => $no])->online,
+            'can' => !Yii::$app->user->identity->job_id
         ];
         return $data;
     }

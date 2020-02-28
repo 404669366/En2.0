@@ -222,21 +222,21 @@ class EnPower extends \yii\db\ActiveRecord
      * 验证用户有没有当前权限
      * @param $uid
      * @param $url
-     * @return int|string
+     * @return bool
      */
     public static function isMemberCan($uid, $url)
     {
         $user = EnMember::findOne($uid);
         if ($user->company_id == 0 && $user->job_id == 0) {
-            return 1;
+            return true;
         }
         if ($power = self::findOne(['url' => $url])) {
-            return EnMember::find()->alias('m')
+            return (bool)EnMember::find()->alias('m')
                 ->leftJoin(EnJob::tableName() . ' j', 'j.id=m.job_id')
                 ->where(['m.id' => $uid])
                 ->andWhere('FIND_IN_SET(j.powers, ' . $power->id . ')')
                 ->count();
         }
-        return 0;
+        return true;
     }
 }

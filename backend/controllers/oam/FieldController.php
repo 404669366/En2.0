@@ -20,19 +20,6 @@ use vendor\project\helpers\Msg;
 class FieldController extends CommonController
 {
     /**
-     * 电站地图
-     * @param string $key
-     * @return string
-     */
-    public function actionMap($key = '')
-    {
-        return $this->render('map', [
-            'data' => json_encode(EnField::getMapData($key)),
-            'key' => $key
-        ]);
-    }
-
-    /**
      * 电站地图信息
      * @param string $no
      * @return string

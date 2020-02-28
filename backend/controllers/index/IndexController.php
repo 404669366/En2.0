@@ -10,6 +10,7 @@ namespace app\controllers\index;
 
 
 use app\controllers\basis\AuthController;
+use vendor\project\base\EnField;
 use vendor\project\base\EnJob;
 use vendor\project\base\EnMember;
 use vendor\project\base\EnPower;
@@ -29,8 +30,11 @@ class IndexController extends AuthController
         return $this->render('index', ['data' => $data]);
     }
 
-    public function actionFirst()
+    public function actionFirst($key = '')
     {
-        return $this->render('first');
+        return $this->render('first', [
+            'data' => json_encode(EnField::getMapData($key)),
+            'key' => $key
+        ]);
     }
 }

@@ -56,51 +56,42 @@
 <script>
     var sno = '';
     var name = '';
-    var pie = window.echarts.init(document.getElementById('pie'));
+    var pie = window.echarts.init(document.getElementById('pie'), 'dark');
     var year = window.echarts.init(document.getElementById('year'));
     var month = window.echarts.init(document.getElementById('month'));
     pie.setOption({
-        backgroundColor: '#2c343c',
         title: {
             text: '股权构成',
             left: 'center',
-            top: 20,
-            textStyle: {
-                color: '#ccc'
-            }
+            top: 20
         },
         tooltip: {
             trigger: 'item',
-            formatter: '股东 : {b}<br/>占比 : {c} ({d}%)'
+            formatter: '股权 : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 10,
+            top: 10
         },
         series: [
             {
-                name: '',
                 type: 'pie',
-                radius: '50%',
-                center: ['50%', '50%'],
-                data: JSON.parse(`<?=$data?>`),
+                radius: ['50%', '70%'],
                 label: {
-                    color: 'rgba(255, 255, 255, 0.3)'
-                },
-                labelLine: {
-                    lineStyle: {
-                        color: 'rgba(255, 255, 255, 0.3)'
+                    normal: {
+                        show: false,
+                        position: 'center'
                     },
-                    smooth: 0.2,
-                    length: 10,
-                    length2: 20
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '20',
+                            fontWeight: 'bold'
+                        }
+                    }
                 },
-                itemStyle: {
-                    color: '#c23531',
-                    shadowBlur: 200,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                },
-                animationType: 'scale',
-                animationEasing: 'elasticOut',
-                animationDelay: function (idx) {
-                    return Math.random() * 200;
-                }
+                data: JSON.parse(`<?=$data?>`)
             }
         ]
     });

@@ -68,9 +68,11 @@ class events
                     case 8:
                         break;
                     case 102:
+                        $_SERVER['start'][$client_id][$data['heartNo']] = time();
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:
+                        var_dump($_SERVER['start']);
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 0) {
                             $time = time() - 90;

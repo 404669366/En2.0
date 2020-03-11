@@ -74,7 +74,9 @@ class events
                     case 8:
                         break;
                     case 102:
-                        self::$global->start[$client_id] = $data['heartNo'];
+                        $start = self::$global->start;
+                        $start[$client_id] = $data['heartNo'];
+                        self::$global->start = $start;
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:

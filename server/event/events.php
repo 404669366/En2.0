@@ -72,11 +72,10 @@ class events
                         break;
                     case 104:
                         Gateway::bindUid($client_id, $data['no']);
-                        if ($data['workStatus'] == 0 && $data['linkStatus']) {
+                        if ($data['workStatus'] == 0) {
                             $time = time() - 120;
-                            if ($order = self::$db->select('*')->from('en_order')->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status=0 AND created_at<$time")->row()) {
+                            if (self::$db->update('en_order')->cols(['status' => 4])->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status=0 AND created_at<$time")->query()) {
                                 Gateway::sendToClient($client_id, ['cmd' => 5, 'gun' => $data['gun'], 'code' => 2, 'val' => 85]);
-                                self::$db->update('en_order')->cols(['status' => 4, 'e' => 0, 'bm' => 0, 'sm' => 0])->where("no='{$order['no']}'")->query();
                                 Gateway::sendToGroup($data['no'] . $data['gun'], json_encode(['code' => 200]));
                             }
                         }

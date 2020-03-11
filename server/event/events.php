@@ -74,13 +74,9 @@ class events
                     case 8:
                         break;
                     case 102:
-                        $start = self::$global->start;
-                        $start[$client_id] = $data['heartNo'];
-                        self::$global->start = $start;
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:
-                        var_dump(self::$global->start);
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 0) {
                             $time = time() - 90;

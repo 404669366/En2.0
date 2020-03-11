@@ -1,6 +1,6 @@
 <?php
-$gateway = new \GatewayWorker\Gateway("Jm://0.0.0.0:20002");
-$gateway->name = 'GatewayServer-jm';
-$gateway->registerAddress = '127.0.0.1:20000';
-$gateway->startPort = 20050;
-$gateway->count = 1;
+$jm = new \GatewayWorker\Gateway("Jm://0.0.0.0:20002");
+$jm->name = 'GatewayServer-jm';
+$jm->registerAddress = '127.0.0.1:20000';
+$jm->startPort = 20050;
+$jm->count = 1;

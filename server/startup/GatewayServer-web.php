@@ -1,6 +1,6 @@
 <?php
-$gateway = new \GatewayWorker\Gateway("websocket://0.0.0.0:20001");
-$gateway->name = 'GatewayServer-web';
-$gateway->registerAddress = '127.0.0.1:20000';
-$gateway->startPort = 20075;
-$gateway->count = 1;
+$web = new \GatewayWorker\Gateway("websocket://0.0.0.0:20001");
+$web->name = 'GatewayServer-web';
+$web->registerAddress = '127.0.0.1:20000';
+$web->startPort = 20075;
+$web->count = 1;

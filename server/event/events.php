@@ -10,9 +10,15 @@ class events
      */
     private static $db;
 
+    /**
+     * @var \GlobalData\Client
+     */
+    private static $global;
+
     public static function onWorkerStart()
     {
         self::$db = new Connection('127.0.0.1', '3306', 'root', 'fi9^BRLHschX%V96', 'en');
+        self::$global = new \GlobalData\Client('127.0.0.1:19999');
     }
 
     public static function onConnect($client_id)
@@ -68,9 +74,11 @@ class events
                     case 8:
                         break;
                     case 102:
+                        self::$global->start[$client_id] = $data['heartNo'];
                         Gateway::sendToClient($client_id, ['cmd' => 101, 'times' => $data['heartNo']]);
                         break;
                     case 104:
+                        var_dump(self::$global->start);
                         Gateway::bindUid($client_id, $data['no']);
                         if ($data['workStatus'] == 0) {
                             $time = time() - 90;

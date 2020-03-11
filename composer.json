@@ -4,6 +4,7 @@
         "workerman/phpsocket.io" : "^1.1",
         "workerman/gatewayclient": "3.0.13",
         "workerman/gateway-worker": "^3.0",
-        "workerman/mysql": "^1.0"
+        "workerman/mysql": "^1.0",
+        "workerman/globaldata": "^1.0"
     }
 }

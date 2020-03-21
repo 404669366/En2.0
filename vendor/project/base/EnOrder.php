@@ -176,9 +176,10 @@ class EnOrder extends \yii\db\ActiveRecord
     /**
      * 报表数据
      * @param string $no
+     * @param bool $onlyEle
      * @return array
      */
-    public static function reportInfo($no = '')
+    public static function reportInfo($no = '', $onlyEle = false)
     {
         $model = EnOrder::find()->alias('o')->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile');
         if ($no) {
@@ -190,11 +191,15 @@ class EnOrder extends \yii\db\ActiveRecord
         $model4 = clone $model;
         $model5 = clone $model;
         $minYear = $model1->min("FROM_UNIXTIME(o.created_at,'%Y')") ?: date('Y');
+        $sum = 'o.bm + o.sm';
+        if ($onlyEle) {
+            $sum = 'o.bm';
+        }
         $data = [
-            'all' => round($model2->andWhere(['o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
-            'year' => round($model3->andWhere(["FROM_UNIXTIME(o.created_at,'%Y')" => date('Y'), 'o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
-            'month' => round($model4->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y-m'), 'o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
-            'day' => round($model5->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m-%d')" => date('Y-m-d'), 'o.status' => [2, 3]])->sum('o.bm + o.sm'), 2),
+            'all' => round($model2->andWhere(['o.status' => [2, 3]])->sum($sum), 2),
+            'year' => round($model3->andWhere(["FROM_UNIXTIME(o.created_at,'%Y')" => date('Y'), 'o.status' => [2, 3]])->sum($sum), 2),
+            'month' => round($model4->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => date('Y-m'), 'o.status' => [2, 3]])->sum($sum), 2),
+            'day' => round($model5->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m-%d')" => date('Y-m-d'), 'o.status' => [2, 3]])->sum($sum), 2),
             'years' => array_reverse(range($minYear, date('Y'))),
         ];
         return $data;
@@ -204,18 +209,23 @@ class EnOrder extends \yii\db\ActiveRecord
      * 报表数据
      * @param string $year
      * @param string $no
+     * @param bool $onlyEle
      * @return array
      */
-    public static function yearData($year = '', $no = '')
+    public static function yearData($year = '', $no = '', $onlyEle = false)
     {
         $year = $year ?: date('Y');
+        $sum = 'SUM(o.bm + o.sm) as money';
+        if ($onlyEle) {
+            $sum = 'SUM(o.bm) as money';
+        }
         $res = self::find()->alias('o')->leftJoin(EnPile::tableName() . ' p', 'p.no=o.pile');
         if ($no) {
             $res->where(['p.field' => $no]);
         }
         $res = $res->andWhere(["FROM_UNIXTIME(o.created_at,'%Y')" => $year, 'o.status' => [2, 3]])
             ->groupBy("month")
-            ->select(["FROM_UNIXTIME(o.created_at,'%m') month", 'SUM(o.bm + o.sm) as money'])
+            ->select(["FROM_UNIXTIME(o.created_at,'%m') month", $sum])
             ->asArray()->all();
         $res = array_column($res, 'money', 'month');
         $data = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -234,9 +244,10 @@ class EnOrder extends \yii\db\ActiveRecord
      * @param string $year
      * @param string $month
      * @param string $no
+     * @param bool $onlyEle
      * @return array
      */
-    public static function monthData($year = '', $month = '', $no = '')
+    public static function monthData($year = '', $month = '', $no = '', $onlyEle = false)
     {
         $year = $year ?: date('Y');
         $month = $month ?: date('m');
@@ -247,9 +258,13 @@ class EnOrder extends \yii\db\ActiveRecord
         if ($no) {
             $res->where(['p.field' => $no]);
         }
+        $sum = 'SUM(o.bm + o.sm) as money';
+        if ($onlyEle) {
+            $sum = 'SUM(o.bm) as money';
+        }
         $res = $res->andWhere(["FROM_UNIXTIME(o.created_at,'%Y-%m')" => $year . '-' . $month, 'o.status' => [2, 3]])
             ->groupBy("days")
-            ->select(["FROM_UNIXTIME(o.created_at,'%d') days", 'SUM(o.bm + o.sm) as money'])
+            ->select(["FROM_UNIXTIME(o.created_at,'%d') days", $sum])
             ->asArray()->all();
         $res = array_column($res, 'money', 'days');
         foreach ($data as &$v) {

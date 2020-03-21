@@ -11,9 +11,12 @@ namespace app\controllers\index;
 
 use app\controllers\basis\AuthController;
 use vendor\project\base\EnField;
+use vendor\project\base\EnInvest;
 use vendor\project\base\EnJob;
 use vendor\project\base\EnMember;
+use vendor\project\base\EnOrder;
 use vendor\project\base\EnPower;
+use vendor\project\base\EnUser;
 
 class IndexController extends AuthController
 {
@@ -34,7 +37,11 @@ class IndexController extends AuthController
     {
         return $this->render('first', [
             'data' => json_encode(EnField::getMapData($key)),
-            'key' => $key
+            'key' => $key,
+            'allInvest' => EnInvest::find()->where(['status' => 1])->sum('money'),
+            'allConsume' => EnOrder::find()->where(['status' => [2, 3]])->sum('bm+sm'),
+            'allUser' => EnUser::find()->count(),
+            'allCharge' => EnOrder::find()->where(['status' => [2, 3]])->sum('e')
         ]);
     }
 }

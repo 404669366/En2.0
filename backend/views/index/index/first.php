@@ -11,17 +11,33 @@
         height: 100%;
     }
 
-    .search {
+    .nav {
         position: fixed;
-        top: 0.5rem;
-        left: 50%;
-        -webkit-transform: translate(-50%, 0);
-        -o-transform: translate(-50%, 0);
-        -moz-transform: translate(-50%, 0);
-        transform: translate(-50%, 0);
-        width: 36rem;
-        height: 3rem;
+        top: 1rem;
+        left: 6%;
+        width: 88%;
+        margin: 0;
         z-index: 888;
+    }
+
+    .ibox-content {
+        padding: 5px;
+        border-radius: 2px;
+        box-sizing: border-box;
+    }
+
+    h5 {
+        margin: 0 0 2px 0;
+    }
+
+    h4{
+        font-weight: 500;
+    }
+
+    .search {
+        margin-top: 0.38rem;
+        width: 100%;
+        height: 4rem;
         padding: 0 0.36rem;
     }
 
@@ -52,7 +68,43 @@
     }
 </style>
 <div id="map"></div>
-<input type="text" class="search" placeholder="回车搜索：编号/名称/地址/企业" value="<?= $key ?>">
+<div class="row nav">
+    <div class="col-sm-2">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h5>累计充值</h5>
+                <h4 class="no-margins">&yen; <?= round($allInvest, 2) ?></h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h5>累计消费</h5>
+                <h4 class="no-margins">&yen; <?= round($allConsume, 2) ?></h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <input type="text" class="search" placeholder="回车搜索：编号/名称/地址/企业" value="<?= $key ?>">
+    </div>
+    <div class="col-sm-2">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h5>累计用户</h5>
+                <h4 class="no-margins"><?= $allUser ?>个</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h5>累计充电</h5>
+                <h4 class="no-margins"><?= round($allCharge, 2) ?>kwh</h4>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     var field = {};
     $(document).keyup(function (event) {

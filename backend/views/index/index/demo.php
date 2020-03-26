@@ -59,42 +59,26 @@
                         ctx.fillText('DC' + e.gun, now, lh + bw / 2.5 + 40, bw - lw);
                         ctx.fillText(e.soc + '%', now, lh + bh + lw + bw / 3 + 40, bw - 5 * lw);
                         if (e.type === 0) {
+                            if (du[e.gun]) {
+                                delete du[e.gun];
+                            }
                             ctx.fillText('空', now, lh + bh / 2 + 40, bw);
                             ctx.fillText('闲', now, lh + bh / 2 + bw / 2 + 40, bw);
-                            if (du[e.gun]) {
-                                clearInterval(du[e.gun].i);
-                                ctx.clearRect(now - bw / 2 + lw / 2, lh + lw / 2 + bh - du[e.gun].e, bw - lw + 40, du[e.gun].e - lw);
-                                delete du[e.gun];
-                            }
                         }
                         if (e.type === 1) {
-                            ctx.drawImage(img, now - bw / 2 + 3 * lw, lh + bw / 2 + 40, bw - 6 * lw, bh - bw / 1.7);
                             if (du[e.gun]) {
-                                clearInterval(du[e.gun].i);
-                                ctx.clearRect(now - bw / 2 + lw / 2, lh + lw / 2 + bh - du[e.gun].e + 40, bw - lw, du[e.gun].e - lw);
                                 delete du[e.gun];
                             }
+                            ctx.drawImage(img, now - bw / 2 + 3 * lw, lh + bw / 2 + 40, bw - 6 * lw, bh - bw / 1.7);
                         }
                         if (e.type === 2 && !du[e.gun]) {
                             ctx.drawImage(img, now - bw / 2 + 3 * lw, lh + bw / 2 + 40, bw - 6 * lw, bh - bw / 1.7);
                             du[e.gun] = {i: 0, e: 10};
-                            du[e.gun].i = setInterval(function () {
-                                ctx.clearRect(now - bw / 2 + lw / 2, lh + lw / 2 + bh - du[e.gun].e + 40, bw - lw, du[e.gun].e - lw);
-                                du[e.gun].e += 10;
-                                if (du[e.gun].e > bh) {
-                                    du[e.gun].e = 10;
-                                }
-                                ctx.fillStyle = 'rgba(158,234,106,0.8)';
-                                ctx.fillRect(now - bw / 2 + lw / 2, lh + lw / 2 + bh - du[e.gun].e + 40, bw - lw, du[e.gun].e - lw);
-                                ctx.drawImage(img, now - bw / 2 + 3 * lw, lh + bw / 2 + 40, bw - 6 * lw, bh - bw / 1.7);
-                                ctx.fillStyle = '#2CBBEF';
-                                ctx.font = bw / 3 + 'px Arial';
-                                ctx.fillText('DC' + e.gun, now, lh + bw / 2.5 + 40, bw - lw);
-                            }, 500);
+                            console.log(du);
                         }
                     }
                 } else {
-                    var e = data[0];
+                   /* var e = data[1];
                     ctx.moveTo((ctx.canvas.width - ctx.lineWidth) / 2 + lw / 2, 40);
                     var now = (ctx.canvas.width - ctx.lineWidth) / 2;
                     ctx.lineTo(now, lh + 40);
@@ -136,7 +120,7 @@
                             ctx.font = bw / 3 + 'px Arial';
                             ctx.fillText('DC' + e.gun, now, lh + bw / 2.5 + 40, bw - lw);
                         }, 500);
-                    }
+                    }*/
                 }
                 ctx.stroke();
                 return this;

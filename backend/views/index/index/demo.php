@@ -38,7 +38,7 @@
         return {
             draw: function (data) {
                 box = [];
-                var num = data.length;
+                var num = Object.keys(data).length;
                 ctx.canvas.width = (num + lw) * bw;
                 ctx.canvas.height = lh + bh + lw + bw / 3 + 40;
                 ctx.lineWidth = lw;
@@ -48,7 +48,8 @@
                 ctx.font = bw / 2.5 + 'px Arial';
                 ctx.fillText(name, (ctx.canvas.width - ctx.lineWidth) / 2 + lw / 2, 30);
                 if (num > 1) {
-                    data.forEach(function (e) {
+                    for (var key in data) {
+                        var e = data[key];
                         ctx.moveTo((ctx.canvas.width - ctx.lineWidth) / 2 + lw / 2, 40);
                         var now = (ctx.canvas.width - lw - bw) / (num - 1) * (e.gun - 1) + (lw + bw) / 2;
                         ctx.lineTo(now, lh + 40);
@@ -91,7 +92,7 @@
                                 ctx.fillText('DC' + e.gun, now, lh + bw / 2.5 + 40, bw - lw);
                             }, 500);
                         }
-                    });
+                    }
                 } else {
                     var e = data[0];
                     ctx.moveTo((ctx.canvas.width - ctx.lineWidth) / 2 + lw / 2, 40);
@@ -138,6 +139,7 @@
                     }
                 }
                 ctx.stroke();
+                return this;
             },
             onClick: function (callback) {
                 click = callback;
@@ -148,15 +150,12 @@
     var tree = window.tree('tree', 2019093001, 80, 2, 60, 120).onClick(function (now) {
         console.log(now);
     });
-    tree.draw([
-        {gun: 1, type: 2, soc: 30},
-    ]);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
         socket.send(JSON.stringify({do: 'joinPile', pile: 2019093001}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            console.log(data);
+            tree.draw(data.info);
         };
     };
 </script>

@@ -49,6 +49,12 @@ class events
                     case 'leavePile':
                         Gateway::leaveGroup($client_id, $data['pile']);
                         break;
+                    case 'joinGuns':
+                        Gateway::joinGroup($client_id, $data['pile'] . '-guns');
+                        break;
+                    case 'leaveGuns':
+                        Gateway::leaveGroup($client_id, $data['pile'] . '-guns');
+                        break;
                     case 'joinCharge':
                         Gateway::joinGroup($client_id, $data['pile'] . $data['gun']);
                         break;
@@ -163,15 +169,14 @@ class events
                                 Gateway::sendToClient($client_id, ['cmd' => 5, 'gun' => $data['gun'], 'code' => 2, 'val' => 85]);
                             }
                         }
-                        $_SESSION['self'] = ['gun' => $data['gun'], 'type' => mt_rand(0, 2), 'soc' => mt_rand(0, 100), 'power' => round($data['power'] / 10, 2)];
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
+                        Gateway::sendToGroup($data['no'] . '-guns', json_encode(['gun' => $data['gun'], 'type' => mt_rand(0, 2), 'soc' => mt_rand(0, 100), 'power' => round($data['power'] / 10, 2)]));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;
                     case 106:
                         $_SESSION = [
                             'no' => $data['no'],
                             'count' => $data['count'],
-                            'self' => $_SESSION['info'] ?: [],
                             'status' => $_SESSION['status'] ?: [],
                         ];
                         self::$db->query("INSERT INTO `en_pile` (`no`) VALUES ('{$data['no']}') ON DUPLICATE KEY UPDATE `count`={$data['count']}");

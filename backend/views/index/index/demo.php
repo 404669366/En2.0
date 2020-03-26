@@ -135,11 +135,11 @@
     });
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
-        socket.send(JSON.stringify({do: 'joinPile', pile: 2019093001}));
+        socket.send(JSON.stringify({do: 'joinGuns', pile: 2019093001}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            console.log(data.info);
-            tree.draw(data.info);
+            console.log(data.self);
+            //tree.draw(data.info);
         };
     };
 </script>

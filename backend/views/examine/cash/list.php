@@ -4,7 +4,7 @@
             <div class="row tableSearchBox">
                 <div class="col-sm-11">
                     <span class="tableSpan">
-                        综合搜索: <input class="searchField" type="text" value="" name="content"
+                        综合搜索: <input class="searchField" type="text" value="" name="keywords"
                                      placeholder="编号/企业/用户">
                     </span>
                     <span class="tableSpan">

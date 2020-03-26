@@ -78,6 +78,10 @@ class events
                         break;
                     case 104:
                         Gateway::bindUid($client_id, $data['no']);
+                        $type = 0;
+                        if ($data['linkStatus']) {
+                            $type = 1;
+                        }
                         if ($data['workStatus'] == 0) {
                             $time = time() - 90;
                             if (self::$db->update('en_order')->cols(['status' => 4])->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status=0 AND created_at<$time")->query()) {
@@ -86,6 +90,7 @@ class events
                             }
                         }
                         if ($data['workStatus'] == 2 && $data['linkStatus']) {
+                            $type = 2;
                             if ($order = self::$db->select('*')->from('en_order')->where("pile='{$data['no']}' AND gun='{$data['gun']}' AND status in(0,1)")->row()) {
                                 $code = 205;
                                 $rule = self::getRule($order['rules']);
@@ -158,6 +163,7 @@ class events
                             }
                         }
                         $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
+                        $_SESSION['info'][$data['gun']] = ['gun' => $data['gun'], 'type' => $type, 'soc' => $data['soc'], 'power' => round($data['power'] / 10, 2)];
                         Gateway::sendToGroup($data['no'], json_encode($_SESSION));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;

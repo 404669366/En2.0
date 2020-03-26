@@ -44,4 +44,9 @@ class IndexController extends AuthController
             'allCharge' => EnOrder::find()->where(['status' => [2, 3]])->sum('e')
         ]);
     }
+
+    public function actionDemo()
+    {
+        return $this->render('demo');
+    }
 }

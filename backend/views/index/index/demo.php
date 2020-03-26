@@ -74,7 +74,6 @@
                         if (e.type === 2 && !du[e.gun]) {
                             ctx.drawImage(img, now - bw / 2 + 3 * lw, lh + bw / 2 + 40, bw - 6 * lw, bh - bw / 1.7);
                             du[e.gun] = {i: 0, e: 10};
-                            console.log(du);
                         }
                     }
                 } else {

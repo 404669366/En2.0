@@ -168,8 +168,12 @@ class events
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;
                     case 106:
-                        $_SESSION['no'] = $data['no'];
-                        $_SESSION['count'] = $data['count'];
+                        $_SESSION = [
+                            'no' => $data['no'],
+                            'count' => $data['count'],
+                            'status' => $_SESSION['status'] ?: [],
+                            'info' => $_SESSION['info'] ?: []
+                        ];
                         self::$db->query("INSERT INTO `en_pile` (`no`) VALUES ('{$data['no']}') ON DUPLICATE KEY UPDATE `count`={$data['count']}");
                         Gateway::sendToClient($client_id, ['cmd' => 105, 'random' => $data['random']]);
                         Gateway::sendToClient($client_id, ['cmd' => 3, 'type' => 1, 'code' => 2, 'val' => self::getTime()]);

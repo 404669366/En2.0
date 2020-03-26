@@ -78,11 +78,13 @@
                     w: boxSize.width - lineSize.width,
                     h: -lineSize.width
                 },
-                gun: count,
-                link: false,
-                type: 0,
-                power: 0,
-                soc: 0,
+                gunInfo: {
+                    gun: count,
+                    link: false,
+                    type: 0,
+                    power: 0,
+                    soc: 0,
+                }
             };
             count--;
         }
@@ -100,7 +102,7 @@
             }
             for (var k in box) {
                 if (x >= box[k].boxSite.x && x <= box[k].boxSite.x + box[k].boxSite.w && y >= box[k].boxSite.y && y <= box[k].boxSite.y + box[k].boxSite.h) {
-                    if (click && box[k].link) {
+                    if (click && box[k].gunInfo.link) {
                         click(box[k]);
                         return;
                     }
@@ -110,10 +112,10 @@
         return {
             draw: function (data) {
                 clearInterval(box[data.gun].socSize.index);
-                box[data.gun].link = true;
-                box[data.gun].type = data.type;
-                box[data.gun].power = data.power;
-                box[data.gun].soc = data.soc;
+                box[data.gun].gunInfo.link = true;
+                box[data.gun].gunInfo.type = data.type;
+                box[data.gun].gunInfo.power = data.power;
+                box[data.gun].gunInfo.soc = data.soc;
                 ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
                 ctx.strokeRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
                 ctx.fillStyle = '#2CBBEF';
@@ -123,6 +125,8 @@
                 if (data.type === 0) {
                     ctx.fillText('空', box[data.gun].fontSite.x, box[data.gun].fontSite.y1, box[data.gun].fontSite.w);
                     ctx.fillText('闲', box[data.gun].fontSite.x, box[data.gun].fontSite.y2, box[data.gun].fontSite.w);
+                    ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
+                    ctx.fillText('- - -', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
                 }
                 if (data.type === 1) {
                     ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);

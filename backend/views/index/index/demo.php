@@ -155,6 +155,7 @@
         socket.send(JSON.stringify({do: 'joinPile', pile: 2019093001}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
+            console.log(data.info);
             tree.draw(data.info);
         };
     };

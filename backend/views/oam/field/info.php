@@ -40,7 +40,7 @@
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <div class="col-sm-12 tree">
-                            <canvas id="tree"></canvas>
+                            <canvas id="tree" ondragstart="return false" oncontextmenu="return false" onselectstart="return false"></canvas>
                         </div>
                     </div>
                 </div>

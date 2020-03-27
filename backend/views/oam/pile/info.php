@@ -1,6 +1,14 @@
 <?php $this->registerJsFile('@web/js/modal.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <?php $this->registerJsFile('@web/js/tree.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <style>
+    .tree {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
     .content {
         text-align: center;
     }
@@ -12,6 +20,15 @@
         font-size: 1.4rem;
         margin: 1rem 1rem 1rem auto;
     }
+
+    table {
+        width: 100%;
+        line-height: 3rem;
+        font-size: 1.4rem;
+        text-align: center;
+        border-color: silver;
+        margin-bottom: 1rem;
+    }
 </style>
 <div class="wrapper wrapper-content animated">
     <div class="ibox-content">
@@ -21,7 +38,9 @@
                 <div class="col-sm-12">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <canvas class="col-sm-12" id="tree"></canvas>
+                        <div class="col-sm-12 tree">
+                            <canvas id="tree"></canvas>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12">

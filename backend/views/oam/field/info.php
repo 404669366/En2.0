@@ -1,23 +1,12 @@
 <?php $this->registerJsFile('@web/js/modal.js', ['depends' => ['app\assets\ModelAsset']]) ?>
+<?php $this->registerJsFile('@web/js/tree.js', ['depends' => ['app\assets\ModelAsset']]) ?>
 <style>
-    .gunBox > div {
-        margin-top: 2rem;
-        text-align: center;
-    }
-
-    .gunBox > div:nth-child(-n+4) {
-        margin-top: 0;
-    }
-
-    .gunBox > div > span {
-        height: 2rem;
-        line-height: 2rem;
-        font-size: 1.5rem;
-    }
-
-    .gunBox > div > div > canvas {
-        height: 7.8rem;
-        width: 7.8rem;
+    .tree {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
     }
 
     .content {
@@ -47,6 +36,14 @@
         <form method="post" class="form-horizontal">
             <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
             <div class="row">
+                <div class="col-sm-12">
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12 tree">
+                            <canvas id="tree"></canvas>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-12">
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
@@ -119,58 +116,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">枪口信息</label>
-                        <div class="col-sm-10">
-                            <table class="gunTable" border="1">
-                                <tr>
-                                    <td>枪口编码</td>
-                                    <td>连接状态</td>
-                                    <td>枪口状态</td>
-                                    <td>枪口操作</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
 <script>
-    var work = JSON.parse(`<?=$work?>`);
-    var link = JSON.parse(`<?=$link?>`);
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
-        var no = $('.no').val();
-        socket.send(JSON.stringify({do: 'joinPile', pile: no}));
+        var tree = window.tree('tree', `<?= $model->no ?>`, `<?= $model->count ?>`).onClick(function (cnt) {
+            console.log(cnt);
+        });
+        socket.send(JSON.stringify({do: 'joinGuns', pile: `<?= $model->no ?>`}));
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-            $('.gunTable').html('<tr><td>枪口编码</td><td>连接状态</td><td>枪口状态</td><td>枪口操作</td></tr>');
-            $.each(data.status || [], function (k, v) {
-                var str = '<tr>';
-                str += '<td>' + no + '-' + k + '</td>';
-                str += '<td>' + link[v.linkStatus] + '</td>';
-                str += '<td>' + work[v.workStatus] + '</td>';
-                if (v.workStatus === 2 && v.linkStatus) {
-                    str += '<td><button type="button" class="btn btn-sm btn-danger endCharge" data-no="' + no + '" data-gun="' + k + '">结束充电</button>&emsp;';
-                    str += '<a class="btn btn-sm btn-info" href="/oam/pile/look?pile=' + no + '&gun=' + k + '">查看充电</a></td>';
-                } else {
-                    str += '<td>----</td>';
-                }
-                str += '</tr>';
-                $('.gunTable').append(str);
-            });
+            tree.draw(data);
         };
-
-        $('.gunTable').on('click', '.endCharge', function () {
-            $.getJSON('/oam/pile/end', {pile: $(this).data('no'), gun: $(this).data('gun')}, function (re) {
-                window.showMsg(re.msg);
-            })
-        })
-
     };
+    $('.gunTable').on('click', '.endCharge', function () {
+        $.getJSON('/oam/pile/end', {pile: $(this).data('no'), gun: $(this).data('gun')}, function (re) {
+            window.showMsg(re.msg);
+        })
+    })
 
     var rules = JSON.parse($('[name="rules"]').val());
     var str = '';

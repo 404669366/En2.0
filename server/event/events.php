@@ -172,8 +172,16 @@ class events
                                 Gateway::sendToClient($client_id, ['cmd' => 5, 'gun' => $data['gun'], 'code' => 2, 'val' => 85]);
                             }
                         }
-                        $_SESSION['status'][$data['gun']] = ['workStatus' => $data['workStatus'], 'linkStatus' => $data['linkStatus']];
-                        Gateway::sendToGroup($data['no'] . '-guns', json_encode(['gun' => $data['gun'], 'type' => mt_rand(0,3), 'soc' => $data['soc'], 'power' => round($data['power'] / 10, 2)]));
+                        $_SESSION['status'][$data['gun']] = [
+                            'workStatus' => $data['workStatus'],
+                            'linkStatus' => $data['linkStatus']
+                        ];
+                        Gateway::sendToGroup($data['no'] . '-guns', json_encode([
+                            'gun' => $data['gun'],
+                            'type' => $type,
+                            'soc' => $data['soc'],
+                            'power' => round($data['power'] / 10, 2)
+                        ]));
                         Gateway::sendToClient($client_id, ['cmd' => 103, 'gun' => $data['gun']]);
                         break;
                     case 106:

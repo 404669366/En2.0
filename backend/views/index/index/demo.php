@@ -111,49 +111,50 @@
         }, false);
         return {
             draw: function (data) {
-                clearInterval(box[data.gun].socSize.index);
-                box[data.gun].gunInfo.link = true;
-                box[data.gun].gunInfo.type = data.type;
-                box[data.gun].gunInfo.power = data.power;
-                box[data.gun].gunInfo.soc = data.soc;
-                ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
-                ctx.strokeRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
-                ctx.fillStyle = '#2CBBEF';
-                ctx.fillText('DC' + data.gun, box[data.gun].gunSite.x, box[data.gun].gunSite.y, box[data.gun].gunSite.w);
-                ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
-                ctx.fillText(data.soc + '%', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
-                if (data.type === 0) {
-                    ctx.fillText('空', box[data.gun].fontSite.x, box[data.gun].fontSite.y1, box[data.gun].fontSite.w);
-                    ctx.fillText('闲', box[data.gun].fontSite.x, box[data.gun].fontSite.y2, box[data.gun].fontSite.w);
-                    ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
-                    ctx.fillText('- - -', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
-                }
-                if (data.type === 1) {
-                    ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
-                }
-                if (data.type === 2) {
-                    ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
-                    box[data.gun].socSize.index = setInterval(function () {
-                        ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
-                        ctx.strokeRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
-                        ctx.fillStyle = 'rgba(158,234,106,0.8)';
-                        box[data.gun].socSize.now += 10;
-                        if (box[data.gun].socSize.now > box[data.gun].socSize.max) {
-                            box[data.gun].socSize.now = 10;
-                        }
-                        ctx.fillRect(box[data.gun].socSize.x, box[data.gun].socSize.y - box[data.gun].socSize.now, box[data.gun].socSize.w, box[data.gun].socSize.h + box[data.gun].socSize.now);
-                        ctx.fillStyle = '#2CBBEF';
-                        ctx.fillText('DC' + data.gun, box[data.gun].gunSite.x, box[data.gun].gunSite.y, box[data.gun].gunSite.w);
-                        ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
-                    }, 500);
-                }
-                if (data.type === 3) {
-                    ctx.fillStyle = '#D24D57';
-                    ctx.fillText('故', box[data.gun].fontSite.x, box[data.gun].fontSite.y1, box[data.gun].fontSite.w);
-                    ctx.fillText('障', box[data.gun].fontSite.x, box[data.gun].fontSite.y2, box[data.gun].fontSite.w);
+                if (data.gun in box) {
+                    clearInterval(box[data.gun].socSize.index);
+                    box[data.gun].gunInfo.link = true;
+                    box[data.gun].gunInfo.type = data.type;
+                    box[data.gun].gunInfo.power = data.power;
+                    box[data.gun].gunInfo.soc = data.soc;
+                    ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
+                    ctx.strokeRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
                     ctx.fillStyle = '#2CBBEF';
+                    ctx.fillText('DC' + data.gun, box[data.gun].gunSite.x, box[data.gun].gunSite.y, box[data.gun].gunSite.w);
                     ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
-                    ctx.fillText('- - -', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
+                    ctx.fillText(data.soc + '%', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
+                    if (data.type === 0) {
+                        ctx.fillText('空', box[data.gun].fontSite.x, box[data.gun].fontSite.y1, box[data.gun].fontSite.w);
+                        ctx.fillText('闲', box[data.gun].fontSite.x, box[data.gun].fontSite.y2, box[data.gun].fontSite.w);
+                        ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
+                        ctx.fillText('- - -', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
+                    }
+                    if (data.type === 1) {
+                        ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
+                    }
+                    if (data.type === 2) {
+                        ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
+                        box[data.gun].socSize.index = setInterval(function () {
+                            ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
+                            ctx.strokeRect(box[data.gun].boxSite.x, box[data.gun].boxSite.y, box[data.gun].boxSite.w, box[data.gun].boxSite.h);
+                            ctx.fillStyle = 'rgba(12,255,85,0.8)';
+                            box[data.gun].socSize.now += 10;
+                            if (box[data.gun].socSize.now > box[data.gun].socSize.max) {
+                                box[data.gun].socSize.now = 10;
+                            }
+                            ctx.fillRect(box[data.gun].socSize.x, box[data.gun].socSize.y - box[data.gun].socSize.now, box[data.gun].socSize.w, box[data.gun].socSize.h + box[data.gun].socSize.now);
+                            ctx.fillStyle = '#2CBBEF';
+                            ctx.fillText('DC' + data.gun, box[data.gun].gunSite.x, box[data.gun].gunSite.y, box[data.gun].gunSite.w);
+                            ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
+                        }, 500);
+                    }
+                    if (data.type === 3) {
+                        ctx.fillStyle = '#ff4136';
+                        ctx.fillText('故', box[data.gun].fontSite.x, box[data.gun].fontSite.y1, box[data.gun].fontSite.w);
+                        ctx.fillText('障', box[data.gun].fontSite.x, box[data.gun].fontSite.y2, box[data.gun].fontSite.w);
+                        ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
+                        ctx.fillText('- - -', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
+                    }
                 }
                 return this;
             },
@@ -165,8 +166,8 @@
     };
     var socket = new WebSocket('ws://47.99.36.149:20001');
     socket.onopen = function () {
-        var tree = window.tree('tree', 2019093001, 10).onClick(function (now) {
-            console.log(now);
+        var tree = window.tree('tree', 2019093001, 10).onClick(function (cnt) {
+            console.log(cnt);
         });
         socket.send(JSON.stringify({do: 'joinGuns', pile: 2019093001}));
         socket.onmessage = function (event) {

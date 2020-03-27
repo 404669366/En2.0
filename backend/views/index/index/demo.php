@@ -147,6 +147,14 @@
                         ctx.drawImage(car, box[data.gun].imgSite.x, box[data.gun].imgSite.y, box[data.gun].imgSite.w, box[data.gun].imgSite.h);
                     }, 500);
                 }
+                if (data.type === 3) {
+                    ctx.fillStyle = '#D24D57';
+                    ctx.fillText('故', box[data.gun].fontSite.x, box[data.gun].fontSite.y1, box[data.gun].fontSite.w);
+                    ctx.fillText('障', box[data.gun].fontSite.x, box[data.gun].fontSite.y2, box[data.gun].fontSite.w);
+                    ctx.fillStyle = '#2CBBEF';
+                    ctx.clearRect(box[data.gun].boxSite.x, box[data.gun].socSite.y2, box[data.gun].socSite.w, box[data.gun].socSite.h);
+                    ctx.fillText('- - -', box[data.gun].socSite.x, box[data.gun].socSite.y1, box[data.gun].socSite.w);
+                }
                 return this;
             },
             onClick: function (callback) {

@@ -20,7 +20,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="hr-line-dashed"></div>
-                    <canvas id="tree" class="form-group"></canvas>
+                    <div class="form-group">
+                        <canvas class="col-sm-12" id="tree"></canvas>
+                    </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="hr-line-dashed"></div>

@@ -327,11 +327,8 @@ class EnOrder extends \yii\db\ActiveRecord
             ->groupBy('hours')
             ->asArray()->all();
         foreach ($data as $v) {
-            var_dump($v);
             $interval[(int)$v['hours']] = round($v['val'], 2);
         }
-        var_dump($interval);
-        exit();
         return $interval;
     }
 

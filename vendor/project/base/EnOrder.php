@@ -323,11 +323,11 @@ class EnOrder extends \yii\db\ActiveRecord
         }
         $interval = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $data = self::find()->where(['status' => [2, 3]])
-            ->select(["FROM_UNIXTIME(created_at,'%H') hours", $words])
+            ->select(["FROM_UNIXTIME(created_at,'%k') hours", $words])
             ->groupBy('hours')
             ->asArray()->all();
         foreach ($data as $v) {
-            $interval[(int)$v['hours']] = round($v['val'], 2);
+            $interval[$v['hours']] = round($v['val'], 2);
         }
         return $interval;
     }

@@ -9,6 +9,11 @@ $this->beginPage();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>亿能科技</title>
     <link rel="shortcut icon" href="/favicon.ico">
+    <style>
+        *[data-url] {
+            cursor: pointer;
+        }
+    </style>
     <?php $this->head(); ?>
 </head>
 <body class="gray-bg">

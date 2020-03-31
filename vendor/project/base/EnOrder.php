@@ -308,6 +308,31 @@ class EnOrder extends \yii\db\ActiveRecord
     }
 
     /**
+     * 累计24小时报表统计
+     * @param string $report ELE 统计电量 / TIMES 统计充电次数
+     * @return array
+     */
+    public static function reportBy24($report = 'ELE')
+    {
+        $words = '';
+        if ($report == 'ELE') {
+            $words = 'SUM(e) as val';
+        }
+        if ($report == 'TIMES') {
+            $words = 'count(no) as val';
+        }
+        $interval = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $data = self::find()->where(['status' => [2, 3]])
+            ->select(["FROM_UNIXTIME(created_at,'%h') hours", $words])
+            ->groupBy('hours')
+            ->asArray()->all();
+        foreach ($data as $v) {
+            $interval[(int)$v['hours']] = round($v['val'], 2);
+        }
+        return $interval;
+    }
+
+    /**
      * 订单扣款
      * @param string $no
      * @return bool

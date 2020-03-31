@@ -120,8 +120,9 @@
     </div>
 </div>
 <script>
+    var consume = JSON.parse(`<?=$consume['report']?>`);
     window.echarts.init(document.getElementById('e1')).setOption({
-        title: {text: '近30日消费走势'},
+        title: {text: '当月消费走势'},
         color: ['#3398DB'],
         tooltip: {
             trigger: 'axis',
@@ -131,7 +132,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: consume.days,
             axisTick: {
                 alignWithLabel: true
             }
@@ -140,13 +141,14 @@
             type: 'value'
         },
         series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            data: consume.data,
             type: 'line',
             smooth: true
         }]
     });
+    var invest = JSON.parse(`<?=$invest['report']?>`);
     window.echarts.init(document.getElementById('e2')).setOption({
-        title: {text: '近30日充值走势'},
+        title: {text: '当月充值走势'},
         color: ['#3398DB'],
         tooltip: {
             trigger: 'axis',
@@ -156,7 +158,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: invest.days,
             axisTick: {
                 alignWithLabel: true
             }
@@ -165,11 +167,12 @@
             type: 'value'
         },
         series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            data: invest.data,
             type: 'line',
             smooth: true
         }]
     });
+    var times = JSON.parse(`<?=$times['report']?>`);
     window.echarts.init(document.getElementById('e3')).setOption({
         title: {text: '累计24时充电次数分布'},
         color: ['#3398DB'],
@@ -181,7 +184,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+            data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
             axisTick: {
                 alignWithLabel: true
             }
@@ -190,7 +193,7 @@
             type: 'value'
         },
         series: [{
-            data: [125, 820, 932, 901, 934, 1290, 1330, 1320, 88, 99, 15, 2564, 4892, 254, 0, 15, 46, 0, 489, 465, 354, 7981, 254, 152, 66],
+            data: times,
             type: 'line',
             smooth: true,
             areaStyle: {
@@ -204,6 +207,7 @@
             },
         }]
     });
+    var charge = JSON.parse(`<?=$charge['report']?>`);
     window.echarts.init(document.getElementById('e4')).setOption({
         title: {text: '累计24时充电电量分布'},
         color: ['#3398DB'],
@@ -215,7 +219,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+            data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
             axisTick: {
                 alignWithLabel: true
             }
@@ -224,7 +228,7 @@
             type: 'value'
         },
         series: [{
-            data: [125, 820, 932, 901, 934, 1290, 1330, 1320, 88, 99, 15, 2564, 4892, 254, 0, 15, 46, 0, 489, 465, 354, 7981, 254, 152, 66],
+            data: charge,
             type: 'line',
             smooth: true,
             areaStyle: {

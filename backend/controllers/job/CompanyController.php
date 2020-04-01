@@ -92,6 +92,6 @@ class CompanyController extends CommonController
             ]);
         }
         Msg::set('非法操作');
-        return $this->render('/index/index/first');
+        return $this->redirect(['index/index/first']);
     }
 }

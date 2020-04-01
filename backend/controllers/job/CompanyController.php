@@ -91,7 +91,7 @@ class CompanyController extends CommonController
                 'model' => $model,
             ]);
         }
-        Msg::set('非法操作');
+        Msg::set('平台账号,非法操作');
         return $this->redirect(['index/index/first']);
     }
 }

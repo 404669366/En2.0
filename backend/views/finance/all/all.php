@@ -3,96 +3,96 @@
     <div class="row">
         <div class="col-sm-2" data-url="/finance/consume/report">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计消费金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C9BFF00">累计消费金额</h5>
                     <h4 class="no-margins">&yen; <?= $consume['all'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="/finance/invest/report">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计充值金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C00FF00">累计充值金额</h5>
                     <h4 class="no-margins">&yen; <?= $invest['all'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="/finance/ele/list">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计基础电费</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C00FF9B">累计基础电费</h5>
                     <h4 class="no-margins">&yen; <?= $ele['all'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="#e3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计充电次数</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C00FFFF">累计充电次数</h5>
                     <h4 class="no-margins">次 <?= $times['all'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="#e4">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计充电电量</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C009BFF">累计充电电量</h5>
                     <h4 class="no-margins">kwh <?= $charge['all'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计用户数量</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C0000FF">累计用户数量</h5>
                     <h4 class="no-margins">个 <?= $user['all'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="/finance/consume/report">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>今日消费金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C9BFF00">今日消费金额</h5>
                     <h4 class="no-margins">&yen; <?= $consume['today'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="/finance/invest/report">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>今日充值金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C00FF00">今日充值金额</h5>
                     <h4 class="no-margins">&yen; <?= $invest['today'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="/finance/ele/list">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>今日基础电费</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C00FF9B">今日基础电费</h5>
                     <h4 class="no-margins">&yen; <?= $ele['today'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="#e3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>今日充电次数</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C00FFFF">今日充电次数</h5>
                     <h4 class="no-margins">次 <?= $times['today'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2" data-url="#e4">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>今日充电电量</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C009BFF">今日充电电量</h5>
                     <h4 class="no-margins">kwh <?= $charge['today'] ?></h4>
                 </div>
             </div>
         </div>
         <div class="col-sm-2">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>今日新增用户</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C0000FF">今日新增用户</h5>
                     <h4 class="no-margins">个 <?= $user['today'] ?></h4>
                 </div>
             </div>

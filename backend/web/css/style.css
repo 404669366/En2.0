@@ -4061,6 +4061,70 @@ table.table-mail tr td {
     clear: both;
 }
 
+.mbox {
+    padding: 0;
+}
+
+.mbox > *:nth-child(1) {
+    padding: 7px;
+    margin: 0;
+    color: #fcfcfc;
+    background: #4A4A4A;
+}
+
+.mbox > *:nth-child(2) {
+    margin: 0;
+    padding: 6px 7px;
+}
+
+.mbox > .CFF0000 {
+    background: #ff0000;
+}
+
+.mbox > .CFF9B00 {
+    background: #FF9B00;
+}
+
+.mbox > .CFFFF00 {
+    background: #FFFF00;
+}
+
+.mbox > .C9BFF00 {
+    background: #9BFF00;
+}
+
+.mbox > .C00FF00 {
+    background: #00ff00;
+}
+
+.mbox > .C00FF9B {
+    background: #00FF9B;
+}
+
+.mbox > .C00FFFF {
+    background: #00ffff;
+}
+
+.mbox > .C009BFF {
+    background: #009BFF;
+}
+
+.mbox > .C0000FF {
+    background: #0000FF;
+}
+
+.mbox > .C9B00FF {
+    background: #9B00FF;
+}
+
+.mbox > .CFF00FF {
+    background: #FF00FF;
+}
+
+.mbox > .CFF009B {
+    background: #FF009B;
+}
+
 .ibox-heading {
     background-color: #f3f6fb;
     border-bottom: none;

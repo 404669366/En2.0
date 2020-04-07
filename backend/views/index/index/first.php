@@ -21,7 +21,6 @@
     }
 
     .ibox-content {
-        padding: 5px;
         border-radius: 2px;
         box-sizing: border-box;
     }
@@ -30,7 +29,7 @@
         margin: 0 0 2px 0;
     }
 
-    h4{
+    h4 {
         font-weight: 500;
     }
 
@@ -71,16 +70,16 @@
 <div class="row nav">
     <div class="col-sm-2">
         <div class="ibox">
-            <div class="ibox-content">
-                <h5>累计充值</h5>
+            <div class="ibox-content mbox">
+                <h5 class="CFF009B">累计充值</h5>
                 <h4 class="no-margins">&yen; <?= round($allInvest, 2) ?></h4>
             </div>
         </div>
     </div>
     <div class="col-sm-2">
         <div class="ibox">
-            <div class="ibox-content">
-                <h5>累计消费</h5>
+            <div class="ibox-content mbox">
+                <h5 class="CFF00FF">累计消费</h5>
                 <h4 class="no-margins">&yen; <?= round($allConsume, 2) ?></h4>
             </div>
         </div>
@@ -90,16 +89,16 @@
     </div>
     <div class="col-sm-2">
         <div class="ibox">
-            <div class="ibox-content">
-                <h5>累计用户</h5>
+            <div class="ibox-content mbox">
+                <h5 class="C9B00FF">累计用户</h5>
                 <h4 class="no-margins"><?= $allUser ?>个</h4>
             </div>
         </div>
     </div>
     <div class="col-sm-2">
         <div class="ibox">
-            <div class="ibox-content">
-                <h5>累计充电</h5>
+            <div class="ibox-content mbox">
+                <h5 class="C0000FF">累计充电</h5>
                 <h4 class="no-margins"><?= round($allCharge, 2) ?>kwh</h4>
             </div>
         </div>

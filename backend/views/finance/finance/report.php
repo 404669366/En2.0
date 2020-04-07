@@ -4,32 +4,32 @@
         <h3 class="col-sm-12">场站融资统计</h3>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计融资金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="CFF009B">累计融资金额</h5>
                     <h1 class="no-margins">&yen; <?= $finance['all'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本年融资金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="CFF00FF">本年融资金额</h5>
                     <h1 class="no-margins">&yen; <?= $finance['year'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本月融资金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C9B00FF">本月融资金额</h5>
                     <h1 class="no-margins">&yen; <?= $finance['month'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本日融资金额</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C0000FF">本日融资金额</h5>
                     <h1 class="no-margins">&yen; <?= $finance['day'] ?></h1>
                 </div>
             </div>

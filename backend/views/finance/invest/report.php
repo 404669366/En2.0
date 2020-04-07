@@ -3,32 +3,32 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计充值</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="CFF009B">累计充值</h5>
                     <h1 class="no-margins">&yen; <?= $invest['all'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本年充值</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="CFF00FF">本年充值</h5>
                     <h1 class="no-margins">&yen; <?= $invest['year'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本月充值</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C9B00FF">本月充值</h5>
                     <h1 class="no-margins">&yen; <?= $invest['month'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本日充值</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C0000FF">本日充值</h5>
                     <h1 class="no-margins">&yen; <?= $invest['day'] ?></h1>
                 </div>
             </div>

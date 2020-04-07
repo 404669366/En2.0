@@ -7,32 +7,32 @@
         </h3>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>累计充电消费</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="CFF009B">累计充电消费</h5>
                     <h1 class="no-margins">&yen; <?= $order['all'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本年充电消费</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="CFF00FF">本年充电消费</h5>
                     <h1 class="no-margins">&yen; <?= $order['year'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本月充电消费</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C9B00FF">本月充电消费</h5>
                     <h1 class="no-margins">&yen; <?= $order['month'] ?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="ibox">
-                <div class="ibox-content">
-                    <h5>本日充电消费</h5>
+                <div class="ibox-content mbox">
+                    <h5 class="C0000FF">本日充电消费</h5>
                     <h1 class="no-margins">&yen; <?= $order['day'] ?></h1>
                 </div>
             </div>

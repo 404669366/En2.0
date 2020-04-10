@@ -39,10 +39,8 @@ $this->beginPage();
                 <h4 class="no-margins">登录：</h4>
                 <input type="text" class="form-control uname" name="tel" placeholder="手机号"/>
                 <input type="password" class="form-control pword" name="pwd" placeholder="密码"/>
-                <div>
-                    <input type="text" class="form-control ji m-b" name="code" placeholder="验证码"/>
-                    <img class="form-control code" src="/member/login/code" onclick="this.src+='?'+Math.random()">
-                </div>
+                <img class="code" src="/member/login/code" onclick="this.src+='?'+Math.random()">
+                <input type="text" class="form-control" name="code" placeholder="验证码"/>
                 <button class="btn btn-success btn-block">登录</button>
             </form>
         </div>

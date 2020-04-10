@@ -30,7 +30,7 @@ body.signin {
 
 .signinpanel .form-control {
     display: block;
-    margin-top: 15px;
+    margin-top: 8px;
 }
 
 .signinpanel .uname {
@@ -48,13 +48,14 @@ body.signin {
     color: #333;
 }
 .code{
-    padding: 0;
-    width: 6.4rem;
-    float: left;
+    margin-top: 8px;
+    height: 80px;
+    width: 100%;
+    cursor: pointer;
 }
 
 .signinpanel .btn {
-    margin-top: 15px;
+    margin-top: 8px;
 }
 
 .signinpanel form {

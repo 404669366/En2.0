@@ -40,7 +40,7 @@ $this->beginPage();
                 <input type="text" class="form-control uname" name="tel" placeholder="手机号"/>
                 <input type="password" class="form-control pword" name="pwd" placeholder="密码"/>
                 <img class="code" src="/member/login/code" onclick="this.src+='?'+Math.random()">
-                <input type="text" class="form-control code" name="code" placeholder="验证码"/>
+                <input type="text" class="form-control codeInput" name="code" placeholder="验证码"/>
                 <button class="btn btn-success btn-block">登录</button>
             </form>
         </div>

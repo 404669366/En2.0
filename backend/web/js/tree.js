@@ -15,8 +15,12 @@ window.tree = function (element, name, count, lineSize, boxSize) {
     ctx.strokeStyle = '#2CBBEF';
     var unit = ctx.canvas.width / count;
     var box = {};
+    ctx.moveTo(ctx.canvas.width / 2, boxSize.width * 0.6);
+    ctx.lineTo(ctx.canvas.width / 2, boxSize.width * 1.2);
+    ctx.moveTo((count - 0.5) * unit, boxSize.width * 1.2);
+    ctx.lineTo(0.5 * unit, boxSize.width * 1.2);
     while (count > 0) {
-        ctx.moveTo(ctx.canvas.width / 2, boxSize.width * 0.5);
+        ctx.moveTo((count - 0.5) * unit, boxSize.width * 1.2);
         ctx.lineTo((count - 0.5) * unit, boxSize.width * 0.5 + lineSize.height);
         ctx.strokeRect((count - 1) * unit + lineSize.width + 5, boxSize.width * 0.5 + lineSize.height, boxSize.width, boxSize.height);
         ctx.font = boxSize.width * 0.3 + 'px Arial';

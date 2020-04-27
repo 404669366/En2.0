@@ -11,7 +11,7 @@ window.tree = function (element, name, count, lineSize, boxSize) {
     ctx.fillStyle = '#2CBBEF';
     ctx.textAlign = 'center';
     ctx.font = boxSize.width * 0.45 + 'px Arial';
-    ctx.fillText(name, ctx.canvas.width / 2, boxSize.width * 0.45, ctx.canvas.width);
+    ctx.fillText(name, ctx.canvas.width / 2, boxSize.width * 0.5, ctx.canvas.width);
     ctx.strokeStyle = '#2CBBEF';
     var unit = ctx.canvas.width / count;
     var box = {};

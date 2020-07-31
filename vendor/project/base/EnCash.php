@@ -7,6 +7,7 @@ use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
 use vendor\project\helpers\Wechat;
 use Yii;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "en_cash".
@@ -234,19 +235,30 @@ class EnCash extends \yii\db\ActiveRecord
         if ($model = self::findOne(['no' => $no, 'status' => 1])) {
             if ($model->type == 1) {
                 $model->status = 2;
-                $model->save(false);
-                return '操作成功';
+                if ($model->save()) {
+                    return '操作成功';
+                }
+                return $model->errors();
             }
             if ($model->type == 2 || $model->type == 3) {
-                if ($model->user->open_id) {
-                    if (Wechat::refund($model->no, $model->user->open_id, $model->money, Constant::cashType()[$model->type])) {
-                        $model->status = 2;
-                        $model->save(false);
-                        return '操作成功';
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    if (!$model->user->open_id) {
+                        new Exception('拉取openid失败');
                     }
-                    return '付款失败';
+                    $model->status = 2;
+                    if (!$model->save()) {
+                        new Exception($model->errors());
+                    }
+                    if (!Wechat::refund($model->no, $model->user->open_id, $model->money, Constant::cashType()[$model->type])) {
+                        new Exception('付款失败');
+                    }
+                    $transaction->commit();
+                    return '操作成功';
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                    return $e->getMessage();
                 }
-                return '拉取openid失败';
             }
         }
         return '非法操作';

@@ -245,16 +245,16 @@ class EnCash extends \yii\db\ActiveRecord
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     if (!$model->user->open_id) {
-                        new Exception('拉取openid失败');
+                        throw new Exception('拉取openid失败');
                     }
                     $model->status = 2;
                     if (!$model->save()) {
-                        new Exception($model->errors());
+                        throw new Exception($model->errors());
                     }
                     var_dump($model->errors());
                     exit();
                     if (!Wechat::refund($model->no, $model->user->open_id, $model->money, Constant::cashType()[$model->type])) {
-                        new Exception('付款失败');
+                        throw new Exception('付款失败');
                     }
                     $transaction->commit();
                     return '操作成功';

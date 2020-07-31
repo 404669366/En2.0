@@ -251,15 +251,12 @@ class EnCash extends \yii\db\ActiveRecord
                     if (!$model->save()) {
                         throw new Exception($model->errors());
                     }
-                    var_dump($model->errors());
-                    exit();
                     if (!Wechat::refund($model->no, $model->user->open_id, $model->money, Constant::cashType()[$model->type])) {
                         throw new Exception('付款失败');
                     }
                     $transaction->commit();
                     return '操作成功';
                 } catch (Exception $e) {
-                    var_dump(111);
                     $transaction->rollBack();
                     return $e->getMessage();
                 }

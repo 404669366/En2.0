@@ -71,7 +71,7 @@ class EnInvest extends \yii\db\ActiveRecord
         $model = new self();
         $model->no = Helper::createNo('I');
         $model->uid = Yii::$app->user->id;
-        $model->money = $model->uid == 5 ? 0.01 : $money;
+        $model->money = $money;
         $model->balance = EnUser::getMoney();
         $model->source = $way;
         $model->created_at = time();

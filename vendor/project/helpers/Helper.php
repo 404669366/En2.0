@@ -807,7 +807,7 @@ class Helper
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSLCERTTYPE, 'PEM');
-        curl_setopt($ch, CURLOPT_SSLCERT, $path['cart']);
+        curl_setopt($ch, CURLOPT_SSLCERT, $path['cert']);
         curl_setopt($ch, CURLOPT_SSLKEYTYPE, 'PEM');
         curl_setopt($ch, CURLOPT_SSLKEY, $path['key']);
         curl_setopt($ch, CURLOPT_CAINFO, 'PEM');

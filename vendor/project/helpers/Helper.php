@@ -758,8 +758,8 @@ class Helper
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $re = curl_exec($ch);
         curl_close($ch);
@@ -777,11 +777,11 @@ class Helper
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
         $result = curl_exec($ch);
         curl_close($ch);
@@ -795,22 +795,24 @@ class Helper
      * 发送xml(ssl)
      * @param string $url
      * @param string $xmlData
-     * @param string $certPath
-     * @param string $keyPath
+     * @param array $path
      * @return array|mixed
      */
-    public static function curlXmlSsl($url = '', $xmlData = '', $certPath = '', $keyPath = '')
+    public static function curlXmlSsl($url = '', $xmlData = '', $path = [])
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSLCERT, $certPath);
-        curl_setopt($ch, CURLOPT_SSLKEY, $keyPath);
-        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSLCERTTYPE, 'PEM');
+        curl_setopt($ch, CURLOPT_SSLCERT, $path['cart']);
+        curl_setopt($ch, CURLOPT_SSLKEYTYPE, 'PEM');
+        curl_setopt($ch, CURLOPT_SSLKEY, $path['key']);
+        curl_setopt($ch, CURLOPT_CAINFO, 'PEM');
+        curl_setopt($ch, CURLOPT_CAINFO, $path['ca']);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlData);
         $result = curl_exec($ch);
         curl_close($ch);

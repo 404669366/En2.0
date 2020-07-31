@@ -5,6 +5,7 @@ namespace vendor\project\base;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Helper;
 use vendor\project\helpers\Msg;
+use vendor\project\helpers\Wechat;
 use Yii;
 
 /**
@@ -168,6 +169,9 @@ class EnCash extends \yii\db\ActiveRecord
             return '本月您已发起过提现';
         }
         $have = EnIncome::getSurplus([3, 4], 2, Yii::$app->user->id);
+        if ($need < 0.3) {
+            return '提现金额不小于0.3元';
+        }
         if ($need > $have) {
             return '提现金额大于本金';
         }
@@ -190,8 +194,8 @@ class EnCash extends \yii\db\ActiveRecord
      */
     public static function createBy3($need)
     {
-        if ($need <= 0) {
-            Msg::set('提现金额小于零');
+        if ($need < 0.3) {
+            Msg::set('提现金额不小于0.3元');
             return false;
         }
         if ($need > EnUser::getMoney()) {
@@ -218,5 +222,33 @@ class EnCash extends \yii\db\ActiveRecord
         }
         Msg::set('提现申请成功');
         return true;
+    }
+
+    /**
+     * 提现操作
+     * @param string $no
+     * @return string
+     */
+    public static function refund($no = '')
+    {
+        if ($model = self::findOne(['no' => $no, 'status' => 1])) {
+            if ($model->type == 1) {
+                $model->status = 2;
+                $model->save(false);
+                return '操作成功';
+            }
+            if ($model->type == 2 || $model->type == 3) {
+                if ($model->user->open_id) {
+                    if (Wechat::refund($model->no, $model->user->open_id, $model->money, Constant::cashType()[$model->type])) {
+                        $model->status = 2;
+                        $model->save(false);
+                        return '操作成功';
+                    }
+                    return '付款失败';
+                }
+                return '拉取openid失败';
+            }
+        }
+        return '非法操作';
     }
 }

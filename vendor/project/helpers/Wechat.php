@@ -223,29 +223,31 @@ class Wechat
     }
 
     /**
-     * 退款
-     * @param string $body
-     * @param string $order
-     * @param string $backOrder
-     * @param int $orderMoney
-     * @param int $backMoney
-     * @param string $backUrl
+     * 付款到零钱
+     * @param string $no
+     * @param string $openid
+     * @param int $amount
+     * @param string $desc
      * @return bool
      */
-    public static function refund($body = '', $order = '', $backOrder = '', $orderMoney = 0, $backMoney = 0, $backUrl = '')
+    public static function refund($no = '', $openid = '', $amount = 0, $desc = '')
     {
         $params = [
-            'appid' => self::APP_ID,
-            'mch_id' => self::MCH_ID,
+            'mch_appid' => self::APP_ID,
+            'mchid' => self::MCH_ID,
             'nonce_str' => Helper::randStr(6),
-            'notify_url' => Helper::spliceUrl($backUrl),
-            'out_refund_no' => $backOrder,
-            'out_trade_no' => $order,
-            'refund_fee' => $backMoney * 100,
-            'total_fee' => $orderMoney * 100,
-            'refund_desc' => $body
+            'partner_trade_no' => $no,
+            'openid' => $openid,
+            'check_name' => 'NO_CHECK',
+            'amount' => $amount * 100,
+            'desc' => $desc,
         ];
-        $data = Helper::curlXmlSsl('https://api.mch.weixin.qq.com/secapi/pay/refund', self::addSign($params));
+        $path = [
+            'cert' => __DIR__ . '/apiclient_cert.pem',
+            'key' => __DIR__ . '/apiclient_key.pem',
+            'ca' => __DIR__ . '/rootca.pem'
+        ];
+        $data = Helper::curlXmlSsl('https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers', self::addSign($params), $path);
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             return true;
         }

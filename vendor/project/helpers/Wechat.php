@@ -248,7 +248,6 @@ class Wechat
             'ca' => __DIR__ . '/rootca.pem'
         ];
         $data = Helper::curlXmlSsl('https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers', self::addSign($params), $path);
-        var_dump($data);exit();
         if (isset($data['result_code']) && $data['result_code'] == 'SUCCESS') {
             return true;
         }

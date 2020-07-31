@@ -800,6 +800,7 @@ class Helper
      */
     public static function curlXmlSsl($url = '', $xmlData = '', $path = [])
     {
+        var_dump($xmlData);exit();
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -259,6 +259,7 @@ class EnCash extends \yii\db\ActiveRecord
                     $transaction->commit();
                     return '操作成功';
                 } catch (Exception $e) {
+                    var_dump(111);
                     $transaction->rollBack();
                     return $e->getMessage();
                 }

@@ -270,8 +270,8 @@ class Wechat
                 $ascii_str .= $k . '=' . $v . '&';
             }
         }
-        $sign = $ascii_str . 'key=' . self::MCH_SECRET;
-        $xml .= "<sign>md5($sign)</sign>";
+        $sign = strtoupper(md5($ascii_str . 'key=' . self::MCH_SECRET));
+        $xml .= "<sign>$sign</sign>";
         return $xml . '</xml>';
     }
 }

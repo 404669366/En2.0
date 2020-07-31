@@ -58,7 +58,7 @@ class EnCash extends \yii\db\ActiveRecord
                 $this->status = 3;
                 $this->remark = '余额不足';
                 $this->save();
-                $this->addError('status', '扣除余额错误');
+                $this->addError('status', '账户余额不足');
             }
         }
     }
@@ -248,6 +248,7 @@ class EnCash extends \yii\db\ActiveRecord
                         new Exception('拉取openid失败');
                     }
                     $model->status = 2;
+                    var_dump($model->save());exit();
                     if (!$model->save()) {
                         new Exception($model->errors());
                     }

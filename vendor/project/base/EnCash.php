@@ -241,7 +241,7 @@ class EnCash extends \yii\db\ActiveRecord
             if ($model->type == 2 || $model->type == 3) {
                 if ($model->type == 3 && $model->user->money < $model->money) {
                     $model->status = 3;
-                    $model->remark = '账户余额不足';
+                    $model->remark = '余额不足';
                     $model->save();
                     return '账户余额不足';
                 }

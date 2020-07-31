@@ -261,6 +261,7 @@ class Wechat
      */
     private static function addSign($params = [])
     {
+        ksort($params);
         $xml = '<xml>';
         $ascii_str = '';
         foreach ($params as $k => $v) {
@@ -270,8 +271,7 @@ class Wechat
             }
         }
         $sign = $ascii_str . 'key=' . self::MCH_SECRET;
-        $sign = strtoupper(md5($sign));
-        $xml .= "<sign>$sign</sign>";
+        $xml .= "<sign>md5($sign)</sign>";
         return $xml . '</xml>';
     }
 }

@@ -55,9 +55,10 @@ class EnCash extends \yii\db\ActiveRecord
         }
         if ($this->status == 2 && $this->type == 3) {
             if (!EnUser::cutMoney($this->key, $this->money)) {
-                $this->addError('status', '扣除余额错误');
-                $this->status = 0;
+                $this->status = 3;
+                $this->remark = '余额不足';
                 $this->save();
+                $this->addError('status', '扣除余额错误');
             }
         }
     }

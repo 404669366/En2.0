@@ -55,9 +55,6 @@ class EnCash extends \yii\db\ActiveRecord
         }
         if ($this->status == 2 && $this->type == 3) {
             if (!EnUser::cutMoney($this->key, $this->money)) {
-                $this->status = 3;
-                $this->remark = '余额不足';
-                $this->save();
                 $this->addError('status', '账户余额不足');
             }
         }
@@ -242,6 +239,12 @@ class EnCash extends \yii\db\ActiveRecord
                 return $model->errors();
             }
             if ($model->type == 2 || $model->type == 3) {
+                if ($model->type == 3 && $model->user->money < $model->money) {
+                    $model->status = 3;
+                    $model->remark = '账户余额不足';
+                    $model->save();
+                    return '账户余额不足';
+                }
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     if (!$model->user->open_id) {

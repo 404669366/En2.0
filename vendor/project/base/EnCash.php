@@ -248,10 +248,11 @@ class EnCash extends \yii\db\ActiveRecord
                         new Exception('拉取openid失败');
                     }
                     $model->status = 2;
-                    var_dump($model->save());exit();
                     if (!$model->save()) {
                         new Exception($model->errors());
                     }
+                    var_dump($model->errors());
+                    exit();
                     if (!Wechat::refund($model->no, $model->user->open_id, $model->money, Constant::cashType()[$model->type])) {
                         new Exception('付款失败');
                     }

@@ -64,6 +64,7 @@ class CController extends AuthController
             if (EnUser::ampleMoney()) {
                 $no = explode('-', $n);
                 if (count($no) == 2) {
+                    var_dump($no);
                     if ($pile = EnPile::find()->where(['no' => $no[0]])->andWhere(['>=', 'count', $no[1]])->one()) {
                         if (Gateway::isUidOnline($no[0])) {
                             $order = new EnOrder();

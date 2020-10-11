@@ -147,8 +147,8 @@
     UserMedia({
         video: {
             facingMode: "environment",
-            width: w,
-            height: h,
+            width: {ideal: w},
+            height: {ideal: h},
         }, audio: false
     })
         .then(function (stream) {

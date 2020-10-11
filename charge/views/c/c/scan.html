@@ -15,6 +15,10 @@
             list-style: none;
         }
 
+        #video {
+            object-fit: cover;
+        }
+
         .qr-scanner {
             position: fixed;
             z-index: 99;
@@ -147,14 +151,12 @@
     UserMedia({
         video: {
             facingMode: "environment",
-            width: w / 2,
-            height: h / 2,
+            width: w,
+            height: h,
         }, audio: false
     })
         .then(function (stream) {
             var video = document.getElementById('video');
-            video.setAttribute('width', w);
-            video.setAttribute('height', h);
             video.srcObject = stream;
             var canvas = document.createElement('canvas');
             canvas.setAttribute('width', w);

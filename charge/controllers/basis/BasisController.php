@@ -21,10 +21,11 @@ class BasisController extends Controller
     {
         $re = parent::beforeAction($action);
         Msg::setSize('0.5rem');
-        if (Wechat::isWechat()) {
+        return $re;
+        /*if (Wechat::isWechat()) {
             return $re;
         }
-        return $this->redirect(['basis/error/no-wx'])->send();
+        return $this->redirect(['basis/error/no-wx'])->send();*/
     }
 
     public function render($view, $params = [])

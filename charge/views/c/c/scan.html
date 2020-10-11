@@ -143,6 +143,8 @@
 <body>
 <script>
     var video = document.getElementById('video');
+    video.setAttribute('width', window.screen.width);
+    video.setAttribute('height', window.screen.height);
     var canvas = document.getElementById('canvas');
     canvas.setAttribute('width', window.screen.width);
     canvas.setAttribute('height', window.screen.height);

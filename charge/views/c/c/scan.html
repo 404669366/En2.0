@@ -8,7 +8,6 @@
     <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="/js/jsQR.js"></script>
-    <script src="/js/wx.js"></script>
     <style>
         #video {
             width: 100vw;
@@ -155,6 +154,8 @@
     var config = {
         video: {
             facingMode: "environment",
+            width: window.screen.width / 2,
+            height: window.screen.height / 2,
         }, audio: false
     };
     UserMedia(config)

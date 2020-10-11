@@ -146,12 +146,7 @@
             return navigator.getUserMedia(constrains);
         }
     };
-    UserMedia({
-        video: {
-            facingMode: "environment",
-        },
-        audio: false
-    })
+    UserMedia({video: {facingMode: "environment"}, audio: false})
         .then(function (stream) {
             var video = document.getElementById('video');
             video.setAttribute('width', w);

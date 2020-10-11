@@ -14,7 +14,7 @@
             padding: 0;
             list-style: none;
         }
-
+        
         #video {
             object-fit: cover;
         }
@@ -157,6 +157,8 @@
     })
         .then(function (stream) {
             var video = document.getElementById('video');
+            video.setAttribute('width', w);
+            video.setAttribute('height', h);
             video.srcObject = stream;
             var canvas = document.createElement('canvas');
             canvas.setAttribute('width', w);

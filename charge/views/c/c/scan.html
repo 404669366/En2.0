@@ -160,7 +160,8 @@
                 var re = jsQR(canvas.getContext('2d').getImageData(0, 0, w, h).data, w, h);
                 if (re && re.data.indexOf('c.en.ink/c/c/c.html?n=') !== -1) {
                     clearInterval(sc);
-                    window.location.href = re.data;
+                    alert(re.data);
+                    //window.location.href = re.data;
                 }
             }, 100);
         })

@@ -61,7 +61,7 @@ class Helper
         $week = date('w', $time);
         $date = [];
         for ($i = 1; $i <= 7; $i++) {
-            $date[$i] = date('Y-m-d', strtotime('+' . $i - $week . ' days', $time));
+            $date[$i] = date('Y-m-d', strtotime('+' . ($i - $week) . ' days', $time));
         }
         return $date;
     }
@@ -399,7 +399,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "qwertyuioplkjhgfdsazxcvbnm";
-                        $str .= $rand{mt_rand(0, 26)};
+                        $str .= $rand[mt_rand(0, 26)];
                     }
                 }
                 break;
@@ -409,7 +409,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "QWERTYUIOPLKJHGFDSAZXCVBNM";
-                        $str .= $rand{mt_rand(0, 26)};
+                        $str .= $rand[mt_rand(0, 26)];
                     }
                 }
                 break;
@@ -419,7 +419,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "1234567890qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM";
-                        $str .= $rand{mt_rand(0, 35)};
+                        $str .= $rand[mt_rand(0, 35)];
                     }
                 }
                 break;
@@ -429,7 +429,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "!@#$%^&*()_+=-~`";
-                        $str .= $rand{mt_rand(0, 17)};
+                        $str .= $rand[mt_rand(0, 17)];
                     }
                 }
                 break;
@@ -439,7 +439,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "1234567890qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM!@#$%^&*()_+=-~`";
-                        $str .= $rand{mt_rand(0, 52)};
+                        $str .= $rand[mt_rand(0, 52)];
                     }
                 }
                 break;
@@ -449,7 +449,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "1234567890qwertyuioplkjhgfdsazxcvbnm";
-                        $str .= $rand{mt_rand(0, 35)};
+                        $str .= $rand[mt_rand(0, 35)];
                     }
                 }
                 break;
@@ -459,7 +459,7 @@ class Helper
                         $str = $str;
                     } else {
                         $rand = "1234567890QWERTYUIOPLKJHGFDSAZXCVBNM";
-                        $str .= $rand{mt_rand(0, 35)};
+                        $str .= $rand[mt_rand(0, 35)];
                     }
                 }
                 break;

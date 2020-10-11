@@ -149,9 +149,8 @@
     UserMedia({
         video: {
             facingMode: "environment",
-            width: w,
-            height: h,
-        }, audio: false
+        },
+        audio: false
     })
         .then(function (stream) {
             var video = document.getElementById('video');

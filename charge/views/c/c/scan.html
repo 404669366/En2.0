@@ -15,15 +15,6 @@
             list-style: none;
         }
 
-        body{
-            width: 100%;
-            min-height: 100%;
-        }
-
-        #video {
-            object-fit: cover;
-        }
-
         .qr-scanner {
             position: fixed;
             z-index: 99;
@@ -156,8 +147,8 @@
     UserMedia({
         video: {
             facingMode: "environment",
-            width: w/2,
-            height: h/2,
+            width: w,
+            height: h,
         }, audio: false
     })
         .then(function (stream) {

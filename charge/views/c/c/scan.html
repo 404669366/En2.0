@@ -11,7 +11,6 @@
     <script src="/js/wx.js"></script>
     <style>
         #video {
-            transform: rotateY(180deg);
             width: 100vw;
             height: 100vh;
         }
@@ -156,8 +155,6 @@
     var config = {
         video: {
             facingMode: "environment",
-            width: window.screen.width,
-            height: window.screen.height,
         }, audio: false
     };
     UserMedia(config)

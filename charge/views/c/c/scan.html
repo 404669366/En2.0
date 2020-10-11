@@ -143,11 +143,9 @@
 <body>
 <script>
     var video = document.getElementById('video');
-    video.setAttribute('width', window.screen.width);
-    video.setAttribute('height', window.screen.height);
     var canvas = document.getElementById('canvas');
-    canvas.setAttribute('width', window.screen.width);
-    canvas.setAttribute('height', window.screen.height);
+    canvas.setAttribute('width', document.documentElement.clientWidth);
+    canvas.setAttribute('height', document.documentElement.clientHeight);
     var UserMedia = function (constrains) {
         if (navigator.mediaDevices.getUserMedia) {
             return navigator.mediaDevices.getUserMedia(constrains);
@@ -165,8 +163,8 @@
     var config = {
         video: {
             facingMode: "environment",
-            width: window.screen.width,
-            height: window.screen.height,
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
         }, audio: false
     };
     UserMedia(config)
@@ -174,7 +172,7 @@
             video.srcObject = stream;
             var sc = setInterval(function () {
                 canvas.getContext('2d').drawImage(video, 0, 0);
-                var re = jsQR(canvas.getContext('2d').getImageData(0, 0, window.screen.width, window.screen.height).data, window.screen.width, window.screen.height);
+                var re = jsQR(canvas.getContext('2d').getImageData(0, 0, config.video.width, config.video.height).data, config.video.width, config.video.height);
                 if (re && re.data.indexOf('c.en.ink/c/c/c.html?n=') !== -1) {
                     clearInterval(sc);
                     window.location.href = re.data;

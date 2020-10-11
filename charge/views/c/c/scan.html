@@ -2,7 +2,7 @@
 <html lang="zh-Hans">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>亿能充电-扫码充电</title>
     <link rel="shortcut icon" href="/favicon.ico">
     <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
@@ -142,10 +142,12 @@
 </div>
 <body>
 <script>
+    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     var video = document.getElementById('video');
     var canvas = document.getElementById('canvas');
-    canvas.setAttribute('width', document.documentElement.clientWidth);
-    canvas.setAttribute('height', document.documentElement.clientHeight);
+    canvas.setAttribute('width', w);
+    canvas.setAttribute('height', h);
     var UserMedia = function (constrains) {
         if (navigator.mediaDevices.getUserMedia) {
             return navigator.mediaDevices.getUserMedia(constrains);
@@ -163,8 +165,8 @@
     var config = {
         video: {
             facingMode: "environment",
-            width: document.documentElement.clientWidth,
-            height: document.documentElement.clientHeight,
+            width: w,
+            height: h,
         }, audio: false
     };
     UserMedia(config)
@@ -172,7 +174,7 @@
             video.srcObject = stream;
             var sc = setInterval(function () {
                 canvas.getContext('2d').drawImage(video, 0, 0);
-                var re = jsQR(canvas.getContext('2d').getImageData(0, 0, config.video.width, config.video.height).data, config.video.width, config.video.height);
+                var re = jsQR(canvas.getContext('2d').getImageData(0, 0, w, h).data, w, h);
                 if (re && re.data.indexOf('c.en.ink/c/c/c.html?n=') !== -1) {
                     clearInterval(sc);
                     window.location.href = re.data;

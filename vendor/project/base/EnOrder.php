@@ -75,6 +75,7 @@ class EnOrder extends \yii\db\ActiveRecord
     {
         if ($this->status == 0) {
             $session = Gateway::getSessionByUid($this->pile);
+            var_dump($session);exit();
             if ($session['status'][$this->gun]['workStatus']) {
                 $this->addError('status', '枪口故障中');
             }

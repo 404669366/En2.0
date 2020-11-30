@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: miku
@@ -8,7 +9,7 @@
 
 namespace app\controllers\basis;
 
-
+use vendor\project\base\EnPower;
 use vendor\project\helpers\Msg;
 
 class AuthController extends BasisController
@@ -21,5 +22,11 @@ class AuthController extends BasisController
             return $this->redirect([\Yii::$app->params['loginRoute']])->send();
         }
         return $re;
+    }
+
+    public function render($view, $params = [])
+    {
+        $params['btns'] = EnPower::getPowersByType(\Yii::$app->user->id, 2);
+        return parent::render($view, $params);
     }
 }

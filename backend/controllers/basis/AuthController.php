@@ -24,9 +24,13 @@ class AuthController extends BasisController
         return $re;
     }
 
-    public function render($view, $params = [])
+    public function renderContent($content)
     {
-        $params['btns'] = EnPower::getPowersByType(\Yii::$app->user->id, 2);
-        return parent::render($view, $params);
+        $layoutFile = $this->findLayoutFile($this->getView());
+        if ($layoutFile !== false) {
+            return $this->getView()->renderFile($layoutFile, ['content' => $content, 'btns' => EnPower::getPowersByType(\Yii::$app->user->id, 2)], $this);
+        }
+
+        return $content;
     }
 }

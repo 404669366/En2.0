@@ -20,7 +20,7 @@ $this->beginPage();
 <?php $this->beginBody(); ?>
 <?php $this->endBody(); ?>
 <script>
-    var btns = JSON.parse(`<?=json_encode($btns)?>`);
+    var btns = JSON.parse(`<?=json_encode($content['btns'])?>`);
     $(function () {
         $.each($('.btn'), function (k, v) {
             var rid = $(v).data('rid');

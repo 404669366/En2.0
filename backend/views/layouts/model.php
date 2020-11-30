@@ -21,6 +21,7 @@ $this->beginPage();
 <?php $this->endBody(); ?>
 <script>
     var btns = JSON.parse(`<?=json_encode($btns)?>`);
+    console.log(btns);
     $(function () {
         $.each($('.btn'), function (k, v) {
             var rid = $(v).data('rid');

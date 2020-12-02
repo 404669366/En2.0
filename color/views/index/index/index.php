@@ -69,7 +69,6 @@
                 change(3, val);
             }
         });
-
         function change(key, val) {
             ratios[key] = val / 100;
             var color = face.mix(ratios).mixToCMYK().toRGB();

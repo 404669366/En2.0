@@ -40,14 +40,14 @@ var CMYKSET = function (cmyks) {
     };
     this.mix = function (ratios) {
         if (ratios.length == this.cmyks.length) {
-            var mix = [0, 0, 0, 0];
-            var radix = ratios.length - ratios.sameNum(0);
+            var mix = [0,0,0,0];
             for (var ri = 0, rl = ratios.length; ri < rl; ri++) {
-                var relRatio = (ratios[ri] / radix) || 0;
                 for (var ci = 0, cl = this.cmyks[ri].length; ci < cl; ci++) {
-                    mix[ci] += this.cmyks[ri][ci] * relRatio;
+                    mix[ci] += this.cmyks[ri][ci] * ratios[ri];
+                    mix[ci] = Math.min(mix[ci], 100);
                 }
             }
+            console.log(mix);
             return new CMYK(mix[0], mix[1], mix[2], mix[3]);
         }
         return new CMYK();

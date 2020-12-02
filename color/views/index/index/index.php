@@ -2,7 +2,7 @@
     .color {
         width: 40vmin;
         height: 40vmin;
-        margin: 0 auto;
+        margin: 20vmin auto;
     }
 
     .slider {

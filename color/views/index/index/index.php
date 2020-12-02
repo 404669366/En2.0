@@ -18,12 +18,17 @@
 <script>
     layui.use(['slider'], function() {
         var ratios = [0, 0, 0, 0];
-        var cmykset = new CMYKSET([
-            [0, 100, 38, 5],
-            [0, 84, 26, 34],
-            [0, 86, 87, 29],
-            [0, 64, 100, 3]
-        ]);
+        var face = new MIXCOLOR(
+            [0, 3, 15, 2.5],
+            [
+                [0, 100, 38, 5],
+                [0, 84, 26, 34],
+                [0, 86, 87, 29],
+                [0, 64, 100, 3]
+            ],
+            100
+        );
+        change(0, 0);
         layui.slider.render({
             elem: '#s1',
             theme: '#F20197',
@@ -67,7 +72,7 @@
 
         function change(key, val) {
             ratios[key] = val / 100;
-            var color = cmykset.mix(ratios).toRGB();
+            var color = face.mix(ratios).mixToCMYK().toRGB();
             $('.color').css('background', 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')')
         }
     });

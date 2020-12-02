@@ -25,35 +25,6 @@ var CMYK = function (c, m, y, k) {
     };
 };
 
-var CMYKSET = function (cmyks) {
-    this.cmyks = cmyks || [];
-    this.add = function (cmyk) {
-        this.cmyks.push(cmyk);
-        return this;
-    };
-    this.del = function (key) {
-        this.cmyks.splice(key, 1);
-        return this;
-    };
-    this.num = function () {
-        return this.cmyks.length;
-    };
-    this.mix = function (ratios) {
-        if (ratios.length == this.cmyks.length) {
-            var mix = [0,0,0,0];
-            for (var ri = 0, rl = ratios.length; ri < rl; ri++) {
-                for (var ci = 0, cl = this.cmyks[ri].length; ci < cl; ci++) {
-                    mix[ci] += this.cmyks[ri][ci] * ratios[ri];
-                    mix[ci] = Math.min(mix[ci], 100);
-                }
-            }
-            console.log(mix);
-            return new CMYK(mix[0], mix[1], mix[2], mix[3]);
-        }
-        return new CMYK();
-    }
-};
-
 /**
  * RGB样色封装类
  * @param {*} r 
@@ -67,5 +38,39 @@ var RGB = function (r, g, b) {
     this.toCMYK = function () {
         var k = 1 - Math.max(this.r / 255, this.g / 255, this.b / 255);
         return new CMYK((1 - this.r / 255 - k) / (1 - k) * 100 || 0, (1 - this.g / 255 - k) / (1 - k) * 100 || 0, (1 - this.b / 255 - k) / (1 - k) * 100 || 0, k * 100);
+    }
+};
+
+var MIXCOLOR = function (baseColor, moreColor, maxVal) {
+    this.baseColor = JSON.stringify(baseColor || []);
+    this.moreColor = moreColor || [];
+    this.maxVal = maxVal || 100;
+    this.mixColor = null;
+    this.mix = function (ratios) {
+        var now = JSON.parse(this.baseColor);
+        if (ratios.length == this.moreColor.length) {
+            for (var ri = 0, rl = ratios.length; ri < rl; ri++) {
+                if (this.moreColor[ri].length == now.length) {
+                    for (var ci = 0, ml = this.moreColor[ri].length; ci < ml; ci++) {
+                        now[ci] += this.moreColor[ri][ci] * ratios[ri];
+                        now[ci] = Math.min(now[ci], this.maxVal);
+                    }
+                }
+            }
+        }
+        this.mixColor = now;
+        return this;
+    };
+    this.mixToCMYK = function () {
+        if (this.mixColor.length == 4) {
+            return new CMYK(this.mixColor[0], this.mixColor[1], this.mixColor[2], this.mixColor[3]);
+        }
+        return false;
+    };
+    this.mixToRGB = function () {
+        if (this.mixColor.length == 3) {
+            return new RGB(this.mixColor[0], this.mixColor[1], this.mixColor[2]);
+        }
+        return false;
     }
 };

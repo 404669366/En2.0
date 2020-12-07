@@ -1,8 +1,29 @@
 <style>
-    .color {
+    .cf {
         width: 40vmin;
-        height: 40vmin;
+        height: 23vmin;
         margin: 15vmin auto 10vmin auto;
+        position: relative;
+    }
+
+    .color {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 98;
+    }
+
+    .mouse {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 99;
+        background: url("/img/mouse.png") no-repeat;
+        background-size: 100% auto;
     }
 
     .slider {
@@ -10,7 +31,10 @@
         margin: 8vmin auto;
     }
 </style>
-<div class="color"></div>
+<div class="cf">
+    <div class="color"></div>
+    <div class="mouse"></div>
+</div>
 <div id="s1" class="slider"></div>
 <div id="s2" class="slider"></div>
 <div id="s3" class="slider"></div>
@@ -32,9 +56,8 @@
         layui.slider.render({
             elem: '#s1',
             theme: '#F20197',
-            setTips: function(val) {
-                return val + '%';
-            },
+            input: true ,
+            tips: false,
             change: function(val) {
                 change(0, val);
             }
@@ -42,9 +65,8 @@
         layui.slider.render({
             elem: '#s2',
             theme: '#A81B7C',
-            setTips: function(val) {
-                return val + '%';
-            },
+            input: true ,
+            tips: false,
             change: function(val) {
                 change(1, val);
             }
@@ -52,9 +74,8 @@
         layui.slider.render({
             elem: '#s3',
             theme: '#B61A18',
-            setTips: function(val) {
-                return val + '%';
-            },
+            input: true ,
+            tips: false,
             change: function(val) {
                 change(2, val);
             }
@@ -62,14 +83,13 @@
         layui.slider.render({
             elem: '#s4',
             theme: '#F85A00',
-            setTips: function(val) {
-                return val + '%';
-            },
+            input: true ,
+            tips: false,
             change: function(val) {
                 change(3, val);
             }
         });
-        
+
         function change(key, val) {
             ratios[key] = val / 100;
             var color = face.mix(ratios).mixToCMYK().toRGB();

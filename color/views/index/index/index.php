@@ -1,6 +1,6 @@
 <style>
     .cf {
-        width: 39.8vmin;
+        width: 40vmin;
         height: 23vmin;
         margin: 15vmin auto 20vmin auto;
         position: relative;
@@ -23,7 +23,7 @@
         top: 0;
         z-index: 99;
         background: url("/img/mouse.png") no-repeat;
-        background-size: 100% auto;
+        background-size: 100.2% auto;
     }
 
     .slider {

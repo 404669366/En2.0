@@ -1,6 +1,6 @@
 <style>
     .cf {
-        width: 40vmin;
+        width: 39.8vmin;
         height: 23vmin;
         margin: 15vmin auto 20vmin auto;
         position: relative;

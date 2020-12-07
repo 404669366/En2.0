@@ -2,7 +2,7 @@
     .cf {
         width: 40vmin;
         height: 23vmin;
-        margin: 15vmin auto 10vmin auto;
+        margin: 15vmin auto 20vmin auto;
         position: relative;
     }
 
@@ -28,7 +28,7 @@
 
     .slider {
         width: 60vmin;
-        margin: 8vmin auto;
+        margin: 12vmin auto;
     }
 </style>
 <div class="cf">

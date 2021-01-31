@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: miku
@@ -11,7 +12,6 @@ namespace app\controllers\examine;
 
 use app\controllers\basis\CommonController;
 use vendor\project\base\EnCash;
-use vendor\project\base\EnIntention;
 use vendor\project\helpers\Constant;
 use vendor\project\helpers\Msg;
 
@@ -76,4 +76,5 @@ class CashController extends CommonController
         Msg::set(EnCash::refund($no));
         return $this->redirect(['list']);
     }
+
 }
